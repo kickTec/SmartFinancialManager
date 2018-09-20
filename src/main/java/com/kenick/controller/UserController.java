@@ -21,7 +21,7 @@ public class UserController {
     @RequestMapping("/addUser")
     @ResponseBody
     public User addUser(HttpServletRequest request, Model model){
-        int userId = Integer.parseInt(request.getParameter("id"));
+        String userId = request.getParameter("id").toString();
         User user = new User();
         user.setId(userId);
         user.setUsername(userId+"test");

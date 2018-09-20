@@ -3,6 +3,6 @@
 <mapper namespace="com.kenick.dao.UserDao" >
     <insert id="insert" parameterType="com.kenick.entity.User" >
         insert into user(id, username, password, age)
-        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{age,jdbcType=INTEGER})
+        values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{age,jdbcType=INTEGER})
     </insert>
 </mapper>

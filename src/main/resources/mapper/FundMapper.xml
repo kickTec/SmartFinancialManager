@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kenick.dao.FundDao" >
+    <insert id="insert" parameterType="com.kenick.entity.User" >
+        insert into fund(code, name, cur_time, cur_net_value, last_net_value, last_gain)
+        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE},#{lastNetValue,jdbcType=DOUBLE},#{lastGain,jdbcType=DOUBLE})
+    </insert>
+</mapper>

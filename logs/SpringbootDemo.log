@@ -1,0 +1,373 @@
+2018-09-03 16:17:41.061  INFO 11948 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 11948 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-03 16:17:41.064 DEBUG 11948 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-03 16:17:41.064  INFO 11948 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-03 16:17:41.358  INFO 11948 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@310f4503: startup date [Mon Sep 03 16:17:41 CST 2018]; root of context hierarchy
+2018-09-03 16:17:43.449  INFO 11948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-03 16:17:43.466  INFO 11948 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-03 16:17:43.467  INFO 11948 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-03 16:17:43.704  INFO 11948 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-03 16:17:43.705  INFO 11948 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2349 ms
+2018-09-03 16:17:44.177  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-03 16:17:44.185  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-03 16:17:44.185  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-03 16:17:44.186  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-03 16:17:44.186  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-03 16:17:44.739  INFO 11948 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-03 16:17:45.042  INFO 11948 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-03 16:17:45.066  INFO 11948 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-03 16:17:45.216  INFO 11948 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-03 16:17:45.218  INFO 11948 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2018-09-03 16:17:45.221  INFO 11948 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2018-09-03 16:17:45.282  INFO 11948 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-03 16:17:45.474  INFO 11948 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-03 16:17:45.810  INFO 11948 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-03 16:17:47.086  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@310f4503: startup date [Mon Sep 03 16:17:41 CST 2018]; root of context hierarchy
+2018-09-03 16:17:47.242  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2018-09-03 16:17:47.245  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-03 16:17:47.249  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-03 16:17:47.254  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-03 16:17:47.333  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-03 16:17:47.335  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-03 16:17:47.426  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-03 16:17:49.016  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-03 16:17:49.020  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-03 16:17:49.031  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-03 16:17:49.186  INFO 11948 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-09-03 16:17:49.267 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-03 16:17:49.330 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1535962669210(String), null, null
+2018-09-03 16:17:49.354  INFO 11948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8011 (http)
+2018-09-03 16:17:49.363  INFO 11948 --- [main] com.kenick.Application                   : Started Application in 8.664 seconds (JVM running for 9.111)
+2018-09-03 16:17:49.411 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-03 16:18:00.003  INFO 11948 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Mon Sep 03 16:18:00 CST 2018
+2018-09-03 16:18:19.212 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-03 16:18:19.213 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1535962699211(String), null, null
+2018-09-03 16:18:20.115 DEBUG 11948 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:54:14.922  INFO 9448 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 9448 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 14:54:14.941 DEBUG 9448 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 14:54:14.942  INFO 9448 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 14:54:15.288  INFO 9448 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@23b3d342: startup date [Thu Sep 20 14:54:15 CST 2018]; root of context hierarchy
+2018-09-20 14:54:17.641  INFO 9448 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-20 14:54:17.656  INFO 9448 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-20 14:54:17.657  INFO 9448 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-20 14:54:17.830  INFO 9448 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-20 14:54:17.830  INFO 9448 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2545 ms
+2018-09-20 14:54:18.053  INFO 9448 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-20 14:54:18.066  INFO 9448 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-20 14:54:18.068  INFO 9448 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-20 14:54:18.070  INFO 9448 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-20 14:54:18.072  INFO 9448 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-20 14:54:18.428  INFO 9448 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-20 14:54:19.108  INFO 9448 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-20 14:54:19.124  INFO 9448 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-20 14:54:19.225  INFO 9448 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-20 14:54:19.226  INFO 9448 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2018-09-20 14:54:19.228  INFO 9448 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2018-09-20 14:54:19.333  INFO 9448 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-20 14:54:19.526  INFO 9448 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-20 14:54:19.751  INFO 9448 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-20 14:54:20.680  INFO 9448 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@23b3d342: startup date [Thu Sep 20 14:54:15 CST 2018]; root of context hierarchy
+2018-09-20 14:54:20.799  INFO 9448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2018-09-20 14:54:20.802  INFO 9448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-20 14:54:20.805  INFO 9448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-20 14:54:20.807  INFO 9448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-20 14:54:20.864  INFO 9448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 14:54:20.864  INFO 9448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 14:54:20.950  INFO 9448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 14:54:21.891  INFO 9448 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-20 14:54:21.893  INFO 9448 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-20 14:54:21.902  INFO 9448 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-20 14:54:21.979  INFO 9448 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-09-20 14:54:22.034 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:54:22.082 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426462000(String), null, null
+2018-09-20 14:54:22.092  INFO 9448 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8011 (http)
+2018-09-20 14:54:22.097  INFO 9448 --- [main] com.kenick.Application                   : Started Application in 8.088 seconds (JVM running for 9.183)
+2018-09-20 14:54:22.368 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:54:51.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:54:51.996 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426491990(String), null, null
+2018-09-20 14:54:52.020 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:55:00.002  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 14:55:00 CST 2018
+2018-09-20 14:55:21.990 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:55:21.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426521990(String), null, null
+2018-09-20 14:55:22.010 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:55:48.120  INFO 9448 --- [http-nio-8011-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-09-20 14:55:48.121  INFO 9448 --- [http-nio-8011-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-09-20 14:55:48.141  INFO 9448 --- [http-nio-8011-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 20 ms
+2018-09-20 14:55:48.417 DEBUG 9448 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:55:48.418 DEBUG 9448 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : ==> Parameters: 3(Integer), 3test(String), null, null
+2018-09-20 14:55:48.470 DEBUG 9448 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:55:51.990 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:55:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426551990(String), null, null
+2018-09-20 14:55:52.019 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:56:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 14:56:00 CST 2018
+2018-09-20 14:56:21.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:56:21.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426581991(String), null, null
+2018-09-20 14:56:22.012 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:56:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:56:51.993 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426611991(String), null, null
+2018-09-20 14:56:52.102 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:57:00.002  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 14:57:00 CST 2018
+2018-09-20 14:57:21.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:57:21.998 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426641991(String), null, null
+2018-09-20 14:57:22.027 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:57:51.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:57:51.993 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426671992(String), null, null
+2018-09-20 14:57:52.018 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:58:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 14:58:00 CST 2018
+2018-09-20 14:58:21.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:58:21.993 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426701991(String), null, null
+2018-09-20 14:58:22.019 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:58:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:58:51.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426731991(String), null, null
+2018-09-20 14:58:52.015 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:59:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 14:59:00 CST 2018
+2018-09-20 14:59:21.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:59:22.005 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426761990(String), null, null
+2018-09-20 14:59:22.027 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 14:59:51.995 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 14:59:51.999 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426791992(String), null, null
+2018-09-20 14:59:52.033 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:00:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:00:00 CST 2018
+2018-09-20 15:00:21.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:00:21.995 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426821991(String), null, null
+2018-09-20 15:00:22.023 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:00:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:00:51.998 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426851990(String), null, null
+2018-09-20 15:00:52.017 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:01:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:01:00 CST 2018
+2018-09-20 15:01:21.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:01:21.993 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426881990(String), null, null
+2018-09-20 15:01:22.015 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:01:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:01:51.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426911990(String), null, null
+2018-09-20 15:01:52.019 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:02:00.001  INFO 9448 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:02:00 CST 2018
+2018-09-20 15:02:21.992 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:02:21.998 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426941991(String), null, null
+2018-09-20 15:02:22.028 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:02:51.990 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:02:51.991 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537426971990(String), null, null
+2018-09-20 15:02:52.016 DEBUG 9448 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:06:27.862  INFO 17232 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 17232 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 15:06:27.864 DEBUG 17232 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 15:06:27.864  INFO 17232 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 15:06:28.161  INFO 17232 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6c0089ab: startup date [Thu Sep 20 15:06:28 CST 2018]; root of context hierarchy
+2018-09-20 15:06:30.084  INFO 17232 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-20 15:06:30.094  INFO 17232 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-20 15:06:30.095  INFO 17232 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-20 15:06:30.237  INFO 17232 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-20 15:06:30.238  INFO 17232 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2080 ms
+2018-09-20 15:06:30.526  INFO 17232 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-20 15:06:30.533  INFO 17232 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-20 15:06:30.536  INFO 17232 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-20 15:06:30.538  INFO 17232 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-20 15:06:30.539  INFO 17232 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-20 15:06:30.885  INFO 17232 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-20 15:06:31.068  INFO 17232 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:06:31.085  INFO 17232 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-20 15:06:31.158  INFO 17232 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-20 15:06:31.160  INFO 17232 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2018-09-20 15:06:31.161  INFO 17232 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2018-09-20 15:06:31.201  INFO 17232 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-20 15:06:31.333  INFO 17232 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-20 15:06:31.563  INFO 17232 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:06:32.280  INFO 17232 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6c0089ab: startup date [Thu Sep 20 15:06:28 CST 2018]; root of context hierarchy
+2018-09-20 15:06:32.378  INFO 17232 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2018-09-20 15:06:32.380  INFO 17232 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-20 15:06:32.382  INFO 17232 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-20 15:06:32.383  INFO 17232 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-20 15:06:32.419  INFO 17232 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:06:32.419  INFO 17232 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:06:32.471  INFO 17232 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:06:33.347  INFO 17232 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-20 15:06:33.350  INFO 17232 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-20 15:06:33.356  INFO 17232 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-20 15:06:33.416  INFO 17232 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-09-20 15:06:33.458 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:06:33.510 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427193424(String), null, null
+2018-09-20 15:06:33.524  INFO 17232 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8011 (http)
+2018-09-20 15:06:33.532  INFO 17232 --- [main] com.kenick.Application                   : Started Application in 6.019 seconds (JVM running for 6.368)
+2018-09-20 15:06:33.631 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:06:43.764  INFO 17232 --- [http-nio-8011-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-09-20 15:06:43.764  INFO 17232 --- [http-nio-8011-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-09-20 15:06:43.784  INFO 17232 --- [http-nio-8011-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 20 ms
+2018-09-20 15:06:43.877 DEBUG 17232 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:06:43.878 DEBUG 17232 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : ==> Parameters: 3(String), 3test(String), null, null
+2018-09-20 15:06:43.983 DEBUG 17232 --- [http-nio-8011-exec-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:07:00.002  INFO 17232 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:07:00 CST 2018
+2018-09-20 15:07:03.425 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:07:03.433 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427223424(String), null, null
+2018-09-20 15:07:03.542 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:07:16.720 DEBUG 17232 --- [http-nio-8011-exec-5] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:07:16.721 DEBUG 17232 --- [http-nio-8011-exec-5] com.kenick.dao.UserDao.insert            : ==> Parameters: 3(String), 3test(String), null, null
+2018-09-20 15:07:16.739 DEBUG 17232 --- [http-nio-8011-exec-5] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:07:33.426 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:07:33.427 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427253426(String), null, null
+2018-09-20 15:07:33.452 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:08:00.002  INFO 17232 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:08:00 CST 2018
+2018-09-20 15:08:03.426 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:08:03.435 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427283425(String), null, null
+2018-09-20 15:08:03.539 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:08:33.425 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:08:33.427 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427313425(String), null, null
+2018-09-20 15:08:33.455 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:08:59.300 DEBUG 17232 --- [http-nio-8011-exec-9] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:08:59.301 DEBUG 17232 --- [http-nio-8011-exec-9] com.kenick.dao.UserDao.insert            : ==> Parameters: 2(String), 2test(String), null, null
+2018-09-20 15:08:59.411 DEBUG 17232 --- [http-nio-8011-exec-9] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:09:00.002  INFO 17232 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:09:00 CST 2018
+2018-09-20 15:09:03.425 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:09:03.426 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427343425(String), null, null
+2018-09-20 15:09:03.505 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:09:33.425 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==>  Preparing: insert into user(id, username, password, age) values (?, ?, ?,?) 
+2018-09-20 15:09:33.435 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : ==> Parameters: null, 1537427373425(String), null, null
+2018-09-20 15:09:33.477 DEBUG 17232 --- [pool-1-thread-1] com.kenick.dao.UserDao.insert            : <==    Updates: 1
+2018-09-20 15:10:00.002  INFO 17232 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : Scheduling Tasks Examples By Cron: The time is now Thu Sep 20 15:10:00 CST 2018
+2018-09-20 15:52:19.402  INFO 6376 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 6376 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 15:52:19.404 DEBUG 6376 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 15:52:19.404  INFO 6376 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 15:52:19.727  INFO 6376 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@54c6552a: startup date [Thu Sep 20 15:52:19 CST 2018]; root of context hierarchy
+2018-09-20 15:52:22.009  INFO 6376 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-20 15:52:22.022  INFO 6376 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-20 15:52:22.024  INFO 6376 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-20 15:52:22.178  INFO 6376 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-20 15:52:22.178  INFO 6376 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2453 ms
+2018-09-20 15:52:22.406  INFO 6376 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-20 15:52:22.412  INFO 6376 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-20 15:52:22.413  INFO 6376 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-20 15:52:22.414  INFO 6376 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-20 15:52:22.414  INFO 6376 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-20 15:52:22.740  INFO 6376 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-20 15:52:22.952  INFO 6376 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:52:22.973  INFO 6376 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-20 15:52:23.089  INFO 6376 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-20 15:52:23.091  INFO 6376 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2018-09-20 15:52:23.092  INFO 6376 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2018-09-20 15:52:23.137  INFO 6376 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-20 15:52:23.297  INFO 6376 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-20 15:52:23.558  INFO 6376 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:52:24.420  INFO 6376 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@54c6552a: startup date [Thu Sep 20 15:52:19 CST 2018]; root of context hierarchy
+2018-09-20 15:52:24.529  INFO 6376 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2018-09-20 15:52:24.530  INFO 6376 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-20 15:52:24.533  INFO 6376 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-20 15:52:24.535  INFO 6376 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-20 15:52:24.595  INFO 6376 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:52:24.595  INFO 6376 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:52:24.659  INFO 6376 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:52:25.679  INFO 6376 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-20 15:52:25.681  INFO 6376 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-20 15:52:25.693  INFO 6376 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-20 15:52:25.767  INFO 6376 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-09-20 15:52:25.812 DEBUG 6376 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : ==>  Preparing: insert into fund(code, name, cur_net_value, last_net_value, last_gain) values (?, ?, ?,?,?) 
+2018-09-20 15:52:25.876  INFO 6376 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8011 (http)
+2018-09-20 15:52:25.884  INFO 6376 --- [main] com.kenick.Application                   : Started Application in 6.883 seconds (JVM running for 7.282)
+2018-09-20 15:52:25.889 ERROR 6376 --- [pool-1-thread-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task.
+
+org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'last_net_value' in 'class com.kenick.entity.Fund'
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:77) ~[mybatis-spring-1.3.1.jar:1.3.1]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:446) ~[mybatis-spring-1.3.1.jar:1.3.1]
+	at com.sun.proxy.$Proxy67.insert(Unknown Source) ~[na:na]
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:278) ~[mybatis-spring-1.3.1.jar:1.3.1]
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:57) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:59) ~[mybatis-3.4.5.jar:3.4.5]
+	at com.sun.proxy.$Proxy70.insert(Unknown Source) ~[na:na]
+	at com.kenick.service.BackgroundTaskService.reportFixedRate(BackgroundTaskService.java:38) ~[classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_79]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_79]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_79]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_79]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-4.3.10.RELEASE.jar:4.3.10.RELEASE]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471) [na:1.7.0_79]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:304) [na:1.7.0_79]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:178) [na:1.7.0_79]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [na:1.7.0_79]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_79]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_79]
+	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_79]
+Caused by: org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'last_net_value' in 'class com.kenick.entity.Fund'
+	at org.apache.ibatis.reflection.Reflector.getGetInvoker(Reflector.java:419) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.reflection.MetaClass.getGetInvoker(MetaClass.java:164) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.getBeanProperty(BeanWrapper.java:162) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.reflection.wrapper.BeanWrapper.get(BeanWrapper.java:49) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.reflection.MetaObject.getValue(MetaObject.java:122) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.scripting.defaults.DefaultParameterHandler.setParameters(DefaultParameterHandler.java:79) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.parameterize(PreparedStatementHandler.java:93) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.parameterize(RoutingStatementHandler.java:64) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:86) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:49) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:198) ~[mybatis-3.4.5.jar:3.4.5]
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:185) ~[mybatis-3.4.5.jar:3.4.5]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_79]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_79]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_79]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_79]
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:433) ~[mybatis-spring-1.3.1.jar:1.3.1]
+	... 19 common frames omitted
+
+2018-09-20 15:53:55.280  INFO 16064 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 16064 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 15:53:55.283 DEBUG 16064 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 15:53:55.283  INFO 16064 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 15:53:55.605  INFO 16064 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@48d229cf: startup date [Thu Sep 20 15:53:55 CST 2018]; root of context hierarchy
+2018-09-20 15:53:57.864  INFO 16064 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-20 15:53:57.878  INFO 16064 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-20 15:53:57.880  INFO 16064 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-20 15:53:58.015  INFO 16064 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-20 15:53:58.015  INFO 16064 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2413 ms
+2018-09-20 15:53:58.250  INFO 16064 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-09-20 15:53:58.260  INFO 16064 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-09-20 15:53:58.261  INFO 16064 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-09-20 15:53:58.261  INFO 16064 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-09-20 15:53:58.262  INFO 16064 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-09-20 15:53:58.582  INFO 16064 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2018-09-20 15:53:58.791  INFO 16064 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:53:58.808  INFO 16064 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2018-09-20 15:53:58.911  INFO 16064 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2018-09-20 15:53:58.912  INFO 16064 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2018-09-20 15:53:58.915  INFO 16064 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2018-09-20 15:53:58.962  INFO 16064 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-09-20 15:53:59.105  INFO 16064 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2018-09-20 15:53:59.361  INFO 16064 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-09-20 15:54:00.613  INFO 16064 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@48d229cf: startup date [Thu Sep 20 15:53:55 CST 2018]; root of context hierarchy
+2018-09-20 15:54:00.732  INFO 16064 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2018-09-20 15:54:00.734  INFO 16064 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2018-09-20 15:54:00.737  INFO 16064 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-09-20 15:54:00.739  INFO 16064 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-09-20 15:54:00.784  INFO 16064 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:54:00.784  INFO 16064 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:54:00.851  INFO 16064 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-09-20 15:54:01.890  INFO 16064 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-09-20 15:54:01.892  INFO 16064 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-09-20 15:54:01.899  INFO 16064 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2018-09-20 15:54:01.965  INFO 16064 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-09-20 15:54:02.009 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : ==>  Preparing: insert into fund(code, name, cur_net_value, last_net_value, last_gain) values (?, ?, ?,?,?) 
+2018-09-20 15:54:02.073  INFO 16064 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8011 (http)
+2018-09-20 15:54:02.080 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : ==> Parameters: 1537430041975(String), null, null, null, null
+2018-09-20 15:54:02.084  INFO 16064 --- [main] com.kenick.Application                   : Started Application in 7.205 seconds (JVM running for 7.6)
+2018-09-20 15:54:02.457 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : <==    Updates: 1
+2018-09-20 15:54:31.976 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : ==>  Preparing: insert into fund(code, name, cur_net_value, last_net_value, last_gain) values (?, ?, ?,?,?) 
+2018-09-20 15:54:31.980 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : ==> Parameters: 1537430071976(String), null, null, null, null
+2018-09-20 15:54:32.082 DEBUG 16064 --- [pool-1-thread-1] com.kenick.dao.FundDao.insert            : <==    Updates: 1
+2018-09-20 16:45:07.431  INFO 9060 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 9060 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 16:45:07.528 DEBUG 9060 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 16:45:07.528  INFO 9060 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 16:45:07.857  INFO 9060 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6a129a7d: startup date [Thu Sep 20 16:45:07 CST 2018]; root of context hierarchy
+2018-09-20 16:45:09.794  INFO 9060 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8011 (http)
+2018-09-20 16:45:09.808  INFO 9060 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-09-20 16:45:09.809  INFO 9060 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2018-09-20 16:45:09.991  INFO 9060 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-09-20 16:45:09.991  INFO 9060 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2136 ms
+2018-09-20 16:45:14.041  INFO 2456 --- [main] com.kenick.Application                   : Starting Application on DESKTOP-PMSOHQ5 with PID 2456 (E:\workspace\eclipse_luna2\SmartFinancialManager\target\classes started by fro-user10 in E:\workspace\eclipse_luna2\SmartFinancialManager)
+2018-09-20 16:45:14.045 DEBUG 2456 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2018-09-20 16:45:14.045  INFO 2456 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2018-09-20 16:45:14.338  INFO 2456 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6b5cbaf2: startup date [Thu Sep 20 16:45:14 CST 2018]; root of context hierarchy
