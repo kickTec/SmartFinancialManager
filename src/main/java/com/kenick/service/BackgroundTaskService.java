@@ -1,9 +1,7 @@
 package com.kenick.service;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -20,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.kenick.dao.FundDao;
+import com.kenick.entity.Fund;
 
 @Component
 @Configurable
@@ -37,7 +36,7 @@ public class BackgroundTaskService {
     }
     
 	// 每隔30秒执行一次，不管上一次任务是否已完成
-    @Scheduled(fixedRate = 1000 * 30)
+    @Scheduled(fixedRate = 1000 * 60)
     public void reportFixedRate(){
     	
     }
@@ -50,29 +49,36 @@ public class BackgroundTaskService {
     
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 30)
+    @Scheduled(fixedDelay = 1000 * 60)
     public void perfectFundInfo(){
     	// 查询出所有基金编码
-    	// 根据基金编码 获取名称、当前净值估算、上一日净值、上一日涨幅
+    	List<Fund> fundList = fundDao.findAll();
+    	for(Fund fund:fundList){    		
+    		perfectFundInfoByCode(fund.getCode());
+    	}
     }
     
     /**
-     * 根据基金编码完善基金信息
+     * 根据基金编码完善基金信息 更新
      * @param code 基金编码
      */
-    private void perfectFundInfoByCode(String code){
-    	
+    private void perfectFundInfoByCode(String fundCode){
+    	Object[] fundInfo = getFundInfoByJsoup(fundCode);
+    	Fund fund = new Fund(fundInfo);
+    	fundDao.update(fund);
     }
     
     // 根据基金编码获取基金信息
-    private Object[] getFundInfoByJsoup(String code){
+    private Object[] getFundInfoByJsoup(String fundCode){
     	String fundName = ""; // 基金名称
     	String curTime = ""; // 当前估算时间 
     	Double curNetValue = 0.0; // 当前估算净值
+    	String curGain = "";
     	Double lastNetValue = 0.0; // 上一日净值
     	Double lastGain = 0.0; // 上一日涨幅
     	try {
-			Connection connect = Jsoup.connect("http://fund.eastmoney.com/" + code + ".html?spm=search");
+			Connection connect = Jsoup.connect("http://fund.eastmoney.com/" + fundCode + ".html?spm=search");
+			connect.timeout(10000);
 			Response response = connect.execute();
 			Document doc = response.parse();
 			
@@ -88,16 +94,19 @@ public class BackgroundTaskService {
 			String curNetValueStr = doc.getElementById("gz_gsz").text();
 			curNetValue = Double.valueOf(curNetValueStr);
 			
+			// 当前估算涨幅
+			curGain = doc.getElementById("gz_gszzl").text();
+			
 			// 上一日净值
 			Elements lastValueInfos = doc.select(".fundInfoItem .dataOfFund .dataItem02 .dataNums span");
 			lastNetValue = Double.valueOf(lastValueInfos.first().text());
 			String lastAdd = lastValueInfos.last().text();
-			lastGain = Double.valueOf(lastAdd.substring(0,lastAdd.length()-1)) * 0.01;
+			lastGain = Double.valueOf(lastAdd.substring(0,lastAdd.length()-1));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
-    	return new Object[]{fundName, curTime, curNetValue, lastNetValue, lastGain};
+    	return new Object[]{fundCode,fundName, curTime, curNetValue, curGain, lastNetValue, lastGain};
     }
     
     public static void main(String[] args) {

@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kenick.dao.FundDao" >
+    
     <insert id="insert" parameterType="com.kenick.entity.User" >
-        insert into fund(code, name, cur_time, cur_net_value, last_net_value, last_gain)
-        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE},#{lastNetValue,jdbcType=DOUBLE},#{lastGain,jdbcType=DOUBLE})
+        insert into fund(code, name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain)
+        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=VARCHAR},#{lastNetValue,jdbcType=DOUBLE},#{lastGain,jdbcType=DOUBLE})
     </insert>
+    
+    <update id="update" parameterType="com.kenick.entity.Fund">
+        update fund set name=#{name},cur_time=#{curTime},cur_net_value=#{curNetValue}, cur_gain=#{curGain},last_net_value=#{lastNetValue},last_gain=#{lastGain}
+        where code=#{code}
+    </update>
+    
+    <resultMap type="com.kenick.entity.Fund" id="fundResultMap">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="cur_time" property="curTime"/>
+        <result column="cur_net_value" property="curNetValue"/>
+        <result column="cur_gain" property="curGain"/>
+        <result column="last_net_value" property="lastNetValue"/>
+        <result column="last_gain" property="lastGain"/>
+    </resultMap>
+    
+    <select id="findAll" resultMap="fundResultMap">
+        select * from fund
+        order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc;
+    </select>
 </mapper>
