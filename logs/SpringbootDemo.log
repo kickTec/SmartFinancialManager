@@ -11065,3 +11065,321 @@ org.thymeleaf.exceptions.TemplateProcessingException: Could not parse as express
 2018-09-27 14:15:28.910 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
 2018-09-27 14:15:28.910 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
 2018-09-27 14:15:28.915 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:15:39.938 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:15:39.940 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:15:39.950 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:15:50.923 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:15:50.924 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:15:50.934 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:01.927 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:01.929 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:01.938 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:11.718 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:11.722 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:11.740 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:11.803 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:11.804 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 18-09-27 14:11(String), 0.9146(Double), 0.18(Double), 0.913(Double), 0.55(Double), 110025(String)
+2018-09-27 14:16:11.915 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:11.956 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:11.957 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 18-09-27 14:06(String), 1.5851(Double), 0.13(Double), 1.583(Double), 1.09(Double), 110023(String)
+2018-09-27 14:16:12.060 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.109 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.109 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 18-09-27 14:01(String), 0.9083(Double), 0.02(Double), 0.9081(Double), 1.82(Double), 004683(String)
+2018-09-27 14:16:12.160 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.213 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.214 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 18-09-27 13:50(String), 0.9087(Double), -0.09(Double), 0.9096(Double), 1.03(Double), 161121(String)
+2018-09-27 14:16:12.231 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.282 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.282 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业(110022)(String), 18-09-27 13:46(String), 2.0988(Double), -0.2(Double), 2.103(Double), 1.74(Double), 110022(String)
+2018-09-27 14:16:12.304 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.355 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.356 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 18-09-27 14:06(String), 0.9493(Double), -0.29(Double), 0.952(Double), 0.85(Double), 001856(String)
+2018-09-27 14:16:12.375 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.416 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.416 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 18-09-27 13:56(String), 0.5836(Double), -0.36(Double), 0.5857(Double), 1.0(Double), 400032(String)
+2018-09-27 14:16:12.437 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.480 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.480 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 18-09-27 14:11(String), 2.084(Double), -0.43(Double), 2.0929(Double), 0.89(Double), 110030(String)
+2018-09-27 14:16:12.498 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.556 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.557 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 18-09-27 13:50(String), 1.2607(Double), -0.6(Double), 1.2683(Double), 2.9(Double), 160222(String)
+2018-09-27 14:16:12.570 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.615 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.616 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 18-09-27 14:01(String), 3.1443(Double), -0.69(Double), 3.166(Double), 1.87(Double), 000083(String)
+2018-09-27 14:16:12.631 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.684 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.685 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 18-09-27 13:51(String), 0.643(Double), -0.85(Double), 0.6485(Double), 1.0(Double), 163402(String)
+2018-09-27 14:16:12.703 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.753 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.754 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 18-09-27 14:02(String), 0.8564(Double), -1.38(Double), 0.8684(Double), 0.54(Double), 005299(String)
+2018-09-27 14:16:12.775 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.841 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:16:12.842 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 18-09-27 13:56(String), 0.9178(Double), -1.42(Double), 0.931(Double), 0.65(Double), 070011(String)
+2018-09-27 14:16:12.859 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:16:12.924 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:12.927 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:12.936 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:23.922 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:23.923 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:23.935 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:34.909 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:34.910 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:34.915 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:45.908 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:45.910 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:45.915 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:16:56.908 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:16:56.908 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:16:56.913 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:07.930 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:07.933 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:07.950 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:12.859 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:12.861 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:12.878 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:12.995 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:12.996 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 18-09-27 14:11(String), 0.9146(Double), 0.18(Double), 0.913(Double), 0.55(Double), 110025(String)
+2018-09-27 14:17:13.019 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.186 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.186 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 18-09-27 14:06(String), 1.5851(Double), 0.13(Double), 1.583(Double), 1.09(Double), 110023(String)
+2018-09-27 14:17:13.212 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.309 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.309 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 18-09-27 14:01(String), 0.9083(Double), 0.02(Double), 0.9081(Double), 1.82(Double), 004683(String)
+2018-09-27 14:17:13.328 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.478 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.479 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 18-09-27 13:50(String), 0.9087(Double), -0.09(Double), 0.9096(Double), 1.03(Double), 161121(String)
+2018-09-27 14:17:13.500 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.577 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.578 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业(110022)(String), 18-09-27 13:46(String), 2.0988(Double), -0.2(Double), 2.103(Double), 1.74(Double), 110022(String)
+2018-09-27 14:17:13.593 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.664 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.666 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 18-09-27 14:06(String), 0.9493(Double), -0.29(Double), 0.952(Double), 0.85(Double), 001856(String)
+2018-09-27 14:17:13.687 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.781 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.781 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 18-09-27 13:56(String), 0.5836(Double), -0.36(Double), 0.5857(Double), 1.0(Double), 400032(String)
+2018-09-27 14:17:13.804 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:13.848 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:13.849 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 18-09-27 14:11(String), 2.084(Double), -0.43(Double), 2.0929(Double), 0.89(Double), 110030(String)
+2018-09-27 14:17:13.864 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:14.077 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:14.078 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 18-09-27 13:50(String), 1.2607(Double), -0.6(Double), 1.2683(Double), 2.9(Double), 160222(String)
+2018-09-27 14:17:14.102 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:14.190 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:14.190 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 18-09-27 14:01(String), 3.1443(Double), -0.69(Double), 3.166(Double), 1.87(Double), 000083(String)
+2018-09-27 14:17:14.206 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:14.254 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:14.255 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 18-09-27 13:51(String), 0.643(Double), -0.85(Double), 0.6485(Double), 1.0(Double), 163402(String)
+2018-09-27 14:17:14.280 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:14.333 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:14.333 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 18-09-27 14:02(String), 0.8564(Double), -1.38(Double), 0.8684(Double), 0.54(Double), 005299(String)
+2018-09-27 14:17:14.351 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:14.738 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:17:14.739 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 18-09-27 13:56(String), 0.9178(Double), -1.42(Double), 0.931(Double), 0.65(Double), 070011(String)
+2018-09-27 14:17:14.764 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:17:18.909 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:18.910 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:18.915 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:29.907 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:29.909 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:29.915 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:40.982 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:40.983 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:40.985 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:17:51.907 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:17:51.908 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:17:51.910 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:02.937 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:02.939 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:02.949 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:13.927 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:13.931 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:13.938 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:14.767 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:14.775 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:14.796 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:15.076 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.077 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 18-09-27 14:11(String), 0.9146(Double), 0.18(Double), 0.913(Double), 0.55(Double), 110025(String)
+2018-09-27 14:18:15.098 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.209 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.210 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 18-09-27 14:06(String), 1.5851(Double), 0.13(Double), 1.583(Double), 1.09(Double), 110023(String)
+2018-09-27 14:18:15.224 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.412 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.413 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 18-09-27 14:01(String), 0.9083(Double), 0.02(Double), 0.9081(Double), 1.82(Double), 004683(String)
+2018-09-27 14:18:15.440 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.485 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.486 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 18-09-27 13:50(String), 0.9087(Double), -0.09(Double), 0.9096(Double), 1.03(Double), 161121(String)
+2018-09-27 14:18:15.501 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.540 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.541 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业(110022)(String), 18-09-27 13:46(String), 2.0988(Double), -0.2(Double), 2.103(Double), 1.74(Double), 110022(String)
+2018-09-27 14:18:15.562 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.610 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.611 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 18-09-27 14:06(String), 0.9493(Double), -0.29(Double), 0.952(Double), 0.85(Double), 001856(String)
+2018-09-27 14:18:15.624 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.667 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.667 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 18-09-27 13:56(String), 0.5836(Double), -0.36(Double), 0.5857(Double), 1.0(Double), 400032(String)
+2018-09-27 14:18:15.685 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:15.851 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:15.852 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 18-09-27 14:11(String), 2.084(Double), -0.43(Double), 2.0929(Double), 0.89(Double), 110030(String)
+2018-09-27 14:18:15.878 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:16.173 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:16.174 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 18-09-27 13:50(String), 1.2607(Double), -0.6(Double), 1.2683(Double), 2.9(Double), 160222(String)
+2018-09-27 14:18:16.191 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:16.403 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:16.404 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 18-09-27 14:01(String), 3.1443(Double), -0.69(Double), 3.166(Double), 1.87(Double), 000083(String)
+2018-09-27 14:18:16.430 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:16.607 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:16.607 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 18-09-27 13:51(String), 0.643(Double), -0.85(Double), 0.6485(Double), 1.0(Double), 163402(String)
+2018-09-27 14:18:16.633 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:16.812 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:16.813 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 18-09-27 14:02(String), 0.8564(Double), -1.38(Double), 0.8684(Double), 0.54(Double), 005299(String)
+2018-09-27 14:18:16.969 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:17.079 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:18:17.080 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 18-09-27 13:56(String), 0.9178(Double), -1.42(Double), 0.931(Double), 0.65(Double), 070011(String)
+2018-09-27 14:18:17.117 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:18:24.923 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:24.928 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:24.935 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:35.935 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:35.936 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:35.947 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:46.908 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:46.909 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:46.911 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:18:57.931 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:18:57.932 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:18:57.939 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:08.922 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:08.925 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:08.942 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:17.119 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:17.120 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:17.125 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:17.386 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:17.387 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 18-09-27 14:11(String), 0.9146(Double), 0.18(Double), 0.913(Double), 0.55(Double), 110025(String)
+2018-09-27 14:19:17.404 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:19.934 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:19.935 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:19.943 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:27.408 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:27.409 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: (String), (String), 0.0(Double), 0.0(Double), 0.0(Double), 0.0(Double), 110023(String)
+2018-09-27 14:19:27.436 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:30.936 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:30.940 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:30.955 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:37.466 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:37.469 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: (String), (String), 0.0(Double), 0.0(Double), 0.0(Double), 0.0(Double), 004683(String)
+2018-09-27 14:19:37.495 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:37.793 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:37.794 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 18-09-27 14:06(String), 0.9076(Double), -0.23(Double), 0.9096(Double), 1.03(Double), 161121(String)
+2018-09-27 14:19:37.815 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:37.867 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:37.867 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业(110022)(String), 18-09-27 13:46(String), 2.0988(Double), -0.2(Double), 2.103(Double), 1.74(Double), 110022(String)
+2018-09-27 14:19:37.887 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:41.917 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:41.918 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:41.925 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:47.895 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:47.899 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: (String), (String), 0.0(Double), 0.0(Double), 0.0(Double), 0.0(Double), 001856(String)
+2018-09-27 14:19:47.924 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:48.320 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:48.320 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 18-09-27 14:11(String), 0.584(Double), -0.29(Double), 0.5857(Double), 1.0(Double), 400032(String)
+2018-09-27 14:19:48.448 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:52.939 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:19:52.942 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:19:52.963 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:19:58.457 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:58.460 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: (String), (String), 0.0(Double), 0.0(Double), 0.0(Double), 0.0(Double), 110030(String)
+2018-09-27 14:19:58.574 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:58.659 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:58.660 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 18-09-27 13:50(String), 1.2607(Double), -0.6(Double), 1.2683(Double), 2.9(Double), 160222(String)
+2018-09-27 14:19:58.678 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:19:58.719 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:19:58.719 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 18-09-27 14:01(String), 3.1443(Double), -0.69(Double), 3.166(Double), 1.87(Double), 000083(String)
+2018-09-27 14:19:58.740 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:20:03.933 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:03.935 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:03.949 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:20:08.104 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:20:08.106 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 18-09-27 14:06(String), 0.6419(Double), -1.02(Double), 0.6485(Double), 1.0(Double), 163402(String)
+2018-09-27 14:20:08.127 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:20:08.928 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:20:08.929 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 18-09-27 14:02(String), 0.8564(Double), -1.38(Double), 0.8684(Double), 0.54(Double), 005299(String)
+2018-09-27 14:20:08.946 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:20:09.436 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:20:09.437 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 18-09-27 14:06(String), 0.917(Double), -1.51(Double), 0.931(Double), 0.65(Double), 070011(String)
+2018-09-27 14:20:09.551 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:20:14.907 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:14.908 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:14.913 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:20:24.989 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:24.990 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:24.995 DEBUG 9916 --- [http-nio-8011-exec-6] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:20:35.060 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:35.062 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:35.066 DEBUG 9916 --- [http-nio-8011-exec-7] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:20:45.145 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:45.146 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:45.150 DEBUG 9916 --- [http-nio-8011-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:20:55.199 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:20:55.200 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:20:55.204 DEBUG 9916 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:05.278 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:05.279 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:05.290 DEBUG 9916 --- [http-nio-8011-exec-10] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:09.554 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:09.555 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:09.557 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:09.606 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:09.606 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 18-09-27 14:11(String), 0.9146(Double), 0.18(Double), 0.913(Double), 0.55(Double), 110025(String)
+2018-09-27 14:21:09.745 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:09.814 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:09.814 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 18-09-27 14:11(String), 2.084(Double), -0.43(Double), 2.0929(Double), 0.89(Double), 110030(String)
+2018-09-27 14:21:09.828 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:09.871 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:09.872 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 18-09-27 14:06(String), 1.5851(Double), 0.13(Double), 1.583(Double), 1.09(Double), 110023(String)
+2018-09-27 14:21:09.889 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:09.932 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:09.933 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 18-09-27 14:06(String), 0.9493(Double), -0.29(Double), 0.952(Double), 0.85(Double), 001856(String)
+2018-09-27 14:21:10.096 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.166 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.167 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 18-09-27 14:01(String), 0.9083(Double), 0.02(Double), 0.9081(Double), 1.82(Double), 004683(String)
+2018-09-27 14:21:10.187 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.225 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.225 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业(110022)(String), 18-09-27 13:46(String), 2.0988(Double), -0.2(Double), 2.103(Double), 1.74(Double), 110022(String)
+2018-09-27 14:21:10.248 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.289 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.289 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 18-09-27 14:06(String), 0.9076(Double), -0.23(Double), 0.9096(Double), 1.03(Double), 161121(String)
+2018-09-27 14:21:10.319 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.356 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.356 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 18-09-27 14:11(String), 0.584(Double), -0.29(Double), 0.5857(Double), 1.0(Double), 400032(String)
+2018-09-27 14:21:10.425 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.465 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.466 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 18-09-27 13:50(String), 1.2607(Double), -0.6(Double), 1.2683(Double), 2.9(Double), 160222(String)
+2018-09-27 14:21:10.486 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.525 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.525 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 18-09-27 14:01(String), 3.1443(Double), -0.69(Double), 3.166(Double), 1.87(Double), 000083(String)
+2018-09-27 14:21:10.547 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.588 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.588 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 18-09-27 14:06(String), 0.6419(Double), -1.02(Double), 0.6485(Double), 1.0(Double), 163402(String)
+2018-09-27 14:21:10.619 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.659 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.660 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 18-09-27 14:02(String), 0.8564(Double), -1.38(Double), 0.8684(Double), 0.54(Double), 005299(String)
+2018-09-27 14:21:10.704 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:10.752 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2018-09-27 14:21:10.753 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 18-09-27 14:06(String), 0.917(Double), -1.51(Double), 0.931(Double), 0.65(Double), 070011(String)
+2018-09-27 14:21:10.786 DEBUG 9916 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2018-09-27 14:21:15.927 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:15.930 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:15.937 DEBUG 9916 --- [http-nio-8011-exec-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:26.908 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:26.908 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:26.911 DEBUG 9916 --- [http-nio-8011-exec-2] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:37.919 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:37.920 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:37.925 DEBUG 9916 --- [http-nio-8011-exec-3] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:48.917 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:48.918 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:48.922 DEBUG 9916 --- [http-nio-8011-exec-4] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2018-09-27 14:21:59.934 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2018-09-27 14:21:59.936 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2018-09-27 14:21:59.949 DEBUG 9916 --- [http-nio-8011-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
