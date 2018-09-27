@@ -73,7 +73,7 @@ public class BackgroundTaskService {
     	String fundName = ""; // 基金名称
     	String curTime = ""; // 当前估算时间 
     	Double curNetValue = 0.0; // 当前估算净值
-    	String curGain = "";
+    	Double curGain = 0.0;
     	Double lastNetValue = 0.0; // 上一日净值
     	Double lastGain = 0.0; // 上一日涨幅
     	try {
@@ -95,7 +95,8 @@ public class BackgroundTaskService {
 			curNetValue = Double.valueOf(curNetValueStr);
 			
 			// 当前估算涨幅
-			curGain = doc.getElementById("gz_gszzl").text();
+			String curGainStr = doc.getElementById("gz_gszzl").text();
+			curGain	= Double.valueOf(curGainStr.substring(0,curGainStr.length()-1));
 			
 			// 上一日净值
 			Elements lastValueInfos = doc.select(".fundInfoItem .dataOfFund .dataItem02 .dataNums span");

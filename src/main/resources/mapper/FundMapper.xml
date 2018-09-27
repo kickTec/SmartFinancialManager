@@ -4,7 +4,7 @@
     
     <insert id="insert" parameterType="com.kenick.entity.User" >
         insert into fund(code, name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain)
-        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=VARCHAR},#{lastNetValue,jdbcType=DOUBLE},#{lastGain,jdbcType=DOUBLE})
+        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=DOUBLE},#{lastNetValue,jdbcType=DOUBLE},#{lastGain,jdbcType=DOUBLE})
     </insert>
     
     <update id="update" parameterType="com.kenick.entity.Fund">

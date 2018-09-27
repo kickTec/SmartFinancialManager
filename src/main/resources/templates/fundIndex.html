@@ -14,36 +14,44 @@
 		<div class="row clearfix">
 			<div class="col-md-12 column">
 				<table class="table table-hover table-striped table-condensed">
-					<thead>
+					<thead align="center">
 						<tr>
 							<th>
-								编号
+								序号
 							</th>
 							<th>
-								产品
+								基金编码
 							</th>
 							<th>
-								交付时间
+								基金名称
 							</th>
 							<th>
-								状态
+								当前涨幅
+							</th>
+							<th>
+								当前净值
+							</th>
+							<th>
+								昨日涨幅
+							</th>
+							<th>
+								昨日净值
+							</th>
+							<th>
+								刷新时间
 							</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								TB - Monthly
-							</td>
-							<td>
-								01/04/2012
-							</td>
-							<td>
-								Default
-							</td>
+					<tbody align="center">
+						<tr th:each="entries,stat:${fundList}" >
+							<td th:text="${stat.count}" />
+							<td th:text="${entries['code']}" />
+							<td th:text="${entries['name']}" align="left"/>
+							<td th:text="${entries['curGain']}" />
+							<td th:text="${entries['curNetValue']}" />
+							<td th:text="${entries['lastGain']}" />
+							<td th:text="${entries['lastNetValue']}" />
+							<td th:text="${entries['curTime']}" />
 						</tr>
 					</tbody>
 				</table>
@@ -51,4 +59,11 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	window.onload = function () {
+    	setTimeout(function(){
+    		window.location.reload();
+    	}, 10000); //指定10秒刷新一次 
+	}
+</script>
 </html>

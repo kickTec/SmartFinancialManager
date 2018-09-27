@@ -6,7 +6,7 @@ public class Fund {
 	private String name; // 基金名称
 	private String curTime; // 当前估算时间
 	private Double curNetValue; // 当前估算净值
-	private String curGain; // 当前估算涨幅
+	private Double curGain; // 当前估算涨幅
 	private Double lastNetValue; // 上一日净值
 	private Double lastGain; // 上一日涨幅
 	
@@ -17,7 +17,7 @@ public class Fund {
 		this.name = fundInfo[1].toString();
 		this.curTime = fundInfo[2].toString();
 		this.curNetValue = Double.valueOf(fundInfo[3].toString());
-		this.curGain = fundInfo[4].toString();
+		this.curGain = Double.valueOf(fundInfo[4].toString());
 		this.lastNetValue = Double.valueOf(fundInfo[5].toString());
 		this.lastGain = Double.valueOf(fundInfo[6].toString());
 	}
@@ -62,11 +62,11 @@ public class Fund {
 		this.curNetValue = curNetValue;
 	}
 
-	public String getCurGain() {
+	public Double getCurGain() {
 		return curGain;
 	}
 
-	public void setCurGain(String curGain) {
+	public void setCurGain(Double curGain) {
 		this.curGain = curGain;
 	}
 
