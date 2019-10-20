@@ -7,4 +7,4 @@ git commit -a
 git push -u origin master  
 
 # database 数据库
-/database
+./database
