@@ -21556,3 +21556,848 @@ Caused by: java.net.ConnectException: Connection refused: connect
 2019-10-20 14:27:07.472 DEBUG 21480 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
 2019-10-20 14:27:07.473 DEBUG 21480 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
 2019-10-20 14:27:07.501 DEBUG 21480 --- [http-nio-8011-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:04:51.723  INFO 60624 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 60624 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-20 15:04:51.748 DEBUG 60624 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-20 15:04:51.749  INFO 60624 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: dev
+2019-10-20 15:04:52.036  INFO 60624 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:04:52 CST 2019]; root of context hierarchy
+2019-10-20 15:04:53.874  INFO 60624 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-20 15:04:54.190  INFO 60624 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:04:54.209  INFO 60624 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-20 15:04:54.313  INFO 60624 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-20 15:04:54.315  INFO 60624 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-20 15:04:54.317  INFO 60624 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-20 15:04:54.368  INFO 60624 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-20 15:04:54.499  INFO 60624 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-20 15:04:55.077  INFO 60624 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:04:56.068  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:04:52 CST 2019]; root of context hierarchy
+2019-10-20 15:04:56.150  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-20 15:04:56.151  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-20 15:04:56.151  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-20 15:04:56.152  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-20 15:04:56.153  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-20 15:04:56.154  INFO 60624 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-20 15:04:56.187  INFO 60624 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:04:56.187  INFO 60624 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:04:56.230  INFO 60624 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:04:56.839  INFO 60624 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-20 15:04:56.852  INFO 60624 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 5.571 seconds (JVM running for 6.642)
+2019-10-20 15:04:56.871 DEBUG 60624 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:04:56.902 DEBUG 60624 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:04:56.912 DEBUG 60624 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.BackgroundTaskService@7b61bf11
+2019-10-20 15:04:56.912 DEBUG 60624 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-20 15:04:56.915 DEBUG 60624 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:04:56.935  INFO 60624 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:04:52 CST 2019]; root of context hierarchy
+2019-10-20 15:04:56.940  INFO 60624 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:04:56.944  INFO 60624 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-20 15:31:41.570  INFO 21308 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 21308 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-20 15:31:41.571 DEBUG 21308 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-20 15:31:41.572  INFO 21308 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: dev
+2019-10-20 15:31:41.802  INFO 21308 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:31:41 CST 2019]; root of context hierarchy
+2019-10-20 15:31:43.320  INFO 21308 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-20 15:31:43.713  INFO 21308 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:31:43.734  INFO 21308 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-20 15:31:43.847  INFO 21308 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-20 15:31:43.848  INFO 21308 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-20 15:31:43.851  INFO 21308 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-20 15:31:43.907  INFO 21308 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-20 15:31:44.049  INFO 21308 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-20 15:31:44.504  INFO 21308 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:31:45.461  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:31:41 CST 2019]; root of context hierarchy
+2019-10-20 15:31:45.540  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-20 15:31:45.541  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-20 15:31:45.541  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-20 15:31:45.542  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-20 15:31:45.543  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-20 15:31:45.544  INFO 21308 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-20 15:31:45.574  INFO 21308 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:31:45.575  INFO 21308 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:31:45.616  INFO 21308 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:31:46.200  INFO 21308 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-20 15:31:46.213  INFO 21308 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 5.121 seconds (JVM running for 5.788)
+2019-10-20 15:31:46.238 DEBUG 21308 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:31:46.269 DEBUG 21308 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:31:46.285 DEBUG 21308 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.BackgroundTaskService@62a68bcb
+2019-10-20 15:31:46.286 DEBUG 21308 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-20 15:31:46.303  INFO 21308 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:31:41 CST 2019]; root of context hierarchy
+2019-10-20 15:31:46.308  INFO 21308 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:31:46.310  INFO 21308 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-20 15:31:46.314 DEBUG 21308 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:35:19.073  INFO 23904 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 23904 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-20 15:35:19.095 DEBUG 23904 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-20 15:35:19.095  INFO 23904 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: prod
+2019-10-20 15:35:19.475  INFO 23904 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:35:19 CST 2019]; root of context hierarchy
+2019-10-20 15:35:21.778  INFO 23904 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-20 15:35:22.104  INFO 23904 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:35:22.122  INFO 23904 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-20 15:35:22.225  INFO 23904 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-20 15:35:22.227  INFO 23904 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-20 15:35:22.229  INFO 23904 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-20 15:35:22.300  INFO 23904 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-20 15:35:22.442  INFO 23904 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-20 15:35:22.908  INFO 23904 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:35:24.094  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:35:19 CST 2019]; root of context hierarchy
+2019-10-20 15:35:24.174  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-20 15:35:24.176  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-20 15:35:24.177  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-20 15:35:24.178  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-20 15:35:24.179  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-20 15:35:24.180  INFO 23904 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-20 15:35:24.228  INFO 23904 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:35:24.228  INFO 23904 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:35:24.273  INFO 23904 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:35:24.925  INFO 23904 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-20 15:35:24.937  INFO 23904 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 6.246 seconds (JVM running for 7.065)
+2019-10-20 15:35:24.967 DEBUG 23904 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:35:24.994 DEBUG 23904 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:35:25.007 DEBUG 23904 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:35:25.011 DEBUG 23904 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.BackgroundTaskService@b73433
+2019-10-20 15:35:25.011 DEBUG 23904 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-20 15:35:25.033  INFO 23904 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@5a56cdac: startup date [Sun Oct 20 15:35:19 CST 2019]; root of context hierarchy
+2019-10-20 15:35:25.035  INFO 23904 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:35:25.042  INFO 23904 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-20 15:46:07.754  INFO 21060 --- [main] com.kenick.Application                   : Starting Application on pc-PC with PID 21060 (E:\svn_workspace\SmartFinancialManager\target\classes started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-20 15:46:07.759 DEBUG 21060 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-20 15:46:07.759  INFO 21060 --- [main] com.kenick.Application                   : The following profiles are active: prod
+2019-10-20 15:46:08.160  INFO 21060 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@60bd273d: startup date [Sun Oct 20 15:46:08 CST 2019]; root of context hierarchy
+2019-10-20 15:46:09.785  INFO 21060 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8555 (http)
+2019-10-20 15:46:09.800  INFO 21060 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-10-20 15:46:09.801  INFO 21060 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2019-10-20 15:46:09.937  INFO 21060 --- [localhost-startStop-1] o.a.c.c.C.[.[localhost].[/kenick]        : Initializing Spring embedded WebApplicationContext
+2019-10-20 15:46:09.938  INFO 21060 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1780 ms
+2019-10-20 15:46:10.135  INFO 21060 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-10-20 15:46:10.143  INFO 21060 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-10-20 15:46:10.143  INFO 21060 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-10-20 15:46:10.144  INFO 21060 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-10-20 15:46:10.144  INFO 21060 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-10-20 15:46:10.496  INFO 21060 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-20 15:46:10.747  INFO 21060 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:46:10.763  INFO 21060 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-20 15:46:10.917  INFO 21060 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-20 15:46:10.919  INFO 21060 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-20 15:46:10.921  INFO 21060 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-20 15:46:10.967  INFO 21060 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-20 15:46:11.097  INFO 21060 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-20 15:46:11.357  INFO 21060 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-20 15:46:12.057  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@60bd273d: startup date [Sun Oct 20 15:46:08 CST 2019]; root of context hierarchy
+2019-10-20 15:46:12.148  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-20 15:46:12.150  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-20 15:46:12.151  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-20 15:46:12.151  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-20 15:46:12.153  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-20 15:46:12.154  INFO 21060 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-20 15:46:12.193  INFO 21060 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:46:12.193  INFO 21060 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:46:12.254  INFO 21060 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-20 15:46:13.141  INFO 21060 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-10-20 15:46:13.143  INFO 21060 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2019-10-20 15:46:13.148  INFO 21060 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2019-10-20 15:46:13.156  INFO 21060 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-20 15:46:13.246 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:13.280  INFO 21060 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8555 (http)
+2019-10-20 15:46:13.288  INFO 21060 --- [main] com.kenick.Application                   : Started Application in 5.887 seconds (JVM running for 6.708)
+2019-10-20 15:46:13.293 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:13.312 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:13.861 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:46:13.864 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:13.866 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:46:13.912 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:14.175 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:46:14.175 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:14.176 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:46:14.227 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:14.456 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:46:14.456 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:14.457 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:46:14.531 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:14.711 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:46:14.713 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:14.714 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:46:14.752 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:14.795 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:46:14.796 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:14.796 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:46:14.828 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:14.942 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:46:14.943 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:14.945 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:46:14.977 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:15.035 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:46:15.036 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:15.037 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:46:15.067 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:15.215 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:46:15.215 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:15.221 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:46:15.417 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:15.678 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:46:15.679 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:15.679 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:46:15.710 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:15.974 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:46:15.974 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:15.974 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:46:16.009 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:16.205 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:46:16.205 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:16.206 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:46:16.244 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:18.852 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:46:18.853 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:18.855 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:46:18.894 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:19.028 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:46:19.029 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:19.029 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:46:19.059 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:27.897  INFO 21060 --- [http-nio-8555-exec-8] o.a.c.c.C.[.[localhost].[/kenick]        : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-10-20 15:46:27.897  INFO 21060 --- [http-nio-8555-exec-8] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2019-10-20 15:46:27.954  INFO 21060 --- [http-nio-8555-exec-8] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 57 ms
+2019-10-20 15:46:28.084 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:28.085 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:28.091 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:29.061 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:29.063 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:29.072 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:29.117 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:46:29.118 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.118 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:46:29.177 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.201 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:46:29.202 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.202 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:46:29.275 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.300 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:46:29.301 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.305 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:46:29.345 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.369 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:46:29.369 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.370 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:46:29.404 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.430 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:46:29.431 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.431 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:46:29.468 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.498 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:46:29.498 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.499 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:46:29.534 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.564 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:46:29.565 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.566 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:46:29.602 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.647 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:46:29.647 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.649 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:46:29.684 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.708 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:46:29.708 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.708 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:46:29.743 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.766 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:46:29.766 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.767 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:46:29.837 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.862 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:46:29.862 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.862 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:46:29.918 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:29.943 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:46:29.943 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:29.943 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:46:29.975 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:30.000 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:46:30.001 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:30.001 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:46:30.035 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:38.544 DEBUG 21060 --- [http-nio-8555-exec-6] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:38.545 DEBUG 21060 --- [http-nio-8555-exec-6] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:38.553 DEBUG 21060 --- [http-nio-8555-exec-6] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:40.037 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:40.038 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:40.043 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:40.089 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:46:40.089 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.090 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:46:40.143 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.189 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:46:40.189 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.190 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:46:40.225 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.251 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:46:40.251 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.252 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:46:40.285 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.307 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:46:40.308 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.308 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:46:40.342 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.363 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:46:40.363 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.364 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:46:40.401 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.425 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:46:40.426 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.426 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:46:40.458 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.481 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:46:40.481 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.481 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:46:40.518 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.554 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:46:40.555 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.555 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:46:40.583 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.609 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:46:40.609 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.610 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:46:40.643 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.667 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:46:40.667 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.667 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:46:40.700 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.723 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:46:40.724 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.724 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:46:40.760 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.802 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:46:40.803 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.803 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:46:40.833 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:40.858 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:46:40.858 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:40.858 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:46:40.893 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:48.619 DEBUG 21060 --- [http-nio-8555-exec-4] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:48.619 DEBUG 21060 --- [http-nio-8555-exec-4] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:48.624 DEBUG 21060 --- [http-nio-8555-exec-4] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:50.895 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:50.896 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:50.900 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:46:50.948 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:46:50.949 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:50.949 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:46:50.984 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.006 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:46:51.006 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.007 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:46:51.041 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.072 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:46:51.072 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.072 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:46:51.109 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.133 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:46:51.134 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.134 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:46:51.167 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.191 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:46:51.191 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.191 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:46:51.234 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.274 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:46:51.275 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.275 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:46:51.308 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.332 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:46:51.333 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.333 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:46:51.368 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.418 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:46:51.418 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.419 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:46:51.453 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.475 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:46:51.475 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.476 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:46:51.509 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.542 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:46:51.543 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.543 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:46:51.575 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.596 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:46:51.597 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.597 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:46:51.634 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.658 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:46:51.659 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.659 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:46:51.691 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:51.713 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:46:51.713 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:46:51.714 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:46:51.751 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:46:58.680 DEBUG 21060 --- [http-nio-8555-exec-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:46:58.681 DEBUG 21060 --- [http-nio-8555-exec-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:46:58.690 DEBUG 21060 --- [http-nio-8555-exec-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:01.753 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:01.754 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:01.760 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:01.817 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:01.817 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:01.818 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:01.858 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:01.900 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:01.901 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:01.901 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:01.934 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:01.982 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:01.982 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:01.983 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:02.019 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.046 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:02.046 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.046 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:02.084 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.117 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:02.117 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.117 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:02.149 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.192 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:02.192 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.192 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:02.255 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.280 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:02.280 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.280 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:02.324 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.347 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:02.347 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.348 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:02.392 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.418 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:02.418 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.418 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:02.449 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.474 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:02.474 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.475 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:02.509 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.533 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:02.533 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.534 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:02.566 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.598 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:02.598 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.599 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:02.634 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:02.685 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:02.686 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:02.686 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:02.719 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:08.748 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:08.748 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:08.752 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:12.721 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:12.722 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:12.725 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:12.763 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:12.763 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:12.764 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:12.825 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:12.848 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:12.848 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:12.848 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:12.901 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:12.937 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:12.938 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:12.938 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:12.969 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:12.995 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:12.996 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:12.996 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:13.066 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.113 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:13.114 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.114 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:13.167 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.205 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:13.205 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.206 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:13.257 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.295 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:13.295 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.295 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:13.358 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.407 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:13.407 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.407 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:13.461 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.484 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:13.485 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.485 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:13.517 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.540 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:13.540 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.541 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:13.600 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.626 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:13.626 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.627 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:13.657 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.682 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:13.682 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.683 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:13.717 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:13.745 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:13.745 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:13.745 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:13.779 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:18.863 DEBUG 21060 --- [http-nio-8555-exec-3] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:18.864 DEBUG 21060 --- [http-nio-8555-exec-3] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:18.871 DEBUG 21060 --- [http-nio-8555-exec-3] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:23.781 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:23.782 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:23.784 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:23.862 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:23.863 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:23.863 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:23.907 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:23.940 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:23.940 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:23.941 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:23.975 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.007 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:24.007 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.007 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:24.040 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.067 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:24.068 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.068 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:24.100 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.176 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:24.177 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.177 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:24.207 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.292 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:24.293 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.293 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:24.325 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.359 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:24.359 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.360 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:24.399 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.428 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:24.429 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.429 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:24.467 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.497 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:24.497 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.498 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:24.532 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.576 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:24.576 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.576 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:24.608 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.658 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:24.658 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.658 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:24.690 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.726 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:24.726 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.727 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:24.758 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:24.787 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:24.788 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:24.788 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:24.815 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:28.932 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:28.932 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:28.935 DEBUG 21060 --- [http-nio-8555-exec-5] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:34.817 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:34.818 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:34.819 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:34.854 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:34.855 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:34.855 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:34.907 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:34.929 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:34.929 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:34.929 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:34.966 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:34.992 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:34.992 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:34.992 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:35.023 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.056 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:35.057 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.057 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:35.091 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.123 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:35.123 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.123 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:35.157 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.183 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:35.183 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.184 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:35.216 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.243 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:35.243 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.243 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:35.282 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.309 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:35.309 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.310 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:35.341 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.386 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:35.387 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.387 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:35.424 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.527 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:35.528 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.528 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:35.558 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.588 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:35.589 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.589 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:35.623 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.660 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:35.660 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.662 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:35.697 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:35.745 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:35.746 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:35.746 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:35.773 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:39.707 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:39.707 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:39.710 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:45.775 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:45.775 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:45.778 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:45.817 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:45.817 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:45.817 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:45.858 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:45.880 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:45.880 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:45.881 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:45.915 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:45.950 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:45.951 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:45.951 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:45.983 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.007 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:46.007 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.008 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:46.040 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.065 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:46.065 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.065 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:46.099 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.126 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:46.127 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.127 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:46.157 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.182 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:46.182 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.182 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:46.274 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.298 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:46.298 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.298 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:46.331 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.355 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:46.355 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.356 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:46.391 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.416 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:46.416 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.416 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:46.457 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.480 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:46.480 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.481 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:46.516 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.539 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:46.539 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.540 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:46.573 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:46.598 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:46.598 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:46.598 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:46.633 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:50.696 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:50.699 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:50.704 DEBUG 21060 --- [http-nio-8555-exec-8] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:56.635 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:47:56.636 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:47:56.639 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:47:56.677 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:47:56.677 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:56.678 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:47:56.724 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:56.759 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:47:56.759 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:56.759 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:47:56.789 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:56.814 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:47:56.815 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:56.815 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:47:56.849 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:56.876 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:47:56.877 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:56.877 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:47:56.906 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:56.930 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:47:56.930 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:56.931 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:47:56.981 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.022 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:47:57.022 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.023 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:47:57.057 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.111 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:47:57.112 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.112 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:47:57.139 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.195 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:47:57.196 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.196 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:47:57.233 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.280 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:47:57.280 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.280 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:47:57.314 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.339 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:47:57.339 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.339 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:47:57.374 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.397 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:47:57.398 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.398 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:47:57.439 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.468 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:47:57.468 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.469 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:47:57.506 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:47:57.528 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:47:57.528 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:47:57.528 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:47:57.566 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:01.713 DEBUG 21060 --- [http-nio-8555-exec-9] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:48:01.714 DEBUG 21060 --- [http-nio-8555-exec-9] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:48:01.723 DEBUG 21060 --- [http-nio-8555-exec-9] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:48:07.568 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:48:07.568 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:48:07.570 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:48:07.603 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:48:07.603 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.603 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:48:07.640 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:07.664 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:48:07.665 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.665 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:48:07.697 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:07.744 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:48:07.744 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.744 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:48:07.782 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:07.814 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:48:07.814 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.814 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:48:07.848 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:07.892 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:48:07.893 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.893 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:48:07.924 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:07.947 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:48:07.947 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:07.947 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:48:07.981 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.005 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:48:08.005 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.005 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:48:08.041 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.067 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:48:08.068 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.068 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:48:08.097 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.123 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:48:08.124 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.124 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:48:08.157 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.194 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:48:08.195 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.195 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:48:08.222 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.249 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:48:08.249 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.249 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:48:08.282 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.376 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:48:08.376 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.376 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:48:08.406 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:08.431 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:48:08.431 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:08.432 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:48:08.466 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:12.717 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:48:12.717 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:48:12.719 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:48:18.467 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:48:18.467 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:48:18.470 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-20 15:48:18.514 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110023, 易方达医疗保健行业混合(110023), 19-10-18 15:00, 2.2158, -0.59, 2.22, -0.4]
+2019-10-20 15:48:18.515 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.515 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达医疗保健行业混合(110023)(String), 19-10-18 15:00(String), 2.2158(Double), -0.59(Double), 2.22(Double), -0.4(Double), 110023(String)
+2019-10-20 15:48:18.548 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.577 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[004683, 建信高端医疗股票(004683), 19-10-18 15:00, 1.1677, -0.62, 1.175, 0.0]
+2019-10-20 15:48:18.578 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.578 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 建信高端医疗股票(004683)(String), 19-10-18 15:00(String), 1.1677(Double), -0.62(Double), 1.175(Double), 0.0(Double), 004683(String)
+2019-10-20 15:48:18.605 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.633 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[005299, 万家成长优选混合A(005299), 19-10-18 15:00, 1.0948, -0.78, 1.0835, -1.8]
+2019-10-20 15:48:18.633 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.633 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 万家成长优选混合A(005299)(String), 19-10-18 15:00(String), 1.0948(Double), -0.78(Double), 1.0835(Double), -1.8(Double), 005299(String)
+2019-10-20 15:48:18.665 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.692 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[400032, 东方主题精选混合(400032), 19-10-18 15:00, 0.6344, -0.91, 0.6366, -0.56]
+2019-10-20 15:48:18.693 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.693 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 东方主题精选混合(400032)(String), 19-10-18 15:00(String), 0.6344(Double), -0.91(Double), 0.6366(Double), -0.56(Double), 400032(String)
+2019-10-20 15:48:18.722 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.746 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[000083, 汇添富消费行业混合(000083), 19-10-18 15:00, 4.5183, -0.96, 4.513, -1.07]
+2019-10-20 15:48:18.746 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.746 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 汇添富消费行业混合(000083)(String), 19-10-18 15:00(String), 4.5183(Double), -0.96(Double), 4.513(Double), -1.07(Double), 000083(String)
+2019-10-20 15:48:18.782 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.831 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110022, 易方达消费行业股票(110022), 19-10-18 15:00, 2.8949, -1.06, 2.892, -1.16]
+2019-10-20 15:48:18.832 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.833 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达消费行业股票(110022)(String), 19-10-18 15:00(String), 2.8949(Double), -1.06(Double), 2.892(Double), -1.16(Double), 110022(String)
+2019-10-20 15:48:18.864 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.891 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[160222, 国泰国证食品饮料行业指数分级(160222), 19-10-18 15:00, 1.0709, -1.11, 1.071, -1.1]
+2019-10-20 15:48:18.891 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.891 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 国泰国证食品饮料行业指数分级(160222)(String), 19-10-18 15:00(String), 1.0709(Double), -1.11(Double), 1.071(Double), -1.1(Double), 160222(String)
+2019-10-20 15:48:18.924 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:18.968 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[070011, 嘉实策略混合(070011), 19-10-18 15:00, 1.0798, -1.29, 1.082, -1.1]
+2019-10-20 15:48:18.969 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:18.969 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 嘉实策略混合(070011)(String), 19-10-18 15:00(String), 1.0798(Double), -1.29(Double), 1.082(Double), -1.1(Double), 070011(String)
+2019-10-20 15:48:18.997 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:19.040 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110030, 易方达沪深300量化增强(110030), 19-10-18 15:00, 2.4292, -1.35, 2.4274, -1.42]
+2019-10-20 15:48:19.041 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:19.041 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达沪深300量化增强(110030)(String), 19-10-18 15:00(String), 2.4292(Double), -1.35(Double), 2.4274(Double), -1.42(Double), 110030(String)
+2019-10-20 15:48:19.073 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:19.098 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[001856, 易方达环保主题混合(001856), 19-10-18 15:00, 1.3437, -1.35, 1.341, -1.54]
+2019-10-20 15:48:19.099 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:19.099 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达环保主题混合(001856)(String), 19-10-18 15:00(String), 1.3437(Double), -1.35(Double), 1.341(Double), -1.54(Double), 001856(String)
+2019-10-20 15:48:19.130 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:19.156 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[161121, 易方达银行分级(161121), 19-10-18 15:00, 1.0126, -1.46, 1.0126, -1.46]
+2019-10-20 15:48:19.156 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:19.157 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达银行分级(161121)(String), 19-10-18 15:00(String), 1.0126(Double), -1.46(Double), 1.0126(Double), -1.46(Double), 161121(String)
+2019-10-20 15:48:19.199 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:19.223 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[163402, 兴全趋势投资混合(LOF)(前端：163402  后端：163403), 19-10-18 15:00, 0.6885, -1.56, 0.6916, -1.12]
+2019-10-20 15:48:19.223 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:19.224 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 19-10-18 15:00(String), 0.6885(Double), -1.56(Double), 0.6916(Double), -1.12(Double), 163402(String)
+2019-10-20 15:48:19.287 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:19.320 DEBUG 21060 --- [pool-1-thread-1] c.kenick.service.BackgroundTaskService   : fundInfo:[110025, 易方达资源行业混合(110025), 19-10-18 15:00, 0.7631, -1.79, 0.763, -1.8]
+2019-10-20 15:48:19.321 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==>  Preparing: update fund set name=?,cur_time=?,cur_net_value=?, cur_gain=?,last_net_value=?,last_gain=? where code=? 
+2019-10-20 15:48:19.321 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : ==> Parameters: 易方达资源行业混合(110025)(String), 19-10-18 15:00(String), 0.7631(Double), -1.79(Double), 0.763(Double), -1.8(Double), 110025(String)
+2019-10-20 15:48:19.364 DEBUG 21060 --- [pool-1-thread-1] com.kenick.dao.FundDao.update            : <==    Updates: 1
+2019-10-20 15:48:23.700 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-20 15:48:23.701 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-20 15:48:23.704 DEBUG 21060 --- [http-nio-8555-exec-7] com.kenick.dao.FundDao.findAll           : <==      Total: 13

@@ -30,13 +30,17 @@ public class BackgroundTaskService {
 	private FundDao fundDao;    
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 10)
+    @Scheduled(fixedDelay = 1000 * 30)
     public void perfectFundInfo(){
-    	// 查询出所有基金编码
-    	List<Fund> fundList = fundDao.findAll();
-    	for(Fund fund:fundList){    		
-    		perfectFundInfoByCode(fund);
-    	}
+    	try{
+        	// 查询出所有基金编码
+        	List<Fund> fundList = fundDao.findAll();
+        	for(Fund fund:fundList){    		
+        		perfectFundInfoByCode(fund);
+        	}
+    	}catch (Exception e) {
+    		logger.equals(e.getMessage());
+		}
     }
     
     /**
@@ -44,11 +48,15 @@ public class BackgroundTaskService {
      * @param code 基金编码
      */
     private void perfectFundInfoByCode(Fund fund){
-    	Object[] fundInfo = getFundInfoByJsoup(fund.getCode());
-    	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
-    	Fund updateFund = new Fund(fundInfo);
-    	updateFund.setId(fund.getId());
-    	fundDao.update(updateFund);
+    	try{
+        	Object[] fundInfo = getFundInfoByJsoup(fund.getCode());
+        	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
+        	Fund updateFund = new Fund(fundInfo);
+        	updateFund.setId(fund.getId());
+        	fundDao.update(updateFund);
+    	}catch (Exception e) {
+    		logger.error(e.getMessage());
+		}
     }
     
     // 根据基金编码获取基金信息
@@ -61,7 +69,7 @@ public class BackgroundTaskService {
     	Double lastGain = 0.0; // 上一日涨幅
     	try {
 			Connection connect = Jsoup.connect("http://fund.eastmoney.com/" + fundCode + ".html?spm=search");
-			connect.timeout(10000);
+			connect.timeout(500);
 			Response response = connect.execute();
 			Document doc = response.parse();
 			
@@ -87,7 +95,7 @@ public class BackgroundTaskService {
 			String lastAdd = lastValueInfos.last().text();
 			lastGain = Double.valueOf(lastAdd.substring(0,lastAdd.length()-1));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
     	
     	return new Object[]{fundCode,fundName, curTime, curNetValue, curGain, lastNetValue, lastGain};
