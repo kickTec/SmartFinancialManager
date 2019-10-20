@@ -27,34 +27,15 @@ public class BackgroundTaskService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
-	private FundDao fundDao;
-	
-	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 30)
-    public void reportCurrentTime(){
-    	
-    }
-    
-	// 每隔30秒执行一次，不管上一次任务是否已完成
-    @Scheduled(fixedRate = 1000 * 60)
-    public void reportFixedRate(){
-    	
-    }
-
-    //每1分钟执行一次
-    @Scheduled(cron = "0 */1 *  * * * ")
-    public void reportCurrentByCron(){
-    	
-    }
-    
+	private FundDao fundDao;    
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 60)
+    @Scheduled(fixedDelay = 1000 * 10)
     public void perfectFundInfo(){
     	// 查询出所有基金编码
     	List<Fund> fundList = fundDao.findAll();
     	for(Fund fund:fundList){    		
-    		perfectFundInfoByCode(fund.getCode());
+    		perfectFundInfoByCode(fund);
     	}
     }
     
@@ -62,10 +43,12 @@ public class BackgroundTaskService {
      * 根据基金编码完善基金信息 更新
      * @param code 基金编码
      */
-    private void perfectFundInfoByCode(String fundCode){
-    	Object[] fundInfo = getFundInfoByJsoup(fundCode);
-    	Fund fund = new Fund(fundInfo);
-    	fundDao.update(fund);
+    private void perfectFundInfoByCode(Fund fund){
+    	Object[] fundInfo = getFundInfoByJsoup(fund.getCode());
+    	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
+    	Fund updateFund = new Fund(fundInfo);
+    	updateFund.setId(fund.getId());
+    	fundDao.update(updateFund);
     }
     
     // 根据基金编码获取基金信息
