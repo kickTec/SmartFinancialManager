@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kenick.dao.FundDao;
 import com.kenick.entity.Fund;
 
@@ -53,7 +54,9 @@ public class BackgroundTaskService {
         	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
         	Fund updateFund = new Fund(fundInfo);
         	updateFund.setId(fund.getId());
-        	fundDao.update(updateFund);
+        	if(!StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
+            	fundDao.update(updateFund);
+        	}
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
