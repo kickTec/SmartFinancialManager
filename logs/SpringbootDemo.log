@@ -23639,3 +23639,140 @@ Caused by: java.net.ConnectException: Connection refused: connect
 2019-10-22 14:46:14.407  INFO 47752 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2019-10-22 14:46:14.414  INFO 47752 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
 2019-10-22 14:46:14.417 DEBUG 47752 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-22 14:48:50.032  INFO 55132 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 55132 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-22 14:48:50.034 DEBUG 55132 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-22 14:48:50.034  INFO 55132 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: prod
+2019-10-22 14:48:50.198  INFO 55132 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 14:48:50 CST 2019]; root of context hierarchy
+2019-10-22 14:48:51.605  INFO 55132 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-22 14:48:51.846  INFO 55132 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-22 14:48:51.863  INFO 55132 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-22 14:48:51.937  INFO 55132 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-22 14:48:51.939  INFO 55132 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-22 14:48:51.941  INFO 55132 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-22 14:48:51.983  INFO 55132 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-22 14:48:52.087  INFO 55132 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-22 14:48:52.472  INFO 55132 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 14:48:53.181  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 14:48:50 CST 2019]; root of context hierarchy
+2019-10-22 14:48:53.260  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-22 14:48:53.262  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-22 14:48:53.262  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-22 14:48:53.263  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-22 14:48:53.265  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-22 14:48:53.265  INFO 55132 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-22 14:48:53.294  INFO 55132 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 14:48:53.295  INFO 55132 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 14:48:53.337  INFO 55132 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 14:48:53.863  INFO 55132 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-22 14:48:53.873  INFO 55132 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 4.097 seconds (JVM running for 4.725)
+2019-10-22 14:48:53.889 DEBUG 55132 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-22 14:48:53.906 DEBUG 55132 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-22 14:48:53.907 DEBUG 55132 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.impl.BackgroundTaskService@3440e9cd
+2019-10-22 14:48:53.908 DEBUG 55132 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-22 14:48:53.915  INFO 55132 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 14:48:50 CST 2019]; root of context hierarchy
+2019-10-22 14:48:53.919  INFO 55132 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 14:48:53.926  INFO 55132 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-22 14:48:53.927 DEBUG 55132 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-22 15:13:41.819  INFO 55856 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 55856 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-22 15:13:41.843 DEBUG 55856 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-22 15:13:41.843  INFO 55856 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: prod
+2019-10-22 15:13:42.145  INFO 55856 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:13:42 CST 2019]; root of context hierarchy
+2019-10-22 15:13:44.083  INFO 55856 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-22 15:13:44.362  INFO 55856 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:13:44.379  INFO 55856 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-22 15:13:44.493  INFO 55856 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-22 15:13:44.495  INFO 55856 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-22 15:13:44.497  INFO 55856 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-22 15:13:44.551  INFO 55856 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-22 15:13:44.682  INFO 55856 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-22 15:13:45.074  INFO 55856 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:13:46.064  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:13:42 CST 2019]; root of context hierarchy
+2019-10-22 15:13:46.145  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-22 15:13:46.146  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-22 15:13:46.147  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-22 15:13:46.148  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-22 15:13:46.149  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-22 15:13:46.150  INFO 55856 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-22 15:13:46.181  INFO 55856 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:13:46.181  INFO 55856 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:13:46.220  INFO 55856 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:13:46.793  INFO 55856 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-22 15:13:46.804  INFO 55856 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 5.622 seconds (JVM running for 6.446)
+2019-10-22 15:13:46.822 DEBUG 55856 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-22 15:13:46.850 DEBUG 55856 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-22 15:13:46.863 DEBUG 55856 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-22 15:13:46.860 DEBUG 55856 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.impl.BackgroundTaskService@441fbe89
+2019-10-22 15:13:46.867 DEBUG 55856 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-22 15:13:46.876  INFO 55856 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:13:42 CST 2019]; root of context hierarchy
+2019-10-22 15:13:46.894  INFO 55856 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:13:46.897  INFO 55856 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-22 15:19:41.832  INFO 756 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 756 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-22 15:19:41.833 DEBUG 756 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-22 15:19:41.833  INFO 756 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: prod
+2019-10-22 15:19:42.046  INFO 756 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:19:42 CST 2019]; root of context hierarchy
+2019-10-22 15:19:43.480  INFO 756 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-22 15:19:43.735  INFO 756 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:19:43.752  INFO 756 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-22 15:19:43.818  INFO 756 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-22 15:19:43.819  INFO 756 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-22 15:19:43.820  INFO 756 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-22 15:19:43.860  INFO 756 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-22 15:19:43.992  INFO 756 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-22 15:19:44.395  INFO 756 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:19:45.166  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:19:42 CST 2019]; root of context hierarchy
+2019-10-22 15:19:45.240  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-22 15:19:45.241  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-22 15:19:45.242  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-22 15:19:45.242  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-22 15:19:45.244  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-22 15:19:45.244  INFO 756 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-22 15:19:45.272  INFO 756 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:19:45.273  INFO 756 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:19:45.311  INFO 756 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:19:45.897  INFO 756 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-22 15:19:45.906  INFO 756 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 4.38 seconds (JVM running for 5.026)
+2019-10-22 15:19:45.944 DEBUG 756 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.impl.BackgroundTaskService@322ba549
+2019-10-22 15:19:45.945 DEBUG 756 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-22 15:19:45.950  INFO 756 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:19:42 CST 2019]; root of context hierarchy
+2019-10-22 15:19:46.022  INFO 756 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:19:46.038  INFO 756 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2019-10-22 15:22:09.271  INFO 23032 --- [main] com.kenick.log.LoggerTest                : Starting LoggerTest on pc-PC with PID 23032 (started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-10-22 15:22:09.272 DEBUG 23032 --- [main] com.kenick.log.LoggerTest                : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-10-22 15:22:09.272  INFO 23032 --- [main] com.kenick.log.LoggerTest                : The following profiles are active: prod
+2019-10-22 15:22:09.447  INFO 23032 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:22:09 CST 2019]; root of context hierarchy
+2019-10-22 15:22:10.841  INFO 23032 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-10-22 15:22:11.068  INFO 23032 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:22:11.084  INFO 23032 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-10-22 15:22:11.158  INFO 23032 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2019-10-22 15:22:11.160  INFO 23032 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-10-22 15:22:11.162  INFO 23032 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2019-10-22 15:22:11.203  INFO 23032 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-10-22 15:22:11.316  INFO 23032 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-10-22 15:22:11.769  INFO 23032 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:22:12.502  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:22:09 CST 2019]; root of context hierarchy
+2019-10-22 15:22:12.577  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-10-22 15:22:12.578  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-10-22 15:22:12.578  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-10-22 15:22:12.580  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.entity.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-10-22 15:22:12.583  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-10-22 15:22:12.584  INFO 23032 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-10-22 15:22:12.618  INFO 23032 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:22:12.618  INFO 23032 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:22:12.658  INFO 23032 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-10-22 15:22:13.212  INFO 23032 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-10-22 15:22:13.222  INFO 23032 --- [main] com.kenick.log.LoggerTest                : Started LoggerTest in 4.222 seconds (JVM running for 4.852)
+2019-10-22 15:22:13.235 DEBUG 23032 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==>  Preparing: select * from fund order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc; 
+2019-10-22 15:22:13.255 DEBUG 23032 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : ==> Parameters: 
+2019-10-22 15:22:13.270 DEBUG 23032 --- [pool-1-thread-1] com.kenick.dao.FundDao.findAll           : <==      Total: 13
+2019-10-22 15:22:13.278 DEBUG 23032 --- [main] com.kenick.log.LoggerTest                : bts:com.kenick.service.impl.BackgroundTaskService@502a4156
+2019-10-22 15:22:13.278 DEBUG 23032 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
+2019-10-22 15:22:13.286  INFO 23032 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6e0f5f7f: startup date [Tue Oct 22 15:22:09 CST 2019]; root of context hierarchy
+2019-10-22 15:22:13.292  INFO 23032 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-10-22 15:22:13.296  INFO 23032 --- [Thread-2] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
