@@ -1,7 +1,12 @@
-package com.kenick.service;
+package com.kenick.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,26 +17,35 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kenick.dao.FundDao;
 import com.kenick.entity.Fund;
 
-@Component
+@Service("backService")
 @Configurable
 @EnableScheduling
-public class BackgroundTaskService {
+public class BackgroundTaskService {	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	public final static Double UPPERLIMIT = 1.5D;
+	public final static Double LOWERLIMIT = -1.5D;
+	
+	private static Date lastSendDate = new Date(); 
+	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<String, Map<String,Integer>>();
+	
+	@Autowired
+	private AsyncServiceImpl asyncService;
 	
 	@Resource
-	private FundDao fundDao;    
+	private FundDao fundDao;
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 30)
+    @Scheduled(fixedDelay = 1000 * 10)
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
@@ -50,12 +64,53 @@ public class BackgroundTaskService {
      */
     private void perfectFundInfoByCode(Fund fund){
     	try{
+    		// 通过爬虫获取基金信息
         	Object[] fundInfo = getFundInfoByJsoup(fund.getCode());
         	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
+        	
+        	// 更新基金信息
         	Fund updateFund = new Fund(fundInfo);
         	updateFund.setId(fund.getId());
         	if(!StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
             	fundDao.update(updateFund);
+        	}
+        	
+        	// 根据近两天幅度 决定是否发送短信
+        	if(updateFund.getCode() != null && updateFund.getCurGain() != null && updateFund.getLastGain() != null){
+        		double sumGain = updateFund.getCurGain() + updateFund.getLastGain();
+        		if(sumGain > UPPERLIMIT || sumGain < LOWERLIMIT){
+        			Date now = new Date();
+        			String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
+        			Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
+        			fundSmsMap.clear();
+        			boolean sendFlag = true;
+        			Integer smsNum = null;
+        			if(smsMap != null){
+        				smsNum = smsMap.get(updateFund.getCode());
+        				if(smsNum != null && smsNum > 0){
+        					sendFlag = false;
+        				}
+        			}else{
+        				smsMap = new HashMap<>();
+        			}
+        			
+        			if(smsNum == null){
+        				smsNum = 0;
+        			}
+        			
+        			if(sendFlag){
+        				Calendar calendar = Calendar.getInstance();
+        				calendar.setTime(lastSendDate);
+        				calendar.add(Calendar.MINUTE, 1);
+        				Date newLastDate = calendar.getTime();
+        				if(now.after(newLastDate)){
+            				asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
+            				lastSendDate = now;
+            				smsMap.put(updateFund.getCode(), ++smsNum);
+        				}
+        			}
+        			fundSmsMap.put(dayStr, smsMap);
+        		}
         	}
     	}catch (Exception e) {
     		logger.error(e.getMessage());

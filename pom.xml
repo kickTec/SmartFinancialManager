@@ -56,6 +56,27 @@
             <artifactId>druid</artifactId>
             <version>1.1.0</version>
         </dependency>
+        
+ 		<dependency>
+		    <groupId>aliyun</groupId>
+		    <artifactId>code</artifactId>
+		    <version>3.2.3</version>
+		    <scope>system</scope>
+		    <systemPath>${basedir}/lib/aliyun-java-sdk-core-3.2.3.jar</systemPath>
+		</dependency>
+		<dependency>
+		    <groupId>aliyun</groupId>
+		    <artifactId>dysmsapi</artifactId>
+		    <version>1.0.0</version>
+		    <scope>system</scope>
+		    <systemPath>${basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0-SANPSHOT.jar</systemPath>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.8</version>
+		</dependency>
   </dependencies>
   
   <properties>
