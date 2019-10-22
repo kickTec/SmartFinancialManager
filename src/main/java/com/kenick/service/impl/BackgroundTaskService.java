@@ -45,7 +45,7 @@ public class BackgroundTaskService {
 	private FundDao fundDao;
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 10)
+    @Scheduled(fixedDelay = 1000 * 60)
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
