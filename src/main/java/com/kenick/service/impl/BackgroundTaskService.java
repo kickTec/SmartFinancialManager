@@ -70,7 +70,6 @@ public class BackgroundTaskService {
         	
         	// 更新基金信息
         	Fund updateFund = new Fund(fundInfo);
-        	updateFund.setId(fund.getId());
         	if(!StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
             	fundDao.update(updateFund);
         	}
@@ -150,7 +149,7 @@ public class BackgroundTaskService {
 			
 			// 当前估算时间
 			String timeStr = doc.getElementById("gz_gztime").text();
-			curTime = timeStr.substring(1, timeStr.length()-1);
+			curTime = timeStr.substring(4, timeStr.length()-1);
 			
 			// 当前估算净值
 			String curNetValueStr = doc.getElementById("gz_gsz").text();

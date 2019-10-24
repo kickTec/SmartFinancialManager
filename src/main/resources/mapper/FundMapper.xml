@@ -8,7 +8,10 @@
     </insert>
     
     <update id="update" parameterType="com.kenick.entity.Fund">
-        update fund set name=#{name},cur_time=#{curTime},cur_net_value=#{curNetValue}, cur_gain=#{curGain},last_net_value=#{lastNetValue},last_gain=#{lastGain}
+        update fund set 
+        name=#{name},cur_time=#{curTime},cur_net_value=#{curNetValue}, 
+        cur_gain=#{curGain},last_net_value=#{lastNetValue},last_gain=#{lastGain},
+        gain_total = #{gainTotal}
         where code=#{code}
     </update>
     

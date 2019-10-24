@@ -23,7 +23,7 @@ public class Fund {
 		this.curGain = Double.valueOf(fundInfo[4].toString());
 		this.lastNetValue = Double.valueOf(fundInfo[5].toString());
 		this.lastGain = Double.valueOf(fundInfo[6].toString());
-		this.gainTotal = new BigDecimal(this.curGain+this.lastGain);
+		this.gainTotal = BigDecimal.valueOf(this.curGain+this.lastGain);
 	}
 
 	public Integer getId() {
