@@ -21,10 +21,11 @@
         <result column="cur_gain" property="curGain"/>
         <result column="last_net_value" property="lastNetValue"/>
         <result column="last_gain" property="lastGain"/>
+        <result column="gain_total" property="gainTotal"/>
     </resultMap>
     
     <select id="findAll" resultMap="fundResultMap">
         select * from fund
-        order by cur_gain desc,last_gain desc,cur_net_value desc,last_net_value desc;
+        order by gain_total,cur_gain,last_gain,cur_net_value,last_net_value
     </select>
 </mapper>

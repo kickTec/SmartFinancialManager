@@ -45,7 +45,7 @@ public class BackgroundTaskService {
 	private FundDao fundDao;
    
 	// 每隔30秒执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 60)
+    @Scheduled(fixedDelay = 1000 * 60 * 3)
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
@@ -99,11 +99,24 @@ public class BackgroundTaskService {
         			}
         			
         			if(sendFlag){
+        				// 短信发送间隔1分钟
         				Calendar calendar = Calendar.getInstance();
         				calendar.setTime(lastSendDate);
         				calendar.add(Calendar.MINUTE, 1);
-        				Date newLastDate = calendar.getTime();
-        				if(now.after(newLastDate)){
+        				Date oneMinuteLater = calendar.getTime();
+        				
+        				// 当前时间为当天9点35分钟后 下午3点之前
+        				calendar.setTime(now);
+        				calendar.set(Calendar.HOUR_OF_DAY, 9);
+        				calendar.set(Calendar.MINUTE, 32);
+        				Date startDate = calendar.getTime();
+        				
+        				calendar.setTime(now);
+        				calendar.set(Calendar.HOUR_OF_DAY, 14);
+        				calendar.set(Calendar.MINUTE, 58);
+        				Date endDate = calendar.getTime();
+        				
+        				if(now.after(oneMinuteLater) && now.after(startDate) && now.before(endDate)){
             				asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
             				lastSendDate = now;
             				smsMap.put(updateFund.getCode(), ++smsNum);
