@@ -28,12 +28,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.dao.FundDao;
 import com.kenick.entity.Fund;
+import com.kenick.service.TaskService;
 import com.kenick.util.HttpRequestUtils;
 
-@Service("backService")
+@Service("taskService")
 @Configurable
 @EnableScheduling
-public class BackgroundTaskService {	
+public class TaskServiceImpl implements TaskService{	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	public final static Double UPPERLIMIT = 1.5D;
 	public final static Double LOWERLIMIT = -1.5D;
@@ -48,7 +49,7 @@ public class BackgroundTaskService {
 	private FundDao fundDao;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
-    @Scheduled(fixedDelay = 1000 * 60 * 3)
+    @Scheduled(cron = "0 0/3 9-12,13-16 * * ?")
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
@@ -59,6 +60,13 @@ public class BackgroundTaskService {
     	}catch (Exception e) {
     		logger.equals(e.getMessage());
 		}
+    }
+    
+    @Scheduled(cron = "0 30 14 * * ?")
+    public void clean(){
+    	if(fundSmsMap != null){
+    		fundSmsMap.clear();
+    	}
     }
     
     /**
@@ -74,6 +82,7 @@ public class BackgroundTaskService {
         	Fund updateFund = getFundByHttp(fund);
         	
         	if(updateFund !=null && !StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
+        		logger.debug("最新基金信息:{}", updateFund.toString());
             	fundDao.update(updateFund);
         	}
         	
@@ -212,7 +221,6 @@ public class BackgroundTaskService {
         	}
         	fund.setLastNetValue(lastNetValue);
         	fund.setLastGain(lastGain);
-        	
         	return fund;
     	}catch (Exception e) {
     		logger.error("获取基金信息失败", e.getCause());
@@ -221,12 +229,5 @@ public class BackgroundTaskService {
     }
     
     public static void main(String[] args) {
-    	Date now = new Date();
-    	String url = "http://fundgz.1234567.com.cn/js/519727.js?rt="+now.getTime();
-    	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-    	
-    	String retJsonStr = retStr.substring(8, retStr.length()-2);
-    	JSONObject retJson = JSONObject.parseObject(retJsonStr);
-    	System.out.println(retJson.toJSONString());
 	}
 }
