@@ -8,10 +8,28 @@
     </insert>
     
     <update id="update" parameterType="com.kenick.entity.Fund">
-        update fund set 
-        name=#{name},cur_time=#{curTime},cur_net_value=#{curNetValue}, 
-        cur_gain=#{curGain},last_net_value=#{lastNetValue},last_gain=#{lastGain},
-        gain_total = #{gainTotal}
+        update fund set
+        <if test="name !=null and name !=''">
+        	name=#{name},
+        </if>
+        <if test="curTime !=null">
+        	cur_time=#{curTime},
+        </if>
+        <if test="curNetValue !=null">
+        	cur_net_value=#{curNetValue},
+        </if>
+        <if test="curGain !=null">
+        	cur_gain=#{curGain},
+        </if>
+        <if test="lastNetValue !=null">
+        	last_net_value=#{lastNetValue},
+        </if>
+        <if test="lastGain !=null">
+        	last_gain=#{lastGain},
+        </if>
+        <if test="gainTotal !=null">
+        	gain_total = #{gainTotal}
+        </if>
         where code=#{code}
     </update>
     
@@ -30,5 +48,10 @@
     <select id="findAll" resultMap="fundResultMap">
         select * from fund
         order by gain_total,cur_gain,last_gain,cur_net_value,last_net_value
+    </select>
+    
+    <select id="getFundByCode" resultMap="fundResultMap">
+    	select * from fund
+    	where code=#{code}
     </select>
 </mapper>

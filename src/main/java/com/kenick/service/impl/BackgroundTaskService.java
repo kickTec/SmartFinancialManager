@@ -1,7 +1,8 @@
 package com.kenick.service.impl;
 
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +25,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.kenick.dao.FundDao;
 import com.kenick.entity.Fund;
+import com.kenick.util.HttpRequestUtils;
 
 @Service("backService")
 @Configurable
@@ -44,7 +47,7 @@ public class BackgroundTaskService {
 	@Resource
 	private FundDao fundDao;
    
-	// 每隔30秒执行一次，上一次任务必须已完成
+	// 每隔指定时间执行一次，上一次任务必须已完成
     @Scheduled(fixedDelay = 1000 * 60 * 3)
     public void perfectFundInfo(){
     	try{
@@ -63,14 +66,14 @@ public class BackgroundTaskService {
      * @param code 基金编码
      */
     private void perfectFundInfoByCode(Fund fund){
-    	try{
-    		// 通过爬虫获取基金信息
-        	Object[] fundInfo = getFundInfoByJsoup(fund.getCode());
-        	logger.debug("fundInfo:{}", Arrays.toString(fundInfo));
+    	try{        	
+        	// 通过jsoup获取基金信息
+        	// Fund updateFund = getFundInfoByJsoup(fund.getCode());
         	
-        	// 更新基金信息
-        	Fund updateFund = new Fund(fundInfo);
-        	if(!StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
+    		// 通过http获取最新基金信息
+        	Fund updateFund = getFundByHttp(fund);
+        	
+        	if(updateFund !=null && !StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
             	fundDao.update(updateFund);
         	}
         	
@@ -130,7 +133,10 @@ public class BackgroundTaskService {
     }
     
     // 根据基金编码获取基金信息
-    private Object[] getFundInfoByJsoup(String fundCode){
+    private Fund getFundInfoByJsoup(String fundCode){
+    	Fund fund = new Fund();
+    	fund.setCode(fundCode);
+    	
     	String fundName = ""; // 基金名称
     	String curTime = ""; // 当前估算时间 
     	Double curNetValue = 0.0; // 当前估算净值
@@ -146,33 +152,81 @@ public class BackgroundTaskService {
 			// 基金名称
 			Elements nameEles = doc.getElementsByClass("fundDetail-tit");
 			fundName = nameEles.first().text();
+			fund.setName(fundName);
 			
 			// 当前估算时间
 			String timeStr = doc.getElementById("gz_gztime").text();
 			curTime = timeStr.substring(4, timeStr.length()-1);
+			fund.setCurTime(curTime);
 			
 			// 当前估算净值
 			String curNetValueStr = doc.getElementById("gz_gsz").text();
 			curNetValue = Double.valueOf(curNetValueStr);
+			fund.setCurNetValue(curNetValue);
 			
 			// 当前估算涨幅
 			String curGainStr = doc.getElementById("gz_gszzl").text();
 			curGain	= Double.valueOf(curGainStr.substring(0,curGainStr.length()-1));
+			fund.setCurGain(curGain);
 			
 			// 上一日净值
 			Elements lastValueInfos = doc.select(".fundInfoItem .dataOfFund .dataItem02 .dataNums span");
 			lastNetValue = Double.valueOf(lastValueInfos.first().text());
+			fund.setLastGain(lastNetValue);
+			
 			String lastAdd = lastValueInfos.last().text();
 			lastGain = Double.valueOf(lastAdd.substring(0,lastAdd.length()-1));
+			fund.setLastGain(lastGain);
+			
+			fund.setGainTotal(BigDecimal.valueOf(curGain + lastGain));
+	    	return fund;
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
+			return null;
 		}
-    	
-    	return new Object[]{fundCode,fundName, curTime, curNetValue, curGain, lastNetValue, lastGain};
+    }
+    
+    private Fund getFundByHttp(Fund databaseFund){
+    	Fund fund = new Fund();
+    	fund.setCode(databaseFund.getCode());   	
+    	try{
+    		// 获取最新净值和涨幅
+        	Date now = new Date();
+        	String url = "http://fundgz.1234567.com.cn/js/"+databaseFund.getCode()+".js?rt="+now.getTime();
+        	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+        	String retJsonStr = retStr.substring(8, retStr.length()-2);
+        	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
+        	JSONObject retJson = JSONObject.parseObject(retJsonStr);
+        	
+        	fund.setCurNetValue(retJson.getDouble("gsz"));
+        	fund.setCurGain(retJson.getDouble("gszzl")); 
+        	fund.setCurTime(retJson.getString("gztime").substring(5));
+
+        	// 查询数据库记录
+        	double lastGain = 0.0;
+        	double lastNetValue = retJson.getDouble("dwjz");
+        	if(lastNetValue == databaseFund.getLastNetValue()){
+        		lastGain = databaseFund.getLastGain();
+        	}else{
+        		lastGain = databaseFund.getCurGain();
+        	}
+        	fund.setLastNetValue(lastNetValue);
+        	fund.setLastGain(lastGain);
+        	
+        	return fund;
+    	}catch (Exception e) {
+    		logger.error("获取基金信息失败", e.getCause());
+    		return null;
+		}
     }
     
     public static void main(String[] args) {
-    	Object[] fundInfo =  new BackgroundTaskService().getFundInfoByJsoup("161121");
-    	System.out.println(Arrays.toString(fundInfo));
+    	Date now = new Date();
+    	String url = "http://fundgz.1234567.com.cn/js/519727.js?rt="+now.getTime();
+    	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+    	
+    	String retJsonStr = retStr.substring(8, retStr.length()-2);
+    	JSONObject retJson = JSONObject.parseObject(retJsonStr);
+    	System.out.println(retJson.toJSONString());
 	}
 }
