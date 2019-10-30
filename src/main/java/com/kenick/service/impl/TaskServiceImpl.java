@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.dao.FundDao;
 import com.kenick.entity.Fund;
@@ -49,7 +48,7 @@ public class TaskServiceImpl implements TaskService{
 	private FundDao fundDao;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
-    @Scheduled(cron = "0 0/3 9-12,13-16 * * ?")
+    @Scheduled(cron = "0 0/1 9-12,13-16 * * ?")
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
@@ -81,7 +80,7 @@ public class TaskServiceImpl implements TaskService{
     		// 通过http获取最新基金信息
         	Fund updateFund = getFundByHttp(fund);
         	
-        	if(updateFund !=null && !StringUtils.isEmpty(updateFund.getName()) && updateFund.getCurGain() != null){
+        	if(updateFund !=null && updateFund.getCurGain() != null){
         		logger.debug("最新基金信息:{}", updateFund.toString());
             	fundDao.update(updateFund);
         	}
@@ -221,6 +220,7 @@ public class TaskServiceImpl implements TaskService{
         	}
         	fund.setLastNetValue(lastNetValue);
         	fund.setLastGain(lastGain);
+        	fund.setGainTotal(BigDecimal.valueOf(lastGain+fund.getCurGain()));
         	return fund;
     	}catch (Exception e) {
     		logger.error("获取基金信息失败", e.getCause());
