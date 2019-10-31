@@ -3,6 +3,7 @@ package com.kenick.entity;
 import java.math.BigDecimal;
 
 public class Fund {
+	private String testId; // 测试冲突
 	private Integer id;
 	private String code; // 基金编码
 	private String name; // 基金名称
