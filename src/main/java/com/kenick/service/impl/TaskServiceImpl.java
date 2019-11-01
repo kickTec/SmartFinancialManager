@@ -73,17 +73,28 @@ public class TaskServiceImpl implements TaskService{
      * @param code 基金编码
      */
     private void perfectFundInfoByCode(Fund fund){
-    	try{        	
-        	// 通过jsoup获取基金信息
-        	// Fund updateFund = getFundInfoByJsoup(fund.getCode());
+		long startTime = System.currentTimeMillis();
+    	try{ 
+        	// 通过jsoup获取昨日基金信息
+        	Fund updateFund = getFundInfoByJsoup(fund.getCode());
         	
     		// 通过http获取最新基金信息
-        	Fund updateFund = getFundByHttp(fund);
-        	
-        	if(updateFund !=null && updateFund.getCurGain() != null){
-        		logger.debug("最新基金信息:{}", updateFund.toString());
-            	fundDao.update(updateFund);
+        	Fund curFund = getFundByHttp(fund);
+        	if(updateFund !=null){
+        		if(curFund != null){
+                	updateFund.setCurGain(curFund.getCurGain());
+                	updateFund.setCurNetValue(curFund.getCurNetValue());
+                	updateFund.setGainTotal(BigDecimal.valueOf(updateFund.getLastGain()+updateFund.getCurGain()));	
+        		}else{
+        			return;
+        		}
         	}
+        	
+        	if(updateFund == null){
+        		return;
+        	}
+    		logger.debug("最新基金信息:{}", updateFund.toString());
+        	fundDao.update(updateFund);
         	
         	// 根据近两天幅度 决定是否发送短信
         	if(updateFund.getCode() != null && updateFund.getCurGain() != null && updateFund.getLastGain() != null){
@@ -138,6 +149,8 @@ public class TaskServiceImpl implements TaskService{
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
+    	long endTime = System.currentTimeMillis();
+    	logger.debug("系统自动查询并完善基金花费时间:{}", endTime-startTime);
     }
     
     // 根据基金编码获取基金信息
@@ -194,6 +207,7 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
     
+    // 获取最新预估涨幅和净值
     private Fund getFundByHttp(Fund databaseFund){
     	Fund fund = new Fund();
     	fund.setCode(databaseFund.getCode());   	
@@ -202,25 +216,17 @@ public class TaskServiceImpl implements TaskService{
         	Date now = new Date();
         	String url = "http://fundgz.1234567.com.cn/js/"+databaseFund.getCode()+".js?rt="+now.getTime();
         	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-        	String retJsonStr = retStr.substring(8, retStr.length()-2);
+        	logger.debug("爬取的最新基金数据为:{}", retStr);
         	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
+        	String retJsonStr = retStr.substring(8, retStr.length()-2);
         	JSONObject retJson = JSONObject.parseObject(retJsonStr);
         	
         	fund.setCurNetValue(retJson.getDouble("gsz"));
         	fund.setCurGain(retJson.getDouble("gszzl")); 
         	fund.setCurTime(retJson.getString("gztime").substring(5));
-
-        	// 查询数据库记录
-        	double lastGain = 0.0;
-        	double lastNetValue = retJson.getDouble("dwjz");
-        	if(lastNetValue == databaseFund.getLastNetValue()){
-        		lastGain = databaseFund.getLastGain();
-        	}else{
-        		lastGain = databaseFund.getCurGain();
-        	}
-        	fund.setLastNetValue(lastNetValue);
-        	fund.setLastGain(lastGain);
-        	fund.setGainTotal(BigDecimal.valueOf(lastGain+fund.getCurGain()));
+        	fund.setLastNetValue(retJson.getDouble("dwjz"));
+        	fund.setLastGain(0.0);
+        	fund.setGainTotal(BigDecimal.valueOf(fund.getLastGain()+fund.getCurGain()));
         	return fund;
     	}catch (Exception e) {
     		logger.error("获取基金信息失败", e.getCause());
