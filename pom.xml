@@ -9,8 +9,8 @@
   <version>0.0.1-SNAPSHOT</version>
   
   <packaging>jar</packaging>
-  <name>SpringbootDemo</name>
-  <description>SpringbootDemo</description>
+  <name>SmartFinancialManager</name>
+  <description>SmartFinancialManager</description>
    
   <parent>
    <groupId>org.springframework.boot</groupId>
