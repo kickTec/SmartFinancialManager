@@ -101,7 +101,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!--properties节点中设置docker镜像的前缀“springboot”-->  
-    <docker.image.prefix>springio</docker.image.prefix>
+    <docker.image.prefix>kenick</docker.image.prefix>
     <java.version>1.7</java.version>
   </properties>
   
@@ -126,10 +126,12 @@
         <plugin>    
              <groupId>com.spotify</groupId>    
              <artifactId>docker-maven-plugin</artifactId>    
-             <version>0.4.13</version>    
+             <version>1.0.0</version>    
              <configuration>    
-                 <imageName>${docker.image.prefix}/${project.artifactId}</imageName>    
-                 <dockerDirectory>src/main/docker</dockerDirectory>    
+                 <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>    
+                 <dockerDirectory>src/main/docker</dockerDirectory>
+                 <entryPoint>["java","-jar","/${project.build.finalName}.jar}"]</entryPoint>
+                 <dockerHost>http://47.75.167.248:2375</dockerHost>    
                  <resources>    
                      <resource>    
                          <targetPath>/</targetPath>    

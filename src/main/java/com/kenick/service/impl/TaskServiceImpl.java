@@ -48,7 +48,7 @@ public class TaskServiceImpl implements TaskService{
 	private FundDao fundDao;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
-    @Scheduled(cron = "0 0/1 9-12,13-16 * * ?")
+    @Scheduled(cron = "0 0/1 7-12,13-16 * * ?")
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
@@ -61,7 +61,7 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
     
-    @Scheduled(cron = "0 30 14 * * ?")
+    @Scheduled(cron = "0 0/3 14-15 * * ?")
     public void clean(){
     	if(fundSmsMap != null){
     		fundSmsMap.clear();
@@ -126,15 +126,15 @@ public class TaskServiceImpl implements TaskService{
         				calendar.add(Calendar.MINUTE, 1);
         				Date oneMinuteLater = calendar.getTime();
         				
-        				// 当前时间为当天9点35分钟后 下午3点之前
+        				// 当前时间为当天9点30分钟后 下午3点之前
         				calendar.setTime(now);
         				calendar.set(Calendar.HOUR_OF_DAY, 9);
-        				calendar.set(Calendar.MINUTE, 32);
+        				calendar.set(Calendar.MINUTE, 30);
         				Date startDate = calendar.getTime();
         				
         				calendar.setTime(now);
-        				calendar.set(Calendar.HOUR_OF_DAY, 14);
-        				calendar.set(Calendar.MINUTE, 58);
+        				calendar.set(Calendar.HOUR_OF_DAY, 15);
+        				calendar.set(Calendar.MINUTE, 0);
         				Date endDate = calendar.getTime();
         				
         				if(now.after(oneMinuteLater) && now.after(startDate) && now.before(endDate)){
