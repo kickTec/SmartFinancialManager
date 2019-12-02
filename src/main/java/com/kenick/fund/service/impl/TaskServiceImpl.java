@@ -1,4 +1,4 @@
-package com.kenick.service.impl;
+package com.kenick.fund.service.impl;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -25,9 +25,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kenick.dao.FundDao;
-import com.kenick.entity.Fund;
-import com.kenick.service.TaskService;
+import com.kenick.fund.service.TaskService;
+import com.kenick.generate.bean.Fund;
+import com.kenick.generate.bean.FundExample;
+import com.kenick.generate.dao.FundMapper;
 import com.kenick.util.HttpRequestUtils;
 
 @Service("taskService")
@@ -45,14 +46,16 @@ public class TaskServiceImpl implements TaskService{
 	private AsyncServiceImpl asyncService;
 	
 	@Resource
-	private FundDao fundDao;
+	private FundMapper fundDao;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
-    @Scheduled(cron = "0 0/1 7-12,13-16 * * ?")
+    @Scheduled(cron = "0 0/1 7-20 * * ?")
     public void perfectFundInfo(){
     	try{
         	// 查询出所有基金编码
-        	List<Fund> fundList = fundDao.findAll();
+    		FundExample fundExample = new FundExample();
+    		fundExample.setOrderByClause(Fund.S_id);
+        	List<Fund> fundList = fundDao.selectByExample(fundExample);
         	for(Fund fund:fundList){    		
         		perfectFundInfoByCode(fund);
         	}
@@ -94,7 +97,9 @@ public class TaskServiceImpl implements TaskService{
         		return;
         	}
     		logger.debug("最新基金信息:{}", updateFund.toString());
-        	fundDao.update(updateFund);
+    		FundExample fundExample = new FundExample();
+    		fundExample.or().andCodeEqualTo(updateFund.getCode());
+        	fundDao.updateByExampleSelective(updateFund, fundExample);
         	
         	// 发送短信
         	sendSms(updateFund);
@@ -115,7 +120,7 @@ public class TaskServiceImpl implements TaskService{
     		if(sumGain > UPPERLIMIT || sumGain < LOWERLIMIT){ // 近两天基金变动幅度大于上限，小于下限
     			Date now = new Date();
     			
-    			// 指定日期是否发生过短信
+    			// 是否发送过短信
     			String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
     			Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
     			Integer smsNum = null;
@@ -123,18 +128,27 @@ public class TaskServiceImpl implements TaskService{
     				smsNum = smsMap.get(updateFund.getCode());
     				if(smsNum != null && smsNum > 0){
     					sendFlag = false;
+    					return;
     				}
     			}else{
     				smsMap = new HashMap<>();
     			}
     			
-    			// 发送短信间隔1分钟
+				// 周末不发送
 				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(now);
+				if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+					sendFlag = false;
+					return;
+				}
+    			
+    			// 发送短信间隔1分钟
 				calendar.setTime(lastSendDate);
 				calendar.add(Calendar.MINUTE, 1);
 				Date oneMinuteLater = calendar.getTime();
 				if(now.before(oneMinuteLater)){
 					sendFlag = false;
+					return;
 				}
 				
 				// 9点30前 不发送
@@ -144,6 +158,21 @@ public class TaskServiceImpl implements TaskService{
 				Date nineHour = calendar.getTime();
 				if(now.before(nineHour)){
 					sendFlag = false;
+					return;
+				}
+				
+				// 12点 - 14点不发送
+				calendar.setTime(now);
+				calendar.set(Calendar.HOUR_OF_DAY, 12);
+				calendar.set(Calendar.MINUTE, 0);
+				Date twelveHour = calendar.getTime();
+				calendar.setTime(now);
+				calendar.set(Calendar.HOUR_OF_DAY, 14);
+				calendar.set(Calendar.MINUTE, 0);
+				Date fourteenHour = calendar.getTime();
+				if(now.after(twelveHour) && now.before(fourteenHour)){
+					sendFlag = false;
+					return;
 				}
 				
 				// 15点后 不发送
@@ -153,11 +182,7 @@ public class TaskServiceImpl implements TaskService{
 				Date fifteenDate = calendar.getTime();
 				if(now.after(fifteenDate)){
 					sendFlag = false;
-				}
-				
-				// 周末不发送
-				if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-					sendFlag = false;
+					return;
 				}
 				
     			if(sendFlag){
@@ -214,7 +239,7 @@ public class TaskServiceImpl implements TaskService{
 			// 上一日净值
 			Elements lastValueInfos = doc.select(".fundInfoItem .dataOfFund .dataItem02 .dataNums span");
 			lastNetValue = Double.valueOf(lastValueInfos.first().text());
-			fund.setLastGain(lastNetValue);
+			fund.setLastNetValue(lastNetValue);
 			
 			String lastAdd = lastValueInfos.last().text();
 			lastGain = Double.valueOf(lastAdd.substring(0,lastAdd.length()-1));

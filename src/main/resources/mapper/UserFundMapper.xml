@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kenick.generate.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.kenick.generate.bean.User">
-    <result column="id" jdbcType="VARCHAR" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="age" jdbcType="INTEGER" property="age" />
+<mapper namespace="com.kenick.generate.dao.UserFundMapper">
+  <resultMap id="BaseResultMap" type="com.kenick.generate.bean.UserFund">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="fundId" jdbcType="VARCHAR" property="fundid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, password, age
+    id, userId, fundId
   </sql>
-  <select id="selectByExample" parameterType="com.kenick.generate.bean.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kenick.generate.bean.UserFundExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from user_fund
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -82,69 +81,70 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.kenick.generate.bean.UserExample">
-    delete from user
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_fund
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_fund
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kenick.generate.bean.UserFundExample">
+    delete from user_fund
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kenick.generate.bean.User">
-    insert into user (id, username, password, 
-      age)
-    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.kenick.generate.bean.UserFund">
+    insert into user_fund (id, userId, fundId
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{fundid,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.kenick.generate.bean.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.kenick.generate.bean.UserFund">
+    insert into user_fund
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="username != null">
-        username,
+      <if test="userid != null">
+        userId,
       </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="age != null">
-        age,
+      <if test="fundid != null">
+        fundId,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
+      <if test="fundid != null">
+        #{fundid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kenick.generate.bean.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="com.kenick.generate.bean.UserFundExample" resultType="java.lang.Long">
+    select count(*) from user_fund
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update user_fund
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
+      <if test="record.fundid != null">
+        fundId = #{record.fundid,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,13 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      age = #{record.age,jdbcType=INTEGER}
+    update user_fund
+    set id = #{record.id,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      fundId = #{record.fundid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenick.generate.bean.UserFund">
+    update user_fund
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="fundid != null">
+        fundId = #{fundid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenick.generate.bean.UserFund">
+    update user_fund
+    set userId = #{userid,jdbcType=VARCHAR},
+      fundId = #{fundid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

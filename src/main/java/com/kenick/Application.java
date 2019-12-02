@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.kenick.dao")
+@MapperScan("com.kenick.*.dao")
 public class Application {
 	
 	public static void main(String[] args) {

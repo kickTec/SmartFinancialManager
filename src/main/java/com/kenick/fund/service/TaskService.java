@@ -1,4 +1,4 @@
-package com.kenick.service;
+package com.kenick.fund.service;
 
 public interface TaskService {
 	

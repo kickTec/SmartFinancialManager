@@ -1,4 +1,4 @@
-package com.kenick.service.impl;
+package com.kenick.fund.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kenick.service.AsyncService;
+import com.kenick.fund.service.AsyncService;
 import com.kenick.util.AliSmsUtil;
 
 @Service("asyncService")

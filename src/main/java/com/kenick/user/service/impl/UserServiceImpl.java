@@ -1,21 +1,20 @@
-package com.kenick.service.impl;
+package com.kenick.user.service.impl;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.kenick.dao.UserDao;
-import com.kenick.entity.User;
-import com.kenick.service.UserService;
+import com.kenick.generate.bean.User;
+import com.kenick.generate.dao.UserMapper;
+import com.kenick.user.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
 	@Resource
-	private UserDao userDao;
+	private UserMapper userDao;
 
 	@Override
 	public User getUserById(int userId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

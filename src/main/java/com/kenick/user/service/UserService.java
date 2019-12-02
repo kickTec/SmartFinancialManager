@@ -1,6 +1,6 @@
-package com.kenick.service;
+package com.kenick.user.service;
 
-import com.kenick.entity.User;
+import com.kenick.generate.bean.User;
 
 public interface UserService {
 	public User getUserById(int userId);

@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kenick.entity.User;
-import com.kenick.service.UserService;
+import com.kenick.generate.bean.User;
+import com.kenick.user.service.UserService;
 
 @Controller
 @RequestMapping("/user")

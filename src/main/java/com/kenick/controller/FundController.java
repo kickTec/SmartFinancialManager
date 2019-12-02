@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kenick.entity.Fund;
-import com.kenick.service.FundService;
+import com.kenick.fund.service.FundService;
+import com.kenick.generate.bean.Fund;
 
 @Controller
 @RequestMapping("/fund")
