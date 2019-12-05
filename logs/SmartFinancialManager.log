@@ -2270,3 +2270,156 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 2019-11-30 11:32:29.321 DEBUG 11712 --- [main] com.kenick.log.LoggerTest                : taskService:com.kenick.fund.service.impl.TaskServiceImpl@327c7bea
 2019-11-30 11:32:29.323 DEBUG 11712 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
 2019-11-30 11:32:29.335  INFO 11712 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@fba92d3: startup date [Sat Nov 30 11:32:25 CST 2019]; root of context hierarchy
+2019-12-05 10:41:05.895  INFO 13268 --- [main] com.kenick.Application                   : Starting Application on pc-PC with PID 13268 (E:\svn_workspace\SmartFinancialManager\target\classes started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-12-05 10:41:05.919 DEBUG 13268 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-12-05 10:41:05.919  INFO 13268 --- [main] com.kenick.Application                   : The following profiles are active: prod
+2019-12-05 10:41:06.418  INFO 13268 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@673fdbce: startup date [Thu Dec 05 10:41:06 CST 2019]; root of context hierarchy
+2019-12-05 10:41:09.145  INFO 13268 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2019-12-05 10:41:09.169  INFO 13268 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-12-05 10:41:09.171  INFO 13268 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2019-12-05 10:41:09.367  INFO 13268 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-12-05 10:41:09.367  INFO 13268 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2951 ms
+2019-12-05 10:41:09.539  INFO 13268 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-12-05 10:41:09.548  INFO 13268 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-12-05 10:41:09.549  INFO 13268 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-12-05 10:41:09.549  INFO 13268 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-12-05 10:41:09.549  INFO 13268 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-12-05 10:41:15.839  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@673fdbce: startup date [Thu Dec 05 10:41:06 CST 2019]; root of context hierarchy
+2019-12-05 10:41:16.270  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-12-05 10:41:16.274  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-12-05 10:41:16.277  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-12-05 10:41:16.281  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.generate.bean.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-12-05 10:41:16.305  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-12-05 10:41:16.308  INFO 13268 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-12-05 10:41:16.611  INFO 13268 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:41:16.612  INFO 13268 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:41:16.987  INFO 13268 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:41:21.027  INFO 13268 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-12-05 10:41:21.035  INFO 13268 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2019-12-05 10:41:21.082  INFO 13268 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2019-12-05 10:41:21.208  INFO 13268 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-12-05 10:41:21.471  INFO 13268 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2019-12-05 10:41:21.514  INFO 13268 --- [main] com.kenick.Application                   : Started Application in 16.12 seconds (JVM running for 16.91)
+2019-12-05 10:42:00.348  INFO 13268 --- [pool-1-thread-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-12-05 10:42:01.032 DEBUG 13268 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : ==>  Preparing: select id, code, name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain, gain_total from fund order by id 
+2019-12-05 10:42:01.249 DEBUG 13268 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : ==> Parameters: 
+2019-12-05 10:42:01.517 DEBUG 13268 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : <==      Total: 12
+2019-12-05 10:42:05.835 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"070011","name":"嘉实策略混合","jzrq":"2019-12-04","dwjz":"1.0960","gsz":"1.1004","gszzl":"0.40","gztime":"2019-12-05 10:39"});
+2019-12-05 10:42:06.016 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@4328ed0c
+2019-12-05 10:42:06.103 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:42:06.107 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 070011(String), 嘉实策略混合(070011)(String), 12-05 10:30(String), 1.1004(Double), 0.4(Double), 1.096(Double), 0.09(Double), 0.49(BigDecimal), 070011(String)
+2019-12-05 10:42:06.168 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:42:33.274 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 系统自动查询并完善基金花费时间:28513
+2019-12-05 10:42:35.250 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"160222","name":"国泰国证食品饮料行业指数分级","jzrq":"2019-12-04","dwjz":"1.0746","gsz":"1.0759","gszzl":"0.12","gztime":"2019-12-05 10:41"});
+2019-12-05 10:42:35.252 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@6d670c01
+2019-12-05 10:42:35.258 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:42:35.263 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 160222(String), 国泰国证食品饮料行业指数分级(160222)(String), 12-05 10:21(String), 1.0759(Double), 0.12(Double), 1.0746(Double), 0.17(Double), 0.29000000000000004(BigDecimal), 160222(String)
+2019-12-05 10:42:35.311 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:43:16.113 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 系统自动查询并完善基金花费时间:42836
+2019-12-05 10:43:18.146 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"163402","name":"兴全趋势投资混合(LOF)","jzrq":"2019-12-04","dwjz":"0.6853","gsz":"0.6885","gszzl":"0.46","gztime":"2019-12-05 10:42"});
+2019-12-05 10:43:18.147 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@691fa38e
+2019-12-05 10:43:18.153 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:43:18.156 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 163402(String), 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 12-05 10:35(String), 0.6885(Double), 0.46(Double), 0.6853(Double), -0.32(Double), 0.14(BigDecimal), 163402(String)
+2019-12-05 10:43:18.223 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:43:21.298 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 系统自动查询并完善基金花费时间:5183
+2019-12-05 10:43:23.259 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"000083","name":"汇添富消费行业混合","jzrq":"2019-12-04","dwjz":"4.5330","gsz":"4.5585","gszzl":"0.56","gztime":"2019-12-05 10:42"});
+2019-12-05 10:43:23.260 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@5cfae826
+2019-12-05 10:43:23.266 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:43:23.273 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 000083(String), 汇添富消费行业混合(000083)(String), 12-05 10:22(String), 4.5585(Double), 0.56(Double), 4.533(Double), 0.44(Double), 1.0(BigDecimal), 000083(String)
+2019-12-05 10:43:23.335 DEBUG 13268 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:43:30.266 DEBUG 13268 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 系统自动查询并完善基金花费时间:8966
+2019-12-05 10:45:08.191  INFO 12908 --- [main] com.kenick.Application                   : Starting Application on pc-PC with PID 12908 (E:\svn_workspace\SmartFinancialManager\target\classes started by Administrator in E:\svn_workspace\SmartFinancialManager)
+2019-12-05 10:45:08.194 DEBUG 12908 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2019-12-05 10:45:08.194  INFO 12908 --- [main] com.kenick.Application                   : The following profiles are active: prod
+2019-12-05 10:45:08.450  INFO 12908 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3c87521: startup date [Thu Dec 05 10:45:08 CST 2019]; root of context hierarchy
+2019-12-05 10:45:09.850  INFO 12908 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2019-12-05 10:45:09.863  INFO 12908 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-12-05 10:45:09.864  INFO 12908 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2019-12-05 10:45:09.985  INFO 12908 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-12-05 10:45:09.985  INFO 12908 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1539 ms
+2019-12-05 10:45:10.122  INFO 12908 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2019-12-05 10:45:10.126  INFO 12908 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-12-05 10:45:10.126  INFO 12908 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-12-05 10:45:10.127  INFO 12908 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-12-05 10:45:10.127  INFO 12908 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2019-12-05 10:45:10.806  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3c87521: startup date [Thu Dec 05 10:45:08 CST 2019]; root of context hierarchy
+2019-12-05 10:45:10.978  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(org.springframework.ui.Model)
+2019-12-05 10:45:10.979  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2019-12-05 10:45:10.980  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2019-12-05 10:45:10.980  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.generate.bean.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2019-12-05 10:45:10.981  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-12-05 10:45:10.984  INFO 12908 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-12-05 10:45:11.015  INFO 12908 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:45:11.015  INFO 12908 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:45:11.059  INFO 12908 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-12-05 10:45:11.508  INFO 12908 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2019-12-05 10:45:11.510  INFO 12908 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2019-12-05 10:45:11.512  INFO 12908 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2019-12-05 10:45:11.519  INFO 12908 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2019-12-05 10:45:11.565  INFO 12908 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2019-12-05 10:45:11.568  INFO 12908 --- [main] com.kenick.Application                   : Started Application in 3.662 seconds (JVM running for 4.016)
+2019-12-05 10:46:00.106  INFO 12908 --- [pool-1-thread-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-12-05 10:46:00.281 DEBUG 12908 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : ==>  Preparing: select id, code, name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain, gain_total from fund order by id 
+2019-12-05 10:46:00.300 DEBUG 12908 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : ==> Parameters: 
+2019-12-05 10:46:00.314 DEBUG 12908 --- [pool-1-thread-1] c.k.g.dao.FundMapper.selectByExample     : <==      Total: 12
+2019-12-05 10:46:00.940 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"070011","name":"嘉实策略混合","jzrq":"2019-12-04","dwjz":"1.0960","gsz":"1.1001","gszzl":"0.37","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:00.984 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@31573c0b
+2019-12-05 10:46:00.995 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:00.996 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 070011(String), 嘉实策略混合(070011)(String), 12-05 10:30(String), 1.1001(Double), 0.37(Double), 1.096(Double), 0.09(Double), 0.45999999999999996(BigDecimal), 070011(String)
+2019-12-05 10:46:01.038 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:01.162 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"160222","name":"国泰国证食品饮料行业指数分级","jzrq":"2019-12-04","dwjz":"1.0746","gsz":"1.0757","gszzl":"0.10","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:01.163 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@1242f6b3
+2019-12-05 10:46:01.164 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:01.164 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 160222(String), 国泰国证食品饮料行业指数分级(160222)(String), 12-05 10:28(String), 1.0757(Double), 0.1(Double), 1.0746(Double), 0.17(Double), 0.27(BigDecimal), 160222(String)
+2019-12-05 10:46:01.225 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:01.331 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"163402","name":"兴全趋势投资混合(LOF)","jzrq":"2019-12-04","dwjz":"0.6853","gsz":"0.6883","gszzl":"0.44","gztime":"2019-12-05 10:43"});
+2019-12-05 10:46:01.331 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@72e8ce3a
+2019-12-05 10:46:01.332 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:01.332 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 163402(String), 兴全趋势投资混合(LOF)(前端：163402  后端：163403)(String), 12-05 10:32(String), 0.6883(Double), 0.44(Double), 0.6853(Double), -0.32(Double), 0.12(BigDecimal), 163402(String)
+2019-12-05 10:46:01.381 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:01.478 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"000083","name":"汇添富消费行业混合","jzrq":"2019-12-04","dwjz":"4.5330","gsz":"4.5581","gszzl":"0.55","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:01.478 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@2c448237
+2019-12-05 10:46:01.479 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:01.480 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 000083(String), 汇添富消费行业混合(000083)(String), 12-05 10:35(String), 4.5581(Double), 0.55(Double), 4.533(Double), 0.44(Double), 0.99(BigDecimal), 000083(String)
+2019-12-05 10:46:01.513 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:01.609 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"004683","name":"建信高端医疗股票","jzrq":"2019-12-04","dwjz":"1.0768","gsz":"1.0872","gszzl":"0.97","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:01.610 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@5fb65e6c
+2019-12-05 10:46:01.611 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:01.612 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 004683(String), 建信高端医疗股票(004683)(String), 12-05 10:29(String), 1.0872(Double), 0.97(Double), 1.0768(Double), 0.52(Double), 1.49(BigDecimal), 004683(String)
+2019-12-05 10:46:01.644 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:01.740 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"001645","name":"国泰大健康股票","jzrq":"2019-12-04","dwjz":"1.9460","gsz":"1.9588","gszzl":"0.66","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:01.741 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@2d3a4c90
+2019-12-05 10:46:01.742 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:01.744 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 001645(String), 国泰大健康股票(001645)(String), 12-05 10:33(String), 1.9588(Double), 0.66(Double), 1.946(Double), 0.46(Double), 1.12(BigDecimal), 001645(String)
+2019-12-05 10:46:01.780 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.041 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"003191","name":"创金合信消费主题股票C","jzrq":"2019-12-04","dwjz":"1.5758","gsz":"1.5757","gszzl":"-0.01","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:02.042 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@459ee903
+2019-12-05 10:46:02.044 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.045 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 003191(String), 创金合信消费主题股票C(003191)(String), 12-05 10:35(String), 1.5757(Double), -0.01(Double), 1.5758(Double), 0.85(Double), 0.84(BigDecimal), 003191(String)
+2019-12-05 10:46:02.078 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.189 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"005106","name":"银华农业产业股票发起式","jzrq":"2019-12-04","dwjz":"1.3411","gsz":"1.3438","gszzl":"0.20","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:02.190 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@6b1bb19d
+2019-12-05 10:46:02.192 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.196 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 005106(String), 银华农业产业股票发起式(005106)(String), 12-05 10:39(String), 1.3438(Double), 0.2(Double), 1.3411(Double), -0.22(Double), -0.01999999999999999(BigDecimal), 005106(String)
+2019-12-05 10:46:02.264 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.357 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"164205","name":"天弘文化新兴产业","jzrq":"2019-12-04","dwjz":"1.6230","gsz":"1.6247","gszzl":"0.10","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:02.358 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@d06e7a5
+2019-12-05 10:46:02.359 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.360 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 164205(String), 天弘文化新兴产业(164205)(String), 12-05 10:37(String), 1.6247(Double), 0.1(Double), 1.623(Double), -0.01(Double), 0.09000000000000001(BigDecimal), 164205(String)
+2019-12-05 10:46:02.394 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.481 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"000854","name":"鹏华养老产业股票","jzrq":"2019-12-04","dwjz":"2.1650","gsz":"2.1695","gszzl":"0.21","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:02.482 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@34cbf01e
+2019-12-05 10:46:02.484 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.485 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 000854(String), 鹏华养老产业股票(000854)(String), 12-05 10:28(String), 2.1695(Double), 0.21(Double), 2.165(Double), 0.42(Double), 0.63(BigDecimal), 000854(String)
+2019-12-05 10:46:02.522 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.630 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"519727","name":"交银成长30混合","jzrq":"2019-12-04","dwjz":"1.5490","gsz":"1.5642","gszzl":"0.98","gztime":"2019-12-05 10:43"});
+2019-12-05 10:46:02.630 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@6676b633
+2019-12-05 10:46:02.631 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.632 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 519727(String), 交银成长30混合(前端：519727  后端：519728)(String), 12-05 10:24(String), 1.5642(Double), 0.98(Double), 1.549(Double), 0.26(Double), 1.24(BigDecimal), 519727(String)
+2019-12-05 10:46:02.661 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.752 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 爬取的最新基金数据为:jsonpgz({"fundcode":"003096","name":"中欧医疗健康混合C","jzrq":"2019-12-04","dwjz":"1.7180","gsz":"1.7358","gszzl":"1.04","gztime":"2019-12-05 10:44"});
+2019-12-05 10:46:02.752 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 最新基金信息:com.kenick.generate.bean.Fund@6beb040a
+2019-12-05 10:46:02.754 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==>  Preparing: update fund SET code = ?, name = ?, cur_time = ?, cur_net_value = ?, cur_gain = ?, last_net_value = ?, last_gain = ?, gain_total = ? WHERE ( code = ? ) 
+2019-12-05 10:46:02.755 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : ==> Parameters: 003096(String), 中欧医疗健康混合C(003096)(String), 12-05 10:34(String), 1.7358(Double), 1.04(Double), 1.718(Double), 0.94(Double), 1.98(BigDecimal), 003096(String)
+2019-12-05 10:46:02.789 DEBUG 12908 --- [pool-1-thread-1] c.k.g.d.F.updateByExampleSelective       : <==    Updates: 1
+2019-12-05 10:46:02.790 DEBUG 12908 --- [pool-1-thread-1] c.k.fund.service.impl.TaskServiceImpl    : 遍历基金一轮花费时间:2787

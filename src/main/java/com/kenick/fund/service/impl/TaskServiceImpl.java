@@ -52,6 +52,7 @@ public class TaskServiceImpl implements TaskService{
     @Scheduled(cron = "0 0/1 7-20 * * ?")
     public void perfectFundInfo(){
     	try{
+    		long startTime = System.currentTimeMillis();
         	// 查询出所有基金编码
     		FundExample fundExample = new FundExample();
     		fundExample.setOrderByClause(Fund.S_id);
@@ -59,12 +60,14 @@ public class TaskServiceImpl implements TaskService{
         	for(Fund fund:fundList){    		
         		perfectFundInfoByCode(fund);
         	}
+        	long endTime = System.currentTimeMillis();
+        	logger.debug("遍历基金一轮花费时间:{}", endTime-startTime);
     	}catch (Exception e) {
     		logger.equals(e.getMessage());
 		}
     }
     
-    @Scheduled(cron = "0 0/5 14-15 * * ?")
+    @Scheduled(cron = "0 0/18 14-15 * * ?")
     public void clean(){
     	if(fundSmsMap != null){
     		fundSmsMap.clear();
@@ -76,7 +79,6 @@ public class TaskServiceImpl implements TaskService{
      * @param code 基金编码
      */
     private void perfectFundInfoByCode(Fund fund){
-		long startTime = System.currentTimeMillis();
     	try{ 
         	// 通过jsoup获取昨日基金信息
         	Fund updateFund = getFundInfoByJsoup(fund.getCode());
@@ -96,7 +98,6 @@ public class TaskServiceImpl implements TaskService{
         	if(updateFund == null){
         		return;
         	}
-    		logger.debug("最新基金信息:{}", updateFund.toString());
     		FundExample fundExample = new FundExample();
     		fundExample.or().andCodeEqualTo(updateFund.getCode());
         	fundDao.updateByExampleSelective(updateFund, fundExample);
@@ -106,97 +107,87 @@ public class TaskServiceImpl implements TaskService{
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
-    	long endTime = System.currentTimeMillis();
-    	logger.debug("系统自动查询并完善基金花费时间:{}", endTime-startTime);
     }
     
     // 发送短信
     private void sendSms(Fund updateFund) {
+		Date now = new Date();
 		boolean sendFlag = true;
 		
-    	// 根据近两天基金变动幅度 决定是否发送短信
-    	if(updateFund.getCode() != null && updateFund.getCurGain() != null && updateFund.getLastGain() != null){
-    		double sumGain = updateFund.getCurGain() + updateFund.getLastGain();
-    		if(sumGain > UPPERLIMIT || sumGain < LOWERLIMIT){ // 近两天基金变动幅度大于上限，小于下限
-    			Date now = new Date();
-    			
-    			// 是否发送过短信
-    			String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
-    			Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
-    			Integer smsNum = null;
-    			if(smsMap != null){
-    				smsNum = smsMap.get(updateFund.getCode());
-    				if(smsNum != null && smsNum > 0){
-    					sendFlag = false;
-    					return;
-    				}
-    			}else{
-    				smsMap = new HashMap<>();
-    			}
-    			
-				// 周末不发送
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(now);
-				if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-					sendFlag = false;
-					return;
-				}
-    			
-    			// 发送短信间隔1分钟
-				calendar.setTime(lastSendDate);
-				calendar.add(Calendar.MINUTE, 1);
-				Date oneMinuteLater = calendar.getTime();
-				if(now.before(oneMinuteLater)){
-					sendFlag = false;
-					return;
-				}
-				
-				// 9点30前 不发送
-				calendar.setTime(now);
-				calendar.set(Calendar.HOUR_OF_DAY, 9);
-				calendar.set(Calendar.MINUTE, 30);
-				Date nineHour = calendar.getTime();
-				if(now.before(nineHour)){
-					sendFlag = false;
-					return;
-				}
-				
-				// 12点 - 14点不发送
-				calendar.setTime(now);
-				calendar.set(Calendar.HOUR_OF_DAY, 12);
-				calendar.set(Calendar.MINUTE, 0);
-				Date twelveHour = calendar.getTime();
-				calendar.setTime(now);
-				calendar.set(Calendar.HOUR_OF_DAY, 14);
-				calendar.set(Calendar.MINUTE, 0);
-				Date fourteenHour = calendar.getTime();
-				if(now.after(twelveHour) && now.before(fourteenHour)){
-					sendFlag = false;
-					return;
-				}
-				
-				// 15点后 不发送
-				calendar.setTime(now);
-				calendar.set(Calendar.HOUR_OF_DAY, 15);
-				calendar.set(Calendar.MINUTE, 0);
-				Date fifteenDate = calendar.getTime();
-				if(now.after(fifteenDate)){
-					sendFlag = false;
-					return;
-				}
-				
-    			if(sendFlag){
-    				asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
-    				lastSendDate = now;
-    				
-        			if(smsNum == null){
-        				smsNum = 0;
-        			}
-    				smsMap.put(updateFund.getCode(), ++smsNum);
-    			}
-    			fundSmsMap.put(dayStr, smsMap);
-    		}
-    	}
+		// 周末不发送
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(now);
+		if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+			return;
+		}
+		
+		// 9点30前 不发送
+		calendar.setTime(now);
+		calendar.set(Calendar.HOUR_OF_DAY, 9);
+		calendar.set(Calendar.MINUTE, 30);
+		Date nineHour = calendar.getTime();
+		if(now.before(nineHour)){
+			return;
+		}
+		
+		// 12点 - 14点不发送
+		calendar.setTime(now);
+		calendar.set(Calendar.HOUR_OF_DAY, 12);
+		calendar.set(Calendar.MINUTE, 0);
+		Date twelveHour = calendar.getTime();
+		calendar.setTime(now);
+		calendar.set(Calendar.HOUR_OF_DAY, 14);
+		calendar.set(Calendar.MINUTE, 0);
+		Date fourteenHour = calendar.getTime();
+		if(now.after(twelveHour) && now.before(fourteenHour)){
+			return;
+		}
+		
+		// 15点后 不发送
+		calendar.setTime(now);
+		calendar.set(Calendar.HOUR_OF_DAY, 15);
+		calendar.set(Calendar.MINUTE, 0);
+		Date fifteenDate = calendar.getTime();
+		if(now.after(fifteenDate)){
+			return;
+		}
+		
+		// 发送短信间隔1分钟
+		calendar.setTime(lastSendDate);
+		calendar.add(Calendar.MINUTE, 1);
+		Date oneMinuteLater = calendar.getTime();
+		if(now.before(oneMinuteLater)){
+			return;
+		}
+		
+		// 基金信息不全，不发送短信
+		if(updateFund.getCode() == null || updateFund.getCurGain() == null || updateFund.getLastGain() == null){
+			return;
+		}
+		
+    	// 基金变动幅度不超过阈值，不发送短信
+		double sumGain = updateFund.getCurGain() + updateFund.getLastGain();
+		if(sumGain > LOWERLIMIT && sumGain < UPPERLIMIT){
+			return;
+		}
+		
+		// 当天发送次数超过0次，不再发送
+		String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
+		Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
+		Integer codeSmsNum = 0;
+		if(smsMap != null && smsMap.get(updateFund.getCode()) != null){
+			codeSmsNum = smsMap.get(updateFund.getCode());
+			if(codeSmsNum > 0){
+				sendFlag = false;
+			}
+		}
+		
+		if(sendFlag){
+			lastSendDate = now;
+			smsMap.put(updateFund.getCode(), ++codeSmsNum);
+			asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
+		}
+		fundSmsMap.put(dayStr, smsMap);
 	}
 
 	// 根据基金编码获取基金信息
