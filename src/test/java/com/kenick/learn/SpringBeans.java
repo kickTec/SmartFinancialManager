@@ -7,7 +7,7 @@ import com.kenick.generate.bean.ConstantData;
 
 public class SpringBeans {
 	@SuppressWarnings("deprecation")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		ClassPathResource classPathResource = new ClassPathResource("spring-bean.xml");
 		XmlBeanFactory xmlBeanFactory = new XmlBeanFactory(classPathResource);
 		ConstantData constantData = xmlBeanFactory.getBean("constantData", ConstantData.class);
