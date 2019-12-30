@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
     
-    @Scheduled(cron = "0 0/18 14-15 * * ?")
+    @Scheduled(cron = "0 0/10 14-15 * * ?")
     public void clean(){
     	if(fundSmsMap != null){
     		fundSmsMap.clear();
@@ -110,7 +110,7 @@ public class TaskServiceImpl implements TaskService{
     }
     
     // 发送短信
-    private void sendSms(Fund updateFund) {
+    private void sendSms(Fund updateFund) throws Exception{
 		Date now = new Date();
 		boolean sendFlag = true;
 		
@@ -121,25 +121,12 @@ public class TaskServiceImpl implements TaskService{
 			return;
 		}
 		
-		// 9点30前 不发送
-		calendar.setTime(now);
-		calendar.set(Calendar.HOUR_OF_DAY, 9);
-		calendar.set(Calendar.MINUTE, 30);
-		Date nineHour = calendar.getTime();
-		if(now.before(nineHour)){
-			return;
-		}
-		
-		// 12点 - 14点不发送
-		calendar.setTime(now);
-		calendar.set(Calendar.HOUR_OF_DAY, 12);
-		calendar.set(Calendar.MINUTE, 0);
-		Date twelveHour = calendar.getTime();
+		// 14:30前不发送
 		calendar.setTime(now);
 		calendar.set(Calendar.HOUR_OF_DAY, 14);
-		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.MINUTE, 30);
 		Date fourteenHour = calendar.getTime();
-		if(now.after(twelveHour) && now.before(fourteenHour)){
+		if(now.before(fourteenHour)){
 			return;
 		}
 		
@@ -184,6 +171,9 @@ public class TaskServiceImpl implements TaskService{
 		
 		if(sendFlag){
 			lastSendDate = now;
+			if(smsMap == null){
+				smsMap = new HashMap<>();
+			}
 			smsMap.put(updateFund.getCode(), ++codeSmsNum);
 			asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
 		}
