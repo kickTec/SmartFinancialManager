@@ -1,16 +1,11 @@
 package com.kenick.fund.service.impl;
 
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.alibaba.fastjson.JSONObject;
+import com.kenick.fund.service.TaskService;
+import com.kenick.generate.bean.Fund;
+import com.kenick.generate.bean.FundExample;
+import com.kenick.generate.dao.FundMapper;
+import com.kenick.util.HttpRequestUtils;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -24,12 +19,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.kenick.fund.service.TaskService;
-import com.kenick.generate.bean.Fund;
-import com.kenick.generate.bean.FundExample;
-import com.kenick.generate.dao.FundMapper;
-import com.kenick.util.HttpRequestUtils;
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service("taskService")
 @Configurable
@@ -49,7 +47,7 @@ public class TaskServiceImpl implements TaskService{
 	private FundMapper fundDao;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
-    @Scheduled(cron = "0 0/1 7-20 * * ?")
+    @Scheduled(cron = "${fund.query.cron}")
     public void perfectFundInfo(){
     	try{
     		long startTime = System.currentTimeMillis();
@@ -67,7 +65,7 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
     
-    @Scheduled(cron = "0 0/10 14-15 * * ?")
+    @Scheduled(cron = "${fund.cache.clean.cron}")
     public void clean(){
     	if(fundSmsMap != null){
     		fundSmsMap.clear();
@@ -110,7 +108,7 @@ public class TaskServiceImpl implements TaskService{
     }
     
     // 发送短信
-    private void sendSms(Fund updateFund){
+    private void sendSms(Fund fund){
 		Date now = new Date();
 		boolean sendFlag = true;
 		
@@ -148,12 +146,12 @@ public class TaskServiceImpl implements TaskService{
 		}
 		
 		// 基金信息不全，不发送短信
-		if(updateFund.getCode() == null || updateFund.getCurGain() == null || updateFund.getLastGain() == null){
+		if(fund.getCode() == null || fund.getCurGain() == null || fund.getLastGain() == null){
 			return;
 		}
 		
     	// 基金变动幅度不超过阈值，不发送短信
-		double sumGain = updateFund.getCurGain() + updateFund.getLastGain();
+		double sumGain = fund.getCurGain() + fund.getLastGain();
 		if(sumGain > upperLimit && sumGain < lowerLimit){
 			return;
 		}
@@ -162,8 +160,8 @@ public class TaskServiceImpl implements TaskService{
 		String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
 		Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
 		Integer codeSmsNum = 0;
-		if(smsMap != null && smsMap.get(updateFund.getCode()) != null){
-			codeSmsNum = smsMap.get(updateFund.getCode());
+		if(smsMap != null && smsMap.get(fund.getCode()) != null){
+			codeSmsNum = smsMap.get(fund.getCode());
 			if(codeSmsNum > 0){
 				sendFlag = false;
 			}
@@ -174,8 +172,8 @@ public class TaskServiceImpl implements TaskService{
 			if(smsMap == null){
 				smsMap = new HashMap<>();
 			}
-			smsMap.put(updateFund.getCode(), ++codeSmsNum);
-			asyncService.aliSendSmsCode("15910761260", updateFund.getCode());
+			smsMap.put(fund.getCode(), ++codeSmsNum);
+			asyncService.aliSendSmsCode("15910761260", fund.getCode());
 		}
 		fundSmsMap.put(dayStr, smsMap);
 	}
