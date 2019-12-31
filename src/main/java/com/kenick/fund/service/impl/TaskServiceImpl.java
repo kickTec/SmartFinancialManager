@@ -36,11 +36,11 @@ import com.kenick.util.HttpRequestUtils;
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	public final static Double UPPERLIMIT = 1.5D;
-	public final static Double LOWERLIMIT = -1.5D;
+	private final static Double upperLimit = 2.0D;
+	private final static Double lowerLimit = -2.0D;
 	
 	private static Date lastSendDate = new Date(); 
-	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<String, Map<String,Integer>>();
+	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<>();
 	
 	@Autowired
 	private AsyncServiceImpl asyncService;
@@ -63,7 +63,7 @@ public class TaskServiceImpl implements TaskService{
         	long endTime = System.currentTimeMillis();
         	logger.debug("遍历基金一轮花费时间:{}", endTime-startTime);
     	}catch (Exception e) {
-    		logger.equals(e.getMessage());
+    		logger.debug(e.getMessage());
 		}
     }
     
@@ -76,7 +76,7 @@ public class TaskServiceImpl implements TaskService{
     
     /**
      * 根据基金编码完善基金信息 更新
-     * @param code 基金编码
+     * @param fund 基金信息
      */
     private void perfectFundInfoByCode(Fund fund){
     	try{ 
@@ -110,7 +110,7 @@ public class TaskServiceImpl implements TaskService{
     }
     
     // 发送短信
-    private void sendSms(Fund updateFund) throws Exception{
+    private void sendSms(Fund updateFund){
 		Date now = new Date();
 		boolean sendFlag = true;
 		
@@ -154,7 +154,7 @@ public class TaskServiceImpl implements TaskService{
 		
     	// 基金变动幅度不超过阈值，不发送短信
 		double sumGain = updateFund.getCurGain() + updateFund.getLastGain();
-		if(sumGain > LOWERLIMIT && sumGain < UPPERLIMIT){
+		if(sumGain > upperLimit && sumGain < lowerLimit){
 			return;
 		}
 		
@@ -185,12 +185,12 @@ public class TaskServiceImpl implements TaskService{
     	Fund fund = new Fund();
     	fund.setCode(fundCode);
     	
-    	String fundName = ""; // 基金名称
-    	String curTime = ""; // 当前估算时间 
-    	Double curNetValue = 0.0; // 当前估算净值
-    	Double curGain = 0.0;
-    	Double lastNetValue = 0.0; // 上一日净值
-    	Double lastGain = 0.0; // 上一日涨幅
+    	String fundName; // 基金名称
+    	String curTime; // 当前估算时间
+    	Double curNetValue; // 当前估算净值
+    	Double curGain;
+    	Double lastNetValue; // 上一日净值
+    	Double lastGain; // 上一日涨幅
     	try {
 			Connection connect = Jsoup.connect("http://fund.eastmoney.com/" + fundCode + ".html?spm=search");
 			connect.timeout(500);
@@ -245,13 +245,14 @@ public class TaskServiceImpl implements TaskService{
         	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
         	logger.debug("爬取的最新基金数据为:{}", retStr);
         	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
-        	String retJsonStr = retStr.substring(8, retStr.length()-2);
-        	JSONObject retJson = JSONObject.parseObject(retJsonStr);
-        	
-        	fund.setCurNetValue(retJson.getDouble("gsz"));
-        	fund.setCurGain(retJson.getDouble("gszzl")); 
-        	fund.setCurTime(retJson.getString("gztime").substring(5));
-        	fund.setLastNetValue(retJson.getDouble("dwjz"));
+			if(retStr != null){
+				String retJsonStr = retStr.substring(8, retStr.length()-2);
+				JSONObject retJson = JSONObject.parseObject(retJsonStr);
+				fund.setCurNetValue(retJson.getDouble("gsz"));
+				fund.setCurGain(retJson.getDouble("gszzl"));
+				fund.setCurTime(retJson.getString("gztime").substring(5));
+				fund.setLastNetValue(retJson.getDouble("dwjz"));
+			}
         	fund.setLastGain(0.0);
         	fund.setGainTotal(BigDecimal.valueOf(fund.getLastGain()+fund.getCurGain()));
         	return fund;
