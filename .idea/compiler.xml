@@ -13,4 +13,9 @@
       <module name="SmartFinancialManager" target="1.7" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SmartFinancialManager" options="-extdirs E:\svn_workspace\SmartFinancialManager/lib" />
+    </option>
+  </component>
 </project>
