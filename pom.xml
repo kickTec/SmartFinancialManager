@@ -114,6 +114,18 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>1.16</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.0.0</version>
+        </dependency>
   </dependencies>
   
   <properties>
@@ -125,6 +137,7 @@
   </properties>
   
   <build>
+    <finalName>smartfinancialmanager</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

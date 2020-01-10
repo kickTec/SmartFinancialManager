@@ -1,0 +1,26 @@
+{
+  "name": "smartfinancialmanager",
+  "version": "1.0.0",
+  "description": "fund notice",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "kenick",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0"
+  }
+}

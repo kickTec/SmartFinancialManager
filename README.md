@@ -11,3 +11,9 @@ git push -u origin master
 
 # index 首页
 http://xxxx/
+
+# git提交
+git pull origin master
+git add .
+git commit -a
+git push -u origin master

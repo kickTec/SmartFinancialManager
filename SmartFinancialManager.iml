@@ -142,5 +142,8 @@
     <orderEntry type="library" name="Maven: com.github.ulisesbocchio:jasypt-spring-boot-starter:1.16" level="project" />
     <orderEntry type="library" name="Maven: com.github.ulisesbocchio:jasypt-spring-boot:1.16" level="project" />
     <orderEntry type="library" name="Maven: org.jasypt:jasypt:1.9.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.7" level="project" />
+    <orderEntry type="library" name="Maven: com.github.pagehelper:pagehelper:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:0.9.1" level="project" />
   </component>
 </module>
