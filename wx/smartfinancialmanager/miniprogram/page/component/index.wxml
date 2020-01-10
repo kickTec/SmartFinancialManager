@@ -25,5 +25,5 @@
       </block>
     </view>
   </view>
-   <button type='primary' bindtap='send'>请求数据</button>
+  <button type='primary' bindtap='send'>请求数据</button>
 </view>

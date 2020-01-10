@@ -154,25 +154,25 @@
         "pagePath": "page/component/index",
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
-        "text": "组件-运动"
+        "text": "组件-基金"
       },
       {
         "pagePath": "page/weui/example/index",
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
-        "text": "扩展组件-基金"
+        "text": "扩展组件-排行"
       },
       {
         "pagePath": "page/API/index",
         "iconPath": "image/icon_API.png",
         "selectedIconPath": "image/icon_API_HL.png",
-        "text": "接口-推荐"
+        "text": "接口-健康"
       },
       {
         "pagePath": "page/cloud/index",
         "iconPath": "image/icon_cloud.png",
         "selectedIconPath": "image/icon_cloud_HL.png",
-        "text": "云开发-关于"
+        "text": "云开发-我的"
       }
     ]
   },

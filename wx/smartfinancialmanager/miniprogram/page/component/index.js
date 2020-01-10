@@ -4,7 +4,7 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '小程序官方组件展示',
+      title: '无忧石金',
       path: 'page/component/index'
     }
   },
@@ -15,7 +15,7 @@ Page({
         id: 'view',
         name: '视图容器',
         open: false,
-        pages: ['view', 'scroll-view', 'swiper', 'movable-view', 'cover-view']
+        pages: ['view', 'scroll-view', 'swiper', 'movable-view', 'cover-view', 'list']
       }, {
         id: 'content',
         name: '基础内容',
@@ -71,31 +71,13 @@ Page({
     wx.reportAnalytics('click_view_programmatically', {})
   },
 
-  //send
-  send: function(e){
-    // wx.cloud.callFunction({
-    //   name:"add",
-    //   data:{
-    //     a:1,
-    //     b:2
-    //   },
-    //   success:function(res){
-    //     console.log("相加结果:"+res.result);
-    //   },
-    //   fail:console.error
-    // });
-
-    console.log(111);
-
-    wx.cloud.callFunction({ //调用云函数
-      name: 'httpkenick',           //云函数名为http
-      data:{
-        a:1,
-        b:2
-      }
-    }).then(res => {　　　　　　//Promise
+  send() {
+    wx.cloud.callFunction({
+      name: 'httpkenick',
+      data: {}
+    }).then(res => {
       console.log(res.result)
-    })
-
+      return 1
+    }).catch(error => { console.log('error', error) })
   }
 })
