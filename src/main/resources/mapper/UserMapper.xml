@@ -2,10 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kenick.generate.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.kenick.generate.bean.User">
-    <result column="id" jdbcType="VARCHAR" property="id" />
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="wx_code" jdbcType="VARCHAR" property="wxCode" />
+    <result column="wx_name" jdbcType="VARCHAR" property="wxName" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, password, age
+    user_id, username, password, age, gender, wx_code, wx_name, modify_date, create_date
   </sql>
   <select id="selectByExample" parameterType="com.kenick.generate.bean.UserExample" resultMap="BaseResultMap">
     select
@@ -82,6 +87,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.kenick.generate.bean.UserExample">
     delete from user
     <if test="_parameter != null">
@@ -89,16 +104,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kenick.generate.bean.User">
-    insert into user (id, username, password, 
-      age)
-    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER})
+    insert into user (user_id, username, password, 
+      age, gender, wx_code, 
+      wx_name, modify_date, create_date
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{wxCode,jdbcType=VARCHAR}, 
+      #{wxName,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kenick.generate.bean.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="username != null">
         username,
@@ -109,10 +128,25 @@
       <if test="age != null">
         age,
       </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="wxCode != null">
+        wx_code,
+      </if>
+      <if test="wxName != null">
+        wx_name,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
@@ -122,6 +156,21 @@
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="wxCode != null">
+        #{wxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null">
+        #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -134,8 +183,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update user
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
@@ -146,6 +195,21 @@
       <if test="record.age != null">
         age = #{record.age,jdbcType=INTEGER},
       </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=INTEGER},
+      </if>
+      <if test="record.wxCode != null">
+        wx_code = #{record.wxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxName != null">
+        wx_name = #{record.wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -153,12 +217,91 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user
-    set id = #{record.id,jdbcType=VARCHAR},
+    set user_id = #{record.userId,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
-      age = #{record.age,jdbcType=INTEGER}
+      age = #{record.age,jdbcType=INTEGER},
+      gender = #{record.gender,jdbcType=INTEGER},
+      wx_code = #{record.wxCode,jdbcType=VARCHAR},
+      wx_name = #{record.wxName,jdbcType=VARCHAR},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-</mapper>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kenick.generate.bean.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="wxCode != null">
+        wx_code = #{wxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null">
+        wx_name = #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kenick.generate.bean.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      wx_code = #{wxCode,jdbcType=VARCHAR},
+      wx_name = #{wxName,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectFieldByExample" parameterType="map" resultMap="BaseResultMap">
+    select
+  	<if test="filedList != null" >
+      <foreach collection="filedList" item="obj" index="index" separator="," >
+	  	${obj}
+	  	</foreach>
+    </if>
+	<if test="filedList == null" >
+		<include refid="Base_Column_List" />
+	</if>
+    from user
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+    <if test="example.orderByClause != null">
+      order by ${example.orderByClause}
+    </if>
+  </select>
+  <select id="selectFieldByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select
+  	<if test="filedList != null" >
+      <foreach collection="filedList" item="obj" index="index" separator="," >
+	  	${obj}
+	  	</foreach>
+    </if>
+	<if test="filedList == null" >
+		<include refid="Base_Column_List" />
+	</if>
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+<!-- field added --></mapper>

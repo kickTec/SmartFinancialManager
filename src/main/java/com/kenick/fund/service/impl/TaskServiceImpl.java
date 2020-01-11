@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.service.TaskService;
 import com.kenick.generate.bean.Fund;
 import com.kenick.generate.bean.FundExample;
+import com.kenick.generate.bean.UserFund;
+import com.kenick.generate.bean.UserFundExample;
 import com.kenick.generate.dao.FundMapper;
+import com.kenick.generate.dao.UserFundMapper;
 import com.kenick.util.HttpRequestUtils;
+import com.kenick.util.JsonUtils;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -39,12 +43,15 @@ public class TaskServiceImpl implements TaskService{
 	
 	private static Date lastSendDate = new Date(); 
 	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<>();
-	
-	@Autowired
-	private AsyncServiceImpl asyncService;
-	
+
 	@Resource
-	private FundMapper fundDao;
+	private AsyncServiceImpl asyncService;
+
+	@Resource
+	private FundMapper fundMapper;
+
+	@Resource
+	private UserFundMapper userFundMapper;
    
 	// 每隔指定时间执行一次，上一次任务必须已完成
     @Scheduled(cron = "${fund.query.cron}")
@@ -53,8 +60,8 @@ public class TaskServiceImpl implements TaskService{
     		long startTime = System.currentTimeMillis();
         	// 查询出所有基金编码
     		FundExample fundExample = new FundExample();
-    		fundExample.setOrderByClause(Fund.S_id);
-        	List<Fund> fundList = fundDao.selectByExample(fundExample);
+    		fundExample.setOrderByClause(Fund.S_fundCode);
+        	List<Fund> fundList = fundMapper.selectByExample(fundExample);
         	for(Fund fund:fundList){    		
         		perfectFundInfoByCode(fund);
         	}
@@ -73,13 +80,13 @@ public class TaskServiceImpl implements TaskService{
     }
     
     /**
-     * 根据基金编码完善基金信息 更新
+     * 根据基金编码完善基金信息
      * @param fund 基金信息
      */
     private void perfectFundInfoByCode(Fund fund){
     	try{ 
         	// 通过jsoup获取昨日基金信息
-        	Fund updateFund = getFundInfoByJsoup(fund.getCode());
+        	Fund updateFund = getFundInfoByJsoup(fund.getFundCode());
         	
     		// 通过http获取最新基金信息
         	Fund curFund = getFundByHttp(fund);
@@ -96,11 +103,16 @@ public class TaskServiceImpl implements TaskService{
         	if(updateFund == null){
         		return;
         	}
-    		FundExample fundExample = new FundExample();
-    		fundExample.or().andCodeEqualTo(updateFund.getCode());
-        	fundDao.updateByExampleSelective(updateFund, fundExample);
-        	
-        	// 发送短信
+
+        	// 更新基金信息
+        	fundMapper.updateByPrimaryKeySelective(updateFund);
+
+			UserFund userFund = JsonUtils.copyObjToBean(updateFund, UserFund.class);
+			UserFundExample userFundExample = new UserFundExample();
+			userFundExample.or().andFundCodeEqualTo(updateFund.getFundCode());
+			userFundMapper.updateByExampleSelective(userFund, userFundExample);
+
+			// 发送短信
         	sendSms(updateFund);
     	}catch (Exception e) {
     		logger.error(e.getMessage());
@@ -146,7 +158,7 @@ public class TaskServiceImpl implements TaskService{
 		}
 		
 		// 基金信息不全，不发送短信
-		if(fund.getCode() == null || fund.getCurGain() == null || fund.getLastGain() == null){
+		if(fund.getFundCode() == null || fund.getCurGain() == null || fund.getLastGain() == null){
 			return;
 		}
 		
@@ -160,8 +172,8 @@ public class TaskServiceImpl implements TaskService{
 		String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
 		Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
 		Integer codeSmsNum = 0;
-		if(smsMap != null && smsMap.get(fund.getCode()) != null){
-			codeSmsNum = smsMap.get(fund.getCode());
+		if(smsMap != null && smsMap.get(fund.getFundCode()) != null){
+			codeSmsNum = smsMap.get(fund.getFundCode());
 			if(codeSmsNum > 0){
 				sendFlag = false;
 			}
@@ -172,8 +184,8 @@ public class TaskServiceImpl implements TaskService{
 			if(smsMap == null){
 				smsMap = new HashMap<>();
 			}
-			smsMap.put(fund.getCode(), ++codeSmsNum);
-			asyncService.aliSendSmsCode("15910761260", fund.getCode());
+			smsMap.put(fund.getFundCode(), ++codeSmsNum);
+			asyncService.aliSendSmsCode("15910761260", fund.getFundCode());
 		}
 		fundSmsMap.put(dayStr, smsMap);
 	}
@@ -181,7 +193,7 @@ public class TaskServiceImpl implements TaskService{
 	// 根据基金编码获取基金信息
     private Fund getFundInfoByJsoup(String fundCode){
     	Fund fund = new Fund();
-    	fund.setCode(fundCode);
+    	fund.setFundCode(fundCode);
     	
     	String fundName; // 基金名称
     	String curTime; // 当前估算时间
@@ -198,7 +210,7 @@ public class TaskServiceImpl implements TaskService{
 			// 基金名称
 			Elements nameEles = doc.getElementsByClass("fundDetail-tit");
 			fundName = nameEles.first().text();
-			fund.setName(fundName);
+			fund.setFundName(fundName);
 			
 			// 当前估算时间
 			String timeStr = doc.getElementById("gz_gztime").text();
@@ -235,11 +247,11 @@ public class TaskServiceImpl implements TaskService{
     // 获取最新预估涨幅和净值
     private Fund getFundByHttp(Fund databaseFund){
     	Fund fund = new Fund();
-    	fund.setCode(databaseFund.getCode());   	
+    	fund.setFundCode(databaseFund.getFundCode());
     	try{
     		// 获取最新净值和涨幅
         	Date now = new Date();
-        	String url = "http://fundgz.1234567.com.cn/js/"+databaseFund.getCode()+".js?rt="+now.getTime();
+        	String url = "http://fundgz.1234567.com.cn/js/"+databaseFund.getFundCode()+".js?rt="+now.getTime();
         	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
         	logger.debug("爬取的最新基金数据为:{}", retStr);
         	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}

@@ -1,9 +1,30 @@
 package com.kenick.fund.service;
 
+import com.kenick.generate.bean.Fund;
+import com.kenick.generate.bean.UserFund;
+
 import java.util.List;
 
-import com.kenick.generate.bean.Fund;
-
 public interface FundService {
-	List<Fund> findAll();
+	/**
+	 * <一句话功能简述> 查询所有基金信息
+	 * <功能详细描述>
+	 * author: zhanggw
+	 * 创建时间:  2020/1/11
+	 * @param
+	 * @return java.util.List<com.kenick.generate.bean.Fund>
+	 * @see [类、类#方法、类#成员]
+	 */
+	List<Fund> findAllFundByCondition(Fund fundCondition);
+
+	/**
+	 * <一句话功能简述> 根据条件查询用户基金
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2020/1/11
+	 * @param
+	 * @return java.util.List<com.kenick.generate.bean.UserFund>
+	 * @see [类、类#方法、类#成员]
+	 */
+	List<UserFund> findAllUserFundByCondition(UserFund userFundCondition);
 }

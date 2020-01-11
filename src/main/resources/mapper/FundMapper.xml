@@ -2,15 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kenick.generate.dao.FundMapper">
   <resultMap id="BaseResultMap" type="com.kenick.generate.bean.Fund">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <id column="fund_code" jdbcType="VARCHAR" property="fundCode" />
+    <result column="fund_name" jdbcType="VARCHAR" property="fundName" />
     <result column="cur_time" jdbcType="VARCHAR" property="curTime" />
     <result column="cur_net_value" jdbcType="DOUBLE" property="curNetValue" />
     <result column="cur_gain" jdbcType="DOUBLE" property="curGain" />
     <result column="last_net_value" jdbcType="DOUBLE" property="lastNetValue" />
     <result column="last_gain" jdbcType="DOUBLE" property="lastGain" />
     <result column="gain_total" jdbcType="DECIMAL" property="gainTotal" />
+    <result column="fund_state" jdbcType="INTEGER" property="fundState" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain, gain_total
+    fund_code, fund_name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain, 
+    gain_total, fund_state, modify_date, create_date
   </sql>
   <select id="selectByExample" parameterType="com.kenick.generate.bean.FundExample" resultMap="BaseResultMap">
     select
@@ -87,15 +90,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fund
-    where id = #{id,jdbcType=INTEGER}
+    where fund_code = #{fundCode,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from fund
-    where id = #{id,jdbcType=INTEGER}
+    where fund_code = #{fundCode,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kenick.generate.bean.FundExample">
     delete from fund
@@ -104,26 +107,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kenick.generate.bean.Fund">
-    insert into fund (id, code, name, 
-      cur_time, cur_net_value, cur_gain, 
-      last_net_value, last_gain, gain_total
-      )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=DOUBLE}, 
-      #{lastNetValue,jdbcType=DOUBLE}, #{lastGain,jdbcType=DOUBLE}, #{gainTotal,jdbcType=DECIMAL}
-      )
+    insert into fund (fund_code, fund_name, cur_time, 
+      cur_net_value, cur_gain, last_net_value, 
+      last_gain, gain_total, fund_state, 
+      modify_date, create_date)
+    values (#{fundCode,jdbcType=VARCHAR}, #{fundName,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, 
+      #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=DOUBLE}, #{lastNetValue,jdbcType=DOUBLE}, 
+      #{lastGain,jdbcType=DOUBLE}, #{gainTotal,jdbcType=DECIMAL}, #{fundState,jdbcType=INTEGER}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.kenick.generate.bean.Fund">
     insert into fund
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="fundCode != null">
+        fund_code,
       </if>
-      <if test="code != null">
-        code,
-      </if>
-      <if test="name != null">
-        name,
+      <if test="fundName != null">
+        fund_name,
       </if>
       <if test="curTime != null">
         cur_time,
@@ -143,16 +143,22 @@
       <if test="gainTotal != null">
         gain_total,
       </if>
+      <if test="fundState != null">
+        fund_state,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="fundCode != null">
+        #{fundCode,jdbcType=VARCHAR},
       </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="fundName != null">
+        #{fundName,jdbcType=VARCHAR},
       </if>
       <if test="curTime != null">
         #{curTime,jdbcType=VARCHAR},
@@ -172,6 +178,15 @@
       <if test="gainTotal != null">
         #{gainTotal,jdbcType=DECIMAL},
       </if>
+      <if test="fundState != null">
+        #{fundState,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kenick.generate.bean.FundExample" resultType="java.lang.Long">
@@ -183,14 +198,11 @@
   <update id="updateByExampleSelective" parameterType="map">
     update fund
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.fundCode != null">
+        fund_code = #{record.fundCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.fundName != null">
+        fund_name = #{record.fundName,jdbcType=VARCHAR},
       </if>
       <if test="record.curTime != null">
         cur_time = #{record.curTime,jdbcType=VARCHAR},
@@ -210,6 +222,15 @@
       <if test="record.gainTotal != null">
         gain_total = #{record.gainTotal,jdbcType=DECIMAL},
       </if>
+      <if test="record.fundState != null">
+        fund_state = #{record.fundState,jdbcType=INTEGER},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -217,15 +238,17 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update fund
-    set id = #{record.id,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+    set fund_code = #{record.fundCode,jdbcType=VARCHAR},
+      fund_name = #{record.fundName,jdbcType=VARCHAR},
       cur_time = #{record.curTime,jdbcType=VARCHAR},
       cur_net_value = #{record.curNetValue,jdbcType=DOUBLE},
       cur_gain = #{record.curGain,jdbcType=DOUBLE},
       last_net_value = #{record.lastNetValue,jdbcType=DOUBLE},
       last_gain = #{record.lastGain,jdbcType=DOUBLE},
-      gain_total = #{record.gainTotal,jdbcType=DECIMAL}
+      gain_total = #{record.gainTotal,jdbcType=DECIMAL},
+      fund_state = #{record.fundState,jdbcType=INTEGER},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -233,11 +256,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kenick.generate.bean.Fund">
     update fund
     <set>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="fundName != null">
+        fund_name = #{fundName,jdbcType=VARCHAR},
       </if>
       <if test="curTime != null">
         cur_time = #{curTime,jdbcType=VARCHAR},
@@ -257,19 +277,62 @@
       <if test="gainTotal != null">
         gain_total = #{gainTotal,jdbcType=DECIMAL},
       </if>
+      <if test="fundState != null">
+        fund_state = #{fundState,jdbcType=INTEGER},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where fund_code = #{fundCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kenick.generate.bean.Fund">
     update fund
-    set code = #{code,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    set fund_name = #{fundName,jdbcType=VARCHAR},
       cur_time = #{curTime,jdbcType=VARCHAR},
       cur_net_value = #{curNetValue,jdbcType=DOUBLE},
       cur_gain = #{curGain,jdbcType=DOUBLE},
       last_net_value = #{lastNetValue,jdbcType=DOUBLE},
       last_gain = #{lastGain,jdbcType=DOUBLE},
-      gain_total = #{gainTotal,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=INTEGER}
+      gain_total = #{gainTotal,jdbcType=DECIMAL},
+      fund_state = #{fundState,jdbcType=INTEGER},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where fund_code = #{fundCode,jdbcType=VARCHAR}
   </update>
-</mapper>
+  <select id="selectFieldByExample" parameterType="map" resultMap="BaseResultMap">
+    select
+  	<if test="filedList != null" >
+      <foreach collection="filedList" item="obj" index="index" separator="," >
+	  	${obj}
+	  	</foreach>
+    </if>
+	<if test="filedList == null" >
+		<include refid="Base_Column_List" />
+	</if>
+    from fund
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+    <if test="example.orderByClause != null">
+      order by ${example.orderByClause}
+    </if>
+  </select>
+  <select id="selectFieldByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select
+  	<if test="filedList != null" >
+      <foreach collection="filedList" item="obj" index="index" separator="," >
+	  	${obj}
+	  	</foreach>
+    </if>
+	<if test="filedList == null" >
+		<include refid="Base_Column_List" />
+	</if>
+    from fund
+    where fund_code = #{fundCode,jdbcType=VARCHAR}
+  </select>
+
+<!-- field added --></mapper>

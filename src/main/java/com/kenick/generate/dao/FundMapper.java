@@ -10,7 +10,7 @@ public interface FundMapper {
 
     int deleteByExample(FundExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String fundCode);
 
     int insert(Fund record);
 
@@ -18,7 +18,7 @@ public interface FundMapper {
 
     List<Fund> selectByExample(FundExample example);
 
-    Fund selectByPrimaryKey(Integer id);
+    Fund selectByPrimaryKey(String fundCode);
 
     int updateByExampleSelective(@Param("record") Fund record, @Param("example") FundExample example);
 
@@ -29,7 +29,7 @@ public interface FundMapper {
     int updateByPrimaryKey(Fund record);
     List<Fund> selectFieldByExample(@Param("filedList") List<String> filedList, @Param("example") FundExample example);
 
-    Fund selectFieldByPrimaryKey(@Param("filedList") List<String> filedList, @Param("id") String id);
+    Fund selectFieldByPrimaryKey(@Param("filedList") List<String> filedList, @Param("fundCode") String fundCode);
 
 
 /* field added */}

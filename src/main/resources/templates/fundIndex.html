@@ -48,8 +48,8 @@
 					<tbody align="center">
 						<tr th:each="entries,stat:${fundList}" >
 							<td th:text="${entries['gainTotal']}" />
-							<td th:text="${entries['code']}" />
-							<td th:text="${entries['name']}" align="left"/>
+							<td th:text="${entries['fundCode']}" />
+							<td th:text="${entries['fundName']}" align="left"/>
 							<td th:text="${entries['curGain']}" />
 							<td th:text="${entries['lastGain']}" />
 							<td th:text="${entries['curTime']}" />

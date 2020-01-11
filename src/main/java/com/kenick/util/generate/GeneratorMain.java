@@ -1,10 +1,5 @@
 package com.kenick.util.generate;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -13,14 +8,16 @@ import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
 import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
-import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.DefaultShellCallback;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneratorMain {
 	
 	public static void main(String[] args) {
-		List<String> warnings = new ArrayList<String>();
-		boolean overwrite = true;
+		List<String> warnings = new ArrayList<>();
 		//读取配置文件
 		File configFile = new File("src/main/resources/generatorConfig.xml");
 		ConfigurationParser cp = new ConfigurationParser(warnings);
@@ -28,7 +25,7 @@ public class GeneratorMain {
 		try {
 			config = cp.parseConfiguration(configFile);
 
-			DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+			DefaultShellCallback callback = new DefaultShellCallback(true);
 			MyBatisGenerator myBatisGenerator;
 			try {
 				myBatisGenerator = new MyBatisGenerator(config, callback,
@@ -61,9 +58,7 @@ public class GeneratorMain {
 				e.printStackTrace();
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (XMLParserException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("完成!");

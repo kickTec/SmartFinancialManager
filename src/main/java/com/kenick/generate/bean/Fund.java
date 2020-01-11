@@ -1,51 +1,49 @@
 package com.kenick.generate.bean;
 
 import java.math.BigDecimal;
-
-import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.ArrayList;
 
 public class Fund {/* feild added*/
 
-	public static final String S_id = "id";
-	public static final String S_code = "code";
-	public static final String S_name = "name";
+	public static final String S_fundCode = "fund_code";
+	public static final String S_fundName = "fund_name";
 	public static final String S_curTime = "cur_time";
 	public static final String S_curNetValue = "cur_net_value";
 	public static final String S_curGain = "cur_gain";
 	public static final String S_lastNetValue = "last_net_value";
 	public static final String S_lastGain = "last_gain";
 	public static final String S_gainTotal = "gain_total";
+	public static final String S_fundState = "fund_state";
+	public static final String S_modifyDate = "modify_date";
+	public static final String S_createDate = "create_date";
 
 	public static final ArrayList<String> fieldList = new ArrayList<String>() {
 		{
-			add("id");
-			add("code");
-			add("name");
+			add("fund_code");
+			add("fund_name");
 			add("cur_time");
 			add("cur_net_value");
 			add("cur_gain");
 			add("last_net_value");
 			add("last_gain");
 			add("gain_total");
+			add("fund_state");
+			add("modify_date");
+			add("create_date");
 		}	};
 
 
     /**
-     * 基金id
-     */
-    private Integer id;
-
-    /**
      * 基金编码
      */
-    private String code;
+    private String fundCode;
 
     /**
      * 基金名称
      */
-    private String name;
+    private String fundName;
 
     /**
      * 当前估算时间
@@ -78,51 +76,50 @@ public class Fund {/* feild added*/
     private BigDecimal gainTotal;
 
     /**
-     * 基金id
-     * @return id 基金id
+     * 基金状态
      */
-    public Integer getId() {
-        return id;
-    }
+    private Integer fundState;
 
     /**
-     * 基金id
-     * @param id 基金id
+     * 修改时间
      */
-    public void setId(Integer id) {
-        this.id = id;
+    private Date modifyDate;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 基金编码
+     * @return fund_code 基金编码
+     */
+    public String getFundCode() {
+        return fundCode;
     }
 
     /**
      * 基金编码
-     * @return code 基金编码
+     * @param fundCode 基金编码
      */
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * 基金编码
-     * @param code 基金编码
-     */
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode == null ? null : fundCode.trim();
     }
 
     /**
      * 基金名称
-     * @return name 基金名称
+     * @return fund_name 基金名称
      */
-    public String getName() {
-        return name;
+    public String getFundName() {
+        return fundName;
     }
 
     /**
      * 基金名称
-     * @param name 基金名称
+     * @param fundName 基金名称
      */
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setFundName(String fundName) {
+        this.fundName = fundName == null ? null : fundName.trim();
     }
 
     /**
@@ -219,5 +216,53 @@ public class Fund {/* feild added*/
      */
     public void setGainTotal(BigDecimal gainTotal) {
         this.gainTotal = gainTotal;
+    }
+
+    /**
+     * 基金状态
+     * @return fund_state 基金状态
+     */
+    public Integer getFundState() {
+        return fundState;
+    }
+
+    /**
+     * 基金状态
+     * @param fundState 基金状态
+     */
+    public void setFundState(Integer fundState) {
+        this.fundState = fundState;
+    }
+
+    /**
+     * 修改时间
+     * @return modify_date 修改时间
+     */
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    /**
+     * 修改时间
+     * @param modifyDate 修改时间
+     */
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    /**
+     * 创建时间
+     * @return create_date 创建时间
+     */
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    /**
+     * 创建时间
+     * @param createDate 创建时间
+     */
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

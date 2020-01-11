@@ -2,10 +2,10 @@ package com.kenick.user.service.impl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
-
 import com.kenick.generate.bean.User;
 import com.kenick.generate.dao.UserMapper;
+import org.springframework.stereotype.Service;
+
 import com.kenick.user.service.UserService;
 
 @Service("userService")

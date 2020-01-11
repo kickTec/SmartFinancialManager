@@ -175,76 +175,6 @@ public class ConstantDataExample {
             return (Criteria) this;
         }
 
-        public Criteria andConstantDescIsNull() {
-            addCriterion("constant_desc is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescIsNotNull() {
-            addCriterion("constant_desc is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescEqualTo(String value) {
-            addCriterion("constant_desc =", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescNotEqualTo(String value) {
-            addCriterion("constant_desc <>", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescGreaterThan(String value) {
-            addCriterion("constant_desc >", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescGreaterThanOrEqualTo(String value) {
-            addCriterion("constant_desc >=", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescLessThan(String value) {
-            addCriterion("constant_desc <", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescLessThanOrEqualTo(String value) {
-            addCriterion("constant_desc <=", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescLike(String value) {
-            addCriterion("constant_desc like", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescNotLike(String value) {
-            addCriterion("constant_desc not like", value, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescIn(List<String> values) {
-            addCriterion("constant_desc in", values, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescNotIn(List<String> values) {
-            addCriterion("constant_desc not in", values, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescBetween(String value1, String value2) {
-            addCriterion("constant_desc between", value1, value2, "constantDesc");
-            return (Criteria) this;
-        }
-
-        public Criteria andConstantDescNotBetween(String value1, String value2) {
-            addCriterion("constant_desc not between", value1, value2, "constantDesc");
-            return (Criteria) this;
-        }
-
         public Criteria andConstantNameIsNull() {
             addCriterion("constant_name is null");
             return (Criteria) this;
@@ -385,6 +315,76 @@ public class ConstantDataExample {
             return (Criteria) this;
         }
 
+        public Criteria andConstantDescIsNull() {
+            addCriterion("constant_desc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescIsNotNull() {
+            addCriterion("constant_desc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescEqualTo(String value) {
+            addCriterion("constant_desc =", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescNotEqualTo(String value) {
+            addCriterion("constant_desc <>", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescGreaterThan(String value) {
+            addCriterion("constant_desc >", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescGreaterThanOrEqualTo(String value) {
+            addCriterion("constant_desc >=", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescLessThan(String value) {
+            addCriterion("constant_desc <", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescLessThanOrEqualTo(String value) {
+            addCriterion("constant_desc <=", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescLike(String value) {
+            addCriterion("constant_desc like", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescNotLike(String value) {
+            addCriterion("constant_desc not like", value, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescIn(List<String> values) {
+            addCriterion("constant_desc in", values, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescNotIn(List<String> values) {
+            addCriterion("constant_desc not in", values, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescBetween(String value1, String value2) {
+            addCriterion("constant_desc between", value1, value2, "constantDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andConstantDescNotBetween(String value1, String value2) {
+            addCriterion("constant_desc not between", value1, value2, "constantDesc");
+            return (Criteria) this;
+        }
+
         public Criteria andConstantStateIsNull() {
             addCriterion("constant_state is null");
             return (Criteria) this;
@@ -445,66 +445,6 @@ public class ConstantDataExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateDateIsNull() {
-            addCriterion("create_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateIsNotNull() {
-            addCriterion("create_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateEqualTo(Date value) {
-            addCriterion("create_date =", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateNotEqualTo(Date value) {
-            addCriterion("create_date <>", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateGreaterThan(Date value) {
-            addCriterion("create_date >", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_date >=", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateLessThan(Date value) {
-            addCriterion("create_date <", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateLessThanOrEqualTo(Date value) {
-            addCriterion("create_date <=", value, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateIn(List<Date> values) {
-            addCriterion("create_date in", values, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateNotIn(List<Date> values) {
-            addCriterion("create_date not in", values, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateBetween(Date value1, Date value2) {
-            addCriterion("create_date between", value1, value2, "createDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateDateNotBetween(Date value1, Date value2) {
-            addCriterion("create_date not between", value1, value2, "createDate");
-            return (Criteria) this;
-        }
-
         public Criteria andModifyDateIsNull() {
             addCriterion("modify_date is null");
             return (Criteria) this;
@@ -562,6 +502,66 @@ public class ConstantDataExample {
 
         public Criteria andModifyDateNotBetween(Date value1, Date value2) {
             addCriterion("modify_date not between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIsNull() {
+            addCriterion("create_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIsNotNull() {
+            addCriterion("create_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateEqualTo(Date value) {
+            addCriterion("create_date =", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotEqualTo(Date value) {
+            addCriterion("create_date <>", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateGreaterThan(Date value) {
+            addCriterion("create_date >", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_date >=", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateLessThan(Date value) {
+            addCriterion("create_date <", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateLessThanOrEqualTo(Date value) {
+            addCriterion("create_date <=", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIn(List<Date> values) {
+            addCriterion("create_date in", values, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotIn(List<Date> values) {
+            addCriterion("create_date not in", values, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateBetween(Date value1, Date value2) {
+            addCriterion("create_date between", value1, value2, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotBetween(Date value1, Date value2) {
+            addCriterion("create_date not between", value1, value2, "createDate");
             return (Criteria) this;
         }
     }
