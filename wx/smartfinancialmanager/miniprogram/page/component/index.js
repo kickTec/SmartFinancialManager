@@ -4,7 +4,7 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: '无忧石金',
+      title: '无忧石金-基金',
       path: 'page/component/index'
     }
   },
