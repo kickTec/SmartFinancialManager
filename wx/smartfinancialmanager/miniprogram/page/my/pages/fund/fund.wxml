@@ -7,24 +7,24 @@
 -->
 
 <block wx:for="{{fundList}}">
-    <view class="item" bindtap="seePerson" id="{{item.code}}">
+    <view class="item" bindtap="seePerson" id="{{item.fundCode}}">
         <view class="intro">
             <view class="position">
-              {{item.name}}
+              {{item.fundName}}
             </view>
             <view class="jiaqian">
-              ￥--/人
+              近2日涨幅:  {{item.gainTotal}}%
             </view>
             <view class="address">
-              原价：￥--
+              昨日涨幅:  {{item.lastGain}}%
             </view>
             <view class="dizhi">
-              11111
+              昨日净值:  {{item.lastNetValue}}
             </view>
         </view>
         <button class='but'>火爆</button>
         <view class='rendu'>
-          热度：190
+          预估涨幅：  {{item.curGain}}%
         </view>
     </view>
     <view class="hr" />
