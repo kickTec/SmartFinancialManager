@@ -4,12 +4,19 @@ Page({
   data: {
     ets: [],
     fundList: [],
-    baseUrl: app.globalData.baseUrl
+    baseUrl: app.globalData.baseUrl,
+    openid: app.globalData.openid,
+    hasLogin: app.globalData.hasLogin,
+    loading: false
   },
 
   onLoad() {
-    const that = this
-    that.loadFund()
+    this.setData({
+      openid: app.globalData.openid
+    })
+    if (app.globalData.hasLogin) {
+      this.loadFund()
+    }
   },
 
   loadFund() {
@@ -23,7 +30,6 @@ Page({
         }
       }
     }).then(res => {
-      console.log('res.result:', res.result)
       const response = JSON.parse(res.result)
       console.log('response:', response)
       if (response !== null && response.flag === true) {
@@ -32,9 +38,9 @@ Page({
         })
       } else {
         wx.showToast({
-          title: '网络繁忙',
+          title: '服务器连接异常',
           icon: 'success',
-          duration: 1000
+          duration: 500
         })
         console.log('服务器连接异常')
       }
@@ -51,7 +57,7 @@ Page({
       that.loadFund()
       wx.hideNavigationBarLoading()
       wx.stopPullDownRefresh()
-    }, 500)
+    }, 2000)
   },
 
   seePerson(e) {
@@ -65,25 +71,25 @@ Page({
     }
   },
 
-  onShareAppMessage() {
-    return {
-      title: '基金-无忧石金',
-      path: 'page/my/pages/fund/fund'
-    }
-  },
-
-  callKenickFunction() {
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryfundinfolist',
-        paramJson: {
-          data: '123'
-        }
-      }
-    }).then(res => {
-      console.log('result:', res.result)
-      return 1
-    }).catch(error => { console.log('error', error) })
+  onGetOpenid() {
+    const that = this
+    this.setData({
+      loading: true
+    })
+    app.getUserOpenIdViaCloud()
+      .then(openid => {
+        this.setData({
+          openid,
+          loading: false,
+          hasLogin: true
+        })
+        app.globalData.openid = openid
+        app.globalData.hasLogin = true
+        that.loadFund()
+        return openid
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 })

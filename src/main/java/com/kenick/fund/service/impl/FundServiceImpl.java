@@ -21,8 +21,10 @@ public class FundServiceImpl implements FundService{
 	@Resource
 	private UserFundMapper userFundMapper;
 
+
+
 	@Override
-	public List<Fund> findAllFundByCondition(Fund fundCondition) {
+	public List<Fund> findAllFundByCondition(Fund fundCondition, String orderBy) {
 		if(fundCondition == null){
 			fundCondition = new Fund();
 		}
@@ -35,7 +37,10 @@ public class FundServiceImpl implements FundService{
 		if(StringUtils.isNotBlank(fundCondition.getFundName())){
 			criteria.andFundNameLike("%"+fundCondition.getFundName()+"%");
 		}
-		fundExample.setOrderByClause(Fund.S_gainTotal+","+Fund.S_curGain);
+		if(StringUtils.isBlank(orderBy)){
+			orderBy = Fund.S_gainTotal+","+Fund.S_curGain;
+		}
+		fundExample.setOrderByClause(orderBy);
 		return fundMapper.selectByExample(fundExample);
 	}
 

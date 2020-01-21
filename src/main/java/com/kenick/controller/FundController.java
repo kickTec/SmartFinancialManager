@@ -1,12 +1,14 @@
 package com.kenick.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.service.FundService;
 import com.kenick.generate.bean.Fund;
 import com.kenick.generate.bean.UserFund;
 import com.kenick.util.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,9 @@ public class FundController {
 	
 	@Resource
 	private FundService fundService;
+
+	@Autowired
+    private HttpServletRequest request;
 	
     @RequestMapping("/index.html")
     public String index(@RequestParam(value = "data",required = false) String data, Model model){
@@ -33,7 +39,7 @@ public class FundController {
             if(data != null){
                 fundCondition = JSON.parseObject(data, Fund.class);
             }
-            List<Fund> fundList = fundService.findAllFundByCondition(fundCondition);
+            List<Fund> fundList = fundService.findAllFundByCondition(fundCondition, null);
             model.addAttribute("fundList", fundList);
         }catch (Exception e){
             logger.error("查询基金信息异常",e);
@@ -46,11 +52,10 @@ public class FundController {
     public String queryFundInfoList(@RequestParam(value = "data",required = false) String data){
         logger.debug("FundController.queryFundInfoList in, param:{}",data);
         try{
-            Fund fundCondition = null;
-            if(data != null){
-                fundCondition = JSON.parseObject(data, Fund.class);
-            }
-            return HttpUtils.showSuccess(fundService.findAllFundByCondition(fundCondition));
+            JSONObject reqJson = JSON.parseObject(data);
+            String orderBy = reqJson.getString("orderBy");
+            Fund fundCondition = JSON.parseObject(data, Fund.class);
+            return HttpUtils.showSuccess(fundService.findAllFundByCondition(fundCondition, orderBy));
         }catch (Exception e){
             return HttpUtils.showException("fund_queryfundinfolist_exception","查询基金信息异常", e);
         }

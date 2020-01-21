@@ -5,10 +5,13 @@ const rp = require('request-promise')
 cloud.init()
 
 // 云函数入口函数
-exports.main = async () => {
-  const url = 'http://www.kenick.top/fund/queryfundinfolist'
+exports.main = async (event, context) => {
+  const options = {
+    uri: event.url,
+    qs: event.paramJson
+  }
 
-  return rp(url)
+  return rp(options)
     .then(function (res) {
       return res
     })
