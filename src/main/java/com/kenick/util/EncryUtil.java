@@ -25,5 +25,6 @@ public class EncryUtil {
         encryptor.setConfig(config);
 
         System.out.println(encryptor.encrypt(data));
+        System.out.println(encryptor.decrypt("1gv1JleN/Q4+exio70YZuQ1wVQqEFajY"));
     }
 }

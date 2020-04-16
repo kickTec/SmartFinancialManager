@@ -38,8 +38,8 @@ import java.util.Map;
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	private final static Double upperLimit = 2.0D;
-	private final static Double lowerLimit = -2.0D;
+	private final static Double upperLimit = 5.0D;
+	private final static Double lowerLimit = -5.0D;
 	
 	private static Date lastSendDate = new Date(); 
 	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<>();
@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService{
 	@Resource
 	private UserFundMapper userFundMapper;
    
-	// 每隔指定时间执行一次，上一次任务必须已完成
+	// 每隔指定时间执行一次，上一次任务已完成
     @Scheduled(cron = "${fund.query.cron}")
     public void perfectFundInfo(){
     	try{
