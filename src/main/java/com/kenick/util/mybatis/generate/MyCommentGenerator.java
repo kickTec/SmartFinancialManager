@@ -1,4 +1,4 @@
-package com.kenick.util.generate;
+package com.kenick.util.mybatis.generate;
 
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;

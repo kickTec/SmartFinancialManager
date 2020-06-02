@@ -4,6 +4,10 @@ import java.util.Date;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+
 public class User {/* feild added*/
 
 	public static final String S_userId = "user_id";

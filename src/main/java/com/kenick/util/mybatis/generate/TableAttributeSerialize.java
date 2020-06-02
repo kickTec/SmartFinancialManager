@@ -1,4 +1,4 @@
-package com.kenick.util.generate;
+package com.kenick.util.mybatis.generate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

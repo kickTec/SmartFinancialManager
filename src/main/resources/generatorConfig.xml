@@ -12,7 +12,7 @@
 		<!-- 指定生成的java文件的编码,没有直接生成到项目时中文可能会乱码 -->
         <property name="javaFileEncoding" value="UTF-8"/>
         <!-- 这里的type里写的是你的实现类的类全路径 -->
-        <commentGenerator type="com.kenick.util.generate.MyCommentGenerator" />
+        <commentGenerator type="com.kenick.util.mybatis.generate.MyCommentGenerator" />
 		
 		<!-- jdbc连接 -->
 		<jdbcConnection driverClass="${jdbc_driver}"
@@ -46,15 +46,9 @@
 			targetProject="${project}" type="XMLMAPPER" >
 			<!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
 			<property name="enableSubPackages" value="false" />
-		</javaClientGenerator>	
-		
- 		<table schema="kenick"  tableName="user"
-			enableCountByExample="true"
-			enableDeleteByExample="true" enableSelectByExample="true"
-			enableUpdateByExample="true"> 
-		</table>
-		
- 		<table schema="kenick"  tableName="user_fund"
+		</javaClientGenerator>
+
+ 		<table schema="kenick"  tableName="fund"
 			enableCountByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			enableUpdateByExample="true"> 

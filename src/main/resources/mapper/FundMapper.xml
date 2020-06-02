@@ -4,11 +4,16 @@
   <resultMap id="BaseResultMap" type="com.kenick.generate.bean.Fund">
     <id column="fund_code" jdbcType="VARCHAR" property="fundCode" />
     <result column="fund_name" jdbcType="VARCHAR" property="fundName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="cur_time" jdbcType="VARCHAR" property="curTime" />
     <result column="cur_net_value" jdbcType="DOUBLE" property="curNetValue" />
     <result column="cur_gain" jdbcType="DOUBLE" property="curGain" />
+    <result column="cur_price_highest" jdbcType="DOUBLE" property="curPriceHighest" />
+    <result column="cur_price_lowest" jdbcType="DOUBLE" property="curPriceLowest" />
     <result column="last_net_value" jdbcType="DOUBLE" property="lastNetValue" />
     <result column="last_gain" jdbcType="DOUBLE" property="lastGain" />
+    <result column="last_price_highest" jdbcType="DOUBLE" property="lastPriceHighest" />
+    <result column="last_price_lowest" jdbcType="DOUBLE" property="lastPriceLowest" />
     <result column="gain_total" jdbcType="DECIMAL" property="gainTotal" />
     <result column="fund_state" jdbcType="INTEGER" property="fundState" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
@@ -73,7 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    fund_code, fund_name, cur_time, cur_net_value, cur_gain, last_net_value, last_gain, 
+    fund_code, fund_name, type, cur_time, cur_net_value, cur_gain, cur_price_highest, 
+    cur_price_lowest, last_net_value, last_gain, last_price_highest, last_price_lowest, 
     gain_total, fund_state, modify_date, create_date
   </sql>
   <select id="selectByExample" parameterType="com.kenick.generate.bean.FundExample" resultMap="BaseResultMap">
@@ -107,14 +113,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kenick.generate.bean.Fund">
-    insert into fund (fund_code, fund_name, cur_time, 
-      cur_net_value, cur_gain, last_net_value, 
-      last_gain, gain_total, fund_state, 
-      modify_date, create_date)
-    values (#{fundCode,jdbcType=VARCHAR}, #{fundName,jdbcType=VARCHAR}, #{curTime,jdbcType=VARCHAR}, 
-      #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=DOUBLE}, #{lastNetValue,jdbcType=DOUBLE}, 
-      #{lastGain,jdbcType=DOUBLE}, #{gainTotal,jdbcType=DECIMAL}, #{fundState,jdbcType=INTEGER}, 
-      #{modifyDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+    insert into fund (fund_code, fund_name, type, 
+      cur_time, cur_net_value, cur_gain, 
+      cur_price_highest, cur_price_lowest, last_net_value, 
+      last_gain, last_price_highest, last_price_lowest, 
+      gain_total, fund_state, modify_date, 
+      create_date)
+    values (#{fundCode,jdbcType=VARCHAR}, #{fundName,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{curTime,jdbcType=VARCHAR}, #{curNetValue,jdbcType=DOUBLE}, #{curGain,jdbcType=DOUBLE}, 
+      #{curPriceHighest,jdbcType=DOUBLE}, #{curPriceLowest,jdbcType=DOUBLE}, #{lastNetValue,jdbcType=DOUBLE}, 
+      #{lastGain,jdbcType=DOUBLE}, #{lastPriceHighest,jdbcType=DOUBLE}, #{lastPriceLowest,jdbcType=DOUBLE}, 
+      #{gainTotal,jdbcType=DECIMAL}, #{fundState,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.kenick.generate.bean.Fund">
     insert into fund
@@ -125,6 +135,9 @@
       <if test="fundName != null">
         fund_name,
       </if>
+      <if test="type != null">
+        type,
+      </if>
       <if test="curTime != null">
         cur_time,
       </if>
@@ -134,11 +147,23 @@
       <if test="curGain != null">
         cur_gain,
       </if>
+      <if test="curPriceHighest != null">
+        cur_price_highest,
+      </if>
+      <if test="curPriceLowest != null">
+        cur_price_lowest,
+      </if>
       <if test="lastNetValue != null">
         last_net_value,
       </if>
       <if test="lastGain != null">
         last_gain,
+      </if>
+      <if test="lastPriceHighest != null">
+        last_price_highest,
+      </if>
+      <if test="lastPriceLowest != null">
+        last_price_lowest,
       </if>
       <if test="gainTotal != null">
         gain_total,
@@ -160,6 +185,9 @@
       <if test="fundName != null">
         #{fundName,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
       <if test="curTime != null">
         #{curTime,jdbcType=VARCHAR},
       </if>
@@ -169,11 +197,23 @@
       <if test="curGain != null">
         #{curGain,jdbcType=DOUBLE},
       </if>
+      <if test="curPriceHighest != null">
+        #{curPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="curPriceLowest != null">
+        #{curPriceLowest,jdbcType=DOUBLE},
+      </if>
       <if test="lastNetValue != null">
         #{lastNetValue,jdbcType=DOUBLE},
       </if>
       <if test="lastGain != null">
         #{lastGain,jdbcType=DOUBLE},
+      </if>
+      <if test="lastPriceHighest != null">
+        #{lastPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="lastPriceLowest != null">
+        #{lastPriceLowest,jdbcType=DOUBLE},
       </if>
       <if test="gainTotal != null">
         #{gainTotal,jdbcType=DECIMAL},
@@ -204,6 +244,9 @@
       <if test="record.fundName != null">
         fund_name = #{record.fundName,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
       <if test="record.curTime != null">
         cur_time = #{record.curTime,jdbcType=VARCHAR},
       </if>
@@ -213,11 +256,23 @@
       <if test="record.curGain != null">
         cur_gain = #{record.curGain,jdbcType=DOUBLE},
       </if>
+      <if test="record.curPriceHighest != null">
+        cur_price_highest = #{record.curPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="record.curPriceLowest != null">
+        cur_price_lowest = #{record.curPriceLowest,jdbcType=DOUBLE},
+      </if>
       <if test="record.lastNetValue != null">
         last_net_value = #{record.lastNetValue,jdbcType=DOUBLE},
       </if>
       <if test="record.lastGain != null">
         last_gain = #{record.lastGain,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lastPriceHighest != null">
+        last_price_highest = #{record.lastPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lastPriceLowest != null">
+        last_price_lowest = #{record.lastPriceLowest,jdbcType=DOUBLE},
       </if>
       <if test="record.gainTotal != null">
         gain_total = #{record.gainTotal,jdbcType=DECIMAL},
@@ -240,11 +295,16 @@
     update fund
     set fund_code = #{record.fundCode,jdbcType=VARCHAR},
       fund_name = #{record.fundName,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
       cur_time = #{record.curTime,jdbcType=VARCHAR},
       cur_net_value = #{record.curNetValue,jdbcType=DOUBLE},
       cur_gain = #{record.curGain,jdbcType=DOUBLE},
+      cur_price_highest = #{record.curPriceHighest,jdbcType=DOUBLE},
+      cur_price_lowest = #{record.curPriceLowest,jdbcType=DOUBLE},
       last_net_value = #{record.lastNetValue,jdbcType=DOUBLE},
       last_gain = #{record.lastGain,jdbcType=DOUBLE},
+      last_price_highest = #{record.lastPriceHighest,jdbcType=DOUBLE},
+      last_price_lowest = #{record.lastPriceLowest,jdbcType=DOUBLE},
       gain_total = #{record.gainTotal,jdbcType=DECIMAL},
       fund_state = #{record.fundState,jdbcType=INTEGER},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
@@ -259,6 +319,9 @@
       <if test="fundName != null">
         fund_name = #{fundName,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
       <if test="curTime != null">
         cur_time = #{curTime,jdbcType=VARCHAR},
       </if>
@@ -268,11 +331,23 @@
       <if test="curGain != null">
         cur_gain = #{curGain,jdbcType=DOUBLE},
       </if>
+      <if test="curPriceHighest != null">
+        cur_price_highest = #{curPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="curPriceLowest != null">
+        cur_price_lowest = #{curPriceLowest,jdbcType=DOUBLE},
+      </if>
       <if test="lastNetValue != null">
         last_net_value = #{lastNetValue,jdbcType=DOUBLE},
       </if>
       <if test="lastGain != null">
         last_gain = #{lastGain,jdbcType=DOUBLE},
+      </if>
+      <if test="lastPriceHighest != null">
+        last_price_highest = #{lastPriceHighest,jdbcType=DOUBLE},
+      </if>
+      <if test="lastPriceLowest != null">
+        last_price_lowest = #{lastPriceLowest,jdbcType=DOUBLE},
       </if>
       <if test="gainTotal != null">
         gain_total = #{gainTotal,jdbcType=DECIMAL},
@@ -292,47 +367,20 @@
   <update id="updateByPrimaryKey" parameterType="com.kenick.generate.bean.Fund">
     update fund
     set fund_name = #{fundName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
       cur_time = #{curTime,jdbcType=VARCHAR},
       cur_net_value = #{curNetValue,jdbcType=DOUBLE},
       cur_gain = #{curGain,jdbcType=DOUBLE},
+      cur_price_highest = #{curPriceHighest,jdbcType=DOUBLE},
+      cur_price_lowest = #{curPriceLowest,jdbcType=DOUBLE},
       last_net_value = #{lastNetValue,jdbcType=DOUBLE},
       last_gain = #{lastGain,jdbcType=DOUBLE},
+      last_price_highest = #{lastPriceHighest,jdbcType=DOUBLE},
+      last_price_lowest = #{lastPriceLowest,jdbcType=DOUBLE},
       gain_total = #{gainTotal,jdbcType=DECIMAL},
       fund_state = #{fundState,jdbcType=INTEGER},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where fund_code = #{fundCode,jdbcType=VARCHAR}
   </update>
-  <select id="selectFieldByExample" parameterType="map" resultMap="BaseResultMap">
-    select
-  	<if test="filedList != null" >
-      <foreach collection="filedList" item="obj" index="index" separator="," >
-	  	${obj}
-	  	</foreach>
-    </if>
-	<if test="filedList == null" >
-		<include refid="Base_Column_List" />
-	</if>
-    from fund
-    <if test="example != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-    <if test="example.orderByClause != null">
-      order by ${example.orderByClause}
-    </if>
-  </select>
-  <select id="selectFieldByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
-  	<if test="filedList != null" >
-      <foreach collection="filedList" item="obj" index="index" separator="," >
-	  	${obj}
-	  	</foreach>
-    </if>
-	<if test="filedList == null" >
-		<include refid="Base_Column_List" />
-	</if>
-    from fund
-    where fund_code = #{fundCode,jdbcType=VARCHAR}
-  </select>
-
-<!-- field added --></mapper>
+</mapper>

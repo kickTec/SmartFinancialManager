@@ -1,6 +1,7 @@
 package com.kenick.fund.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.service.TaskService;
 import com.kenick.generate.bean.Fund;
 import com.kenick.generate.bean.FundExample;
@@ -8,8 +9,10 @@ import com.kenick.generate.bean.UserFund;
 import com.kenick.generate.bean.UserFundExample;
 import com.kenick.generate.dao.FundMapper;
 import com.kenick.generate.dao.UserFundMapper;
+import com.kenick.util.DateUtils;
 import com.kenick.util.HttpRequestUtils;
 import com.kenick.util.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -17,7 +20,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,7 +39,7 @@ import java.util.Map;
 @Configurable
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	private final static Double upperLimit = 5.0D;
 	private final static Double lowerLimit = -5.0D;
 	
@@ -60,13 +62,13 @@ public class TaskServiceImpl implements TaskService{
     		long startTime = System.currentTimeMillis();
         	// 查询出所有基金编码
     		FundExample fundExample = new FundExample();
-    		fundExample.setOrderByClause(Fund.S_fundCode);
+    		fundExample.setOrderByClause(Fund.S_type);
         	List<Fund> fundList = fundMapper.selectByExample(fundExample);
-        	for(Fund fund:fundList){    		
+        	for(Fund fund:fundList){
         		perfectFundInfoByCode(fund);
         	}
         	long endTime = System.currentTimeMillis();
-        	logger.debug("遍历基金一轮花费时间:{}", endTime-startTime);
+        	logger.debug("遍历理财一轮花费时间:{}", endTime-startTime);
     	}catch (Exception e) {
     		logger.debug(e.getMessage());
 		}
@@ -84,29 +86,40 @@ public class TaskServiceImpl implements TaskService{
      * @param fund 基金信息
      */
     private void perfectFundInfoByCode(Fund fund){
-    	try{ 
-        	// 通过jsoup获取昨日基金信息
-        	Fund updateFund = getFundInfoByJsoup(fund.getFundCode());
-        	
-    		// 通过http获取最新基金信息
-        	Fund curFund = getFundByHttp(fund);
-        	if(updateFund !=null){
-        		if(curFund != null){
-                	updateFund.setCurGain(curFund.getCurGain());
-                	updateFund.setCurNetValue(curFund.getCurNetValue());
-                	updateFund.setGainTotal(BigDecimal.valueOf(updateFund.getLastGain()+updateFund.getCurGain()));	
-        		}else{
-        			return;
-        		}
-        	}
-        	
-        	if(updateFund == null){
-        		return;
-        	}
+    	try{
+			Fund updateFund = null;
+
+			// 获取基金信息
+			if(fund.getType() == null || fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_FUND){
+				// 通过jsoup获取昨日基金信息
+				updateFund = getFundInfoByJsoup(fund.getFundCode());
+
+				// 通过http获取最新基金信息
+				Fund curFund = getFundByHttp(fund);
+				if(updateFund !=null){
+					if(curFund != null){
+						updateFund.setCurGain(curFund.getCurGain());
+						updateFund.setCurNetValue(curFund.getCurNetValue());
+						updateFund.setGainTotal(BigDecimal.valueOf(updateFund.getLastGain()+updateFund.getCurGain()));
+					}else{
+						return;
+					}
+				}
+			}
+
+			// 获取股票信息
+			if(fund.getType() != null && fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_STOCK){
+				updateFund = getStockInfoByHttp(fund);
+			}
+
+			if(updateFund == null){
+				return;
+			}
 
         	// 更新基金信息
         	fundMapper.updateByPrimaryKeySelective(updateFund);
 
+        	// 更新用户基金信息
 			UserFund userFund = JsonUtils.copyObjToBean(updateFund, UserFund.class);
 			UserFundExample userFundExample = new UserFundExample();
 			userFundExample.or().andFundCodeEqualTo(updateFund.getFundCode());
@@ -118,8 +131,70 @@ public class TaskServiceImpl implements TaskService{
     		logger.error(e.getMessage());
 		}
     }
-    
-    // 发送短信
+
+    // 获取股票信息
+	private Fund getStockInfoByHttp(Fund databaseFund) {
+		Fund fund = new Fund();
+		String fundCode = databaseFund.getFundCode();
+		if(StringUtils.isBlank(fundCode)){
+			return null;
+		}
+		fund.setFundCode(fundCode);
+		try{
+			String url = null;
+
+			// 股票类型
+			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
+				url = "http://hq.sinajs.cn/list=sz"+ fundCode;
+			}
+
+			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
+				url = "http://hq.sinajs.cn/list=sh"+ fundCode;
+			}
+
+			// 获取最新净值和涨幅
+			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+			logger.debug("爬取的最新股票数据为:{}", retStr);
+			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
+			if(StringUtils.isNotBlank(retStr)){
+				retStr = retStr.split("=")[1];
+				retStr = retStr.replace("\"","").replace(";","");
+				String[] stockInfoArray = retStr.split(",");
+				String fundName = stockInfoArray[0]; // 名称
+				String curNetValue = stockInfoArray[3]; // 当前价
+				String curPriceHighest = stockInfoArray[4]; // 当前最高价
+				String curPriceLowest = stockInfoArray[5]; // 当前最低价
+				logger.debug("fundName：{}，curNetValue：{}，curPriceHighest：{}，curPriceLowest：{}", fundName, curNetValue, curPriceHighest, curPriceLowest);
+				Double curNetValueNum = Double.valueOf(curNetValue);
+				fund.setFundName(fundName);
+				fund.setCurNetValue(curNetValueNum);
+				fund.setCurPriceHighest(Double.valueOf(curPriceHighest));
+				fund.setCurPriceLowest(Double.valueOf(curPriceLowest));
+				Date now = new Date();
+				fund.setModifyDate(now);
+				fund.setCurTime(DateUtils.getStrDate(now, "MM-dd HH:mm"));
+				if(databaseFund.getCreateDate() == null){
+					fund.setCreateDate(now);
+				}
+
+				Double lastNetValue = databaseFund.getLastNetValue();
+				if(lastNetValue != null && lastNetValue > 0){
+					Double curGain = (curNetValueNum - lastNetValue) / lastNetValue;
+					fund.setCurGain(curGain);
+
+					if(databaseFund.getLastGain() != null){
+						fund.setGainTotal(new BigDecimal(curGain + databaseFund.getLastGain()));
+					}
+				}
+			}
+			return fund;
+		}catch (Exception e) {
+			logger.error("获取股票信息失败！", e.getCause());
+			return null;
+		}
+	}
+
+	// 发送短信
     private void sendSms(Fund fund){
 		Date now = new Date();
 		boolean sendFlag = true;
@@ -273,5 +348,17 @@ public class TaskServiceImpl implements TaskService{
     }
     
     public static void main(String[] args) {
+    	String retStr = "var hq_str_sz000876=\"新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00\";";
+		logger.debug("retStr:{}", retStr);
+		if(StringUtils.isNotBlank(retStr)){
+			retStr = retStr.split("=")[1];
+			retStr = retStr.replace("\"","").replace(";","");
+			String[] stockInfoArray = retStr.split(",");
+			String fundName = stockInfoArray[0]; // 名称
+			String curNetValue = stockInfoArray[3]; // 当前价
+			String curPriceHighest = stockInfoArray[4]; // 当前最高价
+			String curPriceLowest = stockInfoArray[5]; // 当前最低价
+			logger.debug("fundName：{}，curNetValue：{}，curPriceHighest：{}，curPriceLowest：{}", fundName, curNetValue, curPriceHighest, curPriceLowest);
+		}
 	}
 }

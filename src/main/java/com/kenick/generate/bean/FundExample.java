@@ -246,6 +246,66 @@ public class FundExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
         public Criteria andCurTimeIsNull() {
             addCriterion("cur_time is null");
             return (Criteria) this;
@@ -436,6 +496,126 @@ public class FundExample {
             return (Criteria) this;
         }
 
+        public Criteria andCurPriceHighestIsNull() {
+            addCriterion("cur_price_highest is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestIsNotNull() {
+            addCriterion("cur_price_highest is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestEqualTo(Double value) {
+            addCriterion("cur_price_highest =", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestNotEqualTo(Double value) {
+            addCriterion("cur_price_highest <>", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestGreaterThan(Double value) {
+            addCriterion("cur_price_highest >", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestGreaterThanOrEqualTo(Double value) {
+            addCriterion("cur_price_highest >=", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestLessThan(Double value) {
+            addCriterion("cur_price_highest <", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestLessThanOrEqualTo(Double value) {
+            addCriterion("cur_price_highest <=", value, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestIn(List<Double> values) {
+            addCriterion("cur_price_highest in", values, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestNotIn(List<Double> values) {
+            addCriterion("cur_price_highest not in", values, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestBetween(Double value1, Double value2) {
+            addCriterion("cur_price_highest between", value1, value2, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceHighestNotBetween(Double value1, Double value2) {
+            addCriterion("cur_price_highest not between", value1, value2, "curPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestIsNull() {
+            addCriterion("cur_price_lowest is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestIsNotNull() {
+            addCriterion("cur_price_lowest is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestEqualTo(Double value) {
+            addCriterion("cur_price_lowest =", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestNotEqualTo(Double value) {
+            addCriterion("cur_price_lowest <>", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestGreaterThan(Double value) {
+            addCriterion("cur_price_lowest >", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestGreaterThanOrEqualTo(Double value) {
+            addCriterion("cur_price_lowest >=", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestLessThan(Double value) {
+            addCriterion("cur_price_lowest <", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestLessThanOrEqualTo(Double value) {
+            addCriterion("cur_price_lowest <=", value, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestIn(List<Double> values) {
+            addCriterion("cur_price_lowest in", values, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestNotIn(List<Double> values) {
+            addCriterion("cur_price_lowest not in", values, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestBetween(Double value1, Double value2) {
+            addCriterion("cur_price_lowest between", value1, value2, "curPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurPriceLowestNotBetween(Double value1, Double value2) {
+            addCriterion("cur_price_lowest not between", value1, value2, "curPriceLowest");
+            return (Criteria) this;
+        }
+
         public Criteria andLastNetValueIsNull() {
             addCriterion("last_net_value is null");
             return (Criteria) this;
@@ -553,6 +733,126 @@ public class FundExample {
 
         public Criteria andLastGainNotBetween(Double value1, Double value2) {
             addCriterion("last_gain not between", value1, value2, "lastGain");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestIsNull() {
+            addCriterion("last_price_highest is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestIsNotNull() {
+            addCriterion("last_price_highest is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestEqualTo(Double value) {
+            addCriterion("last_price_highest =", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestNotEqualTo(Double value) {
+            addCriterion("last_price_highest <>", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestGreaterThan(Double value) {
+            addCriterion("last_price_highest >", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestGreaterThanOrEqualTo(Double value) {
+            addCriterion("last_price_highest >=", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestLessThan(Double value) {
+            addCriterion("last_price_highest <", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestLessThanOrEqualTo(Double value) {
+            addCriterion("last_price_highest <=", value, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestIn(List<Double> values) {
+            addCriterion("last_price_highest in", values, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestNotIn(List<Double> values) {
+            addCriterion("last_price_highest not in", values, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestBetween(Double value1, Double value2) {
+            addCriterion("last_price_highest between", value1, value2, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceHighestNotBetween(Double value1, Double value2) {
+            addCriterion("last_price_highest not between", value1, value2, "lastPriceHighest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestIsNull() {
+            addCriterion("last_price_lowest is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestIsNotNull() {
+            addCriterion("last_price_lowest is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestEqualTo(Double value) {
+            addCriterion("last_price_lowest =", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestNotEqualTo(Double value) {
+            addCriterion("last_price_lowest <>", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestGreaterThan(Double value) {
+            addCriterion("last_price_lowest >", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestGreaterThanOrEqualTo(Double value) {
+            addCriterion("last_price_lowest >=", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestLessThan(Double value) {
+            addCriterion("last_price_lowest <", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestLessThanOrEqualTo(Double value) {
+            addCriterion("last_price_lowest <=", value, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestIn(List<Double> values) {
+            addCriterion("last_price_lowest in", values, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestNotIn(List<Double> values) {
+            addCriterion("last_price_lowest not in", values, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestBetween(Double value1, Double value2) {
+            addCriterion("last_price_lowest between", value1, value2, "lastPriceLowest");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPriceLowestNotBetween(Double value1, Double value2) {
+            addCriterion("last_price_lowest not between", value1, value2, "lastPriceLowest");
             return (Criteria) this;
         }
 

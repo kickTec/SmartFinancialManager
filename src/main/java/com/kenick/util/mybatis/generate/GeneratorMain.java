@@ -1,4 +1,4 @@
-package com.kenick.util.generate;
+package com.kenick.util.mybatis.generate;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;

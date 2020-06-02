@@ -2,6 +2,10 @@ package com.kenick.generate.bean;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
+import java.util.ArrayList;
+
 public class UserFundKey {/* feild added*/
 
 
