@@ -7,10 +7,15 @@
 	
 	<style type="text/css">
 		body{
-			font-size:150%
+			font-size:100%
 		}
+
 		.container{
 			max-width:1140px
+		}
+
+		thead{
+			font-size:120%
 		}
 	</style>
 </head>
@@ -32,16 +37,25 @@
 								编码
 							</th>
 							<th>
-								基金名称
+								名称
 							</th>
 							<th>
-								今日
+								今幅
 							</th>
 							<th>
-								昨日
+								昨幅
 							</th>
 							<th>
-								时间
+								今净
+							</th>
+							<th>
+								今高
+							</th>
+							<th>
+								今低
+							</th>
+							<th>
+								昨净
 							</th>
 						</tr>
 					</thead>
@@ -49,10 +63,13 @@
 						<tr th:each="entries,stat:${fundList}" >
 							<td th:text="${entries['gainTotal']}" />
 							<td th:text="${entries['fundCode']}" />
-							<td th:text="${entries['fundName']}" align="left"/>
+							<td th:text="${entries['fundName']}" align="left" th:width="300"/>
 							<td th:text="${entries['curGain']}" />
 							<td th:text="${entries['lastGain']}" />
-							<td th:text="${entries['curTime']}" />
+							<td th:text="${entries['curNetValue']}" />
+							<td th:text="${entries['curPriceHighest']}" />
+							<td th:text="${entries['curPriceLowest']}" />
+							<td th:text="${entries['lastNetValue']}" />
 						</tr>
 					</tbody>
 				</table>

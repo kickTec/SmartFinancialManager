@@ -8,7 +8,6 @@ import com.kenick.generate.bean.UserFund;
 import com.kenick.util.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,9 +25,6 @@ public class FundController {
 	
 	@Resource
 	private FundService fundService;
-
-	@Autowired
-    private HttpServletRequest request;
 	
     @RequestMapping("/index.html")
     public String index(@RequestParam(value = "data",required = false) String data, Model model){
@@ -75,4 +70,5 @@ public class FundController {
             return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金信息异常", e);
         }
     }
+
 }

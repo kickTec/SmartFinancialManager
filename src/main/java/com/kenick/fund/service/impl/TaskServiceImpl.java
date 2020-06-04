@@ -73,7 +73,34 @@ public class TaskServiceImpl implements TaskService{
     		logger.debug(e.getMessage());
 		}
     }
-    
+
+    @Scheduled(cron = "${stock.update.cron}")
+    public void updateStockInfoNight(){
+        logger.debug("TaskServiceImpl.updateStockInfo in");
+        try{
+            // 查询出所有基金编码
+            FundExample fundExample = new FundExample();
+            fundExample.or().andTypeEqualTo(TableStaticConstData.TABLE_FUND_TYPE_STOCK);
+            List<Fund> fundList = fundMapper.selectByExample(fundExample);
+            for(Fund fund:fundList){
+                updateStockInfo(fund);
+            }
+        }catch (Exception e) {
+            logger.error("晚上更新股票信息异常!", e);
+        }
+    }
+
+    private void updateStockInfo(Fund fund) {
+        Fund updateFund = new Fund();
+        updateFund.setFundCode(fund.getFundCode());
+        updateFund.setLastGain(fund.getCurGain());
+        updateFund.setLastNetValue(fund.getCurNetValue());
+        updateFund.setLastPriceHighest(fund.getCurPriceHighest());
+        updateFund.setLastPriceLowest(fund.getCurPriceLowest());
+        updateFund.setModifyDate(new Date());
+        fundMapper.updateByPrimaryKeySelective(updateFund);
+    }
+
     @Scheduled(cron = "${fund.cache.clean.cron}")
     public void clean(){
     	if(fundSmsMap != null){
@@ -165,6 +192,7 @@ public class TaskServiceImpl implements TaskService{
 				String curPriceHighest = stockInfoArray[4]; // 当前最高价
 				String curPriceLowest = stockInfoArray[5]; // 当前最低价
 				logger.debug("fundName：{}，curNetValue：{}，curPriceHighest：{}，curPriceLowest：{}", fundName, curNetValue, curPriceHighest, curPriceLowest);
+
 				Double curNetValueNum = Double.valueOf(curNetValue);
 				fund.setFundName(fundName);
 				fund.setCurNetValue(curNetValueNum);
@@ -177,14 +205,17 @@ public class TaskServiceImpl implements TaskService{
 					fund.setCreateDate(now);
 				}
 
+				// 现在涨幅重新计算
 				Double lastNetValue = databaseFund.getLastNetValue();
-				if(lastNetValue != null && lastNetValue > 0){
+				if(lastNetValue != null){
 					Double curGain = (curNetValueNum - lastNetValue) / lastNetValue;
 					fund.setCurGain(curGain);
 
 					if(databaseFund.getLastGain() != null){
 						fund.setGainTotal(new BigDecimal(curGain + databaseFund.getLastGain()));
-					}
+					}else{
+                        fund.setGainTotal(new BigDecimal(curGain));
+                    }
 				}
 			}
 			return fund;
