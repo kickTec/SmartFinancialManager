@@ -38,7 +38,7 @@ public class FundServiceImpl implements FundService{
 			criteria.andFundNameLike("%"+fundCondition.getFundName()+"%");
 		}
 		if(StringUtils.isBlank(orderBy)){
-			orderBy = Fund.S_gainTotal+","+Fund.S_curGain;
+			orderBy = Fund.S_type + "," + Fund.S_gainTotal+","+Fund.S_curGain;
 		}
 		fundExample.setOrderByClause(orderBy);
 		return fundMapper.selectByExample(fundExample);

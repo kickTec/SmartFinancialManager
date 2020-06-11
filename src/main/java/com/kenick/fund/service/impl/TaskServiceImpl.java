@@ -78,7 +78,7 @@ public class TaskServiceImpl implements TaskService{
     public void updateStockInfoNight(){
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
-            // 查询出所有基金编码
+            // 查询出所有股票
             FundExample fundExample = new FundExample();
             fundExample.or().andTypeEqualTo(TableStaticConstData.TABLE_FUND_TYPE_STOCK);
             List<Fund> fundList = fundMapper.selectByExample(fundExample);
