@@ -208,13 +208,15 @@ public class TaskServiceImpl implements TaskService{
 				// 现在涨幅重新计算
 				Double lastNetValue = databaseFund.getLastNetValue();
 				if(lastNetValue != null){
-					Double curGain = (curNetValueNum - lastNetValue) / lastNetValue;
-					fund.setCurGain(curGain);
+					BigDecimal lastBd = new BigDecimal(lastNetValue);
+					BigDecimal nowBd = new BigDecimal(curNetValueNum);
+					BigDecimal retBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
+					fund.setCurGain(retBd.doubleValue());
 
 					if(databaseFund.getLastGain() != null){
-						fund.setGainTotal(new BigDecimal(curGain + databaseFund.getLastGain()));
+						fund.setGainTotal(new BigDecimal(retBd.doubleValue() + databaseFund.getLastGain()));
 					}else{
-                        fund.setGainTotal(new BigDecimal(curGain));
+                        fund.setGainTotal(new BigDecimal(retBd.doubleValue()));
                     }
 				}
 			}
@@ -379,17 +381,12 @@ public class TaskServiceImpl implements TaskService{
     }
     
     public static void main(String[] args) {
-    	String retStr = "var hq_str_sz000876=\"新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00\";";
-		logger.debug("retStr:{}", retStr);
-		if(StringUtils.isNotBlank(retStr)){
-			retStr = retStr.split("=")[1];
-			retStr = retStr.replace("\"","").replace(";","");
-			String[] stockInfoArray = retStr.split(",");
-			String fundName = stockInfoArray[0]; // 名称
-			String curNetValue = stockInfoArray[3]; // 当前价
-			String curPriceHighest = stockInfoArray[4]; // 当前最高价
-			String curPriceLowest = stockInfoArray[5]; // 当前最低价
-			logger.debug("fundName：{}，curNetValue：{}，curPriceHighest：{}，curPriceLowest：{}", fundName, curNetValue, curPriceHighest, curPriceLowest);
-		}
+    	double lastNum = 28.06;
+    	double nowNum = 28.04;
+		BigDecimal lastBd = new BigDecimal(lastNum);
+		BigDecimal nowBd = new BigDecimal(nowNum);
+		BigDecimal retBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
+		String plainString = retBd.toPlainString();
+		System.out.println(retBd.doubleValue());
 	}
 }
