@@ -62,6 +62,7 @@ public class TaskServiceImpl implements TaskService{
     		long startTime = System.currentTimeMillis();
         	// 查询出所有基金编码
     		FundExample fundExample = new FundExample();
+			fundExample.or().andFundStateEqualTo(1);
     		fundExample.setOrderByClause(Fund.S_type);
         	List<Fund> fundList = fundMapper.selectByExample(fundExample);
         	for(Fund fund:fundList){
@@ -80,7 +81,7 @@ public class TaskServiceImpl implements TaskService{
         try{
             // 查询出所有股票
             FundExample fundExample = new FundExample();
-            fundExample.or().andTypeEqualTo(TableStaticConstData.TABLE_FUND_TYPE_STOCK);
+            fundExample.or().andFundStateEqualTo(1);
             List<Fund> fundList = fundMapper.selectByExample(fundExample);
             for(Fund fund:fundList){
                 updateStockInfo(fund);
@@ -93,10 +94,13 @@ public class TaskServiceImpl implements TaskService{
     private void updateStockInfo(Fund fund) {
         Fund updateFund = new Fund();
         updateFund.setFundCode(fund.getFundCode());
+
+        // 设置昨日信息
         updateFund.setLastGain(fund.getCurGain());
         updateFund.setLastNetValue(fund.getCurNetValue());
         updateFund.setLastPriceHighest(fund.getCurPriceHighest());
         updateFund.setLastPriceLowest(fund.getCurPriceLowest());
+
         updateFund.setModifyDate(new Date());
         fundMapper.updateByPrimaryKeySelective(updateFund);
     }
@@ -125,8 +129,15 @@ public class TaskServiceImpl implements TaskService{
 				Fund curFund = getFundByHttp(fund);
 				if(updateFund !=null){
 					if(curFund != null){
+						Double curNetValue = curFund.getCurNetValue();
+						if(fund.getCurPriceLowest() == null || curNetValue < fund.getCurPriceLowest()){
+							updateFund.setCurPriceLowest(curNetValue);
+						}
+						if(fund.getCurPriceHighest() == null || curNetValue > fund.getCurPriceHighest()){
+							updateFund.setCurPriceHighest(curNetValue);
+						}
 						updateFund.setCurGain(curFund.getCurGain());
-						updateFund.setCurNetValue(curFund.getCurNetValue());
+						updateFund.setCurNetValue(curNetValue);
 						updateFund.setGainTotal(BigDecimal.valueOf(updateFund.getLastGain()+updateFund.getCurGain()));
 					}else{
 						return;
