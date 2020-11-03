@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService{
     public void updateStockInfoNight(){
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
-            // 查询出所有股票
+            // 查询出所有基金股票
             FundExample fundExample = new FundExample();
             fundExample.or().andFundStateEqualTo(1);
             List<Fund> fundList = fundMapper.selectByExample(fundExample);
@@ -92,17 +92,28 @@ public class TaskServiceImpl implements TaskService{
     }
 
     private void updateStockInfo(Fund fund) {
-        Fund updateFund = new Fund();
-        updateFund.setFundCode(fund.getFundCode());
+		Date modifyDate = fund.getModifyDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(modifyDate);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		if(hour != 1){ // 凌晨1点未修改的才更新 防止重复更新
+			Fund updateFund = new Fund();
+			updateFund.setFundCode(fund.getFundCode());
 
-        // 设置昨日信息
-        updateFund.setLastGain(fund.getCurGain());
-        updateFund.setLastNetValue(fund.getCurNetValue());
-        updateFund.setLastPriceHighest(fund.getCurPriceHighest());
-        updateFund.setLastPriceLowest(fund.getCurPriceLowest());
+			// 设置昨日信息
+			updateFund.setLastGain(fund.getCurGain());
+			updateFund.setLastNetValue(fund.getCurNetValue());
+			updateFund.setLastPriceHighest(fund.getCurPriceHighest());
+			updateFund.setLastPriceLowest(fund.getCurPriceLowest());
 
-        updateFund.setModifyDate(new Date());
-        fundMapper.updateByPrimaryKeySelective(updateFund);
+			if(fund.getType() != null && fund.getType() == 1){
+				updateFund.setCurPriceLowest(99999.99);
+				updateFund.setCurPriceHighest(-1.0);
+			}
+
+			updateFund.setModifyDate(new Date());
+			fundMapper.updateByPrimaryKeySelective(updateFund);
+		}
     }
 
     @Scheduled(cron = "${fund.cache.clean.cron}")
@@ -316,8 +327,8 @@ public class TaskServiceImpl implements TaskService{
     	
     	String fundName; // 基金名称
     	String curTime; // 当前估算时间
-    	Double curNetValue; // 当前估算净值
-    	Double curGain;
+    	Double curNetValue = 0.0; // 当前估算净值
+    	Double curGain = 0.0;
     	Double lastNetValue; // 上一日净值
     	Double lastGain; // 上一日涨幅
     	try {
@@ -338,12 +349,16 @@ public class TaskServiceImpl implements TaskService{
 			
 			// 当前估算净值
 			String curNetValueStr = doc.getElementById("gz_gsz").text();
-			curNetValue = Double.valueOf(curNetValueStr);
+			if(StringUtils.isNumeric(curNetValueStr)){
+				curNetValue = Double.valueOf(curNetValueStr);
+			}
 			fund.setCurNetValue(curNetValue);
 			
 			// 当前估算涨幅
 			String curGainStr = doc.getElementById("gz_gszzl").text();
-			curGain	= Double.valueOf(curGainStr.substring(0,curGainStr.length()-1));
+			if(StringUtils.isNotBlank(curGainStr)){
+				curGain	= Double.valueOf(curGainStr.substring(0,curGainStr.length()-1));
+			}
 			fund.setCurGain(curGain);
 			
 			// 上一日净值
