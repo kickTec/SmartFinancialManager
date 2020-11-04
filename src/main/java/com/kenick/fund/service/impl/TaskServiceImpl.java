@@ -166,6 +166,7 @@ public class TaskServiceImpl implements TaskService{
 			}
 
         	// 更新基金信息
+			updateFund.setModifyDate(new Date());
         	fundMapper.updateByPrimaryKeySelective(updateFund);
 
         	// 更新用户基金信息
@@ -298,7 +299,7 @@ public class TaskServiceImpl implements TaskService{
 			return;
 		}
 		
-		// 当天发送次数超过0次，不再发送
+		// 已发送过一次的，不再发送
 		String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
 		Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
 		Integer codeSmsNum = 0;
