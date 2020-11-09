@@ -1,0 +1,17 @@
+body{
+    font-size:50%
+}
+
+.container{
+    max-width:1140px
+}
+
+thead{
+    font-size:100%
+}
+
+.table td, .table th {
+    padding: .3rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
