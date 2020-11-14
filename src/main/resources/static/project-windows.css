@@ -3,9 +3,16 @@ body{
 }
 
 .container{
-    max-width:1140px
+    max-width:1000px;
 }
 
 thead{
     font-size:120%
+}
+
+.table td, .table th {
+    padding: .3rem;
+    vertical-align: center;
+    horiz-align: center;
+    border-top: 2px solid #dee2e6;
 }

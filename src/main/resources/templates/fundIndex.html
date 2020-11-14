@@ -85,9 +85,6 @@
 								累计
 							</th>
 							<th>
-								编码
-							</th>
-							<th>
 								名称
 							</th>
 							<th>
@@ -97,30 +94,21 @@
 								昨幅
 							</th>
 							<th>
-								今净
+								今日
 							</th>
 							<th>
-								今高
-							</th>
-							<th>
-								今低
-							</th>
-							<th>
-								昨净
+								昨日
 							</th>
 						</tr>
 					</thead>
 					<tbody align="center">
 						<tr th:each="entries,stat:${fundList}" >
-							<td th:text="${entries['gainTotal']}" />
-							<td th:text="${entries['fundCode']}" />
-							<td th:text="${entries['fundName']}" align="left" th:width="300"/>
-							<td th:text="${entries['curGain']}" />
-							<td th:text="${entries['lastGain']}" />
-							<td th:text="${entries['curNetValue']}" />
-							<td th:text="${entries['curPriceHighest']}" />
-							<td th:text="${entries['curPriceLowest']}" />
-							<td th:text="${entries['lastNetValue']}" />
+							<td th:utext="${entries['gainTotal']}"/>
+							<td th:utext="${entries['fundCode']} + '-' + ${entries['fundName']}"/>
+							<td th:utext="${entries['curGain']}"/>
+							<td th:utext="${entries['lastGain']}"/>
+							<td th:utext="'值:' + ${entries['curNetValue']} + '&lt;br/&gt;高:' +${entries['curPriceHighest']} + '&lt;br/&gt;低' +${entries['curPriceLowest']}"/>
+							<td th:utext="'值:' + ${entries['lastNetValue']} + '&lt;br/&gt;高:' +${entries['lastPriceHighest']} + '&lt;br/&gt;低' +${entries['lastPriceLowest']}"/>
 						</tr>
 					</tbody>
 				</table>
@@ -129,12 +117,12 @@
 	</div>
 </body>
 <script type="text/javascript">
-    document.getElementById("scroll-bar").innerHTML = "V1.0.8 欢迎您，"+platformDesc + "用户！";
+    document.getElementById("scroll-bar").innerHTML = "V1.1.0 欢迎您，"+platformDesc + "用户！";
 
 	window.onload = function () {
     	setTimeout(function(){
     		window.location.reload();
-    	}, 10000); //指定时间间隔刷新
+    	}, 20000); //指定时间间隔刷新
 	}
 </script>
 </html>
