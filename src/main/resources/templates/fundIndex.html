@@ -88,16 +88,16 @@
 								名称
 							</th>
 							<th>
-								今幅
-							</th>
-							<th>
-								昨幅
-							</th>
-							<th>
 								今日
 							</th>
 							<th>
 								昨日
+							</th>
+							<th>
+								今波动
+							</th>
+							<th>
+								昨波动
 							</th>
 						</tr>
 					</thead>
@@ -105,10 +105,10 @@
 						<tr th:each="entries,stat:${fundList}" >
 							<td th:utext="${entries['gainTotal']}"/>
 							<td th:utext="${entries['fundCode']} + '-' + ${entries['fundName']}"/>
-							<td th:utext="${entries['curGain']}"/>
-							<td th:utext="${entries['lastGain']}"/>
-							<td th:utext="'值:' + ${entries['curNetValue']} + '&lt;br/&gt;高:' +${entries['curPriceHighest']} + '&lt;br/&gt;低' +${entries['curPriceLowest']}"/>
-							<td th:utext="'值:' + ${entries['lastNetValue']} + '&lt;br/&gt;高:' +${entries['lastPriceHighest']} + '&lt;br/&gt;低' +${entries['lastPriceLowest']}"/>
+							<td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
+							<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
+							<td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
+							<td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
 						</tr>
 					</tbody>
 				</table>
