@@ -1,7 +1,9 @@
 package com.kenick.fund.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.constant.SysConstantData;
 import com.kenick.constant.TableStaticConstData;
+import com.kenick.fund.service.ConstantService;
 import com.kenick.fund.service.TaskService;
 import com.kenick.generate.bean.Fund;
 import com.kenick.generate.bean.FundExample;
@@ -28,23 +30,17 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Service("taskService")
 @Configurable
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
 	private final static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-	private final static Double upperLimit = 5.0D;
-	private final static Double lowerLimit = -5.0D;
-	
-	private static Date lastSendDate = new Date(); 
-	private static Map<String, Map<String,Integer>> fundSmsMap = new HashMap<>();
+	private static Date lastSendDate = new Date();
 
 	@Resource
 	private AsyncServiceImpl asyncService;
@@ -54,7 +50,10 @@ public class TaskServiceImpl implements TaskService{
 
 	@Resource
 	private UserFundMapper userFundMapper;
-   
+
+	@Resource
+	private ConstantService constantService;
+
 	// 每隔指定时间执行一次，上一次任务已完成
     @Scheduled(cron = "${fund.query.cron}")
     public void perfectFundInfo(){
@@ -86,6 +85,16 @@ public class TaskServiceImpl implements TaskService{
             for(Fund fund:fundList){
                 updateStockInfo(fund);
             }
+
+            // 晚上移除发送短信记录
+            JSONObject smsRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
+            Set<String> smsKeySet = smsRuleJson.keySet();
+            for(String key:smsKeySet){
+                if(key.contains("TodaySendFlag_")){
+                    smsRuleJson.put(key, false);
+                }
+            }
+            constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsRuleJson.toJSONString());
         }catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }
@@ -116,13 +125,6 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
 
-    @Scheduled(cron = "${fund.cache.clean.cron}")
-    public void clean(){
-    	if(fundSmsMap != null){
-    		fundSmsMap.clear();
-    	}
-    }
-    
     /**
      * 根据基金编码完善基金信息
      * @param fund 基金信息
@@ -176,7 +178,8 @@ public class TaskServiceImpl implements TaskService{
 			userFundMapper.updateByExampleSelective(userFund, userFundExample);
 
 			// 发送短信
-        	sendSms(updateFund);
+            Fund newFund = fundMapper.selectByPrimaryKey(updateFund.getFundCode());
+            sendSms(newFund);
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
@@ -252,73 +255,102 @@ public class TaskServiceImpl implements TaskService{
 
 	// 发送短信
     private void sendSms(Fund fund){
-		Date now = new Date();
-		boolean sendFlag = true;
-		
+		JSONObject smsSendRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
+
+		Integer type = fund.getType();
+		String fundCode = fund.getFundCode();
+
+		// 基金股票信息不全，不发送短信
+		if(smsSendRuleJson == null || StringUtils.isBlank(fundCode) || type == null || fund.getCurGain() == null || fund.getLastGain() == null){
+			return;
+		}
+
+		if(!smsSendRuleJson.getBooleanValue("sendFlag")){ // 发送短信总开关
+			return;
+		}
+
+		String sendPhone = smsSendRuleJson.getString("sendPhone");  // 必须有发送手机号
+		if(StringUtils.isBlank(sendPhone)){
+			return;
+		}
+
+		String fundSendFlagKey = "TodaySendFlag_"+fundCode; 	// 单个基金或股票是否已发送
+		boolean fundSendFlag = smsSendRuleJson.getBooleanValue(fundSendFlagKey);
+		if(fundSendFlag){
+			return;
+		}
+
 		// 周末不发送
+		boolean sendFlag = false;
+		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(now);
 		if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
 			return;
 		}
-		
-		// 14:30前不发送
-		calendar.setTime(now);
-		calendar.set(Calendar.HOUR_OF_DAY, 14);
-		calendar.set(Calendar.MINUTE, 30);
-		Date fourteenHour = calendar.getTime();
-		if(now.before(fourteenHour)){
-			return;
-		}
-		
+
+		// 9点35前不发送
+        calendar.setTime(now);
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 35);
+        Date startDate = calendar.getTime();
+        if(now.before(startDate)){
+            return;
+        }
+
 		// 15点后 不发送
 		calendar.setTime(now);
 		calendar.set(Calendar.HOUR_OF_DAY, 15);
 		calendar.set(Calendar.MINUTE, 0);
-		Date fifteenDate = calendar.getTime();
-		if(now.after(fifteenDate)){
+		Date endDate = calendar.getTime();
+		if(now.after(endDate)){
 			return;
 		}
 		
-		// 发送短信间隔1分钟
-		calendar.setTime(lastSendDate);
-		calendar.add(Calendar.MINUTE, 1);
-		Date oneMinuteLater = calendar.getTime();
-		if(now.before(oneMinuteLater)){
-			return;
-		}
-		
-		// 基金信息不全，不发送短信
-		if(fund.getFundCode() == null || fund.getCurGain() == null || fund.getLastGain() == null){
-			return;
-		}
-		
-    	// 基金变动幅度不超过阈值，不发送短信
-		double sumGain = fund.getCurGain() + fund.getLastGain();
-		if(sumGain > upperLimit && sumGain < lowerLimit){
-			return;
-		}
-		
-		// 已发送过一次的，不再发送
-		String dayStr = new SimpleDateFormat("yyyyMMdd").format(now);
-		Map<String, Integer> smsMap = fundSmsMap.get(dayStr);
-		Integer codeSmsNum = 0;
-		if(smsMap != null && smsMap.get(fund.getFundCode()) != null){
-			codeSmsNum = smsMap.get(fund.getFundCode());
-			if(codeSmsNum > 0){
-				sendFlag = false;
+		// 发送短信间隔
+		Integer sendInterval = smsSendRuleJson.getInteger("sendInterval");
+		if(sendInterval != null){
+			calendar.setTime(lastSendDate);
+			calendar.add(Calendar.MINUTE, sendInterval);
+			Date intervalAfter = calendar.getTime();
+			if(now.before(intervalAfter)){
+				return;
 			}
 		}
-		
+
+    	// 基金两日上涨幅度超过最大值
+		double sumGain = fund.getCurGain() + fund.getLastGain();
+		Double fundUpperLimit = smsSendRuleJson.getDouble("fund2DayUpperLimit");
+		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundUpperLimit != null && sumGain >= fundUpperLimit){
+			sendFlag = true;
+		}
+
+		// 基金两日下降幅度超过最小值
+		Double fundLowerLimit = smsSendRuleJson.getDouble("fund2DayLowerLimit");
+		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundLowerLimit != null && sumGain <= fundLowerLimit){
+			sendFlag = true;
+		}
+
+		// 基金或股票单日净值涨幅超过最大值
+		Double fundUpMoney = smsSendRuleJson.getDouble(fundCode + "UpperLimit");
+		double fundValueChange = fund.getCurNetValue() - fund.getLastNetValue();
+		if(fundUpMoney != null && fundValueChange >= fundUpMoney){
+			sendFlag = true;
+		}
+
+		// 基金或股票单日净值跌幅低过最小值
+		Double fundDownMoney = smsSendRuleJson.getDouble(fundCode + "LowerLimit");
+		if(fundDownMoney != null && fundValueChange <= fundDownMoney) {
+			sendFlag = true;
+		}
+
 		if(sendFlag){
 			lastSendDate = now;
-			if(smsMap == null){
-				smsMap = new HashMap<>();
-			}
-			smsMap.put(fund.getFundCode(), ++codeSmsNum);
-			asyncService.aliSendSmsCode("15910761260", fund.getFundCode());
+			logger.debug("向{}发送短信:{}", sendPhone, fundCode);
+			asyncService.aliSendSmsCode(sendPhone, fundCode);
+			smsSendRuleJson.put(fundSendFlagKey, true);
+			constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsSendRuleJson.toJSONString());
 		}
-		fundSmsMap.put(dayStr, smsMap);
 	}
 
 	// 根据基金编码获取基金信息
