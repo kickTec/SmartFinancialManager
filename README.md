@@ -10,7 +10,7 @@ git push -u origin master
 ./database
 
 # index 首页
-http://xxxx/
+http://www.kenick.top/
 
 # git提交
 git pull origin master
