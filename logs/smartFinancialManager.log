@@ -13984,3 +13984,173 @@ org.xml.sax.SAXParseException: 与元素类型 "td" 相关联的 "th:utext" 属�
 2020-11-20 14:03:40.490 DEBUG 149168 --- [main] com.kenick.log.LoggerTest                : taskService:com.kenick.fund.service.impl.TaskServiceImpl@66c38e51
 2020-11-20 14:03:40.490 DEBUG 149168 --- [main] com.kenick.log.LoggerTest                : logger:Logger[com.kenick.log.LoggerTest]
 2020-11-20 14:03:40.498  INFO 149168 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@53ce1329: startup date [Fri Nov 20 14:03:36 CST 2020]; root of context hierarchy
+2021-04-27 19:08:26.773  INFO 1312 --- [main] com.kenick.Application                   : Starting Application on kenick with PID 1312 (E:\workspace_svn\SmartFinancialManager\target\classes started by Administrator in E:\workspace_svn\SmartFinancialManager)
+2021-04-27 19:08:26.798 DEBUG 1312 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2021-04-27 19:08:26.798  INFO 1312 --- [main] com.kenick.Application                   : The following profiles are active: prod
+2021-04-27 19:08:27.251  INFO 1312 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1e81f160: startup date [Tue Apr 27 19:08:27 CST 2021]; root of context hierarchy
+2021-04-27 19:08:28.777  INFO 1312 --- [main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2021-04-27 19:08:28.833  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:08:28.844  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:08:28.844  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:08:28.845  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.core.env.SystemEnvironmentPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:08:28.845  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.context.config.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:08:28.845  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application-prod.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:08:28.845  INFO 1312 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:08:29.205  INFO 1312 --- [main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2021-04-27 19:08:29.208  INFO 1312 --- [main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2021-04-27 19:08:29.516  INFO 1312 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2021-04-27 19:08:29.527  INFO 1312 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-27 19:08:29.528  INFO 1312 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2021-04-27 19:08:29.668  INFO 1312 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-27 19:08:29.669  INFO 1312 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2418 ms
+2021-04-27 19:08:29.880  INFO 1312 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2021-04-27 19:08:29.885  INFO 1312 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2021-04-27 19:08:29.886  INFO 1312 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2021-04-27 19:08:29.886  INFO 1312 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2021-04-27 19:08:29.886  INFO 1312 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2021-04-27 19:08:30.050  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : String Encryptor custom Bean not found with name 'jasyptStringEncryptor'. Initializing Default String Encryptor
+2021-04-27 19:08:30.066  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.algorithm, using default value: PBEWithMD5AndDES
+2021-04-27 19:08:30.067  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.keyObtentionIterations, using default value: 1000
+2021-04-27 19:08:30.067  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.poolSize, using default value: 1
+2021-04-27 19:08:30.067  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.providerName, using default value: null
+2021-04-27 19:08:30.067  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.saltGeneratorClassname, using default value: org.jasypt.salt.RandomSaltGenerator
+2021-04-27 19:08:30.068  INFO 1312 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.stringOutputType, using default value: base64
+2021-04-27 19:08:31.486  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1e81f160: startup date [Tue Apr 27 19:08:27 CST 2021]; root of context hierarchy
+2021-04-27 19:08:31.552  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:08:31.553  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/indexCache.html]}" onto public java.lang.String com.kenick.controller.FundController.indexCache(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:08:31.553  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryfundinfolist]}" onto public java.lang.String com.kenick.controller.FundController.queryFundInfoList(java.lang.String)
+2021-04-27 19:08:31.554  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryuserfundlist]}" onto public java.lang.String com.kenick.controller.FundController.queryUserFundList(java.lang.String)
+2021-04-27 19:08:31.554  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2021-04-27 19:08:31.554  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2021-04-27 19:08:31.555  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.generate.bean.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2021-04-27 19:08:31.558  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2021-04-27 19:08:31.558  INFO 1312 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2021-04-27 19:08:31.589  INFO 1312 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:08:31.589  INFO 1312 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:08:31.629  INFO 1312 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:08:32.472  INFO 1312 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2021-04-27 19:08:32.474  INFO 1312 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2021-04-27 19:08:32.479  INFO 1312 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2021-04-27 19:08:32.495  INFO 1312 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2021-04-27 19:08:32.583  INFO 1312 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2021-04-27 19:08:32.594  INFO 1312 --- [main] com.kenick.Application                   : Started Application in 6.956 seconds (JVM running for 8.675)
+2021-04-27 19:08:44.289  INFO 1312 --- [Thread-18] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1e81f160: startup date [Tue Apr 27 19:08:27 CST 2021]; root of context hierarchy
+2021-04-27 19:08:44.292  INFO 1312 --- [Thread-18] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2021-04-27 19:08:44.293  INFO 1312 --- [Thread-18] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2021-04-27 19:09:18.933  INFO 11948 --- [main] com.kenick.Application                   : Starting Application on kenick with PID 11948 (E:\workspace_svn\SmartFinancialManager\target\classes started by Administrator in E:\workspace_svn\SmartFinancialManager)
+2021-04-27 19:09:19.039 DEBUG 11948 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2021-04-27 19:09:19.039  INFO 11948 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2021-04-27 19:09:19.263  INFO 11948 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:09:19 CST 2021]; root of context hierarchy
+2021-04-27 19:09:20.181  INFO 11948 --- [main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2021-04-27 19:09:20.219  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:09:20.221  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:09:20.221  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:09:20.222  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.core.env.SystemEnvironmentPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:09:20.222  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.context.config.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:09:20.222  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application-dev.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:09:20.222  INFO 11948 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:09:20.515  INFO 11948 --- [main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2021-04-27 19:09:20.518  INFO 11948 --- [main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2021-04-27 19:09:20.688  INFO 11948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2021-04-27 19:09:20.696  INFO 11948 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-27 19:09:20.697  INFO 11948 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2021-04-27 19:09:20.824  INFO 11948 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-27 19:09:20.825  INFO 11948 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1562 ms
+2021-04-27 19:09:21.026  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2021-04-27 19:09:21.031  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2021-04-27 19:09:21.032  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2021-04-27 19:09:21.032  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2021-04-27 19:09:21.032  INFO 11948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2021-04-27 19:09:21.746  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:09:19 CST 2021]; root of context hierarchy
+2021-04-27 19:09:21.798  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:09:21.798  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryfundinfolist]}" onto public java.lang.String com.kenick.controller.FundController.queryFundInfoList(java.lang.String)
+2021-04-27 19:09:21.799  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryuserfundlist]}" onto public java.lang.String com.kenick.controller.FundController.queryUserFundList(java.lang.String)
+2021-04-27 19:09:21.799  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/indexCache.html]}" onto public java.lang.String com.kenick.controller.FundController.indexCache(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:09:21.799  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2021-04-27 19:09:21.800  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2021-04-27 19:09:21.800  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.generate.bean.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2021-04-27 19:09:21.802  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2021-04-27 19:09:21.803  INFO 11948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2021-04-27 19:09:21.833  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:09:21.834  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:09:21.875  INFO 11948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:09:22.541  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2021-04-27 19:09:22.543  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2021-04-27 19:09:22.549  INFO 11948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2021-04-27 19:09:22.559  INFO 11948 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2021-04-27 19:09:22.609  INFO 11948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2021-04-27 19:09:22.614  INFO 11948 --- [main] com.kenick.Application                   : Started Application in 4.03 seconds (JVM running for 4.898)
+2021-04-27 19:09:58.335  INFO 11948 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2021-04-27 19:09:58.336  INFO 11948 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2021-04-27 19:09:58.386  INFO 11948 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 50 ms
+2021-04-27 19:09:58.436 DEBUG 11948 --- [http-nio-8080-exec-1] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:10:19.247  INFO 11948 --- [Thread-10] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:09:19 CST 2021]; root of context hierarchy
+2021-04-27 19:10:19.249  INFO 11948 --- [Thread-10] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2021-04-27 19:10:19.249  INFO 11948 --- [Thread-10] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2021-04-27 19:10:34.757  INFO 12264 --- [main] com.kenick.Application                   : Starting Application on kenick with PID 12264 (E:\workspace_svn\SmartFinancialManager\target\classes started by Administrator in E:\workspace_svn\SmartFinancialManager)
+2021-04-27 19:10:34.759 DEBUG 12264 --- [main] com.kenick.Application                   : Running with Spring Boot v1.5.6.RELEASE, Spring v4.3.10.RELEASE
+2021-04-27 19:10:34.759  INFO 12264 --- [main] com.kenick.Application                   : The following profiles are active: dev
+2021-04-27 19:10:35.144  INFO 12264 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:10:35 CST 2021]; root of context hierarchy
+2021-04-27 19:10:35.993  INFO 12264 --- [main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2021-04-27 19:10:36.030  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:10:36.031  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:10:36.032  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:10:36.032  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.core.env.SystemEnvironmentPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:10:36.032  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.context.config.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2021-04-27 19:10:36.033  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application-dev.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:10:36.033  INFO 12264 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2021-04-27 19:10:36.319  INFO 12264 --- [main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2021-04-27 19:10:36.321  INFO 12264 --- [main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2021-04-27 19:10:36.494  INFO 12264 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2021-04-27 19:10:36.502  INFO 12264 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-27 19:10:36.503  INFO 12264 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.16
+2021-04-27 19:10:36.645  INFO 12264 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-27 19:10:36.645  INFO 12264 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1501 ms
+2021-04-27 19:10:36.861  INFO 12264 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2021-04-27 19:10:36.866  INFO 12264 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2021-04-27 19:10:36.866  INFO 12264 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2021-04-27 19:10:36.866  INFO 12264 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2021-04-27 19:10:36.866  INFO 12264 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2021-04-27 19:10:37.558  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:10:35 CST 2021]; root of context hierarchy
+2021-04-27 19:10:37.611  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/index.html]}" onto public java.lang.String com.kenick.controller.FundController.index(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:10:37.611  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryfundinfolist]}" onto public java.lang.String com.kenick.controller.FundController.queryFundInfoList(java.lang.String)
+2021-04-27 19:10:37.612  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/queryuserfundlist]}" onto public java.lang.String com.kenick.controller.FundController.queryUserFundList(java.lang.String)
+2021-04-27 19:10:37.612  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/fund/indexCache.html]}" onto public java.lang.String com.kenick.controller.FundController.indexCache(java.lang.String,org.springframework.ui.Model)
+2021-04-27 19:10:37.612  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello],methods=[GET]}" onto public java.lang.String com.kenick.controller.HelloController.hello(org.springframework.ui.Model)
+2021-04-27 19:10:37.612  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.kenick.controller.IndexController.index()
+2021-04-27 19:10:37.613  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/addUser]}" onto public com.kenick.generate.bean.User com.kenick.controller.UserController.addUser(javax.servlet.http.HttpServletRequest,org.springframework.ui.Model)
+2021-04-27 19:10:37.615  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2021-04-27 19:10:37.615  INFO 12264 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2021-04-27 19:10:37.645  INFO 12264 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:10:37.645  INFO 12264 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:10:37.682  INFO 12264 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-27 19:10:38.350  INFO 12264 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2021-04-27 19:10:38.352  INFO 12264 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2021-04-27 19:10:38.358  INFO 12264 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+2021-04-27 19:10:38.369  INFO 12264 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2021-04-27 19:10:38.413  INFO 12264 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2021-04-27 19:10:38.418  INFO 12264 --- [main] com.kenick.Application                   : Started Application in 3.991 seconds (JVM running for 4.858)
+2021-04-27 19:10:55.727  INFO 12264 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2021-04-27 19:10:55.728  INFO 12264 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2021-04-27 19:10:55.761  INFO 12264 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 33 ms
+2021-04-27 19:10:55.800 DEBUG 12264 --- [http-nio-8080-exec-1] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:10:55.946  INFO 12264 --- [http-nio-8080-exec-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 19:10:56.397 DEBUG 12264 --- [http-nio-8080-exec-1] c.k.g.dao.FundMapper.selectByExample     : ==>  Preparing: select fund_code, fund_name, type, cur_time, cur_net_value, cur_gain, cur_price_highest, cur_price_lowest, last_net_value, last_gain, last_price_highest, last_price_lowest, gain_total, fund_state, modify_date, create_date from fund order by type,gain_total,cur_gain 
+2021-04-27 19:10:56.417 DEBUG 12264 --- [http-nio-8080-exec-1] c.k.g.dao.FundMapper.selectByExample     : ==> Parameters: 
+2021-04-27 19:10:56.609 DEBUG 12264 --- [http-nio-8080-exec-1] c.k.g.dao.FundMapper.selectByExample     : <==      Total: 6
+2021-04-27 19:11:05.271 DEBUG 12264 --- [http-nio-8080-exec-6] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:06.396 DEBUG 12264 --- [http-nio-8080-exec-10] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:07.015 DEBUG 12264 --- [http-nio-8080-exec-4] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:07.745 DEBUG 12264 --- [http-nio-8080-exec-8] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:08.398 DEBUG 12264 --- [http-nio-8080-exec-2] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:17.034 DEBUG 12264 --- [http-nio-8080-exec-9] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:18.269 DEBUG 12264 --- [http-nio-8080-exec-10] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:18.885 DEBUG 12264 --- [http-nio-8080-exec-1] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:19.451 DEBUG 12264 --- [http-nio-8080-exec-2] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:20.036 DEBUG 12264 --- [http-nio-8080-exec-4] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:20.753 DEBUG 12264 --- [http-nio-8080-exec-3] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:11:21.451 DEBUG 12264 --- [http-nio-8080-exec-6] com.kenick.controller.FundController     : FundController.index in, param:null
+2021-04-27 19:12:34.526  INFO 12264 --- [Thread-10] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@31920ade: startup date [Tue Apr 27 19:10:35 CST 2021]; root of context hierarchy
+2021-04-27 19:12:34.528  INFO 12264 --- [Thread-10] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2021-04-27 19:12:34.528  INFO 12264 --- [Thread-10] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2021-04-27 19:12:34.533  INFO 12264 --- [Thread-10] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

@@ -380,4 +380,26 @@ public class Fund {/* feild added*/
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "fundCode='" + fundCode + '\'' +
+                ", fundName='" + fundName + '\'' +
+                ", type=" + type +
+                ", curTime='" + curTime + '\'' +
+                ", curNetValue=" + curNetValue +
+                ", curGain=" + curGain +
+                ", curPriceHighest=" + curPriceHighest +
+                ", curPriceLowest=" + curPriceLowest +
+                ", lastNetValue=" + lastNetValue +
+                ", lastGain=" + lastGain +
+                ", lastPriceHighest=" + lastPriceHighest +
+                ", lastPriceLowest=" + lastPriceLowest +
+                ", gainTotal=" + gainTotal +
+                ", fundState=" + fundState +
+                ", modifyDate=" + modifyDate +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

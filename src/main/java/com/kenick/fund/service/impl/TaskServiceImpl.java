@@ -3,6 +3,7 @@ package com.kenick.fund.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.SysConstantData;
 import com.kenick.constant.TableStaticConstData;
+import com.kenick.controller.FundController;
 import com.kenick.fund.service.ConstantService;
 import com.kenick.fund.service.TaskService;
 import com.kenick.generate.bean.Fund;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,26 +56,84 @@ public class TaskServiceImpl implements TaskService{
 	@Resource
 	private ConstantService constantService;
 
-	// 每隔指定时间执行一次，上一次任务已完成
+	/**
+	 * <一句话功能简述>  白天更新基金股票信息
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2021/4/27
+	 */
     @Scheduled(cron = "${fund.query.cron}")
     public void perfectFundInfo(){
     	try{
     		long startTime = System.currentTimeMillis();
-        	// 查询出所有基金编码
-    		FundExample fundExample = new FundExample();
-			fundExample.or().andFundStateEqualTo(1);
-    		fundExample.setOrderByClause(Fund.S_type);
-        	List<Fund> fundList = fundMapper.selectByExample(fundExample);
-        	for(Fund fund:fundList){
-        		perfectFundInfoByCode(fund);
-        	}
-        	long endTime = System.currentTimeMillis();
+			Date now = new Date();
+
+			// 通过mysql查询更新，较占资源
+			// updateThroughMysql();
+
+			// 通过缓存查询更新
+			updateThroughCache(now);
+
+			long endTime = System.currentTimeMillis();
         	logger.debug("遍历理财一轮花费时间:{}", endTime-startTime);
     	}catch (Exception e) {
-    		logger.debug(e.getMessage());
+    		logger.error("白天更新股票基金信息异常!", e);
 		}
     }
 
+	private void updateThroughCache(Date now) {
+		List<Fund> fundList = copyListDeep(FundController.fundCacheList);
+
+		for(Fund fund:fundList){
+			perfectInfoByCodeCache(fund, now);
+
+			if(DateUtils.isRightTimeBySecond(now, 30,10)){
+				fundMapper.updateByPrimaryKeySelective(fund);
+			}
+		}
+		FundController.fundCacheList = fundList;
+	}
+
+	// 只更新当前缓存中的list
+	private void perfectInfoByCodeCache(Fund fund, Date now) {
+		try{
+			if(fund == null || StringUtils.isBlank(fund.getFundCode())){
+				return;
+			}
+
+			// 更新基金信息
+			if(fund.getType() == null || fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_FUND){
+				updateFundInfo(fund, now);
+				return;
+			}
+
+			// 获取股票信息
+			if(fund.getType() != null && fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_STOCK){
+				updateStockByHttp(fund, now);
+			}
+		}catch (Exception e) {
+			logger.error("完成基金股票信息异常!", e);
+		}
+	}
+
+	// 通过mysql查询更新，较占资源
+	private void updateThroughMysql(){
+		// 查询出所有基金编码
+		FundExample fundExample = new FundExample();
+		fundExample.or().andFundStateEqualTo(1);
+		fundExample.setOrderByClause(Fund.S_type);
+		List<Fund> fundList = fundMapper.selectByExample(fundExample);
+		for(Fund fund:fundList){
+			perfectFundInfoByCode(fund);
+		}
+	}
+
+    /**
+	 * <一句话功能简述> 1.晚上更新昨日数据 2.移除当天短袖发送记录
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2021/4/27
+	 */
     @Scheduled(cron = "${stock.update.cron}")
     public void updateStockInfoNight(){
         logger.debug("TaskServiceImpl.updateStockInfo in");
@@ -111,13 +171,20 @@ public class TaskServiceImpl implements TaskService{
 
 			// 设置昨日信息
 			updateFund.setLastGain(fund.getCurGain());
+			updateFund.setCurGain(0.00);
 			updateFund.setLastNetValue(fund.getCurNetValue());
+			updateFund.setCurNetValue(0.00);
 			updateFund.setLastPriceHighest(fund.getCurPriceHighest());
+			updateFund.setCurPriceHighest(0.00);
 			updateFund.setLastPriceLowest(fund.getCurPriceLowest());
+			updateFund.setLastPriceLowest(0.00);
+			BigDecimal gainTotal = new BigDecimal(fund.getCurGain());
+			gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+			updateFund.setGainTotal(gainTotal);
 
 			if(fund.getType() != null && fund.getType() == 1){
-				updateFund.setCurPriceLowest(99999.99);
-				updateFund.setCurPriceHighest(-1.0);
+				updateFund.setCurPriceLowest(0.00);
+				updateFund.setCurPriceHighest(0.00);
 			}
 
 			updateFund.setModifyDate(new Date());
@@ -127,7 +194,7 @@ public class TaskServiceImpl implements TaskService{
 
     /**
      * 根据基金编码完善基金信息
-     * @param fund 基金信息
+     * @param fund 基金股票信息
      */
     private void perfectFundInfoByCode(Fund fund){
     	try{
@@ -185,7 +252,7 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
 
-    // 获取股票信息
+    // 获取股票信息 fundName curNetValueNum curPriceHighest curPriceLowest curTime CurGain
 	private Fund getStockInfoByHttp(Fund databaseFund) {
 		Fund fund = new Fund();
 		String fundCode = databaseFund.getFundCode();
@@ -250,6 +317,76 @@ public class TaskServiceImpl implements TaskService{
 		}catch (Exception e) {
 			logger.error("获取股票信息失败！", e.getCause());
 			return null;
+		}
+	}
+
+	// 更新股票信息 fundName curNetValueNum curPriceHighest curPriceLowest curTime CurGain
+	private void updateStockByHttp(Fund fund, Date now) {
+
+		if(fund == null || StringUtils.isBlank(fund.getFundCode())){
+			return;
+		}
+		
+		try{
+			String url = null;
+			String fundCode = fund.getFundCode();
+
+			// 股票类型
+			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
+				url = "http://hq.sinajs.cn/list=sz"+ fundCode;
+			}
+
+			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
+				url = "http://hq.sinajs.cn/list=sh"+ fundCode;
+			}
+
+			// 获取最新净值和涨幅
+			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+			logger.debug("最新股票数据为:{}", retStr);
+			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
+			if(StringUtils.isNotBlank(retStr)){
+				retStr = retStr.split("=")[1];
+				retStr = retStr.replace("\"","").replace(";","");
+				String[] stockInfoArray = retStr.split(",");
+				String fundName = stockInfoArray[0]; // 名称
+				String curNetValue = stockInfoArray[3]; // 当前价
+				String curPriceHighest = stockInfoArray[4]; // 当前最高价
+				String curPriceLowest = stockInfoArray[5]; // 当前最低价
+
+				Double curNetValueNum = Double.valueOf(curNetValue);
+				// fundName
+				fund.setFundName(fundName);
+				// curNetValue
+				fund.setCurNetValue(curNetValueNum);
+				// curPriceHighest
+				fund.setCurPriceHighest(Double.valueOf(curPriceHighest));
+				// curPriceLowest
+				fund.setCurPriceLowest(Double.valueOf(curPriceLowest));
+				// curTime
+				fund.setCurTime(DateUtils.getStrDate(now, "MM-dd HH:mm"));
+				fund.setModifyDate(now);
+
+				// 现在涨幅重新计算
+				Double lastNetValue = fund.getLastNetValue();
+				if(lastNetValue != null){
+					BigDecimal lastBd = new BigDecimal(lastNetValue);
+					BigDecimal nowBd = new BigDecimal(curNetValueNum);
+					BigDecimal curGainBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
+					// curGain
+					fund.setCurGain(curGainBd.doubleValue());
+
+					if(fund.getLastGain() == null){
+						fund.setLastGain(0.0);
+					}
+
+					// gainTotal
+					BigDecimal gainTotal = new BigDecimal(curGainBd.doubleValue() + fund.getLastGain());
+					gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+					fund.setGainTotal(gainTotal);
+				}
+			}
+		}catch (Exception e) {
+			logger.error("更新股票信息失败！", e);
 		}
 	}
 
@@ -423,8 +560,10 @@ public class TaskServiceImpl implements TaskService{
         	logger.debug("爬取的最新基金数据为:{}", retStr);
         	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
 			if(retStr != null){
+				// fundName curNetValueNum curPriceHighest curPriceLowest curTime CurGain
 				String retJsonStr = retStr.substring(8, retStr.length()-2);
 				JSONObject retJson = JSONObject.parseObject(retJsonStr);
+				fund.setFundName(retJson.getString("name"));
 				fund.setCurNetValue(retJson.getDouble("gsz"));
 				fund.setCurGain(retJson.getDouble("gszzl"));
 				fund.setCurTime(retJson.getString("gztime").substring(5));
@@ -438,14 +577,78 @@ public class TaskServiceImpl implements TaskService{
     		return null;
 		}
     }
-    
-    public static void main(String[] args) {
-    	double lastNum = 28.06;
-    	double nowNum = 28.04;
-		BigDecimal lastBd = new BigDecimal(lastNum);
-		BigDecimal nowBd = new BigDecimal(nowNum);
-		BigDecimal retBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
-		String plainString = retBd.toPlainString();
-		System.out.println(retBd.doubleValue());
+
+	// 更新基金信息
+	private void updateFundInfo(Fund fund, Date now){
+		try{
+			// 获取最新净值和涨幅
+			String url = "http://fundgz.1234567.com.cn/js/"+fund.getFundCode()+".js?rt="+now.getTime();
+			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+			logger.debug("爬取的最新基金数据为:{}", retStr);
+			// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
+
+			if(retStr != null){
+				String retJsonStr = retStr.substring(8, retStr.length()-2);
+				JSONObject retJson = JSONObject.parseObject(retJsonStr);
+
+				// fundName
+				fund.setFundName(retJson.getString("name"));
+
+				// curNetValue
+				Double curNetValue = retJson.getDouble("gsz");
+				fund.setCurNetValue(curNetValue);
+
+				// curPriceHighest
+				if(fund.getCurPriceHighest() == null || curNetValue > fund.getCurPriceHighest()){
+					fund.setCurPriceHighest(curNetValue);
+				}
+
+				// curPriceLowest
+				if(fund.getCurPriceLowest() == null || curNetValue < fund.getCurPriceLowest()){
+					fund.setCurPriceLowest(curNetValue);
+				}
+
+				// curTime
+				fund.setCurTime(retJson.getString("gztime").substring(5));
+
+				// curGain
+				Double curGain = retJson.getDouble("gszzl");
+				fund.setCurGain(curGain);
+
+				if(fund.getLastGain() == null){
+					fund.setLastGain(0.00);
+				}
+
+				// gainTotal
+				BigDecimal gainTotal = new BigDecimal(fund.getLastGain() + curGain);
+				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+				fund.setGainTotal(gainTotal);
+			}
+		}catch (Exception e) {
+			logger.error("获取基金信息失败", e.getCause());
+		}
 	}
+
+    public static void main(String[] args) {
+		BigDecimal gainTotal = new BigDecimal(0.4547417);
+		gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+		System.out.println(gainTotal);
+	}
+
+	// 复制list（深程度）
+	public static List<Fund> copyListDeep(List<Fund> fundList){
+		List<Fund> newFundList = new ArrayList<>();
+
+    	if(fundList == null || fundList.size() == 0){
+			return newFundList;
+		}
+
+		for(Fund fund:fundList){
+			JSONObject jsonObject = JsonUtils.bean2JSON(fund);
+			fund = JsonUtils.copyObjToBean(jsonObject, Fund.class);
+			newFundList.add(fund);
+		}
+		return newFundList;
+	}
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,6 +26,8 @@ public class FundController {
 	
 	@Resource
 	private FundService fundService;
+
+	public static List<Fund> fundCacheList = new ArrayList<>(); // 使用缓存
 	
     @RequestMapping("/index.html")
     public String index(@RequestParam(value = "data",required = false) String data, Model model){
@@ -36,6 +39,25 @@ public class FundController {
             }
             List<Fund> fundList = fundService.findAllFundByCondition(fundCondition, null);
             model.addAttribute("fundList", fundList);
+        }catch (Exception e){
+            logger.error("查询基金信息异常",e);
+        }
+        return "fundIndex";
+    }
+
+    @RequestMapping("/indexCache.html")
+    public String indexCache(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.index in, param:{}",data);
+        try{
+            Fund fundCondition = null;
+            if(data != null){
+                fundCondition = JSON.parseObject(data, Fund.class);
+            }
+
+            if(fundCacheList == null || fundCacheList.size() == 0){
+                fundCacheList = fundService.findAllFundByCondition(fundCondition, null);
+            }
+            model.addAttribute("fundList", fundCacheList);
         }catch (Exception e){
             logger.error("查询基金信息异常",e);
         }

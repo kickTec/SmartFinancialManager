@@ -562,4 +562,38 @@ public class DateUtils
 		System.out.println(monthDay);
 		System.out.println(sevenPastDay);
    }
+
+	// 每隔intervalSecond秒循环一次，判断是否正是第minute倍数分钟
+	public static boolean isRightTimeBySecond(Date date, Integer minute, int intervalSecond){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int minuteNow = calendar.get(Calendar.MINUTE);
+		int secondNow = calendar.get(Calendar.SECOND);
+
+		if(minute != null){ // 每隔minute分钟
+			if(minuteNow % minute == 0 && secondNow < intervalSecond){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// 每隔intervalMinute分钟循环一次，判断是否正是第hour倍数小时
+	public static boolean isRightTimeByMinute(Date date, Integer hour, int intervalMinute){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int hourNow = calendar.get(Calendar.HOUR_OF_DAY);
+		int minuteNow = calendar.get(Calendar.MINUTE);
+		System.out.println("hourNow:"+hourNow);
+
+		if(hour != null){ // 每隔minute分钟
+			if(hourNow % hour == 0 && minuteNow < intervalMinute){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
