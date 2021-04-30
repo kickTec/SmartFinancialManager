@@ -11,7 +11,7 @@ import com.kenick.util.AliSmsUtil;
 
 @Service("asyncService")
 public class AsyncServiceImpl implements AsyncService{
-	private final static Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
 	
 	@Async
 	@Override

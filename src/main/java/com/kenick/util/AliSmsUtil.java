@@ -79,13 +79,7 @@ public class AliSmsUtil {
 				rtnJson.put("errorCode", "send_response_noOk");
 				rtnJson.put("errorMessage", "阿里验证码发送失败");
 			}
-		} catch (ServerException e) {
-			logger.error("errorCode: sys_verifycode_send_error, errorMessage: 阿里验证码发送失败", e);
-			rtnJson.put("flag", false);
-			rtnJson.put("errorCode", "sys_verifycode_send_error");
-			rtnJson.put("errorMessage", "阿里验证码发送失败");
-			return rtnJson;
-		} catch (ClientException e) {
+		} catch (Exception e) {
 			logger.error("errorCode: sys_verifycode_send_error, errorMessage: 阿里验证码发送失败", e);
 			rtnJson.put("flag", false);
 			rtnJson.put("errorCode", "sys_verifycode_send_error");

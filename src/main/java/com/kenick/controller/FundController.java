@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/fund")
 public class FundController {
 
-    public final static Logger logger = LoggerFactory.getLogger(FundController.class);
+    private final static Logger logger = LoggerFactory.getLogger(FundController.class);
 	
 	@Resource
 	private FundService fundService;

@@ -1,7 +1,5 @@
 package com.kenick.constant;
 
-import java.util.HashMap;
-
 /**
  * 
  * <一句话功能简述> 表 枚举字段说明 <功能详细描述>

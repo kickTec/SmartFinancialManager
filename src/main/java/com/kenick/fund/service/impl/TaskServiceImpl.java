@@ -41,8 +41,12 @@ import java.util.Set;
 @Configurable
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
-	private final static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-	private static Date lastSendDate = new Date();
+	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+	private Date lastSendDate = new Date();
+
+	private final String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
+	private final String stockSzUrl = "http://hq.sinajs.cn/list=sz";
+	private final String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
 	@Resource
 	private AsyncServiceImpl asyncService;
@@ -62,11 +66,11 @@ public class TaskServiceImpl implements TaskService{
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
 	 */
-    @Scheduled(cron = "${fund.query.cron}")
+    @Scheduled(cron = "${cron.perfectFundInfo}")
     public void perfectFundInfo(){
     	try{
-    		long startTime = System.currentTimeMillis();
 			Date now = new Date();
+			//long startTime = now.getTime();
 
 			// 通过mysql查询更新，较占资源
 			// updateThroughMysql();
@@ -74,24 +78,52 @@ public class TaskServiceImpl implements TaskService{
 			// 通过缓存查询更新
 			updateThroughCache(now);
 
-			long endTime = System.currentTimeMillis();
-        	logger.debug("遍历理财一轮花费时间:{}", endTime-startTime);
+			// long endTime = System.currentTimeMillis();
+        	// logger.debug("遍历理财一轮花费时间:{}", endTime-startTime);
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
     }
 
 	private void updateThroughCache(Date now) {
-		List<Fund> fundList = copyListDeep(FundController.fundCacheList);
+    	if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
+    		return;
+		}
 
-		for(Fund fund:fundList){
+		for(Fund fund:FundController.fundCacheList){
 			perfectInfoByCodeCache(fund, now);
 
 			if(DateUtils.isRightTimeBySecond(now, 30,10)){
 				fundMapper.updateByPrimaryKeySelective(fund);
 			}
 		}
-		FundController.fundCacheList = fundList;
+		perfectFundList(FundController.fundCacheList);
+	}
+
+	// 完善基金信息
+	private void perfectFundList(List<Fund> fundCacheList) {
+		try{
+			if(fundCacheList == null || fundCacheList.size() == 0){
+				return;
+			}
+
+			for(Fund fund:fundCacheList){
+				if(fund.getLastNetValue() == null){
+					fund.setLastNetValue(0.0);
+				}
+				if(fund.getLastGain() == null){
+					fund.setLastGain(0.0);
+				}
+				if(fund.getLastPriceLowest() == null){
+					fund.setLastPriceLowest(0.0);
+				}
+				if(fund.getLastPriceHighest() == null){
+					fund.setLastPriceHighest(0.0);
+				}
+			}
+		}catch (Exception e){
+			logger.error("完善基金股票信息异常!", e);
+		}
 	}
 
 	// 只更新当前缓存中的list
@@ -134,7 +166,7 @@ public class TaskServiceImpl implements TaskService{
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
 	 */
-    @Scheduled(cron = "${stock.update.cron}")
+    @Scheduled(cron = "${cron.updateStockInfoNight}")
     public void updateStockInfoNight(){
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
@@ -143,8 +175,9 @@ public class TaskServiceImpl implements TaskService{
             fundExample.or().andFundStateEqualTo(1);
             List<Fund> fundList = fundMapper.selectByExample(fundExample);
             for(Fund fund:fundList){
-                updateStockInfo(fund);
+                perfectStockInfoNight(fund);
             }
+            FundController.fundCacheList = null;
 
             // 晚上移除发送短信记录
             JSONObject smsRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
@@ -160,36 +193,43 @@ public class TaskServiceImpl implements TaskService{
         }
     }
 
-    private void updateStockInfo(Fund fund) {
-		Date modifyDate = fund.getModifyDate();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(modifyDate);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		if(hour != 1){ // 凌晨1点未修改的才更新 防止重复更新
-			Fund updateFund = new Fund();
-			updateFund.setFundCode(fund.getFundCode());
+    private void perfectStockInfoNight(Fund fund) {
+        try{
+            Fund updateFund = new Fund();
+            updateFund.setFundCode(fund.getFundCode());
 
-			// 设置昨日信息
-			updateFund.setLastGain(fund.getCurGain());
-			updateFund.setCurGain(0.00);
-			updateFund.setLastNetValue(fund.getCurNetValue());
-			updateFund.setCurNetValue(0.00);
-			updateFund.setLastPriceHighest(fund.getCurPriceHighest());
-			updateFund.setCurPriceHighest(0.00);
-			updateFund.setLastPriceLowest(fund.getCurPriceLowest());
-			updateFund.setLastPriceLowest(0.00);
-			BigDecimal gainTotal = new BigDecimal(fund.getCurGain());
-			gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
-			updateFund.setGainTotal(gainTotal);
+            // 昨日、今日涨幅
+            Double curGain = fund.getCurGain();
+            updateFund.setLastGain(curGain);
+            updateFund.setCurGain(0.0);
 
-			if(fund.getType() != null && fund.getType() == 1){
-				updateFund.setCurPriceLowest(0.00);
-				updateFund.setCurPriceHighest(0.00);
-			}
+            // 昨日、今日净值
+            updateFund.setLastNetValue(fund.getCurNetValue());
+            updateFund.setCurNetValue(0.0);
 
-			updateFund.setModifyDate(new Date());
-			fundMapper.updateByPrimaryKeySelective(updateFund);
-		}
+            // 昨日、今日最高价
+            updateFund.setLastPriceHighest(fund.getCurPriceHighest());
+            updateFund.setCurPriceHighest(0.0);
+
+            // 昨日，今日最低价
+            updateFund.setLastPriceLowest(fund.getCurPriceLowest());
+            updateFund.setCurPriceLowest(0.0); // 初始值
+
+            // 累计涨幅，第二天
+            BigDecimal gainTotal = new BigDecimal(curGain);
+            gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+            updateFund.setGainTotal(gainTotal);
+
+            if(fund.getType() != null && fund.getType() == 1){
+                updateFund.setCurPriceLowest(0.0);
+                updateFund.setCurPriceHighest(0.0);
+            }
+
+            updateFund.setModifyDate(new Date());
+            fundMapper.updateByPrimaryKeySelective(updateFund);
+        }catch (Exception e){
+            logger.error("晚上割接股票信息异常!", e);
+        }
     }
 
     /**
@@ -265,16 +305,16 @@ public class TaskServiceImpl implements TaskService{
 
 			// 股票类型
 			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
-				url = "http://hq.sinajs.cn/list=sz"+ fundCode;
+				url = stockSzUrl + fundCode;
 			}
 
 			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
-				url = "http://hq.sinajs.cn/list=sh"+ fundCode;
+				url = stockShUrl + fundCode;
 			}
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			logger.debug("爬取的最新股票数据为:{}", retStr);
+			// logger.debug("爬取的最新股票数据为:{}", retStr);
 			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
 				retStr = retStr.split("=")[1];
@@ -333,16 +373,16 @@ public class TaskServiceImpl implements TaskService{
 
 			// 股票类型
 			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
-				url = "http://hq.sinajs.cn/list=sz"+ fundCode;
+				url = stockSzUrl + fundCode;
 			}
 
 			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
-				url = "http://hq.sinajs.cn/list=sh"+ fundCode;
+				url = stockShUrl + fundCode;
 			}
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			logger.debug("最新股票数据为:{}", retStr);
+			// logger.trace("最新股票数据为:{}", retStr);
 			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
 				retStr = retStr.split("=")[1];
@@ -366,24 +406,28 @@ public class TaskServiceImpl implements TaskService{
 				fund.setCurTime(DateUtils.getStrDate(now, "MM-dd HH:mm"));
 				fund.setModifyDate(now);
 
-				// 现在涨幅重新计算
+				// 现在涨幅
+				BigDecimal curGainBd = new BigDecimal(curNetValue).divide(new BigDecimal(curPriceLowest),4,BigDecimal.ROUND_HALF_UP)
+						.subtract(new BigDecimal(1.0)).multiply(new BigDecimal(100));
 				Double lastNetValue = fund.getLastNetValue();
-				if(lastNetValue != null){
+				// 现在涨幅重新计算
+				if(lastNetValue != null && lastNetValue != 0){
 					BigDecimal lastBd = new BigDecimal(lastNetValue);
 					BigDecimal nowBd = new BigDecimal(curNetValueNum);
-					BigDecimal curGainBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
-					// curGain
-					fund.setCurGain(curGainBd.doubleValue());
+					curGainBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
 
 					if(fund.getLastGain() == null){
 						fund.setLastGain(0.0);
 					}
-
-					// gainTotal
-					BigDecimal gainTotal = new BigDecimal(curGainBd.doubleValue() + fund.getLastGain());
-					gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
-					fund.setGainTotal(gainTotal);
 				}
+
+				// curGain
+				fund.setCurGain(curGainBd.doubleValue());
+
+				// gainTotal
+				BigDecimal gainTotal = new BigDecimal(curGainBd.doubleValue() + fund.getLastGain());
+				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+				fund.setGainTotal(gainTotal);
 			}
 		}catch (Exception e) {
 			logger.error("更新股票信息失败！", e);
@@ -555,7 +599,7 @@ public class TaskServiceImpl implements TaskService{
     	try{
     		// 获取最新净值和涨幅
         	Date now = new Date();
-        	String url = "http://fundgz.1234567.com.cn/js/"+databaseFund.getFundCode()+".js?rt="+now.getTime();
+        	String url = fundQueryUrl + databaseFund.getFundCode()+".js?rt="+now.getTime();
         	String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
         	logger.debug("爬取的最新基金数据为:{}", retStr);
         	// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
@@ -584,7 +628,7 @@ public class TaskServiceImpl implements TaskService{
 			// 获取最新净值和涨幅
 			String url = "http://fundgz.1234567.com.cn/js/"+fund.getFundCode()+".js?rt="+now.getTime();
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			logger.debug("爬取的最新基金数据为:{}", retStr);
+			// logger.trace("爬取的最新基金数据为:{}", retStr);
 			// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
 
 			if(retStr != null){
@@ -599,12 +643,12 @@ public class TaskServiceImpl implements TaskService{
 				fund.setCurNetValue(curNetValue);
 
 				// curPriceHighest
-				if(fund.getCurPriceHighest() == null || curNetValue > fund.getCurPriceHighest()){
+				if(fund.getCurPriceHighest() == null || fund.getCurPriceHighest()==0 || curNetValue > fund.getCurPriceHighest()){
 					fund.setCurPriceHighest(curNetValue);
 				}
 
 				// curPriceLowest
-				if(fund.getCurPriceLowest() == null || curNetValue < fund.getCurPriceLowest()){
+				if(fund.getCurPriceLowest() == null || fund.getCurPriceLowest() == 0 || curNetValue < fund.getCurPriceLowest()){
 					fund.setCurPriceLowest(curNetValue);
 				}
 
