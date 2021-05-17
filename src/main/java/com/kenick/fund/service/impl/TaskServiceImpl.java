@@ -70,7 +70,6 @@ public class TaskServiceImpl implements TaskService{
     public void perfectFundInfo(){
     	try{
 			Date now = new Date();
-			//long startTime = now.getTime();
 
 			// 通过mysql查询更新，较占资源
 			// updateThroughMysql();
@@ -78,8 +77,7 @@ public class TaskServiceImpl implements TaskService{
 			// 通过缓存查询更新
 			updateThroughCache(now);
 
-			// long endTime = System.currentTimeMillis();
-        	// logger.debug("遍历理财一轮花费时间:{}", endTime-startTime);
+        	 logger.debug("遍历理财一轮花费时间:{}", System.currentTimeMillis()-now.getTime());
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
@@ -617,7 +615,7 @@ public class TaskServiceImpl implements TaskService{
         	fund.setGainTotal(BigDecimal.valueOf(fund.getLastGain()+fund.getCurGain()));
         	return fund;
     	}catch (Exception e) {
-    		logger.error("获取基金信息失败", e.getCause());
+    		logger.error("获取基金信息失败", e);
     		return null;
 		}
     }
@@ -669,7 +667,7 @@ public class TaskServiceImpl implements TaskService{
 				fund.setGainTotal(gainTotal);
 			}
 		}catch (Exception e) {
-			logger.error("获取基金信息失败", e.getCause());
+			logger.error("获取基金信息失败");
 		}
 	}
 
