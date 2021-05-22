@@ -1,18 +1,16 @@
 package com.kenick.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AliSmsUtil {
 	private final static Logger logger = LoggerFactory.getLogger(AliSmsUtil.class);
@@ -24,9 +22,9 @@ public class AliSmsUtil {
 		rtnJson.put("flag", true);
 		
 		// 阿里短信配置
-		final String accessKeyId = "LTAI4FmZqj9vszKS8LrBxac9";
-		final String accessKeySecret = "hLkUSVQ8WnJIc5A5mXJBVzmADpsydp";
-		final String signName = "智慧仓储";
+		String accessKeyId = "LTAI4FmZqj9vszKS8LrBxac9";
+		String accessKeySecret = "hLkUSVQ8WnJIc5A5mXJBVzmADpsydp";
+		String signName = "智慧仓储";
 		String templateCodee = "SMS_175533709";
 		JSONObject sendMessageParam = new JSONObject();
 		sendMessageParam.put("code", code);
@@ -88,8 +86,10 @@ public class AliSmsUtil {
 		}
 		return rtnJson;
 	}
-	
+
 	public static void main(String[] args) {
-		aliSendSmsCode("18502026635", "004683");
+		String password = FileUtil.getPropertyByEnv("ali.sms.accessKeySecret");
+		System.out.println(password);
 	}
+
 }

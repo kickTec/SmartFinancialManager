@@ -5,16 +5,29 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 
 /**
  * author: zhanggw
- * 创建时间:  2020/1/7
+ * 创建时间:  2020/11/23
  */
 public class EncryUtil {
     public static void main(String[] args) {
-        String password = "kenick@2020";
-        String data = "zhang417259";
+        String encryptKey = "kenick@2020";
+        String data = "hLkUSVQ8WnJIc5A5mXJBVzmADpsydp";
 
+        System.out.println(encryByJasypt(encryptKey, data));
+        System.out.println(decryptByJasypt(encryptKey,"1gv1JleN/Q4+exio70YZuQ1wVQqEFajY"));
+    }
+
+    private static String encryByJasypt(String key,String data){
+        return generateEncryptor(key).encrypt(data);
+    }
+
+    public static String decryptByJasypt(String key,String encryData){
+        return generateEncryptor(key).decrypt(encryData);
+    }
+
+    public static PooledPBEStringEncryptor generateEncryptor(String encryKey){
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(password);
+        config.setPassword(encryKey);
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
@@ -24,7 +37,7 @@ public class EncryUtil {
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
 
-        System.out.println(encryptor.encrypt(data));
-        System.out.println(encryptor.decrypt("1gv1JleN/Q4+exio70YZuQ1wVQqEFajY"));
+        return encryptor;
     }
+
 }
