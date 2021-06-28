@@ -10,10 +10,10 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 public class EncryUtil {
     public static void main(String[] args) {
         String encryptKey = "kenick@2020";
-        String data = "hLkUSVQ8WnJIc5A5mXJBVzmADpsydp";
+        String data = "123456";
 
         System.out.println(encryByJasypt(encryptKey, data));
-        System.out.println(decryptByJasypt(encryptKey,"1gv1JleN/Q4+exio70YZuQ1wVQqEFajY"));
+        System.out.println(decryptByJasypt(encryptKey,"PC8X1FRCVZauoRxEr/1BYFLAuQo/udonAPIrTxnLxahn6Hz+a8czlw=="));
     }
 
     private static String encryByJasypt(String key,String data){

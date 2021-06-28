@@ -9,11 +9,25 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AliSmsUtil {
+
+	public static String accessKeyIdSms; // 阿里短信ID
+	public static String accessKeySecretSms; // 阿里短信密码
+
 	private final static Logger logger = LoggerFactory.getLogger(AliSmsUtil.class);
+
+	static {
+		if(StringUtils.isBlank(accessKeyIdSms)){
+			accessKeyIdSms = FileUtil.getPropertyByEnv("ali.sms.accessKeyId");
+		}
+		if(StringUtils.isBlank(accessKeySecretSms)){
+			accessKeySecretSms = FileUtil.getPropertyByEnv("ali.sms.accessKeySecret");
+		}
+	}
 	
 	// 阿里发送短信码
 	public static JSONObject aliSendSmsCode(String phone, String code)
@@ -22,8 +36,6 @@ public class AliSmsUtil {
 		rtnJson.put("flag", true);
 		
 		// 阿里短信配置
-		String accessKeyId = "LTAI4FmZqj9vszKS8LrBxac9";
-		String accessKeySecret = "hLkUSVQ8WnJIc5A5mXJBVzmADpsydp";
 		String signName = "智慧仓储";
 		String templateCodee = "SMS_175533709";
 		JSONObject sendMessageParam = new JSONObject();
@@ -37,8 +49,7 @@ public class AliSmsUtil {
 		final String domain = "dysmsapi.aliyuncs.com"; //短信API产品域名（接口地址固定，无需修改）
 		
 		//初始化ascClient,暂时不支持多region
-		IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,
-		accessKeySecret);
+		IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyIdSms, accessKeySecretSms);
 		try {
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
 		} catch (ClientException e) {
@@ -88,8 +99,8 @@ public class AliSmsUtil {
 	}
 
 	public static void main(String[] args) {
-		String password = FileUtil.getPropertyByEnv("ali.sms.accessKeySecret");
-		System.out.println(password);
+		JSONObject ret = aliSendSmsCode("15910761260", "123456");
+		System.out.println(ret);
 	}
 
 }
