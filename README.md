@@ -22,11 +22,11 @@ git add .
 git commit -a
 git push -u origin master
 
-# 不使用mysql,使用本地文件存储
-storage.type=file
-storage.file.fund=/home/kenick/smartFinancial-manager/config/fund.json
+# 不使用mysql,使用本地文件存储  
+storage.type=file  
+storage.file.fund=/home/kenick/smartFinancial-manager/config/fund.json  
 
-fund.json格式
+fund.json格式  
 {
 	"fundList": [{
 		{
