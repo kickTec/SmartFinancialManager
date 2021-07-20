@@ -23,6 +23,7 @@ public class FundServiceImpl implements FundService{
 
 	@Override
 	public List<Fund> findAllFundByCondition(Fund fundCondition, String orderBy) {
+
 		if(fundCondition == null){
 			fundCondition = new Fund();
 		}

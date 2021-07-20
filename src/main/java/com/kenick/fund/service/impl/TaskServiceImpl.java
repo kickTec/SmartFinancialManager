@@ -5,6 +5,7 @@ import com.kenick.constant.SysConstantData;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.controller.FundController;
 import com.kenick.fund.service.ConstantService;
+import com.kenick.fund.service.FileStorageService;
 import com.kenick.fund.service.TaskService;
 import com.kenick.generate.bean.Fund;
 import com.kenick.generate.bean.FundExample;
@@ -12,6 +13,7 @@ import com.kenick.generate.bean.UserFund;
 import com.kenick.generate.bean.UserFundExample;
 import com.kenick.generate.dao.FundMapper;
 import com.kenick.generate.dao.UserFundMapper;
+import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
 import com.kenick.util.HttpRequestUtils;
 import com.kenick.util.JsonUtils;
@@ -23,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +34,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +62,9 @@ public class TaskServiceImpl implements TaskService{
 	@Resource
 	private ConstantService constantService;
 
+	@Autowired
+	private FileStorageService fileStorageService;
+
 	/**
 	 * <一句话功能简述>  白天更新基金股票信息
 	 * <功能详细描述> 
@@ -84,8 +89,17 @@ public class TaskServiceImpl implements TaskService{
     }
 
 	private void updateThroughCache(Date now) {
+
+		String storageType = fileStorageService.getStorageType();
     	if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
-    		return;
+
+			if("file".equals(storageType)){
+				FundController.fundCacheList = fileStorageService.getFundListFromFile();
+			}else{
+				FundExample fundExample = new FundExample();
+				fundExample.or().andFundStateEqualTo(1);
+				FundController.fundCacheList = fundMapper.selectByExample(fundExample);
+			}
 		}
 
 		for(Fund fund:FundController.fundCacheList){
@@ -96,6 +110,13 @@ public class TaskServiceImpl implements TaskService{
 			}
 		}
 		perfectFundList(FundController.fundCacheList);
+
+		// 本地文件保存方式，每隔3分钟保存一次
+        if("file".equals(storageType) && DateUtils.isRightTimeBySecond(now, 1, 4)){
+            fileStorageService.writeFundList2File(FundController.fundCacheList);
+            logger.debug("信息保存到本地完成!");
+        }
+
 	}
 
 	// 完善基金信息
@@ -134,7 +155,6 @@ public class TaskServiceImpl implements TaskService{
 			// 更新基金信息
 			if(fund.getType() == null || fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_FUND){
 				updateFundInfo(fund, now);
-				return;
 			}
 
 			// 获取股票信息
@@ -159,7 +179,7 @@ public class TaskServiceImpl implements TaskService{
 	}
 
     /**
-	 * <一句话功能简述> 1.晚上更新昨日数据 2.移除当天短袖发送记录
+	 * <一句话功能简述> 1.晚上更新昨日数据 2.移除当天短信发送记录
 	 * <功能详细描述> 
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
@@ -169,29 +189,42 @@ public class TaskServiceImpl implements TaskService{
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
             // 查询出所有基金股票
-            FundExample fundExample = new FundExample();
-            fundExample.or().andFundStateEqualTo(1);
-            List<Fund> fundList = fundMapper.selectByExample(fundExample);
+			String storageType = fileStorageService.getStorageType();
+			List<Fund> fundList;
+			if("file".equals(storageType)){
+				fundList = fileStorageService.getFundListFromFile();
+			}else{
+				FundExample fundExample = new FundExample();
+				fundExample.or().andFundStateEqualTo(1);
+				fundList = fundMapper.selectByExample(fundExample);
+			}
+
             for(Fund fund:fundList){
                 perfectStockInfoNight(fund);
             }
+			fileStorageService.writeFundList2File(fundList);
             FundController.fundCacheList = null;
 
             // 晚上移除发送短信记录
-            JSONObject smsRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
-            Set<String> smsKeySet = smsRuleJson.keySet();
-            for(String key:smsKeySet){
-                if(key.contains("TodaySendFlag_")){
-                    smsRuleJson.put(key, false);
-                }
-            }
-            constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsRuleJson.toJSONString());
-        }catch (Exception e) {
+			// removeSmsInfo();
+
+		}catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }
     }
 
-    private void perfectStockInfoNight(Fund fund) {
+	private void removeSmsInfo() {
+		JSONObject smsRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
+		Set<String> smsKeySet = smsRuleJson.keySet();
+		for(String key:smsKeySet){
+			if(key.contains("TodaySendFlag_")){
+				smsRuleJson.put(key, false);
+			}
+		}
+		constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsRuleJson.toJSONString());
+	}
+
+	private void perfectStockInfoNight(Fund fund) {
         try{
             Fund updateFund = new Fund();
             updateFund.setFundCode(fund.getFundCode());
@@ -222,9 +255,13 @@ public class TaskServiceImpl implements TaskService{
                 updateFund.setCurPriceLowest(0.0);
                 updateFund.setCurPriceHighest(0.0);
             }
-
             updateFund.setModifyDate(new Date());
-            fundMapper.updateByPrimaryKeySelective(updateFund);
+
+            if("file".equals(fileStorageService.getStorageType())){
+				new BeanUtil().copyProperties(fund, updateFund, false);
+			}else{
+				fundMapper.updateByPrimaryKeySelective(updateFund);
+			}
         }catch (Exception e){
             logger.error("晚上割接股票信息异常!", e);
         }
@@ -675,22 +712,6 @@ public class TaskServiceImpl implements TaskService{
 		BigDecimal gainTotal = new BigDecimal(0.4547417);
 		gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
 		System.out.println(gainTotal);
-	}
-
-	// 复制list（深程度）
-	public static List<Fund> copyListDeep(List<Fund> fundList){
-		List<Fund> newFundList = new ArrayList<>();
-
-    	if(fundList == null || fundList.size() == 0){
-			return newFundList;
-		}
-
-		for(Fund fund:fundList){
-			JSONObject jsonObject = JsonUtils.bean2JSON(fund);
-			fund = JsonUtils.copyObjToBean(jsonObject, Fund.class);
-			newFundList.add(fund);
-		}
-		return newFundList;
 	}
 
 }
