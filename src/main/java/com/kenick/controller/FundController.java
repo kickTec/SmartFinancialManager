@@ -26,7 +26,7 @@ public class FundController {
 
     private final static Logger logger = LoggerFactory.getLogger(FundController.class);
 	
-	@Resource
+	@Autowired
 	private FundService fundService;
 
 	public static List<Fund> fundCacheList = new ArrayList<>(); // 使用缓存

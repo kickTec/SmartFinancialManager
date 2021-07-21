@@ -17,7 +17,7 @@ import java.util.Date;
 @Service("constantService")
 public class ConstantServiceImpl implements ConstantService {
 
-    @Resource
+    //@Resource
     private ConstantDataMapper constantDataMapper;
 
     @Override

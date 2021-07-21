@@ -50,16 +50,16 @@ public class TaskServiceImpl implements TaskService{
 	private final String stockSzUrl = "http://hq.sinajs.cn/list=sz";
 	private final String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
-	@Resource
-	private AsyncServiceImpl asyncService;
-
-	@Resource
+	//@Resource
 	private FundMapper fundMapper;
 
-	@Resource
+	//@Resource
 	private UserFundMapper userFundMapper;
 
-	@Resource
+	@Autowired
+	private AsyncServiceImpl asyncService;
+
+	@Autowired
 	private ConstantService constantService;
 
 	@Autowired

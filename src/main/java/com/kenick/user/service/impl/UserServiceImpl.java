@@ -10,7 +10,8 @@ import com.kenick.user.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
-	@Resource
+
+	//@Resource
 	private UserMapper userDao;
 
 	@Override

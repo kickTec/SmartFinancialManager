@@ -15,10 +15,10 @@ import java.util.List;
 
 @Service("fundService")
 public class FundServiceImpl implements FundService{
-	@Resource
+	//@Resource
 	private FundMapper fundMapper;
 
-	@Resource
+	//@Resource
 	private UserFundMapper userFundMapper;
 
 	@Override
