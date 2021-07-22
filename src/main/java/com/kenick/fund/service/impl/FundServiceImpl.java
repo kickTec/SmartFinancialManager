@@ -10,7 +10,6 @@ import com.kenick.generate.dao.UserFundMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service("fundService")

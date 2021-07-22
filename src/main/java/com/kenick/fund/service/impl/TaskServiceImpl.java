@@ -15,6 +15,7 @@ import com.kenick.generate.dao.FundMapper;
 import com.kenick.generate.dao.UserFundMapper;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
+import com.kenick.util.FileUtil;
 import com.kenick.util.HttpRequestUtils;
 import com.kenick.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,21 +27,22 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.io.File;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service("taskService")
-@Configurable
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
 	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
@@ -65,8 +67,10 @@ public class TaskServiceImpl implements TaskService{
 	@Autowired
 	private FileStorageService fileStorageService;
 
+	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
+
 	/**
-	 * <一句话功能简述>  白天更新基金股票信息
+	 * <一句话功能简述> 白天更新基金股票信息
 	 * <功能详细描述> 
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
@@ -88,10 +92,33 @@ public class TaskServiceImpl implements TaskService{
 		}
     }
 
-	private void updateThroughCache(Date now) {
+	@Scheduled(cron = "0 0 16 * * ?")
+	public void cleanCache(){
+		try{
+			logger.debug("cleanCache in!");
+			Date now = new Date();
 
-		String storageType = fileStorageService.getStorageType();
-    	if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
+			for(Fund fund:FundController.fundCacheList){
+				String fundCode = fund.getFundCode();
+				List<String> stockList = stockHistoryMap.get(fundCode);
+
+				if(stockList != null && stockList.size() > 0){
+					// 保存个股记录数据
+					persistentStockInfo(now, fundCode, stockList);
+					stockList.clear();
+				}
+				stockHistoryMap.put(fundCode, stockList);
+			}
+		}catch (Exception e) {
+			logger.error("定时清理缓存异常!", e);
+		}
+	}
+
+	private void updateThroughCache(Date now) {
+		String storageType = fileStorageService.getStorageType(); // 存储方式 file为本地文件，否则mysql
+		boolean storageFileHistoryEnable = fileStorageService.getStorageFileHistoryEnable(); // 保存历史数据
+
+		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
 
 			if("file".equals(storageType)){
 				FundController.fundCacheList = fileStorageService.getFundListFromFile();
@@ -103,20 +130,60 @@ public class TaskServiceImpl implements TaskService{
 		}
 
 		for(Fund fund:FundController.fundCacheList){
+			String fundCode = fund.getFundCode();
 			perfectInfoByCodeCache(fund, now);
 
-			if(DateUtils.isRightTimeBySecond(now, 30,10)){
-				fundMapper.updateByPrimaryKeySelective(fund);
+			if(storageFileHistoryEnable){
+				List<String> stockList = stockHistoryMap.get(fundCode);
+				stockList = stockList == null ? new ArrayList<>() : stockList;
+				String storeInfo = fund.getCurTime() + "," + fund.getCurNetValue();
+				if(!stockList.contains(storeInfo)){
+					stockList.add(storeInfo);
+				}
+
+				if(stockList.size() >= 10){
+					// 保存个股记录数据
+					persistentStockInfo(now, fundCode, stockList);
+					stockList.clear();
+				}
+				stockHistoryMap.put(fundCode, stockList);
 			}
 		}
 		perfectFundList(FundController.fundCacheList);
 
-		// 本地文件保存方式，每隔3分钟保存一次
-        if("file".equals(storageType) && DateUtils.isRightTimeBySecond(now, 1, 4)){
+		// 周期性保存所有记录
+        if("file".equals(storageType) && DateUtils.isRightTimeBySecond(now, 5, 3)){
             fileStorageService.writeFundList2File(FundController.fundCacheList);
             logger.debug("信息保存到本地完成!");
         }
 
+	}
+
+	// 持久化当前信息
+	private void persistentStockInfo(Date now, String fundCode, List<String> stockList) {
+    	try{
+			int hour = DateUtils.getHour(now);
+			int minute = DateUtils.getMinute(now);
+			if(hour < 9 || (hour < 10 && minute < 30)){
+				return;
+			}
+
+			if(hour >= 15 && minute >= 1){
+				return;
+			}
+
+			String storePath = fileStorageService.getHistoryPath() + File.separator + fundCode; // 保存目录
+			File storePathFile = new File(storePath);
+			if(!storePathFile.exists()){
+				storePathFile.mkdirs();
+			}
+
+			String day = DateUtils.getStrDate(now, "yyyy-MM-dd");
+			File storeFile = new File(storePath + File.separator + day + ".txt");
+			FileUtil.persistentText(storeFile, stockList);
+		}catch (Exception e){
+    		logger.error("持久化历史数据异常!", e);
+		}
 	}
 
 	// 完善基金信息
@@ -257,11 +324,7 @@ public class TaskServiceImpl implements TaskService{
             }
             updateFund.setModifyDate(new Date());
 
-            if("file".equals(fileStorageService.getStorageType())){
-				new BeanUtil().copyProperties(fund, updateFund, false);
-			}else{
-				fundMapper.updateByPrimaryKeySelective(updateFund);
-			}
+			new BeanUtil().copyProperties(fund, updateFund, false);
         }catch (Exception e){
             logger.error("晚上割接股票信息异常!", e);
         }
@@ -311,13 +374,11 @@ public class TaskServiceImpl implements TaskService{
 
         	// 更新基金信息
 			updateFund.setModifyDate(new Date());
-        	fundMapper.updateByPrimaryKeySelective(updateFund);
 
         	// 更新用户基金信息
 			UserFund userFund = JsonUtils.copyObjToBean(updateFund, UserFund.class);
 			UserFundExample userFundExample = new UserFundExample();
 			userFundExample.or().andFundCodeEqualTo(updateFund.getFundCode());
-			userFundMapper.updateByExampleSelective(userFund, userFundExample);
 
 			// 发送短信
             Fund newFund = fundMapper.selectByPrimaryKey(updateFund.getFundCode());
@@ -339,17 +400,15 @@ public class TaskServiceImpl implements TaskService{
 			String url = null;
 
 			// 股票类型
-			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
+			url = stockShUrl + fundCode; // 默认上海
+			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))
+				|| "123".equals(fundCode.substring(0,3))){ // 深圳
 				url = stockSzUrl + fundCode;
-			}
-
-			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
-				url = stockShUrl + fundCode;
 			}
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			// logger.debug("爬取的最新股票数据为:{}", retStr);
+			logger.trace("爬取的最新股票数据为:{}", retStr);
 			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
 				retStr = retStr.split("=")[1];
@@ -403,21 +462,19 @@ public class TaskServiceImpl implements TaskService{
 		}
 		
 		try{
-			String url = null;
+
 			String fundCode = fund.getFundCode();
 
 			// 股票类型
-			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
+			String url = stockShUrl + fundCode;
+			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))
+				|| "123".equals(fundCode.substring(0,3))){ // 深圳
 				url = stockSzUrl + fundCode;
-			}
-
-			if("60".equals(fundCode.substring(0,2)) ||  "900".equals(fundCode.substring(0,3))){ // 上海
-				url = stockShUrl + fundCode;
 			}
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			// logger.trace("最新股票数据为:{}", retStr);
+			logger.trace("最新股票数据为:{}", retStr);
 			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
 				retStr = retStr.split("=")[1];
@@ -438,12 +495,16 @@ public class TaskServiceImpl implements TaskService{
 				// curPriceLowest
 				fund.setCurPriceLowest(Double.valueOf(curPriceLowest));
 				// curTime
-				fund.setCurTime(DateUtils.getStrDate(now, "MM-dd HH:mm"));
+				fund.setCurTime(stockInfoArray[30] + " " + stockInfoArray[31]);
 				fund.setModifyDate(now);
 
 				// 现在涨幅
-				BigDecimal curGainBd = new BigDecimal(curNetValue).divide(new BigDecimal(curPriceLowest),4,BigDecimal.ROUND_HALF_UP)
-						.subtract(new BigDecimal(1.0)).multiply(new BigDecimal(100));
+				BigDecimal curGainBd = BigDecimal.ZERO;
+				if(fund.getCurPriceLowest() != null && fund.getCurPriceLowest() > 0){
+					curGainBd = new BigDecimal(curNetValue).divide(new BigDecimal(fund.getCurPriceLowest()),4,BigDecimal.ROUND_HALF_UP)
+							.subtract(new BigDecimal(1.0)).multiply(new BigDecimal(100));
+				}
+
 				Double lastNetValue = fund.getLastNetValue();
 				// 现在涨幅重新计算
 				if(lastNetValue != null && lastNetValue != 0){

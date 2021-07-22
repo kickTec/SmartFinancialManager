@@ -47,14 +47,9 @@ public class FileUtil {
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     public static void main(String[] args) {
-        String filePath = "D://tmp/fund.json";
-        List<Fund> fundList = getFundFromFile(filePath);
-        Date now = new Date();
-        for(Fund fund:fundList){
-            fund.setModifyDate(now);
-        }
-        writeFund2File(filePath, fundList);
-        logger.debug("ret:{}", fundList);
+        String filePath = "D:/tmp/history/600036/2021-07-21.txt";
+        List<String> dataList = getTextListFromFile(new File(filePath));
+        logger.debug("dataList:{}", dataList);
     }
 
     public static List<List<String>> getDataFromExcel(String filePath, String sheetName) throws IOException {
@@ -274,6 +269,44 @@ public class FileUtil {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("fundList", fundList);
         writeJson2File(filePath, jsonObject);
+    }
+
+    public static void persistentText(File storeFile, List<String> storeList) throws Exception{
+        if(!storeFile.exists()){
+            storeFile.createNewFile();
+        }
+
+        if(storeList == null || storeList.size() == 0){
+            return;
+        }
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(storeFile,true));
+        for(String storeInfo:storeList){
+            bufferedWriter.append(storeInfo);
+            bufferedWriter.write("\r\n");
+        }
+        bufferedWriter.flush();
+        bufferedWriter.close();
+    }
+
+    public static List<String> getTextListFromFile(File storeFile){
+        List<String> retList = new ArrayList<>();
+        try{
+            if(storeFile == null){
+                return null;
+            }
+
+            String line;
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(storeFile));
+            while((line=bufferedReader.readLine()) != null){
+                retList.add(line);
+            }
+            bufferedReader.close();
+        }catch (Exception e){
+            logger.debug("读取文本内容异常!", e);
+        }
+        return retList;
     }
 
 }

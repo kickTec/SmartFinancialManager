@@ -2,8 +2,8 @@ package com.kenick.generate.dao;
 
 import com.kenick.generate.bean.User;
 import com.kenick.generate.bean.UserExample;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     long countByExample(UserExample example);
@@ -19,17 +19,5 @@ public interface UserMapper {
     List<User> selectByExample(UserExample example);
 
     User selectByPrimaryKey(String userId);
-
-    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
-    List<User> selectFieldByExample(@Param("filedList") List<String> filedList, @Param("example") UserExample example);
-
-    User selectFieldByPrimaryKey(@Param("filedList") List<String> filedList, @Param("userId") String userId);
-
 
 /* field added */}

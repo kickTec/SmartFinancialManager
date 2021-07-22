@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateUtils 
 {
@@ -594,6 +595,24 @@ public class DateUtils
 		}
 
 		return false;
+	}
+
+	public static int getHour(Date now){
+   		if(now == null){
+   			now = new Date();
+		}
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		return calendar.get(Calendar.HOUR_OF_DAY);
+	}
+
+	public static int getMinute(Date now){
+		if(now == null){
+			now = new Date();
+		}
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		return calendar.get(Calendar.MINUTE);
 	}
 
 }

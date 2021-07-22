@@ -37,7 +37,6 @@ public class ConstantServiceImpl implements ConstantService {
         constantData.setConstantId(constantId);
         constantData.setConstantValue(value);
         constantData.setModifyDate(new Date());
-        constantDataMapper.updateByPrimaryKeySelective(constantData);
     }
 
 }

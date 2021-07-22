@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="SmartFinancialManager" options="-extdirs E:\workspace_svn\SmartFinancialManager/lib" />
+      <module name="SmartFinancialManager" options="-parameters -extdirs E:\workspace_svn\SmartFinancialManager/lib" />
     </option>
   </component>
 </project>

@@ -16,4 +16,8 @@ public interface FileStorageService {
 
     void writeFundList2File(List<Fund> fundList);
 
+    String getHistoryPath();
+
+    boolean getStorageFileHistoryEnable();
+
 }
