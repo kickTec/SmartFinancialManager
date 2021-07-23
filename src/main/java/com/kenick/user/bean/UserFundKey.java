@@ -1,8 +1,4 @@
-package com.kenick.generate.bean;
-
-import java.util.ArrayList;
-
-import java.util.ArrayList;
+package com.kenick.user.bean;
 
 import java.util.ArrayList;
 

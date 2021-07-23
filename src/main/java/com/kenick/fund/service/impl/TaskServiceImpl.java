@@ -1,23 +1,15 @@
 package com.kenick.fund.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kenick.constant.SysConstantData;
 import com.kenick.constant.TableStaticConstData;
-import com.kenick.controller.FundController;
-import com.kenick.fund.service.ConstantService;
+import com.kenick.fund.bean.Fund;
+import com.kenick.fund.controller.FundController;
 import com.kenick.fund.service.FileStorageService;
 import com.kenick.fund.service.TaskService;
-import com.kenick.generate.bean.Fund;
-import com.kenick.generate.bean.FundExample;
-import com.kenick.generate.bean.UserFund;
-import com.kenick.generate.bean.UserFundExample;
-import com.kenick.generate.dao.FundMapper;
-import com.kenick.generate.dao.UserFundMapper;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
 import com.kenick.util.FileUtil;
 import com.kenick.util.HttpRequestUtils;
-import com.kenick.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
@@ -40,7 +32,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Service("taskService")
 @EnableScheduling
@@ -52,17 +43,8 @@ public class TaskServiceImpl implements TaskService{
 	private final String stockSzUrl = "http://hq.sinajs.cn/list=sz";
 	private final String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
-	//@Resource
-	private FundMapper fundMapper;
-
-	//@Resource
-	private UserFundMapper userFundMapper;
-
 	@Autowired
 	private AsyncServiceImpl asyncService;
-
-	@Autowired
-	private ConstantService constantService;
 
 	@Autowired
 	private FileStorageService fileStorageService;
@@ -98,7 +80,7 @@ public class TaskServiceImpl implements TaskService{
 			logger.debug("cleanCache in!");
 			Date now = new Date();
 
-			for(Fund fund:FundController.fundCacheList){
+			for(Fund fund: FundController.fundCacheList){
 				String fundCode = fund.getFundCode();
 				List<String> stockList = stockHistoryMap.get(fundCode);
 
@@ -119,14 +101,7 @@ public class TaskServiceImpl implements TaskService{
 		boolean storageFileHistoryEnable = fileStorageService.getStorageFileHistoryEnable(); // 保存历史数据
 
 		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
-
-			if("file".equals(storageType)){
-				FundController.fundCacheList = fileStorageService.getFundListFromFile();
-			}else{
-				FundExample fundExample = new FundExample();
-				fundExample.or().andFundStateEqualTo(1);
-				FundController.fundCacheList = fundMapper.selectByExample(fundExample);
-			}
+			FundController.fundCacheList = fileStorageService.getFundListFromFile();
 		}
 
 		for(Fund fund:FundController.fundCacheList){
@@ -233,18 +208,6 @@ public class TaskServiceImpl implements TaskService{
 		}
 	}
 
-	// 通过mysql查询更新，较占资源
-	private void updateThroughMysql(){
-		// 查询出所有基金编码
-		FundExample fundExample = new FundExample();
-		fundExample.or().andFundStateEqualTo(1);
-		fundExample.setOrderByClause(Fund.S_type);
-		List<Fund> fundList = fundMapper.selectByExample(fundExample);
-		for(Fund fund:fundList){
-			perfectFundInfoByCode(fund);
-		}
-	}
-
     /**
 	 * <一句话功能简述> 1.晚上更新昨日数据 2.移除当天短信发送记录
 	 * <功能详细描述> 
@@ -256,40 +219,17 @@ public class TaskServiceImpl implements TaskService{
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
             // 查询出所有基金股票
-			String storageType = fileStorageService.getStorageType();
-			List<Fund> fundList;
-			if("file".equals(storageType)){
-				fundList = fileStorageService.getFundListFromFile();
-			}else{
-				FundExample fundExample = new FundExample();
-				fundExample.or().andFundStateEqualTo(1);
-				fundList = fundMapper.selectByExample(fundExample);
-			}
+			List<Fund> fundList = fileStorageService.getFundListFromFile();
 
             for(Fund fund:fundList){
                 perfectStockInfoNight(fund);
             }
 			fileStorageService.writeFundList2File(fundList);
             FundController.fundCacheList = null;
-
-            // 晚上移除发送短信记录
-			// removeSmsInfo();
-
 		}catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }
     }
-
-	private void removeSmsInfo() {
-		JSONObject smsRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
-		Set<String> smsKeySet = smsRuleJson.keySet();
-		for(String key:smsKeySet){
-			if(key.contains("TodaySendFlag_")){
-				smsRuleJson.put(key, false);
-			}
-		}
-		constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsRuleJson.toJSONString());
-	}
 
 	private void perfectStockInfoNight(Fund fund) {
         try{
@@ -375,14 +315,8 @@ public class TaskServiceImpl implements TaskService{
         	// 更新基金信息
 			updateFund.setModifyDate(new Date());
 
-        	// 更新用户基金信息
-			UserFund userFund = JsonUtils.copyObjToBean(updateFund, UserFund.class);
-			UserFundExample userFundExample = new UserFundExample();
-			userFundExample.or().andFundCodeEqualTo(updateFund.getFundCode());
-
 			// 发送短信
-            Fund newFund = fundMapper.selectByPrimaryKey(updateFund.getFundCode());
-            sendSms(newFund);
+            sendSms(updateFund);
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
@@ -532,28 +466,12 @@ public class TaskServiceImpl implements TaskService{
 
 	// 发送短信
     private void sendSms(Fund fund){
-		JSONObject smsSendRuleJson = constantService.getConstantJsonById(SysConstantData.SMS_SEND_RULE);
 
 		Integer type = fund.getType();
 		String fundCode = fund.getFundCode();
 
 		// 基金股票信息不全，不发送短信
-		if(smsSendRuleJson == null || StringUtils.isBlank(fundCode) || type == null || fund.getCurGain() == null || fund.getLastGain() == null){
-			return;
-		}
-
-		if(!smsSendRuleJson.getBooleanValue("sendFlag")){ // 发送短信总开关
-			return;
-		}
-
-		String sendPhone = smsSendRuleJson.getString("sendPhone");  // 必须有发送手机号
-		if(StringUtils.isBlank(sendPhone)){
-			return;
-		}
-
-		String fundSendFlagKey = "TodaySendFlag_"+fundCode; 	// 单个基金或股票是否已发送
-		boolean fundSendFlag = smsSendRuleJson.getBooleanValue(fundSendFlagKey);
-		if(fundSendFlag){
+		if(StringUtils.isBlank(fundCode) || type == null || fund.getCurGain() == null || fund.getLastGain() == null){
 			return;
 		}
 
@@ -583,50 +501,38 @@ public class TaskServiceImpl implements TaskService{
 		if(now.after(endDate)){
 			return;
 		}
-		
-		// 发送短信间隔
-		Integer sendInterval = smsSendRuleJson.getInteger("sendInterval");
-		if(sendInterval != null){
-			calendar.setTime(lastSendDate);
-			calendar.add(Calendar.MINUTE, sendInterval);
-			Date intervalAfter = calendar.getTime();
-			if(now.before(intervalAfter)){
-				return;
-			}
-		}
 
     	// 基金两日上涨幅度超过最大值
 		double sumGain = fund.getCurGain() + fund.getLastGain();
-		Double fundUpperLimit = smsSendRuleJson.getDouble("fund2DayUpperLimit");
+		Double fundUpperLimit = null;
 		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundUpperLimit != null && sumGain >= fundUpperLimit){
 			sendFlag = true;
 		}
 
 		// 基金两日下降幅度超过最小值
-		Double fundLowerLimit = smsSendRuleJson.getDouble("fund2DayLowerLimit");
+		Double fundLowerLimit = null;
 		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundLowerLimit != null && sumGain <= fundLowerLimit){
 			sendFlag = true;
 		}
 
 		// 基金或股票单日净值涨幅超过最大值
-		Double fundUpMoney = smsSendRuleJson.getDouble(fundCode + "UpperLimit");
+		Double fundUpMoney = null;
 		double fundValueChange = fund.getCurNetValue() - fund.getLastNetValue();
 		if(fundUpMoney != null && fundValueChange >= fundUpMoney){
 			sendFlag = true;
 		}
 
 		// 基金或股票单日净值跌幅低过最小值
-		Double fundDownMoney = smsSendRuleJson.getDouble(fundCode + "LowerLimit");
+		Double fundDownMoney = null;
 		if(fundDownMoney != null && fundValueChange <= fundDownMoney) {
 			sendFlag = true;
 		}
 
-		if(sendFlag){
+		String sendPhone = "";
+		if(sendFlag && StringUtils.isNotBlank(sendPhone)){
 			lastSendDate = now;
 			logger.debug("向{}发送短信:{}", sendPhone, fundCode);
 			asyncService.aliSendSmsCode(sendPhone, fundCode);
-			smsSendRuleJson.put(fundSendFlagKey, true);
-			constantService.updateValueById(SysConstantData.SMS_SEND_RULE, smsSendRuleJson.toJSONString());
 		}
 	}
 

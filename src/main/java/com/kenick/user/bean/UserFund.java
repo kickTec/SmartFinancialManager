@@ -1,13 +1,8 @@
-package com.kenick.generate.bean;
+package com.kenick.user.bean;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-
-import java.util.ArrayList;
-
-import java.util.ArrayList;
-
-import java.util.ArrayList;
 
 public class UserFund extends UserFundKey {/* feild added*/
 

@@ -1,6 +1,7 @@
 package com.kenick.fund.service;
 
-import com.kenick.generate.bean.Fund;
+
+import com.kenick.fund.bean.Fund;
 
 import java.util.List;
 

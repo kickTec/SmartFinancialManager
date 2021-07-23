@@ -1,12 +1,7 @@
-package com.kenick.generate.bean;
+package com.kenick.user.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
-
-import java.util.ArrayList;
-
-import java.util.ArrayList;
-
-import java.util.ArrayList;
 
 public class User {/* feild added*/
 

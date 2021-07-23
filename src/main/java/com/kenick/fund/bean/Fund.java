@@ -1,9 +1,8 @@
-package com.kenick.generate.bean;
+package com.kenick.fund.bean;
 
 import java.math.BigDecimal;
-import java.util.Date;
-
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Fund {/* feild added*/
 

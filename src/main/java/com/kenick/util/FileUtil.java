@@ -3,26 +3,17 @@ package com.kenick.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.kenick.generate.bean.Fund;
+import com.kenick.fund.bean.Fund;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,7 +23,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -52,70 +42,6 @@ public class FileUtil {
         logger.debug("dataList:{}", dataList);
     }
 
-    public static List<List<String>> getDataFromExcel(String filePath, String sheetName) throws IOException {
-        return getDataFromExcel(new File(filePath), sheetName);
-    }
-
-    public static List<List<String>> getDataFromExcel(File file, String sheetName) throws IOException {
-        long startTime = System.currentTimeMillis();
-        Workbook book = null;
-        ArrayList<List<String>> rtnList = new ArrayList<>();
-        InputStream inputStream = null;
-        BufferedInputStream bis = null;
-        try {
-            inputStream = new FileInputStream(file);
-            if (StringUtils.endsWith(file.getName(), ".xlsx")) {
-                book = new XSSFWorkbook(inputStream);
-            } else {
-                book = new HSSFWorkbook(inputStream);
-            }
-
-            Sheet sheet = book.getSheet(sheetName);
-
-            try {
-                for (int rowIndex = sheet.getFirstRowNum(); rowIndex < sheet.getPhysicalNumberOfRows(); rowIndex++) {
-                    Row row = sheet.getRow(rowIndex);
-
-                    if (null == row) {
-                        continue;
-                    }
-
-                    List<String> dataList = new ArrayList<>();
-
-                    try {
-                        for (int cellIndex = row.getFirstCellNum(); cellIndex <= row.getLastCellNum(); cellIndex++) {
-                            Cell cell = row.getCell(cellIndex);
-                            if (cell == null) {
-                                continue;
-                            }
-                            cell.setCellType(CellType.STRING);
-                            dataList.add(cellIndex, cell.getStringCellValue());
-                        }
-                    } catch (Exception e) {
-                        logger.debug("sheetName:{},rowIndex:{},errorMsg:{}", sheetName, rowIndex, e.getMessage());
-                    }
-
-                    rtnList.add(dataList);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e.getCause());
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e.getCause());
-        } finally {
-            if (bis != null) {
-                bis.close();
-            }
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (book != null) {
-                book.close();
-            }
-            logger.debug("读取excel文件花费时间:{}", System.currentTimeMillis() - startTime);
-        }
-        return rtnList;
-    }
 
     public static void downloadFileConcurrent(String url, String localPatch) {
         fixedThreadPool.execute(() -> download(url, localPatch));

@@ -1,15 +1,13 @@
 package com.kenick.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpUtils 
 {
@@ -58,18 +56,6 @@ public class HttpUtils
 		result.put("message", "操作成功！");
 		result.put("data", data);
 		result.putAll(map);
-		return gson.toJson(result);
-	}
-	
-	public static String showSuccessList(PageInfo<?> pageInfo)
-	{
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("flag", true);
-		result.put("message", "操作成功！");
-		result.put("data", pageInfo.getList());
-		result.put("total", pageInfo.getTotal());
-		result.put("pageNumber", pageInfo.getPageNum());
-		result.put("pageSize", pageInfo.getPageSize());
 		return gson.toJson(result);
 	}
 	

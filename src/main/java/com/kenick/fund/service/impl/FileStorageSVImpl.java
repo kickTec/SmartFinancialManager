@@ -1,7 +1,7 @@
 package com.kenick.fund.service.impl;
 
+import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.FileStorageService;
-import com.kenick.generate.bean.Fund;
 import com.kenick.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;

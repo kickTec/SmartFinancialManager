@@ -1,11 +1,11 @@
-package com.kenick.controller;
+package com.kenick.fund.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.FileStorageService;
 import com.kenick.fund.service.FundService;
-import com.kenick.generate.bean.Fund;
-import com.kenick.generate.bean.UserFund;
+import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
