@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -16,62 +17,27 @@ import java.util.List;
 @Service("fileStorageService")
 public class FileStorageSVImpl implements FileStorageService {
 
-    @Value("${storage.type}")
-    String storageType;
-
-    @Value("${storage.file.fund}")
-    String storageFileFund;
-
-    @Value("${storage.file.history.path}")
-    String storageFileHistoryPath;
-
-    @Value("${storage.file.history.enable}")
-    Boolean storageFileHistoryEnable;
-
-    @Override
-    public String getStorageType() {
-        if(StringUtils.isBlank(storageType)){
-            storageType = "file";
-        }
-
-        return storageType;
-    }
+    @Value("${storage.home.path}")
+    String storageHomePath;
 
     @Override
     public List<Fund> getFundListFromFile() {
-
-        if(StringUtils.isBlank(storageFileFund)){
-            storageFileFund = "/home/kenick/smartFinancial-manager/config/fund.json";
-        }
-
-        return FileUtil.getFundFromFile(storageFileFund);
+        String storageHomePath = getStorageHomePath();
+        return FileUtil.getFundFromFile(storageHomePath + File.separator+"fund.json");
     }
 
     @Override
     public void writeFundList2File(List<Fund> fundList) {
-        if(StringUtils.isBlank(storageFileFund)){
-            storageFileFund = "/home/kenick/smartFinancial-manager/config/fund.json";
-        }
-
-        FileUtil.writeFund2File(storageFileFund, fundList);
+        String storageHomePath = getStorageHomePath();
+        FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json", fundList);
     }
 
     @Override
-    public String getHistoryPath() {
-        if(StringUtils.isBlank(storageFileHistoryPath)){
-            storageFileHistoryPath = "/home/kenick/smartFinancial-manager/storage/history";
+    public String getStorageHomePath() {
+        if(StringUtils.isBlank(storageHomePath)){
+            storageHomePath = "/home/kenick/smartFinancial-manager/storage";
         }
-
-        return storageFileHistoryPath;
-    }
-
-    @Override
-    public boolean getStorageFileHistoryEnable() {
-        if(storageFileHistoryEnable == null){
-            storageFileHistoryEnable = true;
-        }
-
-        return storageFileHistoryEnable;
+        return storageHomePath;
     }
 
 }

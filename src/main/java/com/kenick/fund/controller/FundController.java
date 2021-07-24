@@ -53,17 +53,8 @@ public class FundController {
     public String indexCache(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.index in, param:{}",data);
         try{
-            Fund fundCondition = null;
-            if(data != null){
-                fundCondition = JSON.parseObject(data, Fund.class);
-            }
-
             if(fundCacheList == null || fundCacheList.size() == 0){
-                if("file".equals(fileStorageService.getStorageType())){
-                    fundCacheList = fileStorageService.getFundListFromFile();
-                }else{
-                    fundCacheList = fundService.findAllFundByCondition(fundCondition, null);
-                }
+                fundCacheList = fileStorageService.getFundListFromFile();
             }
             model.addAttribute("fundList", fundCacheList);
         }catch (Exception e){

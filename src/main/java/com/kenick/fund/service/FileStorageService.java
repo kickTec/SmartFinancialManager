@@ -11,14 +11,10 @@ import java.util.List;
  */
 public interface FileStorageService {
 
-    String getStorageType();
-
     List<Fund> getFundListFromFile();
 
     void writeFundList2File(List<Fund> fundList);
 
-    String getHistoryPath();
-
-    boolean getStorageFileHistoryEnable();
+    String getStorageHomePath();
 
 }

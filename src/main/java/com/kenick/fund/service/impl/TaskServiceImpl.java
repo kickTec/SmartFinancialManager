@@ -50,6 +50,7 @@ public class TaskServiceImpl implements TaskService{
 	private FileStorageService fileStorageService;
 
 	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
+	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
 
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
@@ -97,8 +98,6 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	private void updateThroughCache(Date now) {
-		String storageType = fileStorageService.getStorageType(); // 存储方式 file为本地文件，否则mysql
-		boolean storageFileHistoryEnable = fileStorageService.getStorageFileHistoryEnable(); // 保存历史数据
 
 		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
 			FundController.fundCacheList = fileStorageService.getFundListFromFile();
@@ -108,26 +107,29 @@ public class TaskServiceImpl implements TaskService{
 			String fundCode = fund.getFundCode();
 			perfectInfoByCodeCache(fund, now);
 
-			if(storageFileHistoryEnable){
-				List<String> stockList = stockHistoryMap.get(fundCode);
-				stockList = stockList == null ? new ArrayList<>() : stockList;
-				String storeInfo = fund.getCurTime() + "," + fund.getCurNetValue();
-				if(!stockList.contains(storeInfo)){
-					stockList.add(storeInfo);
-				}
-
-				if(stockList.size() >= 10){
-					// 保存个股记录数据
-					persistentStockInfo(now, fundCode, stockList);
-					stockList.clear();
-				}
-				stockHistoryMap.put(fundCode, stockList);
+			Double currentValue = fund.getCurNetValue();
+			Double lastValue = stockLastMap.get(fundCode);
+			if(lastValue != null && lastValue.equals(currentValue) ){
+				continue;
 			}
+
+			List<String> stockList = stockHistoryMap.get(fundCode);
+			stockList = stockList == null ? new ArrayList<>() : stockList;
+			String storeInfo = fund.getCurTime() + "," + currentValue;
+			stockList.add(storeInfo);
+			stockLastMap.put(fundCode, currentValue);
+
+			if(stockList.size() >= 2){
+				// 保存个股记录数据
+				persistentStockInfo(now, fundCode, stockList);
+				stockList.clear();
+			}
+			stockHistoryMap.put(fundCode, stockList);
 		}
 		perfectFundList(FundController.fundCacheList);
 
 		// 周期性保存所有记录
-        if("file".equals(storageType) && DateUtils.isRightTimeBySecond(now, 5, 3)){
+        if(DateUtils.isRightTimeBySecond(now, 5, 2)){
             fileStorageService.writeFundList2File(FundController.fundCacheList);
             logger.debug("信息保存到本地完成!");
         }
@@ -147,14 +149,14 @@ public class TaskServiceImpl implements TaskService{
 				return;
 			}
 
-			String storePath = fileStorageService.getHistoryPath() + File.separator + fundCode; // 保存目录
+			String storePath = fileStorageService.getStorageHomePath() + File.separator + "history" + File.separator + fundCode; // 保存目录
 			File storePathFile = new File(storePath);
 			if(!storePathFile.exists()){
 				storePathFile.mkdirs();
 			}
 
 			String day = DateUtils.getStrDate(now, "yyyy-MM-dd");
-			File storeFile = new File(storePath + File.separator + day + ".txt");
+			File storeFile = new File(storePath + File.separator + fundCode + "_" + day + ".txt");
 			FileUtil.persistentText(storeFile, stockList);
 		}catch (Exception e){
     		logger.error("持久化历史数据异常!", e);
