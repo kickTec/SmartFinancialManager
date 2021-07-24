@@ -16,12 +16,6 @@ git push -u origin master
 # index 首页
 http://www.kenick.top/
 
-# git提交
-git pull origin master
-git add .
-git commit -a
-git push -u origin master
-
 # 不使用mysql,使用本地文件存储  
 storage.type=file  
 storage.file.fund=/home/kenick/smartFinancial-manager/config/fund.json  
