@@ -8,16 +8,10 @@ Intelligent, quantitative and long-term open source fund management tool
 git pull origin master  
 git add .  
 git commit -a  
-git push -u origin master  
+git push -u origin 
 
 # database 数据库
 ./database
 
 # index 首页
 http://www.kenick.top/
-
-# git提交
-git pull origin master
-git add .
-git commit -a
-git push -u origin master
