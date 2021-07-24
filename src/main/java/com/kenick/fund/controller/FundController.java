@@ -3,7 +3,7 @@ package com.kenick.fund.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.bean.Fund;
-import com.kenick.fund.service.FileStorageService;
+import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.FundService;
 import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
@@ -31,7 +31,7 @@ public class FundController {
 	public static List<Fund> fundCacheList = new ArrayList<>(); // 使用缓存
 
     @Autowired
-    private FileStorageService fileStorageService;
+    private IFileStorageSV fileStorageService;
 	
     @RequestMapping("/index.html")
     public String index(@RequestParam(value = "data",required = false) String data, Model model){

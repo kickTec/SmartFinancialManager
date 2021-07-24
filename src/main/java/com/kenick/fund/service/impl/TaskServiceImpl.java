@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.controller.FundController;
-import com.kenick.fund.service.FileStorageService;
+import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.TaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService{
 	private AsyncServiceImpl asyncService;
 
 	@Autowired
-	private FileStorageService fileStorageService;
+	private IFileStorageSV fileStorageService;
 
 	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
@@ -69,7 +69,10 @@ public class TaskServiceImpl implements TaskService{
 			// 通过缓存查询更新
 			updateThroughCache(now);
 
-        	 logger.debug("遍历理财一轮花费时间:{}", System.currentTimeMillis()-now.getTime());
+			long spendTime = System.currentTimeMillis() - now.getTime();
+			if(DateUtils.isRightTimeBySecond(now, 1, 3)){
+				logger.debug("遍历理财一轮花费时间:{}", spendTime);
+			}
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
@@ -108,6 +111,10 @@ public class TaskServiceImpl implements TaskService{
 			perfectInfoByCodeCache(fund, now);
 
 			Double currentValue = fund.getCurNetValue();
+			if(currentValue == null || currentValue == 0){
+				continue;
+			}
+
 			Double lastValue = stockLastMap.get(fundCode);
 			if(lastValue != null && lastValue.equals(currentValue) ){
 				continue;
