@@ -5,10 +5,10 @@
 Intelligent, quantitative and long-term open source fund management tool
 
 # update method 更新方式
-git pull origin master  
+git pull origin sfm-nosql  
 git add .  
 git commit -a  
-git push -u origin 
+git push -u origin sfm-nosql
 
 # database 数据库
 ./database
