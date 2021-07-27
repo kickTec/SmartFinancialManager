@@ -558,10 +558,7 @@ public class DateUtils
    }  
    
    public static void main(String[] args) {
-		int monthDay = DateUtils.getYearMonthDay(new Date());
-		int sevenPastDay = DateUtils.getYearMonthDay(DateUtils.getPastDate(7));
-		System.out.println(monthDay);
-		System.out.println(sevenPastDay);
+		System.out.println(DateUtils.getWeekNum(new Date()));
    }
 
 	// 每隔intervalSecond秒循环一次，判断是否正是第minute倍数分钟
@@ -613,6 +610,13 @@ public class DateUtils
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		return calendar.get(Calendar.MINUTE);
+	}
+
+	public static int getWeekNum(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int weekNum = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+		return weekNum == 0 ? 7 : weekNum;
 	}
 
 }

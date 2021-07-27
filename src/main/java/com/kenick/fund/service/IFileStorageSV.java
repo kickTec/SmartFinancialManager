@@ -22,4 +22,6 @@ public interface IFileStorageSV {
 
     File getHistoryFileByName(String fundCode, String fundRecordFile);
 
+    boolean getStorageEnable();
+
 }

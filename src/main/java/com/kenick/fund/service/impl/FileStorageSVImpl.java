@@ -22,6 +22,9 @@ public class FileStorageSVImpl implements IFileStorageSV {
     @Value("${storage.home.path}")
     String storageHomePath;
 
+    @Value("${storage.enable}")
+    boolean storageEnable;
+
     @Override
     public List<Fund> getFundListFromFile() {
         String storageHomePath = getStorageHomePath();
@@ -57,6 +60,11 @@ public class FileStorageSVImpl implements IFileStorageSV {
         }
 
         return file;
+    }
+
+    @Override
+    public boolean getStorageEnable() {
+        return storageEnable;
     }
 
 }

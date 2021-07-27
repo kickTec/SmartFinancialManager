@@ -37,7 +37,6 @@ import java.util.Map;
 @EnableScheduling
 public class TaskServiceImpl implements TaskService{	
 	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
-	private Date lastSendDate = new Date();
 
 	private final String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
 	private final String stockSzUrl = "http://hq.sinajs.cn/list=sz";
@@ -101,6 +100,10 @@ public class TaskServiceImpl implements TaskService{
 	}
 
 	private void updateThroughCache(Date now) {
+		int weekNum = DateUtils.getWeekNum(now);
+		if(weekNum == 6 || weekNum == 7){ // 周末跳过
+			return;
+		}
 
 		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
 			FundController.fundCacheList = fileStorageService.getFundListFromFile();
@@ -146,6 +149,10 @@ public class TaskServiceImpl implements TaskService{
 	// 持久化当前信息
 	private void persistentStockInfo(Date now, String fundCode, List<String> stockList) {
     	try{
+			if(!fileStorageService.getStorageEnable()){
+				return;
+			}
+
 			int hour = DateUtils.getHour(now);
 			int minute = DateUtils.getMinute(now);
 			if(hour < 9 || (hour < 10 && minute < 30)){
@@ -325,7 +332,7 @@ public class TaskServiceImpl implements TaskService{
 			updateFund.setModifyDate(new Date());
 
 			// 发送短信
-            sendSms(updateFund);
+            // sendSms(updateFund);
     	}catch (Exception e) {
     		logger.error(e.getMessage());
 		}
@@ -539,7 +546,6 @@ public class TaskServiceImpl implements TaskService{
 
 		String sendPhone = "";
 		if(sendFlag && StringUtils.isNotBlank(sendPhone)){
-			lastSendDate = now;
 			logger.debug("向{}发送短信:{}", sendPhone, fundCode);
 			asyncService.aliSendSmsCode(sendPhone, fundCode);
 		}

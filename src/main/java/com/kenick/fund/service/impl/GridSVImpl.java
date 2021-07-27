@@ -67,9 +67,9 @@ public class GridSVImpl implements IGridSV {
             }
             gridCondition.setGridInterval(new BigDecimal(interval));
             gridCondition.setTradeQuantity(tradeQuantity);
-            if(gridMode != null && gridMode == 1){ // 模式1 预设1倍持仓量
-                gridCondition.setBuyQuantity(tradeQuantity);
-                gridCondition.setHoldQuantity(tradeQuantity);
+            if(gridMode != null && gridMode < 10){ // 预设持仓量模式 gridMode倍数
+                gridCondition.setBuyQuantity(tradeQuantity*gridMode);
+                gridCondition.setHoldQuantity(tradeQuantity*gridMode);
             }
         }
 
@@ -94,8 +94,8 @@ public class GridSVImpl implements IGridSV {
             if(gridCondition.getBenchmarkPriceNew() == null || gridCondition.getBenchmarkPriceNew().compareTo(BigDecimal.ZERO) == 0){
                 gridCondition.setBenchmarkPriceNew(gridCondition.getBenchmarkPriceInit());
             }
-            // 模式1 预设1倍持仓量 初始化买入平均价
-            if(gridMode != null && gridMode == 1 && gridCondition.getHoldQuantity() > 0 && gridCondition.getBuyAvgPrice() == null){
+            // 预设持仓量模式 gridMode倍数初始化买入平均价
+            if(gridMode != null && gridMode < 10 && gridCondition.getHoldQuantity() > 0 && gridCondition.getBuyAvgPrice() == null){
                 gridCondition.setBuyAvgPrice(fundCurrentPrice);
                 gridCondition.setHoldPrice(fundCurrentPrice);
             }
@@ -108,14 +108,14 @@ public class GridSVImpl implements IGridSV {
                 // 撤掉最近委托卖出单，回测不需要处理
                 // 记录买入
                 gridCondition.setTriggerTime(fundDate);
-                recordGridBuy(fundCurrentPrice, gridCondition);
+                recordGridBuy(gridBuyPrice,gridCondition);
             }
 
             if(fundCurrentPrice.compareTo(gridSellPrice) >= 0){ // 高于卖出价
                 // 撤掉最近委托买入单，回测不需要处理
                 // 记录卖出
                 gridCondition.setTriggerTime(fundDate);
-                recordGridSell(fundCurrentPrice, gridCondition);
+                recordGridSell(gridSellPrice, gridCondition);
             }
         }
 
@@ -124,7 +124,7 @@ public class GridSVImpl implements IGridSV {
         return retJson;
     }
 
-    private static void recordGridSell(BigDecimal fundCurrentPrice, GridCondition gridCondition) {
+    private static void recordGridSell(BigDecimal gridSellPrice, GridCondition gridCondition) {
         // 委托单次交易数量
         int tradeQuantity = gridCondition.getTradeQuantity();
         // 持有量小于单次委托数量，无法成交
@@ -134,24 +134,24 @@ public class GridSVImpl implements IGridSV {
         }
 
         // 卖出计算
-        BigDecimal sellAvgPrice = gridCondition.getSellAvgPrice() == null ? fundCurrentPrice: gridCondition.getSellAvgPrice();
+        BigDecimal sellAvgPrice = gridCondition.getSellAvgPrice() == null ? gridSellPrice: gridCondition.getSellAvgPrice();
         int sellQuantity = gridCondition.getSellQuantity();
         int sellQuantityNew = sellQuantity + tradeQuantity;
         if(sellQuantity > 0){
             sellAvgPrice = sellAvgPrice.multiply(new BigDecimal(sellQuantity))
-                    .add(fundCurrentPrice.multiply(new BigDecimal(tradeQuantity)))
+                    .add(gridSellPrice.multiply(new BigDecimal(tradeQuantity)))
                     .divide(new BigDecimal(sellQuantityNew), 3, RoundingMode.HALF_UP);
         }else{
-            sellAvgPrice = fundCurrentPrice;
+            sellAvgPrice = gridSellPrice;
         }
 
         // 持仓计算
-        BigDecimal holdPrice = gridCondition.getHoldPrice() == null ? fundCurrentPrice : gridCondition.getHoldPrice();
+        BigDecimal holdPrice = gridCondition.getHoldPrice() == null ? gridSellPrice : gridCondition.getHoldPrice();
         int holdQuantityNew = holdQuantityOld - tradeQuantity;
         if(holdQuantityNew == 0){
             holdPrice = BigDecimal.ZERO;
         }else{
-            holdPrice = holdPrice.multiply(new BigDecimal(holdQuantityOld)).subtract(fundCurrentPrice.multiply(new BigDecimal(tradeQuantity)))
+            holdPrice = holdPrice.multiply(new BigDecimal(holdQuantityOld)).subtract(gridSellPrice.multiply(new BigDecimal(tradeQuantity)))
                     .divide(new BigDecimal(holdQuantityNew), 3, RoundingMode.HALF_UP);
         }
         gridCondition.setHoldQuantity(holdQuantityNew);
@@ -162,26 +162,26 @@ public class GridSVImpl implements IGridSV {
         gridCondition.setSellQuantity(sellQuantityNew);
         gridCondition.setSellAvgPrice(sellAvgPrice);
         gridCondition.setTradeTotal(gridCondition.getTradeTotal()+1);
-        gridCondition.setBenchmarkPriceNew(fundCurrentPrice);
+        gridCondition.setBenchmarkPriceNew(gridSellPrice);
 
         calcGainMoney("卖",gridCondition);
     }
 
     // 网格买入
-    private static void recordGridBuy(BigDecimal fundCurrentPrice, GridCondition gridCondition) {
+    private static void recordGridBuy(BigDecimal gridBuyPrice, GridCondition gridCondition) {
         // 委托单次交易数量
         int tradeQuantity = gridCondition.getTradeQuantity();
 
         // 买入计算
-        BigDecimal buyAvgPrice = gridCondition.getBuyAvgPrice() == null ? fundCurrentPrice: gridCondition.getBuyAvgPrice();
+        BigDecimal buyAvgPrice = gridCondition.getBuyAvgPrice() == null ? gridBuyPrice: gridCondition.getBuyAvgPrice();
         int buyQuantityOld = gridCondition.getBuyQuantity();
         int buyQuantityNew = buyQuantityOld + tradeQuantity;
         if(buyQuantityOld > 0){
             buyAvgPrice = buyAvgPrice.multiply(new BigDecimal(buyQuantityOld))
-                    .add(fundCurrentPrice.multiply(new BigDecimal(tradeQuantity)))
+                    .add(gridBuyPrice.multiply(new BigDecimal(tradeQuantity)))
                     .divide(new BigDecimal(buyQuantityNew), 3, RoundingMode.HALF_UP);
         }else{
-            buyAvgPrice = fundCurrentPrice;
+            buyAvgPrice = gridBuyPrice;
         }
         gridCondition.setBuyTotal(gridCondition.getBuyTotal()+1);
         gridCondition.setTradeTotal(gridCondition.getTradeTotal()+1);
@@ -191,13 +191,13 @@ public class GridSVImpl implements IGridSV {
         // 持仓计算
         int holdQuantityOld = gridCondition.getHoldQuantity();
         int holdQuantityNew = holdQuantityOld + tradeQuantity;
-        BigDecimal holdPrice = gridCondition.getHoldPrice() == null ? fundCurrentPrice : gridCondition.getHoldPrice();
+        BigDecimal holdPrice = gridCondition.getHoldPrice() == null ? gridBuyPrice : gridCondition.getHoldPrice();
         if(holdQuantityOld > 0){
             holdPrice = holdPrice.multiply(new BigDecimal(holdQuantityOld))
-                    .add(fundCurrentPrice.multiply(new BigDecimal(tradeQuantity)))
+                    .add(gridBuyPrice.multiply(new BigDecimal(tradeQuantity)))
                     .divide(new BigDecimal(holdQuantityNew), 3, RoundingMode.HALF_UP);
         }else{
-            holdPrice = fundCurrentPrice;
+            holdPrice = gridBuyPrice;
         }
         int maxQuantity = gridCondition.getMaxHoldQuantity();
         if(holdQuantityNew > maxQuantity){
@@ -217,7 +217,7 @@ public class GridSVImpl implements IGridSV {
         gridCondition.setHoldPrice(holdPrice);
         gridCondition.setMaxHoldQuantity(maxQuantity);
         gridCondition.setMaxHoldMoney(maxHoldMoney);
-        gridCondition.setBenchmarkPriceNew(fundCurrentPrice);
+        gridCondition.setBenchmarkPriceNew(gridBuyPrice);
 
         // 计算盈利
         calcGainMoney("买",gridCondition);
@@ -260,9 +260,9 @@ public class GridSVImpl implements IGridSV {
 
             StringBuilder tradeDetailSB = new StringBuilder();
             tradeDetailSB.append(DateUtils.getStrDate(gridCondition.getTriggerTime())).append(" ")
-                    .append(directDesc).append(":").append(fundPrice).append(",买入均价:")
-                    .append(gridCondition.getBuyAvgPrice()).append(",网格盈利:").append(gridGainMoney)
-                    .append(",持仓盈利:").append(holdGainMoney).append(",总盈利:").append(gridCondition.getGainMoney())
+                    .append(directDesc).append(":").append(gridCondition.getBenchmarkPriceNew().setScale(2, RoundingMode.HALF_UP)).append(",买入均价:")
+                    .append(gridCondition.getBuyAvgPrice()).append(",网格盈利:").append(gridGainMoney.setScale(2, RoundingMode.HALF_UP))
+                    .append(",持仓盈利:").append(holdGainMoney).append(",总盈利:").append(gridCondition.getGainMoney().setScale(2, RoundingMode.HALF_UP))
                     .append(",当前持仓:").append(gridCondition.getHoldQuantity())
                     .append(",最大持仓:").append(gridCondition.getMaxHoldQuantity());
             List<String> tradeList = gridCondition.getTradeDetail() == null ? new ArrayList<>() : gridCondition.getTradeDetail();

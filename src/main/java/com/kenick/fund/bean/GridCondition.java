@@ -219,7 +219,7 @@ public class GridCondition {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("初始基准价:").append(benchmarkPriceInit)
-                .append(" 最新基准价:").append(benchmarkPriceNew)
+                .append(" 最新基准价:").append(benchmarkPriceNew.setScale(2,RoundingMode.HALF_UP))
                 .append(" 最新价:").append(fundPrice)
                 .append(" 持仓数量:").append(holdQuantity)
                 .append(" 买入总次数:").append(buyTotal)
