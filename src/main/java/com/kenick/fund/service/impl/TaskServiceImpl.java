@@ -4,11 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.controller.FundController;
+import com.kenick.fund.service.IAsyncService;
 import com.kenick.fund.service.IFileStorageSV;
-import com.kenick.fund.service.TaskService;
+import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
-import com.kenick.util.FileUtil;
 import com.kenick.util.HttpRequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
@@ -23,7 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.Map;
 
 @Service("taskService")
 @EnableScheduling
-public class TaskServiceImpl implements TaskService{	
+public class TaskServiceImpl implements ITaskService {
 	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
 	private final String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
@@ -43,7 +42,7 @@ public class TaskServiceImpl implements TaskService{
 	private final String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
 	@Autowired
-	private AsyncServiceImpl asyncService;
+	private IAsyncService asyncService;
 
 	@Autowired
 	private IFileStorageSV fileStorageService;
@@ -68,10 +67,7 @@ public class TaskServiceImpl implements TaskService{
 			// 通过缓存查询更新
 			updateThroughCache(now);
 
-			long spendTime = System.currentTimeMillis() - now.getTime();
-			if(DateUtils.isRightTimeBySecond(now, 1, 3)){
-				logger.debug("遍历理财一轮花费时间:{}", spendTime);
-			}
+			logger.debug("遍历理财一轮花费时间:{}", System.currentTimeMillis() - now.getTime());
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
@@ -89,7 +85,7 @@ public class TaskServiceImpl implements TaskService{
 
 				if(stockList != null && stockList.size() > 0){
 					// 保存个股记录数据
-					persistentStockInfo(now, fundCode, stockList);
+					asyncService.persistentStockInfo(now, fundCode, stockList);
 					stockList.clear();
 				}
 				stockHistoryMap.put(fundCode, stockList);
@@ -129,9 +125,9 @@ public class TaskServiceImpl implements TaskService{
 			stockList.add(storeInfo);
 			stockLastMap.put(fundCode, currentValue);
 
-			if(stockList.size() >= 2){
+			if(stockList.size() >= 20){
 				// 保存个股记录数据
-				persistentStockInfo(now, fundCode, stockList);
+				asyncService.persistentStockInfo(now, fundCode, stockList);
 				stockList.clear();
 			}
 			stockHistoryMap.put(fundCode, stockList);
@@ -144,37 +140,6 @@ public class TaskServiceImpl implements TaskService{
             logger.debug("信息保存到本地完成!");
         }
 
-	}
-
-	// 持久化当前信息
-	private void persistentStockInfo(Date now, String fundCode, List<String> stockList) {
-    	try{
-			if(!fileStorageService.getStorageEnable()){
-				return;
-			}
-
-			int hour = DateUtils.getHour(now);
-			int minute = DateUtils.getMinute(now);
-			if(hour < 9 || (hour < 10 && minute < 30)){
-				return;
-			}
-
-			if(hour >= 15 && minute >= 1){
-				return;
-			}
-
-			String storePath = fileStorageService.getStorageHomePath() + File.separator + "history" + File.separator + fundCode; // 保存目录
-			File storePathFile = new File(storePath);
-			if(!storePathFile.exists()){
-				storePathFile.mkdirs();
-			}
-
-			String day = DateUtils.getStrDate(now, "yyyy-MM-dd");
-			File storeFile = new File(storePath + File.separator + fundCode + "_" + day + ".txt");
-			FileUtil.persistentText(storeFile, stockList);
-		}catch (Exception e){
-    		logger.error("持久化历史数据异常!", e);
-		}
 	}
 
 	// 完善基金信息
@@ -210,13 +175,15 @@ public class TaskServiceImpl implements TaskService{
 				return;
 			}
 
+			Integer fundType = fund.getType();
 			// 更新基金信息
-			if(fund.getType() == null || fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_FUND){
+			if(fundType == null || fundType == TableStaticConstData.TABLE_FUND_TYPE_FUND){
 				updateFundInfo(fund, now);
 			}
 
 			// 获取股票信息
-			if(fund.getType() != null && fund.getType() == TableStaticConstData.TABLE_FUND_TYPE_STOCK){
+			if(fundType != null && (fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK
+					||fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH || fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ)){
 				updateStockByHttp(fund, now);
 			}
 		}catch (Exception e) {
@@ -225,7 +192,7 @@ public class TaskServiceImpl implements TaskService{
 	}
 
     /**
-	 * <一句话功能简述> 1.晚上更新昨日数据 2.移除当天短信发送记录
+	 * <一句话功能简述> 晚上更新昨日数据
 	 * <功能详细描述> 
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
@@ -234,6 +201,11 @@ public class TaskServiceImpl implements TaskService{
     public void updateStockInfoNight(){
         logger.debug("TaskServiceImpl.updateStockInfo in");
         try{
+			int weekNum = DateUtils.getWeekNum(new Date());
+			if(weekNum == 6 || weekNum == 7){ // 周末跳过
+				return;
+			}
+
             // 查询出所有基金股票
 			List<Fund> fundList = fileStorageService.getFundListFromFile();
 
@@ -414,11 +386,15 @@ public class TaskServiceImpl implements TaskService{
 		try{
 
 			String fundCode = fund.getFundCode();
+			Integer fundType = fund.getType();
 
 			// 股票类型
 			String url = stockShUrl + fundCode;
 			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))
 				|| "123".equals(fundCode.substring(0,3))){ // 深圳
+				url = stockSzUrl + fundCode;
+			}
+			if(fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ){
 				url = stockSzUrl + fundCode;
 			}
 

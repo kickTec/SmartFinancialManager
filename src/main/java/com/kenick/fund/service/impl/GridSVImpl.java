@@ -1,6 +1,8 @@
 package com.kenick.fund.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.constant.TableStaticConstData;
+import com.kenick.fund.bean.Fund;
 import com.kenick.fund.bean.GridCondition;
 import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.IGridSV;
@@ -19,9 +21,13 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * author: zhanggw
@@ -294,6 +300,146 @@ public class GridSVImpl implements IGridSV {
         }
         retJson.put("tradeDetail", gridCondition.getTradeDetail());
 
+        return retJson;
+    }
+
+    @Override
+    public JSONObject gridRank(int rankMode) throws Exception {
+        JSONObject retJson = new JSONObject();
+        try{
+            if(rankMode == 101){ // 转债模式
+                return gridRankSummary(rankMode,7, 0.5,10);
+            }
+            return gridRankSummary(rankMode,7, 0.5,100);
+        }catch (Exception e){
+            logger.error("网格排行计算异常!", e);
+        }
+
+        return retJson;
+    }
+
+    private JSONObject gridRankSummary(int fundTypeParam, int rankDayNum, double gridInterval, int tradeQuantity) {
+        JSONObject retJson = new JSONObject();
+        try{
+            List<Fund> fundList = fileStorageSV.getFundListFromFile();
+            Map<Double, JSONObject> rankMap = new TreeMap<>((o1, o2) -> -o1.compareTo(o2));
+
+            for(Fund fund:fundList){
+                String fundCode = fund.getFundCode();
+                Integer fundType = fund.getType();
+
+                if(StringUtils.isBlank(fundCode)){
+                    continue;
+                }
+
+                if(fundTypeParam == 101){
+                    if(fundType == TableStaticConstData.TABLE_FUND_TYPE_FUND || fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK){
+                        continue;
+                    }
+                }else{
+                    if(fundTypeParam != fundType){
+                        continue;
+                    }
+                }
+
+                // 找到最近几天文件
+                List<String> fundRecordFileList = getLastRecordFile(fundCode, rankDayNum);
+                if(fundRecordFileList == null || fundRecordFileList.size() == 0){
+                    continue;
+                }
+
+                JSONObject tmpJson = new JSONObject();
+                tmpJson.put("name", fund.getFundName());
+                tmpJson.put("code", fundCode);
+
+                // 回测每天数据
+                File curFile;
+                GridCondition gridCondition = null;
+                for(String fundRecordFile:fundRecordFileList){
+                    curFile = fileStorageSV.getHistoryFileByName(fundCode, fundRecordFile);
+                    List<String> fundDayList = FileUtil.getTextListFromFile(curFile);
+                    JSONObject ret = gridBackGain(gridCondition, fundCode, gridInterval, tradeQuantity, fundDayList);
+                    gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
+                }
+                BigDecimal gainMoney = gridCondition.getGainMoney();
+                tmpJson.put("gainMoney", gainMoney);
+                tmpJson.put("tradeTotal", gridCondition.getTradeTotal());
+                tmpJson.put("holdQuantity", gridCondition.getHoldQuantity());
+
+                if(rankMap.containsKey(gainMoney.doubleValue())){
+                    rankMap.put(gainMoney.doubleValue() - 0.01, tmpJson);
+                }else{
+                    rankMap.put(gainMoney.doubleValue(), tmpJson);
+                }
+            }
+            retJson.put("rankMap", rankMap);
+        }catch (Exception e){
+            logger.error("转债网格排行计算异常!", e);
+        }
+        return retJson;
+    }
+
+    private JSONObject gridBackGain(GridCondition gridCondition, String fundCode, double gridInterval, int tradeQuantity, List<String> fundDayList) {
+        JSONObject retJson = new JSONObject();
+
+        // 设置网格条件
+        if(gridCondition == null){
+            gridCondition = new GridCondition();
+            gridCondition.setFundCode(fundCode);
+            gridCondition.setGridInterval(new BigDecimal(gridInterval));
+            gridCondition.setTradeQuantity(tradeQuantity);
+            gridCondition.setBuyQuantity(tradeQuantity);
+            gridCondition.setHoldQuantity(tradeQuantity);
+        }
+
+        Date fundDate; // 最新时间
+        BigDecimal fundCurrentPrice; // 最新价格
+        BigDecimal gridBuyPrice; // 网格买入价
+        BigDecimal gridSellPrice; // 网格卖出价
+        for(String fundData:fundDayList){
+            String[] fundDataArray = fundData.split(",");
+            fundDate = DateUtils.tranToDate(fundDataArray[0], "yyyy-MM-dd hh:mm:ss");
+            fundCurrentPrice = new BigDecimal(fundDataArray[1]);
+            if(fundCurrentPrice.compareTo(BigDecimal.ZERO) == 0){
+                continue;
+            }
+
+            gridCondition.setFundPrice(fundCurrentPrice);
+
+            // 初始化基准价
+            if(gridCondition.getBenchmarkPriceInit() == null || gridCondition.getBenchmarkPriceInit().compareTo(BigDecimal.ZERO) == 0){
+                gridCondition.setBenchmarkPriceInit(fundCurrentPrice);
+            }
+            if(gridCondition.getBenchmarkPriceNew() == null || gridCondition.getBenchmarkPriceNew().compareTo(BigDecimal.ZERO) == 0){
+                gridCondition.setBenchmarkPriceNew(gridCondition.getBenchmarkPriceInit());
+            }
+            // 预设持仓量模式 gridMode倍数初始化买入平均价
+            if(gridCondition.getHoldQuantity() > 0 && gridCondition.getBuyAvgPrice() == null){
+                gridCondition.setBuyAvgPrice(fundCurrentPrice);
+                gridCondition.setHoldPrice(fundCurrentPrice);
+            }
+
+            // 最新买入、卖出价
+            gridBuyPrice = gridCondition.getBenchmarkPriceNew().subtract(gridCondition.getGridInterval());
+            gridSellPrice = gridCondition.getBenchmarkPriceNew().add(gridCondition.getGridInterval());
+
+            if(fundCurrentPrice.compareTo(gridBuyPrice) <= 0){ // 低于买入价
+                // 撤掉最近委托卖出单，回测不需要处理
+                // 记录买入
+                gridCondition.setTriggerTime(fundDate);
+                recordGridBuy(gridBuyPrice,gridCondition);
+            }
+
+            if(fundCurrentPrice.compareTo(gridSellPrice) >= 0){ // 高于卖出价
+                // 撤掉最近委托买入单，回测不需要处理
+                // 记录卖出
+                gridCondition.setTriggerTime(fundDate);
+                recordGridSell(gridSellPrice, gridCondition);
+            }
+        }
+
+        calcGainMoney(null, gridCondition);
+        retJson.put("gridCondition", gridCondition);
         return retJson;
     }
 

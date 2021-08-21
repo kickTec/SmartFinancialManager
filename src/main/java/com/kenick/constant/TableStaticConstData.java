@@ -21,4 +21,14 @@ public class TableStaticConstData {
 	 */
 	public static final int TABLE_FUND_TYPE_STOCK = 2;
 
+	/**
+	 * 理财 类型 沪债 3
+	 */
+	public static final int TABLE_FUND_TYPE_STOCK_SZ = 3;
+
+	/**
+	 * 理财 类型 深债 4
+	 */
+	public static final int TABLE_FUND_TYPE_STOCK_SH = 4;
+
 }

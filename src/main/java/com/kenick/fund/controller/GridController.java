@@ -37,7 +37,7 @@ public class GridController {
             String[] dataArray = data.split(",");
             String fundCode = dataArray[0];
             int dayNum = Integer.parseInt(dataArray[1]); // 最近几天
-            Double initPrice = Double.parseDouble(dataArray[2]); // 初始基准价
+            Double initPrice = Double.parseDouble(dataArray[2]); // 初始基准价 0 自动适配
             Double gridInterval = Double.parseDouble(dataArray[3]); // 网格差价
             int gridQuantity = Integer.parseInt(dataArray[4]); // 网格数量
             Integer gridMode = null; // 网格模式
@@ -50,6 +50,27 @@ public class GridController {
         }catch (Exception e){
             logger.error("grid_backTest_exception 回测异常", e);
             return HttpUtils.showException("grid_backTest_exception","回测异常!", e);
+        }
+    }
+
+    @RequestMapping("/gridrank")
+    @ResponseBody
+    public String gridRank(@RequestParam(value = "data",required = false) String data){
+        logger.debug("GridController.gridRank in, param:{}",data);
+        try{
+            int rankMode = 101; // 转债模式
+            if(StringUtils.isNotBlank(data)){
+                String[] dataArray = data.split(",");
+                if(dataArray.length > 0){
+                    rankMode = Integer.parseInt(dataArray[0]); // 排行模式
+                }
+            }
+
+            JSONObject ret = gridSV.gridRank(rankMode);
+            return ret.toJSONString();
+        }catch (Exception e){
+            logger.error("grid_gridrank_exception 回测异常", e);
+            return HttpUtils.showException("grid_gridrank_exception","回测异常!", e);
         }
     }
 

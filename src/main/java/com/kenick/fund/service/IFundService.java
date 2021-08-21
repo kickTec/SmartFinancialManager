@@ -6,7 +6,7 @@ import com.kenick.user.bean.UserFund;
 
 import java.util.List;
 
-public interface FundService {
+public interface IFundService {
 	/**
 	 * <一句话功能简述> 查询所有基金信息
 	 * <功能详细描述>

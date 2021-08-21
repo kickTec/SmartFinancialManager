@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFileStorageSV;
-import com.kenick.fund.service.FundService;
+import com.kenick.fund.service.IFundService;
 import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class FundController {
     private final static Logger logger = LoggerFactory.getLogger(FundController.class);
 	
 	@Autowired
-	private FundService fundService;
+	private IFundService fundService;
 
 	public static List<Fund> fundCacheList = new ArrayList<>(); // 使用缓存
 

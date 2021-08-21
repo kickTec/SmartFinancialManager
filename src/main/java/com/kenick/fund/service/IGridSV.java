@@ -11,4 +11,6 @@ public interface IGridSV {
 
     JSONObject backTest(String fundCode, Integer dayNum, Double initPrice, Double gridInterval, Integer gridQuantity, Integer gridMode) throws Exception;
 
+    JSONObject gridRank(int rankMode) throws Exception;
+
 }
