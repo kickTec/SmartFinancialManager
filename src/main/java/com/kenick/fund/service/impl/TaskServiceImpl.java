@@ -390,8 +390,7 @@ public class TaskServiceImpl implements ITaskService {
 
 			// 股票类型
 			String url = stockShUrl + fundCode;
-			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))
-				|| "123".equals(fundCode.substring(0,3))){ // 深圳
+			if("00".equals(fundCode.substring(0,2)) ||  "200".equals(fundCode.substring(0,3)) || "300".equals(fundCode.substring(0,3))){ // 深圳
 				url = stockSzUrl + fundCode;
 			}
 			if(fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ){
@@ -400,12 +399,21 @@ public class TaskServiceImpl implements ITaskService {
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			logger.trace("最新股票数据为:{}", retStr);
+			logger.debug("{}最新数据为:{}", fund.getFundCode(), retStr);
 			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
-				retStr = retStr.split("=")[1];
+				String[] retArray = retStr.split("=");
+				if(retArray.length < 2 || StringUtils.isBlank(retArray[1])){
+					logger.error("{}最新数据异常:{}", fund.getFundCode(), retStr);
+					return;
+				}
+				retStr = retArray[1];
 				retStr = retStr.replace("\"","").replace(";","");
 				String[] stockInfoArray = retStr.split(",");
+				if(stockInfoArray.length < 32){
+					logger.error("{}最新数据异常:{}", fund.getFundCode(), retStr);
+					return;
+				}
 				String fundName = stockInfoArray[0]; // 名称
 				String curNetValue = stockInfoArray[3]; // 当前价
 				String curPriceHighest = stockInfoArray[4]; // 当前最高价

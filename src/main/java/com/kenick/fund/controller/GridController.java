@@ -58,7 +58,7 @@ public class GridController {
     public String gridRank(@RequestParam(value = "data",required = false) String data){
         logger.debug("GridController.gridRank in, param:{}",data);
         try{
-            int rankMode = 101; // 转债模式
+            int rankMode = 101; // 转债模式 101 最近1周 102 倒数第二周 直到
             if(StringUtils.isNotBlank(data)){
                 String[] dataArray = data.split(",");
                 if(dataArray.length > 0){

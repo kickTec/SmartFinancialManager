@@ -307,10 +307,10 @@ public class GridSVImpl implements IGridSV {
     public JSONObject gridRank(int rankMode) throws Exception {
         JSONObject retJson = new JSONObject();
         try{
-            if(rankMode == 101){ // 转债模式
-                return gridRankSummary(rankMode,7, 0.5,10);
+            if(rankMode >= 101 && rankMode <= 110){ // 转债模式,101 最近1周 102 最近2周
+                return gridRankSummary(rankMode,5, 0.5,10);
             }
-            return gridRankSummary(rankMode,7, 0.5,100);
+            return gridRankSummary(rankMode,5, 0.5,100);
         }catch (Exception e){
             logger.error("网格排行计算异常!", e);
         }
@@ -318,7 +318,7 @@ public class GridSVImpl implements IGridSV {
         return retJson;
     }
 
-    private JSONObject gridRankSummary(int fundTypeParam, int rankDayNum, double gridInterval, int tradeQuantity) {
+    private JSONObject gridRankSummary(int rankMode, int rankDayNum, double gridInterval, int tradeQuantity) {
         JSONObject retJson = new JSONObject();
         try{
             List<Fund> fundList = fileStorageSV.getFundListFromFile();
@@ -332,18 +332,18 @@ public class GridSVImpl implements IGridSV {
                     continue;
                 }
 
-                if(fundTypeParam == 101){
+                if(rankMode >= 101 && rankMode <= 110){
                     if(fundType == TableStaticConstData.TABLE_FUND_TYPE_FUND || fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK){
                         continue;
                     }
                 }else{
-                    if(fundTypeParam != fundType){
+                    if(rankMode != fundType){
                         continue;
                     }
                 }
 
                 // 找到最近几天文件
-                List<String> fundRecordFileList = getLastRecordFile(fundCode, rankDayNum);
+                List<String> fundRecordFileList = getLastRecordFile(fundCode, rankDayNum, rankMode);
                 if(fundRecordFileList == null || fundRecordFileList.size() == 0){
                     continue;
                 }
@@ -377,6 +377,28 @@ public class GridSVImpl implements IGridSV {
             logger.error("转债网格排行计算异常!", e);
         }
         return retJson;
+    }
+
+    private List<String> getLastRecordFile(String fundCode, int dayNum, int rankMode) {
+        String storageHomePath = fileStorageSV.getStorageHomePath();
+        String fundPath = storageHomePath + File.separator + "history" + File.separator + fundCode;
+        File fundDir = new File(fundPath);
+        if(!fundDir.exists()){
+            return null;
+        }
+
+        List<String> fundDateList = Arrays.asList(Objects.requireNonNull(fundDir.list((dir, name) -> name.contains(fundCode))));
+        int cycleNum = rankMode - 100;
+        int startDayNum = fundDateList.size() - 5*cycleNum;
+        int endDayNum = fundDateList.size() - 5*(cycleNum-1);
+        if(startDayNum >= 0){
+            Collections.sort(fundDateList);
+            fundDateList = fundDateList.subList(startDayNum, endDayNum);
+            logger.debug("数据文件:{}", fundDateList);
+        }else{
+            return null;
+        }
+        return fundDateList;
     }
 
     private JSONObject gridBackGain(GridCondition gridCondition, String fundCode, double gridInterval, int tradeQuantity, List<String> fundDayList) {
@@ -452,11 +474,12 @@ public class GridSVImpl implements IGridSV {
         }
 
         List<String> fundDateList = Arrays.asList(Objects.requireNonNull(fundDir.list((dir, name) -> name.contains(fundCode))));
-        Collections.sort(fundDateList);
         if(fundDateList.size() > dayNum){
+            Collections.sort(fundDateList);
             int diff = fundDateList.size() - dayNum;
             fundDateList = fundDateList.subList(diff, fundDateList.size());
         }
+        logger.debug("数据文件:{}", fundDateList);
         return fundDateList;
     }
 
