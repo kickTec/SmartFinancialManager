@@ -49,6 +49,7 @@ public class TaskServiceImpl implements ITaskService {
 
 	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
+	private static Map<String, Date> smsSendDateMap = new HashMap<>();
 
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
@@ -376,14 +377,18 @@ public class TaskServiceImpl implements ITaskService {
 		}
 	}
 
-	// 更新股票信息 fundName curNetValueNum curPriceHighest curPriceLowest curTime CurGain
+	/**
+	 * <一句话功能简述> 
+	 * <功能详细描述>
+	 *   var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
+	 * author: zhanggw
+	 * 创建时间:  2021/9/9
+	 */
 	private void updateStockByHttp(Fund fund, Date now) {
-
-		if(fund == null || StringUtils.isBlank(fund.getFundCode())){
-			return;
-		}
-		
 		try{
+			if(fund == null || StringUtils.isBlank(fund.getFundCode())){
+				return;
+			}
 
 			String fundCode = fund.getFundCode();
 			Integer fundType = fund.getType();
@@ -400,7 +405,6 @@ public class TaskServiceImpl implements ITaskService {
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
 			logger.debug("{}最新数据为:{}", fund.getFundCode(), retStr);
-			// var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 			if(StringUtils.isNotBlank(retStr)){
 				String[] retArray = retStr.split("=");
 				if(retArray.length < 2 || StringUtils.isBlank(retArray[1])){
@@ -458,6 +462,9 @@ public class TaskServiceImpl implements ITaskService {
 				BigDecimal gainTotal = new BigDecimal(curGainBd.doubleValue() + fund.getLastGain());
 				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
 				fund.setGainTotal(gainTotal);
+
+				// 发送短信
+				sendSms(fund);
 			}
 		}catch (Exception e) {
 			logger.error("更新股票信息失败！", e);
@@ -466,18 +473,36 @@ public class TaskServiceImpl implements ITaskService {
 
 	// 发送短信
     private void sendSms(Fund fund){
-
-		Integer type = fund.getType();
-		String fundCode = fund.getFundCode();
-
-		// 基金股票信息不全，不发送短信
-		if(StringUtils.isBlank(fundCode) || type == null || fund.getCurGain() == null || fund.getLastGain() == null){
+		if(fund == null){
 			return;
 		}
 
+		// 基金股票信息不全，不发送短信
+		String fundCode = fund.getFundCode();
+		Double curNetValue = fund.getCurNetValue();
+		Double curPriceLowest = fund.getCurPriceLowest();
+		Double curPriceHighest = fund.getCurPriceHighest();
+		if(StringUtils.isBlank(fundCode) || fund.getType() == null || fund.getCurGain() == null || fund.getLastGain() == null ||
+				curNetValue == null || curNetValue <= 0 || curPriceHighest == null || curPriceHighest <= 0 || curPriceLowest == null || curPriceLowest <= 0){
+			return;
+		}
+
+		// 更新发送短信时间
+		Date now = new Date();
+		Date lastSmsDate = smsSendDateMap.get(fundCode);
+		if(lastSmsDate == null){
+			lastSmsDate = now;
+		}else{
+			if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 10, null))){
+				return;
+			}else{
+				lastSmsDate = now;
+			}
+		}
+		smsSendDateMap.put(fundCode, lastSmsDate);
+
 		// 周末不发送
 		boolean sendFlag = false;
-		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(now);
 		if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
@@ -502,33 +527,26 @@ public class TaskServiceImpl implements ITaskService {
 			return;
 		}
 
-    	// 基金两日上涨幅度超过最大值
+    	// 两日涨幅超过指定间隔
 		double sumGain = fund.getCurGain() + fund.getLastGain();
-		Double fundUpperLimit = null;
-		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundUpperLimit != null && sumGain >= fundUpperLimit){
+		double twoDayDistance = 8.0;
+		if(sumGain >= twoDayDistance){
+			sendFlag = true;
+		}
+		if(sumGain <= -twoDayDistance){
 			sendFlag = true;
 		}
 
-		// 基金两日下降幅度超过最小值
-		Double fundLowerLimit = null;
-		if(type == TableStaticConstData.TABLE_FUND_TYPE_FUND && fundLowerLimit != null && sumGain <= fundLowerLimit){
+		// 当前值距离最高值、最低值超过4个点
+		double curHighDistance = 0.05;
+		if((curPriceHighest - curNetValue)/curPriceHighest >= curHighDistance){
+			sendFlag = true;
+		}
+		if((curNetValue - curPriceLowest)/curPriceLowest >= curHighDistance){
 			sendFlag = true;
 		}
 
-		// 基金或股票单日净值涨幅超过最大值
-		Double fundUpMoney = null;
-		double fundValueChange = fund.getCurNetValue() - fund.getLastNetValue();
-		if(fundUpMoney != null && fundValueChange >= fundUpMoney){
-			sendFlag = true;
-		}
-
-		// 基金或股票单日净值跌幅低过最小值
-		Double fundDownMoney = null;
-		if(fundDownMoney != null && fundValueChange <= fundDownMoney) {
-			sendFlag = true;
-		}
-
-		String sendPhone = "";
+		String sendPhone = "15910761260";
 		if(sendFlag && StringUtils.isNotBlank(sendPhone)){
 			logger.debug("向{}发送短信:{}", sendPhone, fundCode);
 			asyncService.aliSendSmsCode(sendPhone, fundCode);

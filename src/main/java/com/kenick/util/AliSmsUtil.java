@@ -27,6 +27,7 @@ public class AliSmsUtil {
 		if(StringUtils.isBlank(accessKeySecretSms)){
 			accessKeySecretSms = FileUtil.getPropertyByEnv("ali.sms.accessKeySecret");
 		}
+		logger.debug("smsId:{},smsSecret:{}", accessKeyIdSms, accessKeySecretSms);
 	}
 	
 	// 阿里发送短信码

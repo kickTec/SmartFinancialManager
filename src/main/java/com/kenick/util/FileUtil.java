@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -111,11 +112,16 @@ public class FileUtil {
             if(StringUtils.isBlank(env)){
                 env = "local";
             }
-
             Properties properties = PropertiesLoaderUtils.loadProperties(new EncodedResource(new ClassPathResource("application-"+env+".properties"), "UTF-8"));
+            if("cloud".equals(env)){
+                properties = PropertiesLoaderUtils.loadProperties(new EncodedResource(new FileSystemResource("/home/kenick/smartFinancial-manager/config/application-"+env+".properties"), "UTF-8"));
+            }
             ret = properties.get(key).toString();
             if(ret.contains("ENC(")){
                 String encryKey = System.getProperty("jasypt.encryptor.password");
+                if(StringUtils.isBlank(encryKey)){
+                    encryKey = "kenick@2020";
+                }
                 if(StringUtils.isNotBlank(encryKey)){
                     ret = ret.substring(4, ret.length()-1);
                     ret = EncryUtil.decryptByJasypt(encryKey, ret);
