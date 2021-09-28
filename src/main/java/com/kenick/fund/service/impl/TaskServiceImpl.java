@@ -24,6 +24,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,7 +50,7 @@ public class TaskServiceImpl implements ITaskService {
 
 	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
-	private static Map<String, Date> smsSendDateMap = new HashMap<>();
+	private static Map<String, JSONObject> smsSendDateMap = new HashMap<>();
 
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
@@ -489,17 +490,33 @@ public class TaskServiceImpl implements ITaskService {
 
 		// 更新发送短信时间
 		Date now = new Date();
-		Date lastSmsDate = smsSendDateMap.get(fundCode);
-		if(lastSmsDate == null){
-			lastSmsDate = now;
+		JSONObject fundCodeJson = smsSendDateMap.get(fundCode);
+		if(fundCodeJson == null){ // 初始化，并进入后续逻辑
+			fundCodeJson = new JSONObject();
+			fundCodeJson.put("lastSmsDate", now);
+			fundCodeJson.put("curNetValue", curNetValue);
 		}else{
-			if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 10, null))){
+			Date lastSmsDate = fundCodeJson.getDate("lastSmsDate");
+			BigDecimal lastNetValueBd = fundCodeJson.getBigDecimal("curNetValue");
+			if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 30, null))){ // 短信发送间隔在30分钟内，直接返回，不进行后续逻辑
 				return;
-			}else{
-				lastSmsDate = now;
+			}else{ // 短信发送间隔超过30分钟
+				if(now.before(DateUtils.timeCalendar(lastSmsDate, 24, null, null))){ // 短信发送间隔在24小时内
+					// 根据净值变动幅度决定是否发送短信
+					BigDecimal retBD = lastNetValueBd.subtract(new BigDecimal(curNetValue)).divide(lastNetValueBd, 2, RoundingMode.HALF_UP);
+					if(retBD.compareTo(new BigDecimal(0.1)) >= 0 || retBD.compareTo(new BigDecimal(-0.1)) <= 0){ // 净值变动幅度超过10%，更新并进入后续逻辑
+						fundCodeJson.put("lastSmsDate", now);
+						fundCodeJson.put("curNetValue", curNetValue);
+					}else{ // 净值变动幅度未超过10%，直接返回，不进入后续逻辑
+						return;
+					}
+				}else{ // 短信发送间隔超过24小时，更新并进入后续逻辑
+					fundCodeJson.put("lastSmsDate", now);
+					fundCodeJson.put("curNetValue", curNetValue);
+				}
 			}
 		}
-		smsSendDateMap.put(fundCode, lastSmsDate);
+		smsSendDateMap.put(fundCode, fundCodeJson);
 
 		// 周末不发送
 		boolean sendFlag = false;
