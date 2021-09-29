@@ -1,5 +1,7 @@
 package com.kenick.fund.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
@@ -21,9 +23,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -42,17 +44,10 @@ public class GridSVImpl implements IGridSV {
     private IFileStorageSV fileStorageSV;
 
     public static void main(String[] args) {
-        String file = "D:\\tmp\\2021-07-23.txt";
-        List<String> fundList = FileUtil.getTextListFromFile(new File(file));
-        ArrayList<Double> intervalList = new ArrayList<>();
-        intervalList.add(0.5);
-        intervalList.add(0.6);
-        intervalList.add(0.7);
-        intervalList.add(0.8);
-        for(Double tmp:intervalList){
-            JSONObject ret = gridBackTest(null,"110045", 118.37, tmp, 10, fundList, null);
-            logger.debug("ret:{}", ret);
-        }
+        String retJsonStr = "{\"rankMap\":{365.01:{\"code\":\"128113\",\"holdQuantity\":0,\"name\":\"比音转债\",\"gainMoney\":365.010,\"tradeTotal\":145},273.64:{\"code\":\"128063\",\"holdQuantity\":20,\"name\":\"未来转债\",\"gainMoney\":273.640,\"tradeTotal\":111},263.95:{\"code\":\"110081\",\"holdQuantity\":0,\"name\":\"闻泰转债\",\"gainMoney\":263.950,\"tradeTotal\":105},194.23:{\"code\":\"113009\",\"holdQuantity\":0,\"name\":\"广汽转债\",\"gainMoney\":194.230,\"tradeTotal\":77},99.61:{\"code\":\"110045\",\"holdQuantity\":0,\"name\":\"海澜转债\",\"gainMoney\":99.610,\"tradeTotal\":39},34.87:{\"code\":\"123111\",\"holdQuantity\":0,\"name\":\"东财转3\",\"gainMoney\":34.870,\"tradeTotal\":13},34.86:{\"code\":\"127037\",\"holdQuantity\":0,\"name\":\"银轮转债\",\"gainMoney\":34.870,\"tradeTotal\":13},14.95:{\"code\":\"110053\",\"holdQuantity\":0,\"name\":\"苏银转债\",\"gainMoney\":14.950,\"tradeTotal\":5},4.99:{\"code\":\"113051\",\"holdQuantity\":0,\"name\":\"节能转债\",\"gainMoney\":4.99,\"tradeTotal\":1}}}";
+        JSONObject retJson = JSON.parseObject(retJsonStr);
+        JSONObject rankMap = retJson.getJSONObject("rankMap");
+        logger.debug("rankMap:{}", rankMap);
     }
 
     /**
@@ -318,11 +313,44 @@ public class GridSVImpl implements IGridSV {
         return retJson;
     }
 
+    @Override
+    public JSONObject findOutBad(int findMode) throws Exception {
+        JSONObject retJson = new JSONObject();
+        int rankModeMax = findMode - 100;
+        Map<String, JSONObject> badFundCountMap = new HashMap<>();
+        for(int rankMode=101; rankMode <= rankModeMax; rankMode++){
+            JSONObject rankJson = gridRankSummary(rankMode, 5, 0.5, 10);
+            JSONArray badList = rankJson.getJSONArray("badList");
+            if(badList != null && badList.size()>0){
+                for(int i=0; i<badList.size(); i++){
+                    JSONObject tmpJson = badList.getJSONObject(i);
+                    String key = tmpJson.getString("name")+tmpJson.getString("code");
+                    BigDecimal gainMoney = tmpJson.getBigDecimal("gainMoney");
+
+                    JSONObject badJson = badFundCountMap.get(key);
+                    if(badJson == null){
+                        badJson = new JSONObject();
+                        badJson.put("gainMoney", gainMoney);
+                        badJson.put("time", 1);
+                    }else{
+                        BigDecimal oldGain = badJson.getBigDecimal("gainMoney") == null ? BigDecimal.ZERO : badJson.getBigDecimal("gainMoney");
+                        int time = badJson.getInteger("time") == null ? 0 : badJson.getInteger("time");
+                        badJson.put("gainMoney", oldGain.add(gainMoney));
+                        badJson.put("time", time+1);
+                    }
+                    badFundCountMap.put(key, badJson);
+                }
+            }
+        }
+        retJson.put("badFundCountMap", badFundCountMap);
+        return retJson;
+    }
+
     private JSONObject gridRankSummary(int rankMode, int rankDayNum, double gridInterval, int tradeQuantity) {
         JSONObject retJson = new JSONObject();
         try{
             List<Fund> fundList = fileStorageSV.getFundListFromFile();
-            Map<Double, JSONObject> rankMap = new TreeMap<>((o1, o2) -> -o1.compareTo(o2));
+            TreeMap<Double, JSONObject> rankMap = new TreeMap<>((o1, o2) -> -o1.compareTo(o2));
 
             for(Fund fund:fundList){
                 String fundCode = fund.getFundCode();
@@ -373,6 +401,18 @@ public class GridSVImpl implements IGridSV {
                 }
             }
             retJson.put("rankMap", rankMap);
+            if(rankMap.size() > 0){
+                List<JSONObject> badList = new ArrayList<>();
+                Iterator<Map.Entry<Double, JSONObject>> rankIterator = rankMap.entrySet().iterator();
+                int badStart = rankMap.size() - 3;
+                for(int k=0; rankIterator.hasNext(); k++){
+                    Map.Entry<Double, JSONObject> next = rankIterator.next();
+                    if(k >= badStart){
+                        badList.add(next.getValue());
+                    }
+                }
+                retJson.put("badList", badList);
+            }
         }catch (Exception e){
             logger.error("转债网格排行计算异常!", e);
         }

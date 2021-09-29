@@ -53,7 +53,7 @@ public class GridController {
         }
     }
 
-    @RequestMapping("/gridrank")
+    @RequestMapping("/gridRank")
     @ResponseBody
     public String gridRank(@RequestParam(value = "data",required = false) String data){
         logger.debug("GridController.gridRank in, param:{}",data);
@@ -71,6 +71,27 @@ public class GridController {
         }catch (Exception e){
             logger.error("grid_gridrank_exception 回测异常", e);
             return HttpUtils.showException("grid_gridrank_exception","回测异常!", e);
+        }
+    }
+
+    @RequestMapping("/findOutBad")
+    @ResponseBody
+    public String findOutBad(@RequestParam(value = "data",required = false) String data){
+        logger.debug("GridController.findOutBad in, param:{}",data);
+        try{
+            int findMode = 202; // 挑选模式 202 最近2周 203 最近3周
+            if(StringUtils.isNotBlank(data)){
+                String[] dataArray = data.split(",");
+                if(dataArray.length > 0){
+                    findMode = Integer.parseInt(dataArray[0]);
+                }
+            }
+
+            JSONObject ret = gridSV.findOutBad(findMode);
+            return ret.toJSONString();
+        }catch (Exception e){
+            logger.error("grid_findoutbad_exception", e);
+            return HttpUtils.showException("grid_findoutbad_exception","回测异常!", e);
         }
     }
 

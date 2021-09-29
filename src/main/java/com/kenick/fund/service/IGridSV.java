@@ -13,4 +13,6 @@ public interface IGridSV {
 
     JSONObject gridRank(int rankMode) throws Exception;
 
+    JSONObject findOutBad(int findMode) throws Exception;
+
 }
