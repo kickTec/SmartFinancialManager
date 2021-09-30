@@ -29,7 +29,9 @@ public class SearchUtil {
     public final static String OPERATOR_GT = ">";
     public final static String OPERATOR_ET = "=";
     public final static String OPERATOR_LT = "<";
-    public final static List<String> OPERATOR_LIST = new ArrayList<>(Arrays.asList(OPERATOR_GTE,OPERATOR_LTE,OPERATOR_NET,OPERATOR_GT,OPERATOR_ET,OPERATOR_LT));
+    public final static String OPERATOR_AND = "AND";
+    public final static String OPERATOR_OR = "OR";
+    private final static List<String> OPERATOR_LIST = new ArrayList<>(Arrays.asList(OPERATOR_GTE,OPERATOR_LTE,OPERATOR_NET,OPERATOR_GT,OPERATOR_ET,OPERATOR_LT));
 
     /**
      * <一句话功能简述> 生成通用es查询
@@ -87,57 +89,8 @@ public class SearchUtil {
     }
 
     /**
-     * <一句话功能简述> 在BoolQueryBuilder中添加精确匹配
-     * <功能详细描述>
-     * author: zhanggw
-     * 创建时间:  2021/9/27
-     * @param termParamStr 精确搜索参数  (platform_type:'1' OR platform_type:'3') AND default:'5473' AND is_active:'2' AND item_type:'2' AND (item_state:'6' OR item_state:'7')
-     */
-    private static void termAddSearchParam(BoolQueryBuilder topQuery, String termParamStr) {
-        try{
-            if(topQuery == null || StringUtils.isBlank(termParamStr)){
-                return;
-            }
-
-            logger.debug("BoolQueryBuilder开始添加精确搜索参数,termParamStr:{}", termParamStr);
-            String[] termParamArray = termParamStr.split("AND");
-            if(termParamArray.length > 0){
-                for(String termParam:termParamArray){ // 第一层and filter
-                    termParam = termParam.trim();
-                    if(StringUtils.isBlank(termParam)){
-                        continue;
-                    }
-
-                    if(termParam.contains("OR")){ // 搜索带or
-                        termParam = termParam.replace("(","").replace(")","");
-                        String[] orTermArray = termParam.split("OR");
-                        if(orTermArray.length > 0){
-                            logger.debug("or term,termParam:{}", termParam);
-                            BoolQueryBuilder orTermQuery = QueryBuilders.boolQuery();
-                            for(String orSubTerm:orTermArray){
-                                QueryBuilder termQuery = getTermQuery(orSubTerm);
-                                if(termQuery != null){
-                                    orTermQuery.should(termQuery);
-                                }
-                            }
-                            topQuery.must(orTermQuery);
-                        }
-                    }else{
-                        QueryBuilder termQuery = getTermQuery(termParam);
-                        if(termQuery != null){
-                            topQuery.must(termQuery);
-                        }
-                    }
-                }
-            }
-        }catch (Exception e){
-            logger.error("topQuery添加过滤条件异常!", e);
-        }
-    }
-
-    /**
      * <一句话功能简述> 在BoolQueryBuilder中添加模糊匹配
-     * <功能详细描述> 
+     * <功能详细描述>
      * author: zhanggw
      * 创建时间:  2021/9/27
      * @param searchParamStr 模糊搜索参数  (platform_type:'1' OR platform_type:'3') AND default:'5473' AND is_active:'2' AND item_type:'2' AND (item_state:'6' OR item_state:'7')
@@ -149,7 +102,7 @@ public class SearchUtil {
             }
 
             logger.debug("BoolQueryBuilder开始添加模糊搜索参数,searchParam:{}", searchParamStr);
-            String[] searchParamArray = searchParamStr.split("AND");
+            String[] searchParamArray = searchParamStr.split(OPERATOR_AND);
             if(searchParamArray.length > 0){
                 for(String searchParam:searchParamArray){ // 第一层and filter
                     searchParam = searchParam.trim();
@@ -159,7 +112,7 @@ public class SearchUtil {
 
                     if(searchParam.contains("OR")){ // 搜索带or
                         searchParam = searchParam.replace("(","").replace(")","");
-                        String[] orMatchArray = searchParam.split("OR");
+                        String[] orMatchArray = searchParam.split(OPERATOR_OR);
                         if(orMatchArray.length > 0){
                             logger.trace("or match,searchParam:{}", searchParam);
                             BoolQueryBuilder orMatchQuery = QueryBuilders.boolQuery();
@@ -185,11 +138,60 @@ public class SearchUtil {
     }
 
     /**
+     * <一句话功能简述> 在BoolQueryBuilder中添加精确匹配
+     * <功能详细描述>
+     * author: zhanggw
+     * 创建时间:  2021/9/27
+     * @param termParamStr 精确搜索参数  (platform_type:'1' OR platform_type:'3') AND default:'5473' AND is_active:'2' AND item_type:'2' AND (item_state:'6' OR item_state:'7')
+     */
+    private static void termAddSearchParam(BoolQueryBuilder topQuery, String termParamStr) {
+        try{
+            if(topQuery == null || StringUtils.isBlank(termParamStr)){
+                return;
+            }
+
+            logger.debug("BoolQueryBuilder开始添加精确搜索参数,termParamStr:{}", termParamStr);
+            String[] termParamArray = termParamStr.split(OPERATOR_AND);
+            if(termParamArray.length > 0){
+                for(String termParam:termParamArray){ // 第一层and filter
+                    termParam = termParam.trim();
+                    if(StringUtils.isBlank(termParam)){
+                        continue;
+                    }
+
+                    if(termParam.contains("OR")){ // 搜索带or
+                        termParam = termParam.replace("(","").replace(")","");
+                        String[] orTermArray = termParam.split(OPERATOR_OR);
+                        if(orTermArray.length > 0){
+                            logger.debug("or term,termParam:{}", termParam);
+                            BoolQueryBuilder orTermQuery = QueryBuilders.boolQuery();
+                            for(String orSubTerm:orTermArray){
+                                QueryBuilder termQuery = getTermQuery(orSubTerm);
+                                if(termQuery != null){
+                                    orTermQuery.should(termQuery);
+                                }
+                            }
+                            topQuery.must(orTermQuery);
+                        }
+                    }else{
+                        QueryBuilder termQuery = getTermQuery(termParam);
+                        if(termQuery != null){
+                            topQuery.must(termQuery);
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            logger.error("topQuery添加过滤条件异常!", e);
+        }
+    }
+
+    /**
      * <一句话功能简述> 在BoolQueryBuilder中添加过滤条件
      * <功能详细描述> 
      * author: zhanggw
      * 创建时间:  2021/9/27
-     * @param andFilterStr  "display_start_date<=1632624039672,(display_end_date='' OR display_end_date>=1632624039672),",
+     * @param andFilterStr "display_start_date<=1632624039672,(display_end_date='' OR display_end_date>=1632624039672),",
      */
     private static void queryAddFilter(BoolQueryBuilder topQuery, String andFilterStr) {
         try{
@@ -205,11 +207,11 @@ public class SearchUtil {
                     if(StringUtils.isBlank(filterCondition)){
                         continue;
                     }
-                    filterCondition = filterCondition.replace("or", "OR");
+                    filterCondition = filterCondition.replace("or", OPERATOR_OR);
 
-                    if(filterCondition.contains("OR")){ // 过滤中带or
+                    if(filterCondition.contains(OPERATOR_OR)){ // 过滤中带or
                         filterCondition = filterCondition.replace("(","").replace(")","");
-                        String[] orFilterArray = filterCondition.split("OR");
+                        String[] orFilterArray = filterCondition.split(OPERATOR_OR);
                         if(orFilterArray.length > 0){
                             BoolQueryBuilder orFilterQuery = QueryBuilders.boolQuery();
                             for(String orSubFilter:orFilterArray){
