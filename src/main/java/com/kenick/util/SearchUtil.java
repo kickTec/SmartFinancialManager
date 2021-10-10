@@ -402,6 +402,7 @@ public class SearchUtil {
                 "\t\t\"dataStart\": \"0\",\n" +
                 "\t\t\"sort\": \"pay_amount:DECREASE;shelves_date:DECREASE\"\n" +
                 "\t}";
+        logger.debug("searchStr:{}", searchStr);
         SearchSourceBuilder searchSourceBuilder = SearchUtil.generateEsQuery(JSON.parseObject(searchStr));
         logger.debug("searchSourceBuilder:{}", searchSourceBuilder);
     }

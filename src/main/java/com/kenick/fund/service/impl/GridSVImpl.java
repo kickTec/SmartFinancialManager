@@ -254,7 +254,7 @@ public class GridSVImpl implements IGridSV {
         gridCondition.setServiceFee(serviceFee);
 
         if(StringUtils.isNotBlank(directDesc)){
-            logger.debug("{} {}:{},买入均价:{},网格盈利:{},持仓盈利:{},总盈利:{},当前持仓:{}，最大持仓:{}"
+            logger.trace("{} {}:{},买入均价:{},网格盈利:{},持仓盈利:{},总盈利:{},当前持仓:{}，最大持仓:{}"
                     , DateUtils.getStrDate(gridCondition.getTriggerTime()),directDesc, fundPrice,
                     gridCondition.getBuyAvgPrice(), gridGainMoney,holdGainMoney, gridCondition.getGainMoney(),
                     gridCondition.getHoldQuantity(),gridCondition.getMaxHoldQuantity());
@@ -346,6 +346,44 @@ public class GridSVImpl implements IGridSV {
         return retJson;
     }
 
+    @Override
+    public JSONObject findOutGood(int findMode) throws Exception {
+        JSONObject retJson = new JSONObject();
+        int rankModeMax = findMode - 100;
+        Map<String, JSONObject> goodFundCountMap = new HashMap<>();
+        for(int rankMode=101; rankMode <= rankModeMax; rankMode++){
+            int weekNum = rankMode - 100;
+            logger.debug("开始回测最近第{}周数据!", weekNum);
+            JSONObject rankJson = gridRankSummary(rankMode, 5, 0.5, 10);
+            JSONArray goodList = rankJson.getJSONArray("goodList");
+            logger.debug("回测最近第{}周数据:{}", weekNum, rankJson);
+            if(goodList != null && goodList.size()>0){
+                for(int i=0; i<goodList.size(); i++){
+                    JSONObject tmpJson = goodList.getJSONObject(i);
+                    String key = tmpJson.getString("name")+tmpJson.getString("code");
+                    BigDecimal gainMoney = tmpJson.getBigDecimal("gainMoney");
+
+                    JSONObject goodJson = goodFundCountMap.get(key);
+                    if(goodJson == null){
+                        goodJson = new JSONObject();
+                        goodJson.put("gainMoney", gainMoney);
+                        goodJson.put("time", 1);
+                    }else{
+                        BigDecimal oldGain = goodJson.getBigDecimal("gainMoney") == null ? BigDecimal.ZERO : goodJson.getBigDecimal("gainMoney");
+                        int time = goodJson.getInteger("time") == null ? 0 : goodJson.getInteger("time");
+                        goodJson.put("gainMoney", oldGain.add(gainMoney));
+                        goodJson.put("time", time+1);
+                    }
+                    goodFundCountMap.put(key, goodJson);
+                }
+            }
+        }
+
+        logger.debug("回测最近{}周排名前3数据:{}", findMode-200, goodFundCountMap);
+        retJson.put("goodFundCountMap", goodFundCountMap);
+        return retJson;
+    }
+
     private JSONObject gridRankSummary(int rankMode, int rankDayNum, double gridInterval, int tradeQuantity) {
         JSONObject retJson = new JSONObject();
         try{
@@ -388,7 +426,9 @@ public class GridSVImpl implements IGridSV {
                     List<String> fundDayList = FileUtil.getTextListFromFile(curFile);
                     JSONObject ret = gridBackGain(gridCondition, fundCode, gridInterval, tradeQuantity, fundDayList);
                     gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
+                    fundDayList = null; // 待强制回收
                 }
+
                 BigDecimal gainMoney = gridCondition.getGainMoney();
                 tmpJson.put("gainMoney", gainMoney);
                 tmpJson.put("tradeTotal", gridCondition.getTradeTotal());
@@ -403,16 +443,32 @@ public class GridSVImpl implements IGridSV {
             retJson.put("rankMap", rankMap);
             if(rankMap.size() > 0){
                 List<JSONObject> badList = new ArrayList<>();
-                Iterator<Map.Entry<Double, JSONObject>> rankIterator = rankMap.entrySet().iterator();
+                List<JSONObject> goodList = new ArrayList<>();
+
+                // 找到排名数据
+                int i=0;
                 int badStart = rankMap.size() - 3;
-                for(int k=0; rankIterator.hasNext(); k++){
+                Iterator<Map.Entry<Double, JSONObject>> rankIterator = rankMap.entrySet().iterator();
+                while (rankIterator.hasNext()){
                     Map.Entry<Double, JSONObject> next = rankIterator.next();
-                    if(k >= badStart){
+                    if(i < 3){ // 排名前3位
+                        goodList.add(next.getValue());
+                    }
+                    if(i >= badStart){ // 排名末3位
                         badList.add(next.getValue());
                     }
+                    i++;
                 }
+
                 retJson.put("badList", badList);
+                retJson.put("goodList", goodList);
+                badList = null;
+                goodList = null;
             }
+
+            fundList = null;
+            rankMap = null;
+            System.gc(); // 强制回收
         }catch (Exception e){
             logger.error("转债网格排行计算异常!", e);
         }

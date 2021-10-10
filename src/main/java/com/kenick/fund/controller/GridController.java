@@ -26,6 +26,12 @@ public class GridController {
     @Autowired
     private IGridSV gridSV;
 
+    /**
+     * <一句话功能简述> 网格回测
+     * <功能详细描述>
+     * author: zhanggw
+     * 创建时间:  2021/10/10
+     */
     @RequestMapping("/backTest")
     @ResponseBody
     public String backTest(@RequestParam(value = "data",required = false) String data){
@@ -52,7 +58,13 @@ public class GridController {
             return HttpUtils.showException("grid_backTest_exception","回测异常!", e);
         }
     }
-
+    
+    /**
+     * <一句话功能简述> 网格回测周排名
+     * <功能详细描述> 
+     * author: zhanggw
+     * 创建时间:  2021/10/10
+     */
     @RequestMapping("/gridRank")
     @ResponseBody
     public String gridRank(@RequestParam(value = "data",required = false) String data){
@@ -73,7 +85,13 @@ public class GridController {
             return HttpUtils.showException("grid_gridrank_exception","回测异常!", e);
         }
     }
-
+    
+    /**
+     * <一句话功能简述> 网格回测末位周排名
+     * <功能详细描述> 
+     * author: zhanggw
+     * 创建时间:  2021/10/10
+     */
     @RequestMapping("/findOutBad")
     @ResponseBody
     public String findOutBad(@RequestParam(value = "data",required = false) String data){
@@ -92,6 +110,33 @@ public class GridController {
         }catch (Exception e){
             logger.error("grid_findoutbad_exception", e);
             return HttpUtils.showException("grid_findoutbad_exception","回测异常!", e);
+        }
+    }
+
+    /**
+     * <一句话功能简述> 网格回测周排名
+     * <功能详细描述>
+     * author: zhanggw
+     * 创建时间:  2021/10/10
+     */
+    @RequestMapping("/findOutGood")
+    @ResponseBody
+    public String findOutGood(@RequestParam(value = "data",required = false) String data){
+        logger.debug("GridController.findOutGood in, param:{}",data);
+        try{
+            int findMode = 202; // 挑选模式 202 最近2周 203 最近3周
+            if(StringUtils.isNotBlank(data)){
+                String[] dataArray = data.split(",");
+                if(dataArray.length > 0){
+                    findMode = Integer.parseInt(dataArray[0]);
+                }
+            }
+
+            JSONObject ret = gridSV.findOutGood(findMode);
+            return ret.toJSONString();
+        }catch (Exception e){
+            logger.error("grid_findoutgood_exception", e);
+            return HttpUtils.showException("grid_findoutgood_exception","回测异常!", e);
         }
     }
 

@@ -51,6 +51,7 @@ public class TaskServiceImpl implements ITaskService {
 	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
 	private static Map<String, JSONObject> smsSendDateMap = new HashMap<>();
+	private static long gcMarkNum = 1;
 
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
@@ -70,6 +71,12 @@ public class TaskServiceImpl implements ITaskService {
 			updateThroughCache(now);
 
 			logger.debug("遍历理财一轮花费时间:{}", System.currentTimeMillis() - now.getTime());
+
+			// 强制回收
+			gcMarkNum++;
+			if(gcMarkNum % 20 == 0){
+				System.gc();
+			}
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
@@ -109,6 +116,8 @@ public class TaskServiceImpl implements ITaskService {
 
 		for(Fund fund:FundController.fundCacheList){
 			String fundCode = fund.getFundCode();
+
+			// 完善stock bond信息
 			perfectInfoByCodeCache(fund, now);
 
 			Double currentValue = fund.getCurNetValue();
@@ -466,6 +475,8 @@ public class TaskServiceImpl implements ITaskService {
 
 				// 发送短信
 				sendSms(fund);
+
+				retArray = null; // 等待内存回收
 			}
 		}catch (Exception e) {
 			logger.error("更新股票信息失败！", e);
