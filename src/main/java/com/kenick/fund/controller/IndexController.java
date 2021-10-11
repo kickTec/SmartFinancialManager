@@ -11,4 +11,9 @@ public class IndexController {
 		return "forward:/fund/indexCache.html";
 	}
 
+	@RequestMapping("/readme")
+	public String readme(){
+		return "readme";
+	}
+
 }
