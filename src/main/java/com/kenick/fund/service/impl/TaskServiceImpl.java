@@ -117,7 +117,7 @@ public class TaskServiceImpl implements ITaskService {
 		for(Fund fund:FundController.fundCacheList){
 			String fundCode = fund.getFundCode();
 
-			// 完善stock bond信息
+			// 完善基金股票信息
 			perfectInfoByCodeCache(fund, now);
 
 			Double currentValue = fund.getCurNetValue();
@@ -197,6 +197,9 @@ public class TaskServiceImpl implements ITaskService {
 					||fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH || fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ)){
 				updateStockByHttp(fund, now);
 			}
+
+			// 发送短信
+			sendSms(fund);
 		}catch (Exception e) {
 			logger.error("完成基金股票信息异常!", e);
 		}
@@ -473,9 +476,6 @@ public class TaskServiceImpl implements ITaskService {
 				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
 				fund.setGainTotal(gainTotal);
 
-				// 发送短信
-				sendSms(fund);
-
 				retArray = null; // 等待内存回收
 			}
 		}catch (Exception e) {
@@ -485,99 +485,103 @@ public class TaskServiceImpl implements ITaskService {
 
 	// 发送短信
     private void sendSms(Fund fund){
-		if(fund == null){
-			return;
-		}
-
-		// 基金股票信息不全，不发送短信
-		String fundCode = fund.getFundCode();
-		Double curNetValue = fund.getCurNetValue();
-		Double curPriceLowest = fund.getCurPriceLowest();
-		Double curPriceHighest = fund.getCurPriceHighest();
-		if(StringUtils.isBlank(fundCode) || fund.getType() == null || fund.getCurGain() == null || fund.getLastGain() == null ||
-				curNetValue == null || curNetValue <= 0 || curPriceHighest == null || curPriceHighest <= 0 || curPriceLowest == null || curPriceLowest <= 0){
-			return;
-		}
-
-		// 更新发送短信时间
-		Date now = new Date();
-		JSONObject fundCodeJson = smsSendDateMap.get(fundCode);
-		if(fundCodeJson == null){ // 初始化，并进入后续逻辑
-			fundCodeJson = new JSONObject();
-			fundCodeJson.put("lastSmsDate", now);
-			fundCodeJson.put("curNetValue", curNetValue);
-		}else{
-			Date lastSmsDate = fundCodeJson.getDate("lastSmsDate");
-			BigDecimal lastNetValueBd = fundCodeJson.getBigDecimal("curNetValue");
-			if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 30, null))){ // 短信发送间隔在30分钟内，直接返回，不进行后续逻辑
+		try{
+			if(fund == null){
 				return;
-			}else{ // 短信发送间隔超过30分钟
-				if(now.before(DateUtils.timeCalendar(lastSmsDate, 24, null, null))){ // 短信发送间隔在24小时内
-					// 根据净值变动幅度决定是否发送短信
-					BigDecimal retBD = lastNetValueBd.subtract(new BigDecimal(curNetValue)).divide(lastNetValueBd, 2, RoundingMode.HALF_UP);
-					if(retBD.compareTo(new BigDecimal(0.1)) >= 0 || retBD.compareTo(new BigDecimal(-0.1)) <= 0){ // 净值变动幅度超过10%，更新并进入后续逻辑
+			}
+
+			// 基金股票信息不全，不发送短信
+			String fundCode = fund.getFundCode();
+			Double curNetValue = fund.getCurNetValue();
+			Double curPriceLowest = fund.getCurPriceLowest();
+			Double curPriceHighest = fund.getCurPriceHighest();
+			if(StringUtils.isBlank(fundCode) || fund.getType() == null || fund.getCurGain() == null || fund.getLastGain() == null ||
+					curNetValue == null || curNetValue <= 0 || curPriceHighest == null || curPriceHighest <= 0 || curPriceLowest == null || curPriceLowest <= 0){
+				return;
+			}
+
+			// 更新发送短信时间
+			Date now = new Date();
+			JSONObject fundCodeJson = smsSendDateMap.get(fundCode);
+			if(fundCodeJson == null){ // 初始化，并进入后续逻辑
+				fundCodeJson = new JSONObject();
+				fundCodeJson.put("lastSmsDate", now);
+				fundCodeJson.put("curNetValue", curNetValue);
+			}else{
+				Date lastSmsDate = fundCodeJson.getDate("lastSmsDate");
+				BigDecimal lastNetValueBd = fundCodeJson.getBigDecimal("curNetValue");
+				if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 30, null))){ // 短信发送间隔在30分钟内，直接返回，不进行后续逻辑
+					return;
+				}else{ // 短信发送间隔超过30分钟
+					if(now.before(DateUtils.timeCalendar(lastSmsDate, 24, null, null))){ // 短信发送间隔在24小时内
+						// 根据净值变动幅度决定是否发送短信
+						BigDecimal retBD = lastNetValueBd.subtract(new BigDecimal(curNetValue)).divide(lastNetValueBd, 2, RoundingMode.HALF_UP);
+						if(retBD.compareTo(new BigDecimal(0.03)) >= 0 || retBD.compareTo(new BigDecimal(-0.03)) <= 0){ // 净值变动幅度超过3%，更新并进入后续逻辑
+							fundCodeJson.put("lastSmsDate", now);
+							fundCodeJson.put("curNetValue", curNetValue);
+						}else{ // 净值变动幅度未超过10%，直接返回，不进入后续逻辑
+							return;
+						}
+					}else{ // 短信发送间隔超过24小时，更新并进入后续逻辑
 						fundCodeJson.put("lastSmsDate", now);
 						fundCodeJson.put("curNetValue", curNetValue);
-					}else{ // 净值变动幅度未超过10%，直接返回，不进入后续逻辑
-						return;
 					}
-				}else{ // 短信发送间隔超过24小时，更新并进入后续逻辑
-					fundCodeJson.put("lastSmsDate", now);
-					fundCodeJson.put("curNetValue", curNetValue);
 				}
 			}
-		}
-		smsSendDateMap.put(fundCode, fundCodeJson);
+			smsSendDateMap.put(fundCode, fundCodeJson);
 
-		// 周末不发送
-		boolean sendFlag = false;
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(now);
-		if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-			return;
-		}
+			// 周末不发送
+			boolean sendFlag = false;
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(now);
+			if(calendar.get(Calendar.DAY_OF_WEEK ) == Calendar.SATURDAY  || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+				return;
+			}
 
-		// 9点35前不发送
-        calendar.setTime(now);
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 35);
-        Date startDate = calendar.getTime();
-        if(now.before(startDate)){
-            return;
-        }
+			// 9点35前不发送
+			calendar.setTime(now);
+			calendar.set(Calendar.HOUR_OF_DAY, 9);
+			calendar.set(Calendar.MINUTE, 35);
+			Date startDate = calendar.getTime();
+			if(now.before(startDate)){
+				return;
+			}
 
-		// 15点后 不发送
-		calendar.setTime(now);
-		calendar.set(Calendar.HOUR_OF_DAY, 15);
-		calendar.set(Calendar.MINUTE, 0);
-		Date endDate = calendar.getTime();
-		if(now.after(endDate)){
-			return;
-		}
+			// 15点后 不发送
+			calendar.setTime(now);
+			calendar.set(Calendar.HOUR_OF_DAY, 15);
+			calendar.set(Calendar.MINUTE, 0);
+			Date endDate = calendar.getTime();
+			if(now.after(endDate)){
+				return;
+			}
 
-    	// 两日涨幅超过指定间隔
-		double sumGain = fund.getCurGain() + fund.getLastGain();
-		double twoDayDistance = 8.0;
-		if(sumGain >= twoDayDistance){
-			sendFlag = true;
-		}
-		if(sumGain <= -twoDayDistance){
-			sendFlag = true;
-		}
+			// 两日涨幅超过指定间隔
+			double sumGain = fund.getCurGain() + fund.getLastGain();
+			double twoDayDistance = 5.0;
+			if(sumGain >= twoDayDistance){
+				sendFlag = true;
+			}
+			if(sumGain <= -twoDayDistance){
+				sendFlag = true;
+			}
 
-		// 当前值距离最高值、最低值超过4个点
-		double curHighDistance = 0.05;
-		if((curPriceHighest - curNetValue)/curPriceHighest >= curHighDistance){
-			sendFlag = true;
-		}
-		if((curNetValue - curPriceLowest)/curPriceLowest >= curHighDistance){
-			sendFlag = true;
-		}
+			// 当前值距离最高值、最低值超过4个点
+			double curHighDistance = 0.04;
+			if((curPriceHighest - curNetValue)/curPriceHighest >= curHighDistance){
+				sendFlag = true;
+			}
+			if((curNetValue - curPriceLowest)/curPriceLowest >= curHighDistance){
+				sendFlag = true;
+			}
 
-		String sendPhone = "15910761260";
-		if(sendFlag && StringUtils.isNotBlank(sendPhone)){
-			logger.debug("向{}发送短信:{}", sendPhone, fundCode);
-			asyncService.aliSendSmsCode(sendPhone, fundCode);
+			String sendPhone = "15910761260";
+			if(sendFlag && StringUtils.isNotBlank(sendPhone)){
+				logger.debug("向{}发送短信:{}", sendPhone, fundCode);
+				asyncService.aliSendSmsCode(sendPhone, fundCode);
+			}
+		}catch (Exception e){
+			logger.error("发送短信异常!", e);
 		}
 	}
 
@@ -675,8 +679,6 @@ public class TaskServiceImpl implements ITaskService {
 			// 获取最新净值和涨幅
 			String url = "http://fundgz.1234567.com.cn/js/"+fund.getFundCode()+".js?rt="+now.getTime();
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			// logger.trace("爬取的最新基金数据为:{}", retStr);
-			// {"gztime":"2019-10-30 09:30","gszzl":"-0.66","fundcode":"519727","name":"交银成长30混合","dwjz":"1.4620","jzrq":"2019-10-29","gsz":"1.4524"}
 
 			if(retStr != null){
 				String retJsonStr = retStr.substring(8, retStr.length()-2);
