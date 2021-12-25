@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -28,7 +29,7 @@ public class FundController {
 	@Autowired
 	private IFundService fundService;
 
-	public static List<Fund> fundCacheList = new ArrayList<>(); // 使用缓存
+	public static List<Fund> fundCacheList = Collections.synchronizedList(new ArrayList<>()); // 使用本地缓存
 
     @Autowired
     private IFileStorageSV fileStorageService;

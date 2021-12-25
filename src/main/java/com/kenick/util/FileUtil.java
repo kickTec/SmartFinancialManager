@@ -44,8 +44,13 @@ public class FileUtil {
     }
 
 
-    public static void downloadFileConcurrent(String url, String localPatch) {
-        fixedThreadPool.execute(() -> download(url, localPatch));
+    public static void downloadFileConcurrent(final String url,final String localPatch) {
+        fixedThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                download(url, localPatch);
+            }
+        });
     }
 
     public static void download(String _url, String path) {

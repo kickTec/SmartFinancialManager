@@ -1,6 +1,5 @@
 package com.kenick.fund.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
@@ -18,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,10 +45,6 @@ public class GridSVImpl implements IGridSV {
     private IFileStorageSV fileStorageSV;
 
     public static void main(String[] args) {
-        String retJsonStr = "{\"rankMap\":{365.01:{\"code\":\"128113\",\"holdQuantity\":0,\"name\":\"比音转债\",\"gainMoney\":365.010,\"tradeTotal\":145},273.64:{\"code\":\"128063\",\"holdQuantity\":20,\"name\":\"未来转债\",\"gainMoney\":273.640,\"tradeTotal\":111},263.95:{\"code\":\"110081\",\"holdQuantity\":0,\"name\":\"闻泰转债\",\"gainMoney\":263.950,\"tradeTotal\":105},194.23:{\"code\":\"113009\",\"holdQuantity\":0,\"name\":\"广汽转债\",\"gainMoney\":194.230,\"tradeTotal\":77},99.61:{\"code\":\"110045\",\"holdQuantity\":0,\"name\":\"海澜转债\",\"gainMoney\":99.610,\"tradeTotal\":39},34.87:{\"code\":\"123111\",\"holdQuantity\":0,\"name\":\"东财转3\",\"gainMoney\":34.870,\"tradeTotal\":13},34.86:{\"code\":\"127037\",\"holdQuantity\":0,\"name\":\"银轮转债\",\"gainMoney\":34.870,\"tradeTotal\":13},14.95:{\"code\":\"110053\",\"holdQuantity\":0,\"name\":\"苏银转债\",\"gainMoney\":14.950,\"tradeTotal\":5},4.99:{\"code\":\"113051\",\"holdQuantity\":0,\"name\":\"节能转债\",\"gainMoney\":4.99,\"tradeTotal\":1}}}";
-        JSONObject retJson = JSON.parseObject(retJsonStr);
-        JSONObject rankMap = retJson.getJSONObject("rankMap");
-        logger.debug("rankMap:{}", rankMap);
     }
 
     /**
@@ -468,7 +465,6 @@ public class GridSVImpl implements IGridSV {
 
             fundList = null;
             rankMap = null;
-            System.gc(); // 强制回收
         }catch (Exception e){
             logger.error("转债网格排行计算异常!", e);
         }

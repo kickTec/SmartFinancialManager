@@ -12,13 +12,11 @@ public class FundServiceImpl implements IFundService {
 
 	@Override
 	public List<Fund> findAllFundByCondition(Fund fundCondition, String orderBy) {
-
 		return null;
 	}
 
 	@Override
 	public List<UserFund> findAllUserFundByCondition(UserFund userFundCondition) {
-
 		return null;
 	}
 

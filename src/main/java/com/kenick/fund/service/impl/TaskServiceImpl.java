@@ -10,6 +10,7 @@ import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
 import com.kenick.util.HttpRequestUtils;
+import com.kenick.util.SpringContextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
@@ -19,6 +20,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -37,10 +39,15 @@ import java.util.Map;
 @EnableScheduling
 public class TaskServiceImpl implements ITaskService {
 	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+	private String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
+	private String stockSzUrl = "http://hq.sinajs.cn/list=sz";
+	private String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
-	private final String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
-	private final String stockSzUrl = "http://hq.sinajs.cn/list=sz";
-	private final String stockShUrl = "http://hq.sinajs.cn/list=sh";
+	private Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
+	private Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
+	private Map<String, JSONObject> smsSendDateMap = new HashMap<>();
+
+	private long updateTotalHit = 0;
 
 	@Autowired
 	private IAsyncService asyncService;
@@ -48,10 +55,11 @@ public class TaskServiceImpl implements ITaskService {
 	@Autowired
 	private IFileStorageSV fileStorageService;
 
-	private static Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
-	private static Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
-	private static Map<String, JSONObject> smsSendDateMap = new HashMap<>();
-	private static long gcMarkNum = 1;
+	@Autowired
+	public SpringContextUtil springContextUtil;
+
+	@Value("${smf.version}")
+	private String smfVersion;
 
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
@@ -64,19 +72,12 @@ public class TaskServiceImpl implements ITaskService {
     	try{
 			Date now = new Date();
 
-			// 通过mysql查询更新，较占资源
-			// updateThroughMysql();
-
 			// 通过缓存查询更新
 			updateThroughCache(now);
+			updateTotalHit++;
+			
+			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
-			logger.debug("遍历理财一轮花费时间:{}", System.currentTimeMillis() - now.getTime());
-
-			// 强制回收
-			gcMarkNum++;
-			if(gcMarkNum % 20 == 0){
-				System.gc();
-			}
     	}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
@@ -85,7 +86,7 @@ public class TaskServiceImpl implements ITaskService {
 	@Scheduled(cron = "0 0 16 * * ?")
 	public void cleanCache(){
 		try{
-			logger.debug("cleanCache in!");
+			logger.debug("cleanCache.in!");
 			Date now = new Date();
 
 			for(Fund fund: FundController.fundCacheList){
@@ -96,9 +97,9 @@ public class TaskServiceImpl implements ITaskService {
 					// 保存个股记录数据
 					asyncService.persistentStockInfo(now, fundCode, stockList);
 					stockList.clear();
+					stockHistoryMap.remove(fundCode);
 				}
-				stockHistoryMap.put(fundCode, stockList);
-			}
+		}
 		}catch (Exception e) {
 			logger.error("定时清理缓存异常!", e);
 		}
@@ -140,8 +141,10 @@ public class TaskServiceImpl implements ITaskService {
 				// 保存个股记录数据
 				asyncService.persistentStockInfo(now, fundCode, stockList);
 				stockList.clear();
+				stockHistoryMap.remove(fundCode);
+			}else{
+				stockHistoryMap.put(fundCode, stockList);
 			}
-			stockHistoryMap.put(fundCode, stockList);
 		}
 		perfectFundList(FundController.fundCacheList);
 
@@ -577,6 +580,13 @@ public class TaskServiceImpl implements ITaskService {
 
 			String sendPhone = "15910761260";
 			if(sendFlag && StringUtils.isNotBlank(sendPhone)){
+
+				String activeProfile = springContextUtil.getActiveProfile();
+				if("local".equals(activeProfile) || "dev".equals(activeProfile) || "test".equals(activeProfile)){
+					logger.debug("{}触发短信发生规则，当前非生产环境，不发送短信!", fundCode);
+					return;
+				}
+
 				logger.debug("向{}发送短信:{}", sendPhone, fundCode);
 				asyncService.aliSendSmsCode(sendPhone, fundCode);
 			}
@@ -723,9 +733,6 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     public static void main(String[] args) {
-		BigDecimal gainTotal = new BigDecimal(0.4547417);
-		gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
-		System.out.println(gainTotal);
 	}
 
 }

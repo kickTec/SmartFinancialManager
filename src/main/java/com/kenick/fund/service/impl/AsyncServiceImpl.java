@@ -63,7 +63,6 @@ public class AsyncServiceImpl implements IAsyncService {
 			String day = DateUtils.getStrDate(now, "yyyy-MM-dd");
 			File storeFile = new File(storePath + File.separator + fundCode + "_" + day + ".txt");
 			FileUtil.persistentText(storeFile, stockList);
-			stockList.clear();
 
 			logger.debug("异步保存{}数据花费时间:{}!", fundCode, System.currentTimeMillis()-startTime);
 		}catch (Exception e){
