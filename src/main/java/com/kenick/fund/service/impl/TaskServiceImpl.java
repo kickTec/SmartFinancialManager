@@ -78,7 +78,15 @@ public class TaskServiceImpl implements ITaskService {
 			
 			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
-    	}catch (Exception e) {
+			Runtime runtime = Runtime.getRuntime();
+			long memory_total = runtime.totalMemory();
+			long memory_free = runtime.freeMemory();
+			long memory_max = runtime.maxMemory();
+			logger.debug("memory_total:{},memory_max:{},memory_free:{}", memory_total/1024/1024, memory_max/1024/1024, memory_free/1024/1024);
+			logger.debug("stockHistoryMap.size:{},stockLastMap.size:{},smsSendDateMap.size:{}",
+					stockHistoryMap.size(),stockLastMap.size(),smsSendDateMap.size());
+
+		}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
     }
@@ -107,9 +115,9 @@ public class TaskServiceImpl implements ITaskService {
 
 	private void updateThroughCache(Date now) {
 		int weekNum = DateUtils.getWeekNum(now);
-		if(weekNum == 6 || weekNum == 7){ // 周末跳过
-			return;
-		}
+//		if(weekNum == 6 || weekNum == 7){ // 周末跳过
+//			return;
+//		}
 
 		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
 			FundController.fundCacheList = fileStorageService.getFundListFromFile();
