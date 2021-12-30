@@ -10,6 +10,7 @@ import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
 import com.kenick.util.HttpRequestUtils;
+import com.kenick.util.JarUtil;
 import com.kenick.util.SpringContextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
@@ -25,6 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
@@ -61,6 +63,9 @@ public class TaskServiceImpl implements ITaskService {
 	@Value("${smf.version}")
 	private String smfVersion;
 
+	@Value("${storage.home.path}")
+	private String storageHomePath;
+
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
 	 * <功能详细描述> 
@@ -83,23 +88,31 @@ public class TaskServiceImpl implements ITaskService {
 		}
     }
 
-	@Scheduled(cron = "0 0 16 * * ?")
-	public void cleanCache(){
+	@Scheduled(cron = "0 0/10 16 * * ?")
+	public void fourClockTask(){
 		try{
-			logger.debug("cleanCache.in!");
+			logger.debug("fourClockTask.in!");
 			Date now = new Date();
+			int weekNum = DateUtils.getWeekNum(now);
+			if(weekNum == 6 || weekNum == 7){ // 周末跳过
+				return;
+			}
 
+			// 保存个股记录数据
 			for(Fund fund: FundController.fundCacheList){
 				String fundCode = fund.getFundCode();
 				List<String> stockList = stockHistoryMap.get(fundCode);
 
 				if(stockList != null && stockList.size() > 0){
-					// 保存个股记录数据
 					asyncService.persistentStockInfo(now, fundCode, stockList);
 					stockList.clear();
 					stockHistoryMap.remove(fundCode);
 				}
-		}
+			}
+
+			// 每天备份近2天数据
+			JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 1);
+
 		}catch (Exception e) {
 			logger.error("定时清理缓存异常!", e);
 		}
