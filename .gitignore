@@ -1,1 +1,7 @@
 /target/
+/.idea
+*.iml
+.idea
+.settings/
+logs/
+src/test/
