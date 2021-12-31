@@ -19,7 +19,7 @@ public class Fund {/* feild added*/
 	public static final String S_lastPriceHighest = "last_price_highest";
 	public static final String S_lastPriceLowest = "last_price_lowest";
 	public static final String S_gainTotal = "gain_total";
-	public static final String S_fundState = "fund_state";
+	public static final String S_fundState = "fund_state"; // -3 删除 0 失效 3 隐藏 6 生效
 	public static final String S_modifyDate = "modify_date";
 	public static final String S_createDate = "create_date";
 

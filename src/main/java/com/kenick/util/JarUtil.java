@@ -90,7 +90,7 @@ public class JarUtil {
 
                     // 30天以前的文件不压缩
                     String fundTime = fileName.replace(".txt", "").split("_")[1];
-                    if(DateUtils.tranToDate(fundTime, "yyyy-MM-dd").before(DateUtils.getPastDateZero(dayNum))){
+                    if(DateUtils.tranToDate(fundTime, "yyyy-MM-dd").before(DateUtils.getPastDateZero(dayNum-1))){
                         continue;
                     }
 

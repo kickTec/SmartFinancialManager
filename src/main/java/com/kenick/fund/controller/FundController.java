@@ -3,7 +3,6 @@ package com.kenick.fund.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.bean.Fund;
-import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.IFundService;
 import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
@@ -16,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @Controller
 @RequestMapping("/fund")
 public class FundController {
@@ -29,39 +24,26 @@ public class FundController {
 	@Autowired
 	private IFundService fundService;
 
-	public static List<Fund> fundCacheList = Collections.synchronizedList(new ArrayList<>()); // 使用本地缓存
-
-    @Autowired
-    private IFileStorageSV fileStorageService;
-	
-    @RequestMapping("/index.html")
-    public String index(@RequestParam(value = "data",required = false) String data, Model model){
-        logger.debug("FundController.index in, param:{}",data);
+    @RequestMapping("/indexCache")
+    public String indexCache(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.indexCache in, param:{}",data);
         try{
-            Fund fundCondition = null;
-            if(data != null){
-                fundCondition = JSON.parseObject(data, Fund.class);
-            }
-            List<Fund> fundList = fundService.findAllFundByCondition(fundCondition, null);
-            model.addAttribute("fundList", fundList);
+            model.addAttribute("fundList", fundService.getShowFundList());
         }catch (Exception e){
-            logger.error("查询基金信息异常",e);
+            logger.error("获取展示理财信息异常",e);
         }
         return "fundIndex";
     }
 
-    @RequestMapping("/indexCache.html")
-    public String indexCache(@RequestParam(value = "data",required = false) String data, Model model){
-        logger.debug("FundController.index in, param:{}",data);
+    @RequestMapping("/indexCacheAll")
+    public String indexCacheAll(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.indexCacheAll in, param:{}",data);
         try{
-            if(fundCacheList == null || fundCacheList.size() == 0){
-                fundCacheList = fileStorageService.getFundListFromFile();
-            }
-            model.addAttribute("fundList", fundCacheList);
+            model.addAttribute("fundList", fundService.getAllFundList());
         }catch (Exception e){
-            logger.error("查询基金信息异常",e);
+            logger.error("获取所有理财信息异常",e);
         }
-        return "fundIndex";
+        return "fundIndexAll";
     }
 
     @RequestMapping("/queryfundinfolist")
@@ -77,7 +59,7 @@ public class FundController {
             return HttpUtils.showException("fund_queryfundinfolist_exception","查询基金信息异常", e);
         }
     }
-
+    
     @RequestMapping("/queryuserfundlist")
     @ResponseBody
     public String queryUserFundList(@RequestParam(value = "data",required = false) String data){

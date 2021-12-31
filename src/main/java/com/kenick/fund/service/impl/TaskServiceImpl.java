@@ -3,7 +3,6 @@ package com.kenick.fund.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
-import com.kenick.fund.controller.FundController;
 import com.kenick.fund.service.IAsyncService;
 import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.ITaskService;
@@ -99,7 +98,7 @@ public class TaskServiceImpl implements ITaskService {
 			}
 
 			// 保存个股记录数据
-			for(Fund fund: FundController.fundCacheList){
+			for(Fund fund: FundServiceImpl.fundCacheList){
 				String fundCode = fund.getFundCode();
 				List<String> stockList = stockHistoryMap.get(fundCode);
 
@@ -110,8 +109,10 @@ public class TaskServiceImpl implements ITaskService {
 				}
 			}
 
-			// 每天备份近2天数据
-			JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 1);
+			// 每周5备份最近5天数据
+			if(weekNum == 5){
+				JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 5);
+			}
 
 		}catch (Exception e) {
 			logger.error("定时清理缓存异常!", e);
@@ -124,11 +125,11 @@ public class TaskServiceImpl implements ITaskService {
 			return;
 		}
 
-		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
-			FundController.fundCacheList = fileStorageService.getFundListFromFile();
+		if(FundServiceImpl.fundCacheList == null || FundServiceImpl.fundCacheList.size()==0){
+			FundServiceImpl.fundCacheList = fileStorageService.getFundListFromFile();
 		}
 
-		for(Fund fund:FundController.fundCacheList){
+		for(Fund fund:FundServiceImpl.fundCacheList){
 			String fundCode = fund.getFundCode();
 
 			// 完善基金股票信息
@@ -159,11 +160,11 @@ public class TaskServiceImpl implements ITaskService {
 				stockHistoryMap.put(fundCode, stockList);
 			}
 		}
-		perfectFundList(FundController.fundCacheList);
+		perfectFundList(FundServiceImpl.fundCacheList);
 
 		// 周期性保存所有记录
         if(DateUtils.isRightTimeBySecond(now, 5, 2)){
-            fileStorageService.writeFundList2File(FundController.fundCacheList);
+            fileStorageService.writeFundList2File(FundServiceImpl.fundCacheList);
             logger.debug("信息保存到本地完成!");
         }
 
@@ -243,7 +244,7 @@ public class TaskServiceImpl implements ITaskService {
                 perfectStockInfoNight(fund);
             }
 			fileStorageService.writeFundList2File(fundList);
-            FundController.fundCacheList = null;
+			FundServiceImpl.fundCacheList = null;
 		}catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }
