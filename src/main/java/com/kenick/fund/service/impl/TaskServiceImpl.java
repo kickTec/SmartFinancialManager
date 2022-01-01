@@ -3,13 +3,13 @@ package com.kenick.fund.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
-import com.kenick.fund.controller.FundController;
 import com.kenick.fund.service.IAsyncService;
 import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
 import com.kenick.util.HttpRequestUtils;
+import com.kenick.util.JarUtil;
 import com.kenick.util.SpringContextUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
@@ -25,6 +25,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
@@ -61,6 +62,9 @@ public class TaskServiceImpl implements ITaskService {
 	@Value("${smf.version}")
 	private String smfVersion;
 
+	@Value("${storage.home.path}")
+	private String storageHomePath;
+
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
 	 * <功能详细描述> 
@@ -91,23 +95,33 @@ public class TaskServiceImpl implements ITaskService {
 		}
     }
 
-	@Scheduled(cron = "0 0 16 * * ?")
-	public void cleanCache(){
+	@Scheduled(cron = "0 0/10 16 * * ?")
+	public void fourClockTask(){
 		try{
-			logger.debug("cleanCache.in!");
+			logger.debug("fourClockTask.in!");
 			Date now = new Date();
+			int weekNum = DateUtils.getWeekNum(now);
+			if(weekNum == 6 || weekNum == 7){ // 周末跳过
+				return;
+			}
 
-			for(Fund fund: FundController.fundCacheList){
+			// 保存个股记录数据
+			for(Fund fund: FundServiceImpl.fundCacheList){
 				String fundCode = fund.getFundCode();
 				List<String> stockList = stockHistoryMap.get(fundCode);
 
 				if(stockList != null && stockList.size() > 0){
-					// 保存个股记录数据
 					asyncService.persistentStockInfo(now, fundCode, stockList);
 					stockList.clear();
 					stockHistoryMap.remove(fundCode);
 				}
-		}
+			}
+
+			// 每周5备份最近5天数据
+			if(weekNum == 5){
+				JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 5);
+			}
+
 		}catch (Exception e) {
 			logger.error("定时清理缓存异常!", e);
 		}
@@ -119,11 +133,11 @@ public class TaskServiceImpl implements ITaskService {
 //			return;
 //		}
 
-		if(FundController.fundCacheList == null || FundController.fundCacheList.size()==0){
-			FundController.fundCacheList = fileStorageService.getFundListFromFile();
+		if(FundServiceImpl.fundCacheList == null || FundServiceImpl.fundCacheList.size()==0){
+			FundServiceImpl.fundCacheList = fileStorageService.getFundListFromFile();
 		}
 
-		for(Fund fund:FundController.fundCacheList){
+		for(Fund fund:FundServiceImpl.fundCacheList){
 			String fundCode = fund.getFundCode();
 
 			// 完善基金股票信息
@@ -154,11 +168,11 @@ public class TaskServiceImpl implements ITaskService {
 				stockHistoryMap.put(fundCode, stockList);
 			}
 		}
-		perfectFundList(FundController.fundCacheList);
+		perfectFundList(FundServiceImpl.fundCacheList);
 
 		// 周期性保存所有记录
         if(DateUtils.isRightTimeBySecond(now, 5, 2)){
-            fileStorageService.writeFundList2File(FundController.fundCacheList);
+            fileStorageService.writeFundList2File(FundServiceImpl.fundCacheList);
             logger.debug("信息保存到本地完成!");
         }
 
@@ -238,7 +252,7 @@ public class TaskServiceImpl implements ITaskService {
                 perfectStockInfoNight(fund);
             }
 			fileStorageService.writeFundList2File(fundList);
-            FundController.fundCacheList = null;
+			FundServiceImpl.fundCacheList = null;
 		}catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }

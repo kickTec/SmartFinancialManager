@@ -26,4 +26,9 @@ public interface IFundService {
 	 * @see [类、类#方法、类#成员]
 	 */
 	List<UserFund> findAllUserFundByCondition(UserFund userFundCondition);
+
+    List<Fund> getShowFundList();
+
+	List<Fund> getAllFundList();
+
 }

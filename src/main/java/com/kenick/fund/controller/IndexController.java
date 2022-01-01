@@ -8,7 +8,12 @@ public class IndexController {
 
 	@RequestMapping("/")
 	public String index(){
-		return "forward:/fund/indexCache.html";
+		return "forward:/fund/indexCache";
+	}
+
+	@RequestMapping("/all")
+	public String all(){
+		return "forward:/fund/indexCacheAll";
 	}
 
 	@RequestMapping("/readme")

@@ -31,4 +31,25 @@ public class TableStaticConstData {
 	 */
 	public static final int TABLE_FUND_TYPE_STOCK_SH = 4;
 
+
+	/**
+	 * 理财 状态 删除 -3
+	 */
+	public static final int TABLE_FUND_TYPE_STATE_DELETE = -3;
+
+	/**
+	 * 理财 状态 失效 0
+	 */
+	public static final int TABLE_FUND_TYPE_STATE_INVALID = 0;
+
+	/**
+	 * 理财 状态 隐藏 3
+	 */
+	public static final int TABLE_FUND_TYPE_STATE_HIDDEN = 3;
+
+	/**
+	 * 理财 状态 生效 6
+	 */
+	public static final int TABLE_FUND_TYPE_STATE_VALID = 6;
+
 }
