@@ -3,9 +3,12 @@ package com.kenick.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+import java.util.Properties;
 
 /**
  * author: zhanggw
@@ -16,17 +19,11 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext context = null;
 
-    /* (non Javadoc)
-     * @Title: setApplicationContext
-     * @Description: spring获取bean工具类
-     * @param applicationContext
-     * @throws BeansException
-     * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
         this.context = applicationContext;
+        Environment environment = context.getEnvironment();
     }
 
     // 传入线程中
@@ -41,7 +38,17 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     /// 获取当前环境
     public String getActiveProfile() {
-        return context.getEnvironment().getActiveProfiles()[0];
+        Environment environment = context.getEnvironment();
+        return environment.getActiveProfiles()[0];
+    }
+
+    public Resource getResource(String location) {
+        try {
+            return context.getResource(location);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -246,4 +246,44 @@ public class FileUtil {
         return retList;
     }
 
+    /**
+     *  删除文件夹
+     * @param dir 文件夹路径
+     * @param forceFlag 是否强制删除
+     */
+    public static boolean deleteDir(String dir, boolean forceFlag) {
+        try{
+            logger.debug("开始删除文件夹:{}", dir);
+            File dirFile = new File(dir);
+            if(!dirFile.exists()){
+                return true;
+            }
+
+            File[] files = dirFile.listFiles();
+
+            // 空目录直接删除
+            if(files == null || files.length == 0){
+                dirFile.delete();
+                return true;
+            }
+
+            // 非强制，有内容直接返回false
+            if(!forceFlag){
+                return false;
+            }
+
+            // 强制删除
+            for(File subFile:files){
+                if(subFile.isFile()){
+                    subFile.delete();
+                }else{
+                    deleteDir(subFile.getAbsolutePath(), true);
+                }
+            }
+            return true;
+        }catch (Exception e){
+            logger.error("强制删除文件夹异常!", e);
+        }
+        return false;
+    }
 }

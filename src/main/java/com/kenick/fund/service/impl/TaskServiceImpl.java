@@ -48,8 +48,6 @@ public class TaskServiceImpl implements ITaskService {
 	private Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
 	private Map<String, JSONObject> smsSendDateMap = new HashMap<>();
 
-	private long updateTotalHit = 0;
-
 	@Autowired
 	private IAsyncService asyncService;
 
@@ -78,17 +76,14 @@ public class TaskServiceImpl implements ITaskService {
 
 			// 通过缓存查询更新
 			updateThroughCache(now);
-			updateTotalHit++;
-			
 			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
 			Runtime runtime = Runtime.getRuntime();
+			long memory_max = runtime.maxMemory();
 			long memory_total = runtime.totalMemory();
 			long memory_free = runtime.freeMemory();
-			long memory_max = runtime.maxMemory();
-			logger.debug("memory_total:{},memory_max:{},memory_free:{}", memory_total/1024/1024, memory_max/1024/1024, memory_free/1024/1024);
-			logger.debug("stockHistoryMap.size:{},stockLastMap.size:{},smsSendDateMap.size:{}",
-					stockHistoryMap.size(),stockLastMap.size(),smsSendDateMap.size());
+			logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
+					memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
 
 		}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
@@ -430,6 +425,7 @@ public class TaskServiceImpl implements ITaskService {
 
 			String fundCode = fund.getFundCode();
 			Integer fundType = fund.getType();
+			Integer fundState = fund.getFundState();
 
 			// 股票类型
 			String url = stockShUrl + fundCode;
@@ -442,7 +438,9 @@ public class TaskServiceImpl implements ITaskService {
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			logger.debug("{}最新数据为:{}", fund.getFundCode(), retStr);
+			if(fundState != null && fundState == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
+				logger.debug("{}最新数据为:{}", fund.getFundCode(), retStr);
+			}
 			if(StringUtils.isNotBlank(retStr)){
 				String[] retArray = retStr.split("=");
 				if(retArray.length < 2 || StringUtils.isBlank(retArray[1])){
