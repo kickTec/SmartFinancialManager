@@ -18,11 +18,16 @@ public class CustomApplicationProperties implements EnvironmentPostProcessor {
         MutablePropertySources propertySources = environment.getPropertySources();
 
         // 所有属性文件名
+        String env = "";
         Iterator<PropertySource<?>> iterator = propertySources.iterator();
         System.out.println(" ================== 所有配置文件名 ==================");
         while(iterator.hasNext()){
             PropertySource<?> next = iterator.next();
-            System.out.println(next.getName());
+            String configFileName = next.getName();
+            System.out.println(configFileName);
+            if(configFileName.contains("application-")){ // spring只会加载当前环境配置
+                env = configFileName.split("application-")[1].replace(".properties]", "");
+            }
         }
 
         // 获取主配置文件
@@ -33,9 +38,9 @@ public class CustomApplicationProperties implements EnvironmentPostProcessor {
         source.forEach((k,v) -> {
             System.out.println(k+":"+v.toString());
         });
-        String env = source.get("spring.profiles.active").toString();
 
         // 获取激活配置文件
+        System.out.println("当前环境:" + env);
         String activeName = "applicationConfig: [classpath:/application-" + env + ".properties]";
         MapPropertySource activePropertySource = (MapPropertySource) propertySources.get(activeName);
         Map<String, Object> activeSource = activePropertySource.getSource();
