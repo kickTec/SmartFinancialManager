@@ -67,4 +67,10 @@ public class FileStorageSVImpl implements IFileStorageSV {
         return storageEnable;
     }
 
+    @Override
+    public void saveFundJson(List<Fund> fundCacheList) {
+        String storageHomePath = getStorageHomePath();
+        FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json", fundCacheList);
+    }
+
 }

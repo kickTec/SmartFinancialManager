@@ -24,4 +24,6 @@ public interface IFileStorageSV {
 
     boolean getStorageEnable();
 
+    void saveFundJson(List<Fund> fundCacheList);
+
 }

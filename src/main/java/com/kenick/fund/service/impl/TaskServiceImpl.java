@@ -150,18 +150,21 @@ public class TaskServiceImpl implements ITaskService {
 				continue;
 			}
 
+			// 判断当前标的值和最近一次是否相同，相同则跳过
 			Double lastValue = stockLastMap.get(fundCode);
 			if(lastValue != null && lastValue.equals(currentValue) ){
+			    logger.trace("当前值和上一次相同，跳过!");
 				continue;
 			}
+            stockLastMap.put(fundCode, currentValue);
 
+			// 存储标的数据，后续一次性写入文件
 			List<String> stockList = stockHistoryMap.get(fundCode);
 			stockList = stockList == null ? new ArrayList<>() : stockList;
 			String storeInfo = fund.getCurTime() + "," + currentValue;
 			stockList.add(storeInfo);
-			stockLastMap.put(fundCode, currentValue);
 
-			if(stockList.size() >= 20){
+			if(stockList.size() >= 10){
 				// 保存个股记录数据
 				asyncService.persistentStockInfo(now, fundCode, stockList);
 				stockList.clear();
@@ -170,11 +173,13 @@ public class TaskServiceImpl implements ITaskService {
 				stockHistoryMap.put(fundCode, stockList);
 			}
 		}
+
+		// 完善基金信息
 		perfectFundList(FundServiceImpl.fundCacheList);
 
-		// 周期性保存所有记录
-        if(DateUtils.isRightTimeBySecond(now, 5, 2)){
-            fileStorageService.writeFundList2File(FundServiceImpl.fundCacheList);
+		// 周期性保存标的配置信息
+        if(DateUtils.isRightTimeBySecond(now, 5, 4)){
+            fileStorageService.saveFundJson(FundServiceImpl.fundCacheList);
             logger.debug("信息保存到本地完成!");
         }
 
@@ -506,7 +511,9 @@ public class TaskServiceImpl implements ITaskService {
 				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
 				fund.setGainTotal(gainTotal);
 
-				retArray = null; // 等待内存回收
+				// 清理
+				retArray = null;
+                retStr = null;
 			}
 		}catch (Exception e) {
 			logger.error("更新股票信息失败！", e);
@@ -718,7 +725,7 @@ public class TaskServiceImpl implements ITaskService {
 			String url = "http://fundgz.1234567.com.cn/js/"+fund.getFundCode()+".js?rt="+now.getTime();
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
 
-			if(retStr != null){
+			if(StringUtils.isNotBlank(retStr)){
 				String retJsonStr = retStr.substring(8, retStr.length()-2);
 				JSONObject retJson = JSONObject.parseObject(retJsonStr);
 
@@ -754,6 +761,11 @@ public class TaskServiceImpl implements ITaskService {
 				BigDecimal gainTotal = new BigDecimal(fund.getLastGain() + curGain);
 				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
 				fund.setGainTotal(gainTotal);
+
+				// 清理
+				retJson.clear();
+                retJson = null;
+				retStr = null;
 			}
 		}catch (Exception e) {
 			logger.error("获取基金信息失败");
