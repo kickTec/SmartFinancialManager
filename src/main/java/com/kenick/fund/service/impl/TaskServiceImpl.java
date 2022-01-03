@@ -86,6 +86,7 @@ public class TaskServiceImpl implements ITaskService {
 			logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
 					memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
 			logger.debug("=======================================================================");
+            logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", FundServiceImpl.fundCacheList.size(), FundServiceImpl.fundCacheList.toString().getBytes().length/1024);
 			logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
             logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
             logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
@@ -225,7 +226,7 @@ public class TaskServiceImpl implements ITaskService {
 			}
 
 			// 发送短信
-			sendSms(fund);
+			// sendSms(fund);
 		}catch (Exception e) {
 			logger.error("完成基金股票信息异常!", e);
 		}
