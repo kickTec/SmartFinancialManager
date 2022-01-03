@@ -46,7 +46,7 @@ public class TaskServiceImpl implements ITaskService {
 
 	private Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
-	private Map<String, JSONObject> smsSendDateMap = new HashMap<>();
+	private Map<String, JSONObject> smsSendDateMap = new HashMap<>(); // 短信发送记录
 
 	@Autowired
 	private IAsyncService asyncService;
@@ -78,12 +78,18 @@ public class TaskServiceImpl implements ITaskService {
 			updateThroughCache(now);
 			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
+            logger.debug("=======================================================================");
 			Runtime runtime = Runtime.getRuntime();
 			long memory_max = runtime.maxMemory();
 			long memory_total = runtime.totalMemory();
 			long memory_free = runtime.freeMemory();
 			logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
 					memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
+			logger.debug("=======================================================================");
+			logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
+            logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
+            logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
+            logger.debug("=======================================================================");
 
 		}catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
@@ -523,37 +529,15 @@ public class TaskServiceImpl implements ITaskService {
 				return;
 			}
 
-			// 更新发送短信时间
-			Date now = new Date();
-			JSONObject fundCodeJson = smsSendDateMap.get(fundCode);
-			if(fundCodeJson == null){ // 初始化，并进入后续逻辑
-				fundCodeJson = new JSONObject();
-				fundCodeJson.put("lastSmsDate", now);
-				fundCodeJson.put("curNetValue", curNetValue);
-			}else{
-				Date lastSmsDate = fundCodeJson.getDate("lastSmsDate");
-				BigDecimal lastNetValueBd = fundCodeJson.getBigDecimal("curNetValue");
-				if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 30, null))){ // 短信发送间隔在30分钟内，直接返回，不进行后续逻辑
-					return;
-				}else{ // 短信发送间隔超过30分钟
-					if(now.before(DateUtils.timeCalendar(lastSmsDate, 24, null, null))){ // 短信发送间隔在24小时内
-						// 根据净值变动幅度决定是否发送短信
-						BigDecimal retBD = lastNetValueBd.subtract(new BigDecimal(curNetValue)).divide(lastNetValueBd, 2, RoundingMode.HALF_UP);
-						if(retBD.compareTo(new BigDecimal(0.03)) >= 0 || retBD.compareTo(new BigDecimal(-0.03)) <= 0){ // 净值变动幅度超过3%，更新并进入后续逻辑
-							fundCodeJson.put("lastSmsDate", now);
-							fundCodeJson.put("curNetValue", curNetValue);
-						}else{ // 净值变动幅度未超过10%，直接返回，不进入后续逻辑
-							return;
-						}
-					}else{ // 短信发送间隔超过24小时，更新并进入后续逻辑
-						fundCodeJson.put("lastSmsDate", now);
-						fundCodeJson.put("curNetValue", curNetValue);
-					}
-				}
-			}
-			smsSendDateMap.put(fundCode, fundCodeJson);
+			// 非生产环境不发送短信
+            String activeProfile = springContextUtil.getActiveProfile();
+            if("local".equals(activeProfile) || "dev".equals(activeProfile) || "test".equals(activeProfile)){
+                logger.trace("当前非生产环境，不进行短信发送规则判断!", fundCode);
+                return;
+            }
 
 			// 周末不发送
+            Date now = new Date();
 			boolean sendFlag = false;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(now);
@@ -594,18 +578,41 @@ public class TaskServiceImpl implements ITaskService {
 			if((curPriceHighest - curNetValue)/curPriceHighest >= curHighDistance){
 				sendFlag = true;
 			}
-			if((curNetValue - curPriceLowest)/curPriceLowest >= curHighDistance){
-				sendFlag = true;
-			}
+			if((curNetValue - curPriceLowest)/curPriceLowest >= curHighDistance) {
+                sendFlag = true;
+            }
 
 			String sendPhone = "15910761260";
 			if(sendFlag && StringUtils.isNotBlank(sendPhone)){
 
-				String activeProfile = springContextUtil.getActiveProfile();
-				if("local".equals(activeProfile) || "dev".equals(activeProfile) || "test".equals(activeProfile)){
-					logger.debug("{}触发短信发生规则，当前非生产环境，不发送短信!", fundCode);
-					return;
-				}
+                // 短信发送间隔判断
+                JSONObject fundCodeJson = smsSendDateMap.get(fundCode);
+                if(fundCodeJson == null){ // 初始化，并进入后续逻辑
+                    fundCodeJson = new JSONObject();
+                    fundCodeJson.put("lastSmsDate", now);
+                    fundCodeJson.put("curNetValue", curNetValue);
+                }else{
+                    Date lastSmsDate = fundCodeJson.getDate("lastSmsDate");
+                    BigDecimal lastNetValueBd = fundCodeJson.getBigDecimal("curNetValue");
+                    if(now.before(DateUtils.timeCalendar(lastSmsDate, null, 30, null))){ // 短信发送间隔在30分钟内，直接返回，不进行后续逻辑
+                        return;
+                    }else{ // 短信发送间隔超过30分钟
+                        if(now.before(DateUtils.timeCalendar(lastSmsDate, 24, null, null))){ // 短信发送间隔在24小时内
+                            // 根据净值变动幅度决定是否发送短信
+                            BigDecimal retBD = lastNetValueBd.subtract(new BigDecimal(curNetValue)).divide(lastNetValueBd, 2, RoundingMode.HALF_UP);
+                            if(retBD.compareTo(new BigDecimal(0.03)) >= 0 || retBD.compareTo(new BigDecimal(-0.03)) <= 0){ // 净值变动幅度超过3%，更新并进入后续逻辑
+                                fundCodeJson.put("lastSmsDate", now);
+                                fundCodeJson.put("curNetValue", curNetValue);
+                            }else{ // 净值变动幅度未超过10%，直接返回，不进入后续逻辑
+                                return;
+                            }
+                        }else{ // 短信发送间隔超过24小时，更新并进入后续逻辑
+                            fundCodeJson.put("lastSmsDate", now);
+                            fundCodeJson.put("curNetValue", curNetValue);
+                        }
+                    }
+                }
+                smsSendDateMap.put(fundCode, fundCodeJson);
 
 				logger.debug("向{}发送短信:{}", sendPhone, fundCode);
 				asyncService.aliSendSmsCode(sendPhone, fundCode);
@@ -753,6 +760,12 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     public static void main(String[] args) {
-	}
+        Map<String, String> map = new HashMap<>();
+        map.put("a", "jim");
+        map.put("b", "tom");
+        System.out.println(map.size());
+        System.out.println(map.toString());
+        System.out.println(map.toString().getBytes().length);
+    }
 
 }
