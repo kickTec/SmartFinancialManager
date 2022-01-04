@@ -43,6 +43,9 @@
     <logger name="org" level="ERROR">
         <appender-ref ref="fileAppender" />
     </logger>
+    <logger name="java" level="ERROR">
+        <appender-ref ref="fileAppender" />
+    </logger>
     <logger name="javax" level="ERROR">
         <appender-ref ref="fileAppender" />
     </logger>

@@ -5,6 +5,7 @@ import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IAsyncService;
 import com.kenick.fund.service.IFileStorageSV;
+import com.kenick.fund.service.IFundService;
 import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
@@ -57,6 +58,9 @@ public class TaskServiceImpl implements ITaskService {
 	@Autowired
 	public SpringContextUtil springContextUtil;
 
+	@Autowired
+	private IFundService fundService;
+
 	@Value("${smf.version}")
 	private String smfVersion;
 
@@ -86,7 +90,7 @@ public class TaskServiceImpl implements ITaskService {
 			logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
 					memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
 			logger.debug("=======================================================================");
-            logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", FundServiceImpl.fundCacheList.size(), FundServiceImpl.fundCacheList.toString().getBytes().length/1024);
+            logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
 			logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
             logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
             logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
@@ -108,7 +112,7 @@ public class TaskServiceImpl implements ITaskService {
 			}
 
 			// 保存个股记录数据
-			for(Fund fund: FundServiceImpl.fundCacheList){
+			for(Fund fund: fundService.getAllFundList()){
 				String fundCode = fund.getFundCode();
 				List<String> stockList = stockHistoryMap.get(fundCode);
 
@@ -135,11 +139,12 @@ public class TaskServiceImpl implements ITaskService {
 			return;
 		}
 
-		if(FundServiceImpl.fundCacheList == null || FundServiceImpl.fundCacheList.size()==0){
-			FundServiceImpl.fundCacheList = fileStorageService.getFundListFromFile();
+		List<Fund> allFundList = fundService.getAllFundList();
+		if(allFundList == null || allFundList.size()==0){
+			return;
 		}
 
-		for(Fund fund:FundServiceImpl.fundCacheList){
+		for(Fund fund:allFundList){
 			String fundCode = fund.getFundCode();
 
 			// 完善基金股票信息
@@ -175,11 +180,11 @@ public class TaskServiceImpl implements ITaskService {
 		}
 
 		// 完善基金信息
-		perfectFundList(FundServiceImpl.fundCacheList);
+		perfectFundList(allFundList);
 
 		// 周期性保存标的配置信息
         if(DateUtils.isRightTimeBySecond(now, 5, 4)){
-            fileStorageService.saveFundJson(FundServiceImpl.fundCacheList);
+            fileStorageService.saveFundJson(allFundList);
             logger.debug("信息保存到本地完成!");
         }
 
@@ -259,7 +264,7 @@ public class TaskServiceImpl implements ITaskService {
                 perfectStockInfoNight(fund);
             }
 			fileStorageService.writeFundList2File(fundList);
-			FundServiceImpl.fundCacheList = null;
+			fundService.getAllFundList().clear();
 		}catch (Exception e) {
             logger.error("晚上更新股票信息异常!", e);
         }

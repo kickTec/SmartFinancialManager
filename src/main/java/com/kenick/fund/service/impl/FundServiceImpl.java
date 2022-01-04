@@ -19,7 +19,7 @@ public class FundServiceImpl implements IFundService {
 
 	private final static Logger logger = LoggerFactory.getLogger(FundServiceImpl.class);
 
-	public static List<Fund> fundCacheList = Collections.synchronizedList(new ArrayList<>()); // 使用本地缓存
+	private List<Fund> fundCacheList = Collections.synchronizedList(new ArrayList<>()); // 使用本地缓存
 
 	@Autowired
 	private IFileStorageSV fileStorageService;
