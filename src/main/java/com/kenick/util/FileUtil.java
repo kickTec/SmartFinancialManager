@@ -38,11 +38,10 @@ public class FileUtil {
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     public static void main(String[] args) {
-        String filePath = "D:/tmp/history/600036/2021-07-21.txt";
-        List<String> dataList = getTextListFromFile(new File(filePath));
-        logger.debug("dataList:{}", dataList);
+        String filePath = "E:\\storage\\smf_storage\\smfConfig.properties";
+        String addFund = getPropertyByPath(filePath, "addbondSz");
+        logger.debug("addFund:{}", addFund);
     }
-
 
     public static void downloadFileConcurrent(final String url,final String localPatch) {
         fixedThreadPool.execute(new Runnable() {
@@ -108,6 +107,29 @@ public class FileUtil {
             logger.error("加载配置失败!", e);
         }
         return ret;
+    }
+
+    public static String getPropertyByPath(String location, String key) {
+        String property = null;
+        try {
+            FileSystemResource fileSystemResource = new FileSystemResource(location);
+            if(!fileSystemResource.exists()){
+                return null;
+            }
+
+            Properties properties = PropertiesLoaderUtils.loadProperties(new EncodedResource(fileSystemResource, "UTF-8"));
+            property = properties.getProperty(key);
+            if(StringUtils.isNotBlank(property) && property.contains("ENC(")){
+                String encryKey = System.getProperty("jasypt.encryptor.password");
+                if(StringUtils.isNotBlank(encryKey)){
+                    property = property.substring(4, property.length()-1);
+                    property = EncryUtil.decryptByJasypt(encryKey, property);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("加载配置失败!", e);
+        }
+        return property;
     }
 
     public static String getPropertyByEnv(String key) {

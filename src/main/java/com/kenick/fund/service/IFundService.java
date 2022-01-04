@@ -26,9 +26,29 @@ public interface IFundService {
 	 * @see [类、类#方法、类#成员]
 	 */
 	List<UserFund> findAllUserFundByCondition(UserFund userFundCondition);
-
+	
+	/**
+	 * <一句话功能简述> 获取展示理财信息
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2022/1/4
+	 */
     List<Fund> getShowFundList();
-
+	
+    /**
+	 * <一句话功能简述> 获取所有理财信息
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2022/1/4
+	 */
 	List<Fund> getAllFundList();
+
+	/**
+	 * <一句话功能简述> 热加载理财变动情况
+	 * <功能详细描述> 
+	 * author: zhanggw
+	 * 创建时间:  2022/1/4
+	 */
+	void loadFundChangeHot();
 
 }

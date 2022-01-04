@@ -82,26 +82,34 @@ public class TaskServiceImpl implements ITaskService {
 			updateThroughCache(now);
 			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
-            logger.debug("=======================================================================");
-			Runtime runtime = Runtime.getRuntime();
-			long memory_max = runtime.maxMemory();
-			long memory_total = runtime.totalMemory();
-			long memory_free = runtime.freeMemory();
-			logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
-					memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
-			logger.debug("=======================================================================");
-            logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
-			logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
-            logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
-            logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
-            logger.debug("=======================================================================");
+            // 热加载标的变动情况
+            fundService.loadFundChangeHot();
 
-		}catch (Exception e) {
+            // 打印应用统计数据
+            printAppStatic();
+
+        }catch (Exception e) {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
     }
 
-	@Scheduled(cron = "0 0/10 16 * * ?")
+    private void printAppStatic() {
+        logger.debug("=======================================================================");
+        Runtime runtime = Runtime.getRuntime();
+        long memory_max = runtime.maxMemory();
+        long memory_total = runtime.totalMemory();
+        long memory_free = runtime.freeMemory();
+        logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
+                memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
+        logger.debug("=======================================================================");
+        logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
+        logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
+        logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
+        logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
+        logger.debug("=======================================================================");
+    }
+
+    @Scheduled(cron = "0 0/10 16 * * ?")
 	public void fourClockTask(){
 		try{
 			logger.debug("fourClockTask.in!");
