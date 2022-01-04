@@ -131,9 +131,9 @@ public class TaskServiceImpl implements ITaskService {
 
 	private void updateThroughCache(Date now) {
 		int weekNum = DateUtils.getWeekNum(now);
-/*		if(weekNum == 6 || weekNum == 7){ // 周末跳过
+		if(weekNum == 6 || weekNum == 7){ // 周末跳过
 			return;
-		}*/
+		}
 
 		if(FundServiceImpl.fundCacheList == null || FundServiceImpl.fundCacheList.size()==0){
 			FundServiceImpl.fundCacheList = fileStorageService.getFundListFromFile();
