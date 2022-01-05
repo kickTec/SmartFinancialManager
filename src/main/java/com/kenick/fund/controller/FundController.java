@@ -6,6 +6,7 @@ import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFundService;
 import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,17 +60,32 @@ public class FundController {
             return HttpUtils.showException("fund_queryfundinfolist_exception","查询基金信息异常", e);
         }
     }
-    
+
     @RequestMapping("/queryuserfundlist")
     @ResponseBody
     public String queryUserFundList(@RequestParam(value = "data",required = false) String data){
         logger.debug("FundController.queryUserFundList in, param:{}",data);
         try{
             UserFund userFundCondition = null;
-            if(data != null){
+            if(StringUtils.isNotBlank(data)){
                 userFundCondition = JSON.parseObject(data, UserFund.class);
             }
             return HttpUtils.showSuccess(fundService.findAllUserFundByCondition(userFundCondition));
+        }catch (Exception e){
+            return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金信息异常", e);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/zipFundData")
+    public String zipFundData(@RequestParam(value = "data",required = false) String data){
+        logger.debug("FundController.zipFundData in, param:{}",data);
+        try{
+            JSONObject paramJson = JSON.parseObject(data);
+            Integer dayNum = paramJson.getInteger("dayNum"); // 最近多少天数据
+            String zipName = paramJson.getString("zipName"); // zip文件名
+            fundService.zipFundData(dayNum, zipName);
+            return HttpUtils.showSuccess();
         }catch (Exception e){
             return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金信息异常", e);
         }

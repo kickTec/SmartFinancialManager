@@ -6,6 +6,7 @@ import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.bean.GridCondition;
 import com.kenick.fund.service.IFileStorageSV;
+import com.kenick.fund.service.IFundService;
 import com.kenick.fund.service.IGridSV;
 import com.kenick.util.DateUtils;
 import com.kenick.util.FileUtil;
@@ -41,6 +42,9 @@ public class GridSVImpl implements IGridSV {
 
     @Autowired
     private IFileStorageSV fileStorageSV;
+
+    @Autowired
+    private IFundService fundService;
 
     public static void main(String[] args) {
     }
@@ -382,7 +386,7 @@ public class GridSVImpl implements IGridSV {
     private JSONObject gridRankSummary(int rankMode, int rankDayNum, double gridInterval, int tradeQuantity) {
         JSONObject retJson = new JSONObject();
         try{
-            List<Fund> fundList = fileStorageSV.getFundListFromFile();
+            List<Fund> fundList = fundService.getAllFundList();
             TreeMap<Double, JSONObject> rankMap = new TreeMap<>((o1, o2) -> -o1.compareTo(o2));
 
             for(Fund fund:fundList){

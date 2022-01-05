@@ -64,9 +64,6 @@ public class TaskServiceImpl implements ITaskService {
 	@Value("${smf.version}")
 	private String smfVersion;
 
-	@Value("${storage.home.path}")
-	private String storageHomePath;
-
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
 	 * <功能详细描述> 
@@ -131,9 +128,10 @@ public class TaskServiceImpl implements ITaskService {
 				}
 			}
 
-			// 每周5备份最近5天数据
+			// 每周五备份最近5天数据
 			if(weekNum == 5){
-				JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 5);
+				String storageHomePath = fileStorageService.getStorageHomePath();
+				JarUtil.compressFundStorage(storageHomePath + File.separator + "history", 5, null);
 			}
 
 		}catch (Exception e) {
@@ -266,7 +264,7 @@ public class TaskServiceImpl implements ITaskService {
 			}
 
             // 查询出所有基金股票
-			List<Fund> fundList = fileStorageService.getFundListFromFile();
+			List<Fund> fundList = fundService.getAllFundList();
 
             for(Fund fund:fundList){
                 perfectStockInfoNight(fund);

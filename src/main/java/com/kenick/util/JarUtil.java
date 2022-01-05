@@ -56,10 +56,14 @@ public class JarUtil {
         }
     }
 
-    public static void compressFundStorage(String targetDir, int timeoutDay){
+    public static void compressFundStorage(String targetDir, int timeoutDay, String zipName){
         try{
             File sourceFile = new File(targetDir);
-            String backupPath = sourceFile.getParentFile().getAbsolutePath() + File.separator + sourceFile.getName() + "_" + DateUtils.getNowDateStr("yyyy-MM-dd") + ".zip";
+            if(StringUtils.isBlank(zipName)){
+                zipName = sourceFile.getName() + "_" + DateUtils.getNowDateStr("yyyy-MM-dd") + ".zip";
+            }
+
+            String backupPath = sourceFile.getParentFile().getAbsolutePath() + File.separator + zipName;
             ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(backupPath));
             compressFund(sourceFile, sourceFile.getName(), zipOutputStream, timeoutDay);
             zipOutputStream.close();

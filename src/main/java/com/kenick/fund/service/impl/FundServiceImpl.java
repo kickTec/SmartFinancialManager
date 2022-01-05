@@ -5,11 +5,14 @@ import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFileStorageSV;
 import com.kenick.fund.service.IFundService;
 import com.kenick.user.bean.UserFund;
+import com.kenick.util.DateUtils;
 import com.kenick.util.FileUtil;
+import com.kenick.util.JarUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -88,6 +91,20 @@ public class FundServiceImpl implements IFundService {
 
         }catch (Exception e){
             logger.error("热加载理财标的变动异常!", e);
+        }
+    }
+
+    @Async
+    @Override
+    public void zipFundData(Integer dayNum, String zipName) {
+        try{
+            String storageHomePath = fileStorageService.getStorageHomePath();
+            if(StringUtils.isBlank(zipName)){
+                zipName = "zipFundData" + DateUtils.getNowDateStr("yyyyMMddHHmm") + ".zip";
+            }
+            JarUtil.compressFundStorage(storageHomePath + File.separator + "history", dayNum, zipName);
+        }catch (Exception e){
+            logger.error("压缩理财数据异常!", e);
         }
     }
 
