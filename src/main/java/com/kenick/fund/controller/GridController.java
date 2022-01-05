@@ -124,15 +124,26 @@ public class GridController {
     public String findOutGood(@RequestParam(value = "data",required = false) String data){
         logger.debug("GridController.findOutGood in, param:{}",data);
         try{
-            int findMode = 202; // 挑选模式 202 最近2周 203 最近3周
-            if(StringUtils.isNotBlank(data)){
+            int findMode = 202; // 挑选模式 202 最近2周 203 最近3周 204 最近4周
+            double gridInterval = 1.0;
+            int tradeQuantity = 10;
+            if(StringUtils.isNotBlank(data)) {
                 String[] dataArray = data.split(",");
-                if(dataArray.length > 0){
-                    findMode = Integer.parseInt(dataArray[0]);
+                for(int i=0; i < dataArray.length; i++){
+                    String arrayParam = dataArray[i];
+                    if(i == 0){
+                        findMode = Integer.parseInt(arrayParam);
+                    }
+                    if(i == 1){
+                        gridInterval = Double.parseDouble(arrayParam);
+                    }
+                    if(i == 2){
+                        gridInterval = Integer.parseInt(arrayParam);
+                    }
                 }
             }
 
-            JSONObject ret = gridSV.findOutGood(findMode);
+            JSONObject ret = gridSV.findOutGood(findMode, gridInterval, tradeQuantity);
             return ret.toJSONString();
         }catch (Exception e){
             logger.error("grid_findoutgood_exception", e);

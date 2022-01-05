@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -346,14 +347,14 @@ public class GridSVImpl implements IGridSV {
     }
 
     @Override
-    public JSONObject findOutGood(int findMode) throws Exception {
+    public JSONObject findOutGood(int findMode, double gridInterval, int tradeQuantity) throws Exception {
         JSONObject retJson = new JSONObject();
-        int rankModeMax = findMode - 100;
+        int rankModeMax = findMode - 100; // 104
         Map<String, JSONObject> goodFundCountMap = new HashMap<>();
         for(int rankMode=101; rankMode <= rankModeMax; rankMode++){
             int weekNum = rankMode - 100;
             logger.debug("开始回测最近第{}周数据!", weekNum);
-            JSONObject rankJson = gridRankSummary(rankMode, 5, 0.5, 10);
+            JSONObject rankJson = gridRankSummary(rankMode, 5, gridInterval, tradeQuantity);
             JSONArray goodList = rankJson.getJSONArray("goodList");
             logger.debug("回测最近第{}周数据:{}", weekNum, rankJson);
             if(goodList != null && goodList.size()>0){
@@ -378,9 +379,32 @@ public class GridSVImpl implements IGridSV {
             }
         }
 
+        goodFundCountMap = sortGoodFundByValue(goodFundCountMap);
         logger.debug("回测最近{}周排名前3数据:{}", findMode-200, goodFundCountMap);
+
         retJson.put("goodFundCountMap", goodFundCountMap);
+        retJson.put("gridInterval", gridInterval);
+        retJson.put("tradeQuantity", tradeQuantity);
         return retJson;
+    }
+
+    // map排序
+    public Map<String, JSONObject> sortGoodFundByValue(Map<String, JSONObject> oriMap) {
+        Map<String, JSONObject> sortedMap = new LinkedHashMap<>();
+        if (oriMap != null && !oriMap.isEmpty()) {
+            // 对Map.Entry进行排序
+            List<Map.Entry<String, JSONObject>> entryList = new ArrayList<>(oriMap.entrySet());
+            entryList.sort((entry1, entry2) -> entry2.getValue().getBigDecimal("gainMoney").compareTo(entry1.getValue().getBigDecimal("gainMoney")));
+
+            // 重新组装map数据
+            Iterator<Map.Entry<String, JSONObject>> iter = entryList.iterator();
+            Map.Entry<String, JSONObject> tmpEntry;
+            while (iter.hasNext()) {
+                tmpEntry = iter.next();
+                sortedMap.put(tmpEntry.getKey(), tmpEntry.getValue());
+            }
+        }
+        return sortedMap;
     }
 
     private JSONObject gridRankSummary(int rankMode, int rankDayNum, double gridInterval, int tradeQuantity) {
@@ -422,10 +446,19 @@ public class GridSVImpl implements IGridSV {
                 GridCondition gridCondition = null;
                 for(String fundRecordFile:fundRecordFileList){
                     curFile = fileStorageSV.getHistoryFileByName(fundCode, fundRecordFile);
-                    List<String> fundDayList = FileUtil.getTextListFromFile(curFile);
-                    JSONObject ret = gridBackGain(gridCondition, fundCode, gridInterval, tradeQuantity, fundDayList);
-                    gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
-                    fundDayList = null; // 待强制回收
+                    List<String> fundDayTempList = FileUtil.getTextListFromFile(curFile);
+                    if(fundDayTempList != null && fundDayTempList.size() > 0){
+                        JSONObject ret = gridBackGain(gridCondition, fundCode, gridInterval, tradeQuantity, fundDayTempList);
+                        gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
+
+                        // 不要去掉,jvm清理垃圾，空出内存
+                        FileUtil.printJVMInfo();
+                        fundDayTempList.clear();
+                        fundDayTempList = null; // 待强制回收
+                        System.gc();
+                        Thread.sleep(30);
+                        FileUtil.printJVMInfo();
+                    }
                 }
 
                 BigDecimal gainMoney = gridCondition.getGainMoney();
@@ -461,12 +494,7 @@ public class GridSVImpl implements IGridSV {
 
                 retJson.put("badList", badList);
                 retJson.put("goodList", goodList);
-                badList = null;
-                goodList = null;
             }
-
-            fundList = null;
-            rankMap = null;
         }catch (Exception e){
             logger.error("转债网格排行计算异常!", e);
         }
@@ -483,8 +511,8 @@ public class GridSVImpl implements IGridSV {
 
         List<String> fundDateList = Arrays.asList(Objects.requireNonNull(fundDir.list((dir, name) -> name.contains(fundCode))));
         int cycleNum = rankMode - 100;
-        int startDayNum = fundDateList.size() - 5*cycleNum;
-        int endDayNum = fundDateList.size() - 5*(cycleNum-1);
+        int startDayNum = fundDateList.size() - dayNum*cycleNum;
+        int endDayNum = fundDateList.size() - dayNum*(cycleNum-1);
         if(startDayNum >= 0){
             Collections.sort(fundDateList);
             fundDateList = fundDateList.subList(startDayNum, endDayNum);

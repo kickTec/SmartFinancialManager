@@ -9,6 +9,7 @@ import com.kenick.fund.service.IFundService;
 import com.kenick.fund.service.ITaskService;
 import com.kenick.util.BeanUtil;
 import com.kenick.util.DateUtils;
+import com.kenick.util.FileUtil;
 import com.kenick.util.HttpRequestUtils;
 import com.kenick.util.JarUtil;
 import com.kenick.util.SpringContextUtil;
@@ -91,14 +92,10 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     private void printAppStatic() {
-        logger.debug("=======================================================================");
-        Runtime runtime = Runtime.getRuntime();
-        long memory_max = runtime.maxMemory();
-        long memory_total = runtime.totalMemory();
-        long memory_free = runtime.freeMemory();
-        logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
-                memory_total/1024/1024, (memory_total-memory_free)/1024/1024,memory_free/1024/1024);
-        logger.debug("=======================================================================");
+
+		FileUtil.printJVMInfo();
+
+		logger.debug("=======================================================================");
         logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
         logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
         logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
@@ -106,7 +103,7 @@ public class TaskServiceImpl implements ITaskService {
         logger.debug("=======================================================================");
     }
 
-    @Scheduled(cron = "0 0/10 16 * * ?")
+	@Scheduled(cron = "0 0/10 16 * * ?")
 	public void fourClockTask(){
 		try{
 			logger.debug("fourClockTask.in!");
@@ -784,12 +781,7 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        map.put("a", "jim");
-        map.put("b", "tom");
-        System.out.println(map.size());
-        System.out.println(map.toString());
-        System.out.println(map.toString().getBytes().length);
+
     }
 
 }

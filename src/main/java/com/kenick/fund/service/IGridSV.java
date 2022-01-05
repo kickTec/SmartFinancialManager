@@ -15,6 +15,6 @@ public interface IGridSV {
 
     JSONObject findOutBad(int findMode) throws Exception;
 
-    JSONObject findOutGood(int findMode) throws Exception;
+    JSONObject findOutGood(int findMode, double gridInterval, int tradeQuantity) throws Exception;
 
 }
