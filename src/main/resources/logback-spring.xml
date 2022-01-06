@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!--不同环境日志路径和级别-->
+    <!--日志路径和级别-->
     <springProperty scope="context" name="LOG_HOME" source="log.custom.dir" defaultValue="/home/kenick/smartFinancial-manager/logs" />
     <springProperty scope="context" name="LOG_LEVEL" source="log.custom.level" defaultValue="DEBUG" />
 
@@ -10,12 +10,9 @@
         <encoder>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] (%file:%line\): %-5level %c - %msg %n</Pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>TRACE</level>
-        </filter>
     </appender>
 
-    <!--按日期文件输出-->
+    <!--按日期保存日志-->
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_HOME}/smartFinancialManager.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -28,47 +25,21 @@
         <encoder>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] (%file:%line\): %-5level %c - %msg %n</Pattern>
         </encoder>
-
-        <!-- 文件日志级别 -->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
     </appender>
-
-    <logger name="sun" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
-    <logger name="org" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
-    <logger name="java" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
-    <logger name="javax" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
-    <logger name="com.alibaba" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
-    <logger name="com.ulisesbocchio" level="ERROR">
-        <appender-ref ref="fileAppender" />
-    </logger>
 
     <!--应用local环境日志-->
     <springProfile name="local">
-        <root level="${LOG_LEVEL}">
+        <logger name="com.kenick" level="${LOG_LEVEL}">
             <appender-ref ref="consoleAppender" />
             <appender-ref ref="fileAppender" />
-        </root>
+        </logger>
     </springProfile>
 
     <!--应用cloud环境日志-->
-    <springProfile name="cloud">
-        <root level="${LOG_LEVEL}">
-            <appender-ref ref="fileAppender"/>
-        </root>
+    <springProfile name="dev,test,prod,cloud">
+        <logger name="com.kenick" level="${LOG_LEVEL}">
+            <appender-ref ref="fileAppender" />
+        </logger>
     </springProfile>
 
 </configuration>
