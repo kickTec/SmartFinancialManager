@@ -180,7 +180,7 @@ public class TaskServiceImpl implements ITaskService {
 			}else{
 				stockHistoryMap.put(fundCode, stockList);
 			}
-			Thread.sleep(30);
+			Thread.sleep(100);
 		}
 
 		// 完善基金信息
