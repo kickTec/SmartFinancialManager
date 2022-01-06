@@ -91,16 +91,16 @@ public class TaskServiceImpl implements ITaskService {
 		}
     }
 
-    private void printAppStatic() {
+    private void printAppStatic() throws Exception {
 
-		FileUtil.printJVMInfo();
+		FileUtil.printJVMInfo(logger);
 
-		logger.debug("=======================================================================");
-        logger.debug("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
-        logger.debug("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
-        logger.debug("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
-        logger.debug("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
-        logger.debug("=======================================================================");
+		logger.trace("=======================================================================");
+        logger.trace("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
+        logger.trace("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
+        logger.trace("上次记录值stockLastMap内容数量:{},大小:{}kb", stockLastMap.size(), stockLastMap.toString().getBytes().length/1024);
+        logger.trace("短信发送记录smsSendDateMap内容数量:{},大小:{}kb", smsSendDateMap.size(), smsSendDateMap.toString().getBytes().length/1024);
+        logger.trace("=======================================================================");
     }
 
 	@Scheduled(cron = "0 0/10 16 * * ?")
@@ -136,7 +136,7 @@ public class TaskServiceImpl implements ITaskService {
 		}
 	}
 
-	private void updateThroughCache(Date now) {
+	private void updateThroughCache(Date now) throws Exception{
 		int weekNum = DateUtils.getWeekNum(now);
 		if(weekNum == 6 || weekNum == 7){ // 周末跳过
 			return;
@@ -180,6 +180,7 @@ public class TaskServiceImpl implements ITaskService {
 			}else{
 				stockHistoryMap.put(fundCode, stockList);
 			}
+			Thread.sleep(30);
 		}
 
 		// 完善基金信息

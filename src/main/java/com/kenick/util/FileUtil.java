@@ -309,8 +309,20 @@ public class FileUtil {
         return false;
     }
 
-    public static void printJVMInfo() {
-
+    public static void printJVMInfo(Logger logger) throws Exception{
+        logger.debug("=======================================================================");
+        Runtime runtime = Runtime.getRuntime();
+        long memory_max = runtime.maxMemory();
+        long memory_total = runtime.totalMemory();
+        long memory_free = runtime.freeMemory();
+        long useMem = (memory_total - memory_free) / 1024 / 1024;
+        logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
+                memory_total/1024/1024, useMem, memory_free/1024/1024);
+        if(memory_free/1024/1024 < 50 && useMem > 100){ // 空闲内存小于50MB，使用内存大于100MB
+            logger.warn("可用内存不足50MB，开始进行垃圾清理！");
+            System.gc();
+            Thread.sleep(30);
+        }
     }
 
 }

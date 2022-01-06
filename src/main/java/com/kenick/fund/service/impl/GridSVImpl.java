@@ -452,12 +452,12 @@ public class GridSVImpl implements IGridSV {
                         gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
 
                         // 不要去掉,jvm清理垃圾，空出内存
-                        FileUtil.printJVMInfo();
+                        FileUtil.printJVMInfo(logger);
                         fundDayTempList.clear();
                         fundDayTempList = null; // 待强制回收
                         System.gc();
                         Thread.sleep(30);
-                        FileUtil.printJVMInfo();
+                        FileUtil.printJVMInfo(logger);
                     }
                 }
 
