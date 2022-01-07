@@ -311,17 +311,22 @@ public class FileUtil {
 
     public static void printJVMInfo(Logger logger) throws Exception{
         logger.debug("=======================================================================");
+        int freeMemMin = 90; // 最低内存要求
         Runtime runtime = Runtime.getRuntime();
-        long memory_max = runtime.maxMemory();
-        long memory_total = runtime.totalMemory();
-        long memory_free = runtime.freeMemory();
-        long useMem = (memory_total - memory_free) / 1024 / 1024;
-        logger.debug("最大可用内存:{} MB,预占总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memory_max/1024/1024,
-                memory_total/1024/1024, useMem, memory_free/1024/1024);
-        if(memory_free/1024/1024 < 50 && useMem > 100){ // 空闲内存小于50MB，使用内存大于100MB
-            logger.warn("可用内存不足50MB，开始进行垃圾清理！");
+        long memoryMax = runtime.maxMemory()/1024/1024;
+        long memoryJVM = runtime.totalMemory()/1024/1024; // jvm占用内存
+        long memoryFree = runtime.freeMemory()/1024/1024; // jvm空闲内存
+        long useMem = memoryJVM - memoryFree; // jvm使用内存
+        logger.debug("本地可用内存:{} MB,JVM总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memoryMax, memoryJVM, useMem, memoryFree);
+        if(memoryFree < freeMemMin && useMem > freeMemMin){ // 空闲内存小于最低内存要求，使用内存大于最低内存
             System.gc();
-            Thread.sleep(30);
+            Thread.sleep(100);
+
+            memoryJVM = runtime.totalMemory()/1024/1024; // jvm占用内存
+            memoryFree = runtime.freeMemory()/1024/1024; // jvm空闲内存
+            useMem = memoryJVM - memoryFree; // jvm使用内存
+            logger.debug("JVM可用内存不足{}MB，强制垃圾清理后，JVM总内存:{} MB,使用内存:{} MB,空闲内存:{} MB",
+                    freeMemMin, memoryJVM, useMem, memoryFree);
         }
     }
 

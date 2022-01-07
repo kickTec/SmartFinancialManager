@@ -64,6 +64,10 @@ public class JarUtil {
             }
 
             String backupPath = sourceFile.getParentFile().getAbsolutePath() + File.separator + zipName;
+            File backupZipFile = new File(backupPath);
+            if(backupZipFile.exists()){
+                return;
+            }
             ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(backupPath));
             compressFund(sourceFile, sourceFile.getName(), zipOutputStream, timeoutDay);
             zipOutputStream.close();
