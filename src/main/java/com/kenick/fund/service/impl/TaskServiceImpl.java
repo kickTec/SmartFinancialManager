@@ -43,8 +43,13 @@ import java.util.Map;
 public class TaskServiceImpl implements ITaskService {
 	private final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	private String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
+
+	// 新浪暂停接口
 	private String stockSzUrl = "http://hq.sinajs.cn/list=sz";
 	private String stockShUrl = "http://hq.sinajs.cn/list=sh";
+
+	private String tencentSzUrl = "https://qt.gtimg.cn/q=sz";
+	private String tenxentShUrl = "https://qt.gtimg.cn/q=sh";
 
 	private Map<String, List<String>> stockHistoryMap = new HashMap<>(); // 历史数据暂存map
 	private Map<String, Double> stockLastMap = new HashMap<>(); // 上次记录值
@@ -80,7 +85,7 @@ public class TaskServiceImpl implements ITaskService {
 			updateThroughCache(now);
 			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
 
-            // 热加载标的变动情况
+            // 热加载标的变动(新增或删除)
             fundService.loadFundChangeHot();
 
             // 打印应用统计数据
@@ -137,11 +142,8 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
 	private void updateThroughCache(Date now) throws Exception{
-		int weekNum = DateUtils.getWeekNum(now);
-		if(weekNum == 6 || weekNum == 7){ // 周末跳过
-			return;
-		}
 
+		// 获取所有基金或股票
 		List<Fund> allFundList = fundService.getAllFundList();
 		if(allFundList == null || allFundList.size()==0){
 			return;
@@ -172,7 +174,7 @@ public class TaskServiceImpl implements ITaskService {
 			String storeInfo = fund.getCurTime() + "," + currentValue;
 			stockList.add(storeInfo);
 
-			if(stockList.size() >= 10){
+			if(stockList.size() >= 1){
 				// 保存个股记录数据
 				asyncService.persistentStockInfo(now, fundCode, stockList);
 				stockList.clear();
@@ -236,7 +238,7 @@ public class TaskServiceImpl implements ITaskService {
 			// 获取股票信息
 			if(fundType != null && (fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK
 					||fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH || fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ)){
-				updateStockByHttp(fund, now);
+				updateStockByTencent(fund, now);
 			}
 
 			// 发送短信
@@ -432,7 +434,7 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
 	/**
-	 * <一句话功能简述> 
+	 * <一句话功能简述> 新浪股票api
 	 * <功能详细描述>
 	 *   var hq_str_sz000876="新 希 望,28.260,28.170,28.960,29.780,28.260,28.960,28.970,41558107,1210395218.230,2000,28.960,5700,28.950,1900,28.940,12100,28.930,1300,28.920,2400,28.970,5600,28.980,4600,28.990,4200,29.000,4100,29.010,2020-06-02,11:30:00,00";
 	 * author: zhanggw
@@ -523,6 +525,100 @@ public class TaskServiceImpl implements ITaskService {
 				// 清理
 				retArray = null;
                 retStr = null;
+			}
+		}catch (Exception e) {
+			logger.error("更新股票信息失败！", e);
+		}
+	}
+	
+	/**
+	 * <一句话功能简述> 腾讯接口
+	 * <功能详细描述> v_sh601881="1~中国银河~601881~10.33~10.10~10.10~253402~143310~110092~10.32~1281~10.31~199~10.30~393~10.29~861~10.28~115~10.33~864~10.34~1265~10.35~2530~10.36~9383~10.37~1934~~20220408155928~0.23~2.28~10.37~10.06~10.33/253402/259149394~253402~25915~0.39~10.04~~10.37~10.06~3.07~665.90~1047.18~1.25~11.11~9.09~1.00~-13127~10.23~10.04~10.04~~~1.09~25914.9394~0.0000~0~ ~GP-A~-7.69~3.09~2.13~10.54~1.88~11.76~9.14~1.57~5.30~-6.52~6446274375~10137258750~-69.73~5.52~6446274375~";
+	 * author: zhanggw
+	 * 创建时间:  2022/4/8
+	 */
+	private void updateStockByTencent(Fund fund, Date now) {
+		try{
+			if(fund == null || StringUtils.isBlank(fund.getFundCode())){
+				return;
+			}
+
+			String fundCode = fund.getFundCode();
+			Integer fundType = fund.getType();
+			Integer fundState = fund.getFundState();
+
+			// 股票类型
+			String url = tenxentShUrl + fundCode;
+			if(fundType == TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ){
+				url = tencentSzUrl + fundCode;
+			}
+
+			// 获取最新净值和涨幅
+			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
+			if(fundState != null && fundState == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
+				logger.debug("腾讯api {}最新数据为:{}", fund.getFundCode(), retStr);
+			}
+			if(StringUtils.isNotBlank(retStr)){
+				String[] retArray = retStr.split("=");
+				if(retArray.length < 2 || StringUtils.isBlank(retArray[1])){
+					logger.error("腾讯api{}最新数据异常:{}", fund.getFundCode(), retStr);
+					return;
+				}
+				retStr = retArray[1];
+				retStr = retStr.replace("\"","").replace(";","");
+				String[] stockInfoArray = retStr.split("~");
+				if(stockInfoArray.length < 10){
+					logger.error("腾讯api{}最新数据异常:{}", fund.getFundCode(), retStr);
+					return;
+				}
+				String fundName = stockInfoArray[1]; // 名称
+				String curNetValue = stockInfoArray[3]; // 当前价
+				String curPriceHighest = stockInfoArray[33]; // 当前最高价
+				String curPriceLowest = stockInfoArray[34]; // 当前最低价
+
+				Double curNetValueNum = Double.valueOf(curNetValue);
+				// fundName
+				fund.setFundName(fundName);
+				// curNetValue
+				fund.setCurNetValue(curNetValueNum);
+				// curPriceHighest
+				fund.setCurPriceHighest(Double.valueOf(curPriceHighest));
+				// curPriceLowest
+				fund.setCurPriceLowest(Double.valueOf(curPriceLowest));
+				// curTime
+				fund.setCurTime(stockInfoArray[30] + " " + stockInfoArray[30]);
+				fund.setModifyDate(now);
+
+				// 现在涨幅
+				BigDecimal curGainBd = BigDecimal.ZERO;
+				if(fund.getCurPriceLowest() != null && fund.getCurPriceLowest() > 0){
+					curGainBd = new BigDecimal(curNetValue).divide(new BigDecimal(fund.getCurPriceLowest()),4,BigDecimal.ROUND_HALF_UP)
+							.subtract(new BigDecimal(1.0)).multiply(new BigDecimal(100));
+				}
+
+				Double lastNetValue = fund.getLastNetValue();
+				// 现在涨幅重新计算
+				if(lastNetValue != null && lastNetValue != 0){
+					BigDecimal lastBd = new BigDecimal(lastNetValue);
+					BigDecimal nowBd = new BigDecimal(curNetValueNum);
+					curGainBd = nowBd.subtract(lastBd).multiply(new BigDecimal(100)).divide(lastBd, 2, BigDecimal.ROUND_HALF_UP);
+
+					if(fund.getLastGain() == null){
+						fund.setLastGain(0.0);
+					}
+				}
+
+				// curGain
+				fund.setCurGain(curGainBd.doubleValue());
+
+				// gainTotal
+				BigDecimal gainTotal = new BigDecimal(curGainBd.doubleValue() + fund.getLastGain());
+				gainTotal = gainTotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+				fund.setGainTotal(gainTotal);
+
+				// 清理
+				retArray = null;
+				retStr = null;
 			}
 		}catch (Exception e) {
 			logger.error("更新股票信息失败！", e);
