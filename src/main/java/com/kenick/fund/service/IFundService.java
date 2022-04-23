@@ -1,6 +1,7 @@
 package com.kenick.fund.service;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.kenick.fund.bean.Fund;
 import com.kenick.user.bean.UserFund;
 
@@ -60,5 +61,7 @@ public interface IFundService {
 	 * @param zipName 压缩文件夹名称
 	 */
 	void zipFundData(Integer dayNum, String zipName);
+
+    JSONArray getShowFundJsonArray();
 
 }

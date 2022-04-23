@@ -7,6 +7,7 @@
 	<title>Learn</title>
 </head>
 <body>
+    <!-- 慢加载脚本 -->
 	<script src="/jquery-3.3.1.slim.min.js"></script>
 	<script src="/popper.min.js"></script>
 	<script src="/bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
@@ -90,9 +91,9 @@
 							<th>
 								今日
 							</th>
-							<th>
+							<!--<th>
 								昨日
-							</th>
+							</th>-->
 							<th>
 								今波动
 							</th>
@@ -102,11 +103,13 @@
 						</tr>
 					</thead>
 					<tbody align="center">
+						<!--<tr th:each="entries,stat:${fundList}" th:style="'background-color: ' + ${entries['bgColor']} + ';'">-->
 						<tr th:each="entries,stat:${fundList}" >
-							<td th:utext="${entries['gainTotal']}"/>
-							<td th:utext="${entries['fundCode']} + '-' + ${entries['fundName']}"/>
+							<td th:utext="${entries['gainTotal']}" />
+							<!--<td th:utext="${entries['fundCode']} + '-' + ${entries['fundName']}"/>-->
+							<td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
 							<td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
-							<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
+							<!--<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>-->
 							<td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
 							<td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
 						</tr>

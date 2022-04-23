@@ -1,5 +1,7 @@
 package com.kenick.fund.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFileStorageSV;
@@ -8,6 +10,7 @@ import com.kenick.user.bean.UserFund;
 import com.kenick.util.DateUtils;
 import com.kenick.util.FileUtil;
 import com.kenick.util.JarUtil;
+import com.kenick.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +65,34 @@ public class FundServiceImpl implements IFundService {
 
 		return retList;
 	}
+
+    @Override
+    public JSONArray getShowFundJsonArray() {
+        JSONArray retArray = new JSONArray();
+        try{
+            if(fundCacheList == null || fundCacheList.size() == 0){
+                fundCacheList = fileStorageService.getFundListFromFile();
+            }
+            if(fundCacheList != null && fundCacheList.size() > 0){
+                for(Fund fund:fundCacheList){
+                    if(fund.getFundState() == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
+                        JSONObject fundJson = JsonUtils.bean2JSON(fund);
+                        if(fund.getGainTotal().compareTo(new BigDecimal(2.0)) >= 0 && fund.getCurGain() >= 1.0){
+                            fundJson.put("bgColor", "#E83132");
+                        }
+                        if(fund.getGainTotal().compareTo(new BigDecimal(-2.0)) <= 0 && fund.getCurGain() <= -1.0){
+                            fundJson.put("bgColor", "#009A04");
+                        }
+                        retArray.add(fundJson);
+                    }
+                }
+            }
+        }catch (Exception e){
+            logger.error("获取展示基金异常!", e);
+        }
+
+        return retArray;
+    }
 
 	@Override
 	public List<Fund> getAllFundList() {

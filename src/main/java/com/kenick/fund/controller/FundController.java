@@ -29,7 +29,7 @@ public class FundController {
     public String indexCache(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.indexCache in, param:{}",data);
         try{
-            model.addAttribute("fundList", fundService.getShowFundList());
+            model.addAttribute("fundList", fundService.getShowFundJsonArray());
         }catch (Exception e){
             logger.error("获取展示理财信息异常",e);
         }
