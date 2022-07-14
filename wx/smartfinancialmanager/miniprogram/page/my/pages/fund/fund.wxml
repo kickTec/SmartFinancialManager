@@ -1,6 +1,6 @@
 <!-- 基金 -->
 <!--<button bindtap="callKenickFunction">调用函数</button>-->
-<block wx:for="{{fundList}}">
+<block wx:for="{{fundList}}" wx:key="fundCode">
     <view class="item" bindtap="seePerson" id="{{item.fundCode}}">
         <view class="intro">
             <view class="position">

@@ -11,6 +11,7 @@ Page({
   },
 
   onLoad() {
+    console.log("openid:", app.globalData.openid)
     this.setData({
       openid: app.globalData.openid
     })
@@ -82,7 +83,8 @@ Page({
           openid,
           loading: false,
           hasLogin: true
-        })
+        });
+        console.log("openid:", openid);
         app.globalData.openid = openid
         app.globalData.hasLogin = true
         that.loadFund()

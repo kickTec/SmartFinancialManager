@@ -8,7 +8,8 @@ Page({
   },
 
   onLoad() {
-    const that = this
+    const that = this;
+    console.log("onLoad.in");
     that.loadFund()
   },
 
