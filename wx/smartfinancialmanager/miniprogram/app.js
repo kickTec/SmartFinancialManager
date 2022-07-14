@@ -2,8 +2,8 @@ const config = require('./config')
 
 global.isDemo = true
 App({
+
   onLaunch(opts) {
-    console.log('App Launch', opts)
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -13,16 +13,20 @@ App({
       })
     }
   },
+
   onShow(opts) {
     console.log('App Show', opts)
   },
+
   onHide() {
     console.log('App Hide')
   },
+
   globalData: {
     hasLogin: false,
     openid: null
   },
+
   // lazy loading openid
   getUserOpenId(callback) {
     const self = this
@@ -55,6 +59,7 @@ App({
       })
     }
   },
+
   // 通过云函数获取用户 openid，支持回调或 Promise
   getUserOpenIdViaCloud() {
     return wx.cloud.callFunction({
@@ -65,4 +70,5 @@ App({
       return res.result.openid
     })
   }
+
 })

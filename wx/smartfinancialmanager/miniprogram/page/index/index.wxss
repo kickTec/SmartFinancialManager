@@ -1,3 +1,4 @@
+/* page/index/index.wxss */
 .item {
     display: flex;
     flex-direction: row;

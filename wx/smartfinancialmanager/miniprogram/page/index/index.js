@@ -9,7 +9,6 @@ Page({
 
   onLoad() {
     const that = this;
-    console.log("onLoad.in");
     that.loadFund()
   },
 
@@ -24,9 +23,7 @@ Page({
         }
       }
     }).then(res => {
-      console.log('res.result:', res.result)
       const response = JSON.parse(res.result)
-      console.log('response:', response)
       if (response !== null && response.flag === true) {
         that.setData({
           fundList: response.data
