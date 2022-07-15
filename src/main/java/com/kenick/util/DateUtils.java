@@ -558,7 +558,7 @@ public class DateUtils
    }  
    
    public static void main(String[] args) {
-		System.out.println(DateUtils.getWeekNum(new Date()));
+		System.out.println(DateUtils.getMonthNum(new Date()));
    }
 
 	// 每隔intervalSecond秒循环一次，判断是否正是第minute倍数分钟
@@ -617,6 +617,12 @@ public class DateUtils
 		calendar.setTime(date);
 		int weekNum = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 		return weekNum == 0 ? 7 : weekNum;
+	}
+
+	public static int getMonthNum(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
 }

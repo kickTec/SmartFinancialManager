@@ -1,12 +1,10 @@
 package com.kenick.fund.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFundService;
-import com.kenick.user.bean.UserFund;
 import com.kenick.util.HttpUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +50,8 @@ public class FundController {
     public String queryFundInfoList(@RequestParam(value = "data",required = false) String data){
         logger.debug("FundController.queryFundInfoList in, param:{}",data);
         try{
-            JSONObject reqJson = JSON.parseObject(data);
-            String orderBy = reqJson.getString("orderBy");
-            Fund fundCondition = JSON.parseObject(data, Fund.class);
-            return HttpUtils.showSuccess(fundService.findAllFundByCondition(fundCondition, orderBy));
+            JSONArray showFundJsonArray = fundService.getShowFundJsonArray();
+            return HttpUtils.showSuccess(showFundJsonArray);
         }catch (Exception e){
             return HttpUtils.showException("fund_queryfundinfolist_exception","查询基金信息异常", e);
         }
@@ -66,11 +62,8 @@ public class FundController {
     public String queryUserFundList(@RequestParam(value = "data",required = false) String data){
         logger.debug("FundController.queryUserFundList in, param:{}",data);
         try{
-            UserFund userFundCondition = null;
-            if(StringUtils.isNotBlank(data)){
-                userFundCondition = JSON.parseObject(data, UserFund.class);
-            }
-            return HttpUtils.showSuccess(fundService.findAllUserFundByCondition(userFundCondition));
+            JSONArray showFundJsonArray = fundService.getShowFundJsonArray();
+            return HttpUtils.showSuccess(showFundJsonArray);
         }catch (Exception e){
             return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金信息异常", e);
         }
