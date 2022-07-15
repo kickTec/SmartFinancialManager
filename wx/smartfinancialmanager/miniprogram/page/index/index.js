@@ -2,14 +2,21 @@
 const app = getApp()
 Page({
   data: {
-    ets: [],
-    fundList: [],
-    baseUrl: app.globalData.baseUrl
+    fundList: []
   },
 
   onLoad() {
-    const that = this;
-    that.loadFund()
+    let openid = wx.getStorageSync("openid");
+
+    if (!openid){
+      console.log("未登录,openid is null");
+      wx.navigateTo({
+        url: '/page/login/login',
+      })
+    }else{
+      console.log("已登录,openid:", openid);
+      this.loadFund()
+    }
   },
 
   loadFund() {
@@ -52,36 +59,11 @@ Page({
     }, 500)
   },
 
-  seePerson(e) {
-    if (e.currentTarget.id !== '') {
-      wx.navigateTo({
-        url: '../detailjiemu/detailjiemu?id=' + e.currentTarget.id
-      })
-      console.log(e)
-    } else {
-      console.log('无内容')
-    }
-  },
-
   onShareAppMessage() {
     return {
-      title: '基金-无忧石金',
-      path: 'page/my/pages/fund/fund'
+      title: '无忧石金',
+      path: 'page/index/index'
     }
-  },
-
-  callKenickFunction() {
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryfundinfolist',
-        paramJson: {
-          data: '123'
-        }
-      }
-    }).then(res => {
-      console.log('result:', res.result)
-      return 1
-    }).catch(error => { console.log('error', error) })
   }
+
 })
