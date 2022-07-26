@@ -1,0 +1,12 @@
+/* page/login/login.wxss */
+
+.wxLogo {  
+    width: 300rpx;
+}
+
+.btn-area {  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}

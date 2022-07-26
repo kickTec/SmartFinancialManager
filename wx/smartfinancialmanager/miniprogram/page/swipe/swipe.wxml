@@ -1,0 +1,12 @@
+<!--page/swipe/swipe.wxml-->
+<view class="top-slides-box" style="margin-top: -{{80 + (44 - statusBar)*2}}rpx">
+  <view class="swiper">
+    <swiper class="swiper-box" indicator-dots="true" current="{{current}}" autoplay="true" interval="5000" duration="500" circular="true" indicator-color="#fdfdfd" indicator-active-color="#ed4861" style="height:{{imgheights[0] - 5}}px;">
+      <block wx:for="{{topAdData}}" wx:for-index="idx" wx:key="idx">
+        <swiper-item class="swiper-item" data-item="{{item}}" data-index="{{idx}}" bindtap="onSlideClick">
+          <image class="img" src="{{item.picturePath}}" mode='widthFix' bindload="imageLoad"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>

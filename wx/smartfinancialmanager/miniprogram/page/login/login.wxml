@@ -1,0 +1,9 @@
+<!--page/login/login.wxml-->
+<block wx:if="{{!openid}}">
+    <view class="btn-area">
+      <image src="/image/icon64_appwx_logo.png" mode="aspectFit" class="wxLogo"></image>
+    </view>
+    <view class="btn-area">
+      <button type="primary" bindtap="onGetOpenid" loading="{{loading}}">微信授权登陆</button>
+    </view>
+</block>

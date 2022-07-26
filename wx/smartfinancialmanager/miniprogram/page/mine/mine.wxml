@@ -7,3 +7,5 @@
     <text>{{openid}}</text>
   </view>
 </block>
+
+<view><button bindtap="previewImage">previewImage</button></view>

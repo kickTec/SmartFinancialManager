@@ -1,0 +1,46 @@
+/* page/location_search/location_search.wxss */
+
+.mainText {
+  font-size: 40rpx;
+}
+
+.item-inner {
+  line-height: 120rpx;
+  height: 120rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  padding: 0 28rpx;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  background-color: #ffffff;
+  padding-left: 20rpx;
+  text-align: center
+}
+
+.item-inner view:last-child {
+  text-align: right;
+  font-size: 32rpx;
+  flex: 1;
+  margin-left: 50rpx;
+  color: #666 !important;
+}
+
+.inputEle {
+  width: 200rpx;
+  margin-left: 5rpx;
+}
+
+.operate{
+  margin: auto;
+  font-size: 25rpx;
+  width: 50rpx;
+  height: 60rpx;
+}
+
+.minus{
+  margin-left: 200rpx;
+}
+
+.head{
+  margin-left:30rpx;
+}

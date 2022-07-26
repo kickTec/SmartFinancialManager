@@ -1,0 +1,18 @@
+/* page/swipe/swipe.wxss */
+.top-slides-box {
+  position: relative;
+  width: 100%;
+  margin-top: -80rpx;
+}
+
+.top-slides-box .swiper {
+  width: 100%;
+}
+
+.top-slides-box swiper {
+  min-height: 250px;
+}
+
+.top-slides-box .swiper .img {
+  width: 100%;
+}

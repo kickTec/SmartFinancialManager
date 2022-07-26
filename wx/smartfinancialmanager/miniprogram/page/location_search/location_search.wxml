@@ -1,0 +1,23 @@
+<!--page/location_search/location_search.wxml-->
+
+<view>
+  <view>
+    <view class="item-inner">
+      <text class="mainText head">经度</text>
+      <button class='mainText operate minus' bindtap='operate' data-optype="jd-">-</button>
+      <input class="mainText inputEle" value='{{longitude}}' bindblur='jdBlur' />
+      <button class="mainText operate" bindtap='operate' data-optype="jd+">+</button>
+    </view>
+    <view class="item-inner">
+      <text class="mainText head">纬度</text>
+      <button class="mainText operate minus" bindtap='operate' data-optype="wd-">-</button>
+      <input class="mainText inputEle" value='{{latitude}}' bindblur='wdBlur' />
+      <button class="mainText operate" bindtap='operate' data-optype="wd+">+</button>
+    </view>
+  </view>
+
+  <view>
+    <map longitude="{{longitude}}" latitude="{{latitude}}"></map>
+  </view>
+
+</view>
