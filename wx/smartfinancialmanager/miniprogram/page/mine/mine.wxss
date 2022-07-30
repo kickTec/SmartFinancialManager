@@ -1,8 +1,14 @@
 
 .btn{
-  width: 480rpx;
+  width: 400rpx;
+  font-size: 36rpx;
 }
 
 .textCl{
   text-align: center;
+}
+
+.copyBtn{
+  width: 110rpx;
+  font-size: 20rpx;
 }

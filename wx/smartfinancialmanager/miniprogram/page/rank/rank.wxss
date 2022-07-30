@@ -29,18 +29,18 @@
     margin: 10rpx 0 10rpx 10rpx;
 }
 
-.intro {
+.info-left {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
     width: 100%;
 }
 
-.introing {
+.info-right {
     display: flex;
     flex-direction: column;
-    flex: right;
-    margin-right: 30rpx;
+    margin-left: 80px;
+    width: 100%;
 }
 
 .position {
@@ -50,9 +50,8 @@
     font-weight: bold;
 }
 
-.jiaqian {
+.gainTotal {
     font-size: 28rpx;
-    color: red;
     margin-top: 20rpx;
 }
 
@@ -62,18 +61,46 @@
     margin-top: 20rpx;
 }
 
-.dizhi {
+.lastGain {
     font-size: 25rpx;
     margin-top: 20rpx;
 }
 
-.but {
+.buyBtn {
     position: absolute;
     font-size: 25rpx;
     margin-left: 620rpx;
     margin-top: 55rpx;
     border: red;
     color: red;
+}
+
+.buyText {
+    font-size: 28rpx;
+    margin-top: 20rpx;
+    border: red;
+    color: red;
+}
+
+.sellBtn {
+    position: absolute;
+    font-size: 25rpx;
+    margin-left: 590rpx;
+    margin-top: 55rpx;
+    border: green;
+    color: green;
+}
+
+.sellText {
+    font-size: 25rpx;
+    margin-top: 20rpx;
+    border: green;
+    color: green;
+}
+
+.curGain {
+    font-size: 25rpx;
+    margin-top: 20rpx;
 }
 
 .rendu {

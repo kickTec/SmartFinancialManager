@@ -13,11 +13,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    /*
-    wx.navigateTo({
-      url: '/page/swipe/swipe',
-    })
-    */
   },
 
   jdBlur: function(options){
@@ -57,7 +52,7 @@ Page({
   // 用户点击右上角 分享给好友
   onShareAppMessage: function () {
     let path = `page/location_search/location_search`;
-    let title = "无忧石金"
+    let title = ""
     return {
       title: title,
       path: path

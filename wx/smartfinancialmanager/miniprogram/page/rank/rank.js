@@ -1,26 +1,32 @@
 // 获取应用实例
-const app = getApp()
 Page({
   data: {
     ets: [],
-    fundList: [],
-    baseUrl: app.globalData.baseUrl,
-    openid: app.globalData.openid,
-    hasLogin: app.globalData.hasLogin,
-    loading: false
+    fundList: []
   },
 
   onLoad() {
-    this.setData({
-      openid: app.globalData.openid
-    })
-    if (app.globalData.hasLogin) {
-      this.loadFund()
+    let fundResponse = wx.getStorageSync("fundResponse");
+    let needQuery = false;
+    if (fundResponse){
+      if (Date.now() - fundResponse.queryTimeStamp < 1000*60*10){
+        this.setData({
+          fundList: fundResponse.data
+        })
+      }else{
+        needQuery = true;
+      }
+    }else{
+      needQuery = true;
+    }
+
+    if(needQuery){
+      this.loadFund();
     }
   },
 
   loadFund() {
-    const that = this
+    const that = this;
     wx.cloud.callFunction({
       name: 'httpkenick',
       data: {
@@ -30,8 +36,13 @@ Page({
         }
       }
     }).then(res => {
-      const response = JSON.parse(res.result)
-      console.log('response:', response)
+      const response = JSON.parse(res.result);
+      response.queryTimeStamp = Date.now();
+      console.log(response);
+      wx.setStorage({
+        key: 'fundResponse',
+        data: response
+      });
       if (response !== null && response.flag === true) {
         that.setData({
           fundList: response.data
@@ -42,22 +53,21 @@ Page({
           icon: 'success',
           duration: 500
         })
-        console.log('服务器连接异常')
       }
       return 1
-    }).catch(error => { console.log('error', error) })
+    }).catch(error => { 
+      wx.showToast({
+        title: '服务器连接异常',
+        icon: 'success',
+        duration: 500
+      });
+      console.log('error', error);
+    })
   },
 
   // 下拉刷新
   onPullDownRefresh() {
-    const that = this
-    wx.showNavigationBarLoading()
 
-    setTimeout(() => {
-      that.loadFund()
-      wx.hideNavigationBarLoading()
-      wx.stopPullDownRefresh()
-    }, 2000)
   },
 
   seePerson(e) {
@@ -71,25 +81,19 @@ Page({
     }
   },
 
-  onGetOpenid() {
-    const that = this
-    this.setData({
-      loading: true
-    })
-    app.getUserOpenIdViaCloud()
-      .then(openid => {
-        this.setData({
-          openid,
-          loading: false,
-          hasLogin: true
-        })
-        app.globalData.openid = openid
-        app.globalData.hasLogin = true
-        that.loadFund()
-        return openid
-      })
-      .catch(err => {
-        console.error(err)
-      })
+  // 用户点击右上角 分享给好友
+  onShareAppMessage: function () {
+    let path = `/page/rank/rank`;
+    let title = '';
+    return {
+      title: title,
+      path: path
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function () {
+
   }
+
 })

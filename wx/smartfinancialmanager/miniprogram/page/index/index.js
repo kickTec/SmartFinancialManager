@@ -58,7 +58,7 @@ Page({
   // 用户点击右上角 分享给好友
   onShareAppMessage: function () {
     let path = `/page/index/index`;
-    let title = '无忧石金';
+    let title = '';
     return {
       title: title,
       path: path

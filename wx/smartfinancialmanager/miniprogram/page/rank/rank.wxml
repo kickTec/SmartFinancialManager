@@ -1,39 +1,37 @@
-<!-- 排行 -->
-<!--
-<view class="head">
-    <view class="head_item">分类</view>
-    <view class="ring"></view>
-    <view class="head_item">价格</view>
-</view>
--->
-
-<block wx:if="{{!openid}}">
-    <view class="btn-area">
-        <button type="primary" bindtap="onGetOpenid" loading="{{loading}}">微信授权登陆</button>
-    </view>
-</block>
-<block wx:else>
-    <block wx:for="{{fundList}}">
-        <view class="item" bindtap="seePerson" id="{{item.fundCode}}">
-            <view class="intro">
-                <view class="position">
-                    {{item.fundName}}
-                </view>
-                <view class="jiaqian">
-                    近2日涨幅:  {{item.gainTotal}}%
-                </view>
-                <view class="address">
-                    昨日净值:  {{item.lastNetValue}}
-                </view>
-                <view class="dizhi">
-                    昨日涨幅:  {{item.lastGain}}%
-                </view>
+<wxs src="../../util/tools.wxs" module="tools" />
+<block wx:for="{{fundList}}" wx:key="fundCode">
+    <view class="item" bindtap="seePerson" id="{{item.fundName}}">
+        <view class="info-left">
+            <view class="position">
+                {{item.fundName}}
             </view>
-            <button class='but'>火爆</button>
-            <view class='rendu'>
-                预估涨幅：  {{item.curGain}}%
+            <view class="gainTotal" style="color:{{tools.getColorByGain(item.gainTotal)}}">
+                近2日涨幅:  {{item.gainTotal}}%
+            </view>
+            <view class="address">
+                昨日净值:  {{item.lastNetValue}}
+            </view>
+            <view class="lastGain" style="color:{{tools.getColorByGain(item.lastGain)}}">
+                昨日涨幅:  {{item.lastGain}}%
             </view>
         </view>
-        <view class="hr" />
-    </block>
+
+        <view class="info-right">
+            <view class="position">
+              <text decode="true">&ensp;&ensp;</text>
+            </view>
+            <view>
+              <text class="buyText" wx:if="{{item.gainTotal<-2}}">建议买入</text>
+              <text class="sellText" wx:if="{{item.gainTotal>3}}">建议卖出</text>    
+            </view>
+            <view class='curGain'>
+                预估涨幅：  {{item.curGain}}%
+            </view>
+            <view class="lastGain" style="color:{{tools.getColorByGain(item.lastGain)}}">
+                今日净值:  {{item.curNetValue}}
+            </view>
+        </view>
+
+    </view>
+    <view class="hr" />
 </block>

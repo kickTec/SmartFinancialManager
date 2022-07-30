@@ -4,10 +4,9 @@
     <button class="btn" bindtap="queryOpenId" type="primary">查询我的微信openid</button>
   </view>
   <view class="textCl">
-    <text>{{openid}}</text>
+    <text style="text-align:center" bindtap='copyText'>{{openid?openid:'查询成功5秒后将自动清除'}}</text>
   </view>
   <view class="textCl">
     <text>版本:{{version}}</text>
   </view>
 </block>
-
