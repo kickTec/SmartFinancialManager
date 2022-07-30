@@ -1,11 +1,13 @@
 <!-- 我的 -->
 <block>
   <view>
-    <text>欢迎您登录！</text>
+    <button class="btn" bindtap="queryOpenId" type="primary">查询我的微信openid</button>
   </view>
-  <view>
+  <view class="textCl">
     <text>{{openid}}</text>
+  </view>
+  <view class="textCl">
+    <text>版本:{{version}}</text>
   </view>
 </block>
 
-<view><button bindtap="previewImage">previewImage</button></view>

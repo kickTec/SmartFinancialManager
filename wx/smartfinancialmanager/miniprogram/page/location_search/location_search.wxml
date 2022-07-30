@@ -4,20 +4,20 @@
   <view>
     <view class="item-inner">
       <text class="mainText head">经度</text>
-      <button class='mainText operate minus' bindtap='operate' data-optype="jd-">-</button>
+      <button class='mainText operate minus' bindtap='operate' data-optype="jd-" style="width:100rpx;font-size:35rpx !important;">-</button>
       <input class="mainText inputEle" value='{{longitude}}' bindblur='jdBlur' />
-      <button class="mainText operate" bindtap='operate' data-optype="jd+">+</button>
+      <button class="mainText operate" bindtap='operate' data-optype="jd+" style="width:100rpx;font-size:35rpx !important;">+</button>
     </view>
     <view class="item-inner">
       <text class="mainText head">纬度</text>
-      <button class="mainText operate minus" bindtap='operate' data-optype="wd-">-</button>
+      <button class="mainText operate minus" bindtap='operate' data-optype="wd-" style="width:100rpx;font-size:35rpx !important;">-</button>
       <input class="mainText inputEle" value='{{latitude}}' bindblur='wdBlur' />
-      <button class="mainText operate" bindtap='operate' data-optype="wd+">+</button>
+      <button class="mainText operate" bindtap='operate' data-optype="wd+" style="width:100rpx;font-size:35rpx !important;">+</button>
     </view>
   </view>
 
   <view>
-    <map longitude="{{longitude}}" latitude="{{latitude}}"></map>
+    <map class="mapClass" longitude="{{longitude}}" latitude="{{latitude}}"></map>
   </view>
 
 </view>

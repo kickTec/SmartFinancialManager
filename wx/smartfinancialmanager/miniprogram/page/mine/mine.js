@@ -4,38 +4,44 @@ const app = getApp()
 Page({
 
   data: {
-    openid:"",
-    current: 0, //当前的轮播图ID，设置为0，不然第一张图片的高度会加载不出来
-    topAdData: null, //轮播广告
+    openid:"查询成功5秒后将自动清除",
+    version:"1.0.5"
   },
 
   onLoad() {
-    let openid = wx.getStorageSync("openid");
 
-    if (!openid) {
-      wx.navigateTo({
-        url: '/page/login/login',
+  },
+
+  queryOpenId(){
+    let that = this;
+    app.getUserOpenIdViaCloud()
+      .then(openid => {
+        that.setData({
+          openid: openid
+        });
+      }).catch(err => {
+        console.error(err)
       })
-    }else{
-      console.log("已登录,openid:", openid)
-      this.setData({
-        openid: openid
-      })
+    setTimeout(()=>{
+      that.setData({
+        openid: "查询成功5秒后将自动清除!"
+      });
+    },5000);  
+  },
+
+  // 用户点击右上角 分享给好友
+  onShareAppMessage: function () {
+    let path = `page/mine/mine`;
+    let title = "无忧石金"
+    return {
+      title: title,
+      path: path
     }
   },
 
-  previewImage(){
-    wx.previewImage({
-      current: 'https://img1.gtimg.com/10/1048/104857/10485726_980x1200_0.jpg',
-      urls: [ // 所有图片的 URL 列表，数组格式
-        'https://img1.gtimg.com/10/1048/104857/10485731_980x1200_0.jpg',
-        'https://img1.gtimg.com/10/1048/104857/10485726_980x1200_0.jpg',
-        'https://img1.gtimg.com/10/1048/104857/10485729_980x1200_0.jpg'
-      ],
-      success: function (res) {
-        console.log(res)
-      }
-    })
+  // 分享到朋友圈
+  onShareTimeline: function () {
+
   }
 
 })

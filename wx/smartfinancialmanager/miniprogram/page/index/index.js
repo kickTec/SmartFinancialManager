@@ -1,69 +1,73 @@
 // 获取应用实例
-const app = getApp()
+var app = getApp();
+
 Page({
+
   data: {
-    fundList: []
+    dataArray: ['日复利', '年复利'],
+    cycleArray: ['周期-天', '周期-年'],
+    index: 0,
+    finalMoney: '',
+    initMoney: 10000,
+    rate: 2,
+    cycle: 365
   },
 
-  onLoad() {
-    let openid = wx.getStorageSync("openid");
-
-    if (!openid){
-      console.log("未登录,openid is null");
-      wx.navigateTo({
-        url: '/page/login/login',
-      })
-    }else{
-      console.log("已登录,openid:", openid);
-      this.loadFund()
+  bindViewEvent(data) {
+    let indexValue = parseInt(data.detail.value);
+    if (indexValue == 1) {
+      this.setData({
+        cycle: 1
+      });
     }
+    this.setData({
+      index: indexValue
+    });
   },
 
-  loadFund() {
-    const that = this
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryfundinfolist',
-        paramJson: {
-          data: '{"orderBy":"fund_code"}'
-        }
+  formSubmit(e) {
+    let type = parseInt(e.detail.value.type);
+    let initMoney = parseFloat(e.detail.value.initMoney);
+    let rate = parseFloat(e.detail.value.rate);
+    let cycle = parseInt(e.detail.value.cycle);
+    let finalMoney = this.calcCycleMoney(type, initMoney, rate, cycle);
+    this.setData({
+      "finalMoney": finalMoney
+    });
+  },
+
+  calcCycleMoney(type, initMoney, rate, cycle) {
+    let finalMoney = initMoney;
+    if (type == 0) {
+      for (let i = 0; i < cycle; i++) {
+        let gain = (initMoney * rate * 0.01) / 365;
+        finalMoney = initMoney + gain;
+        initMoney = finalMoney;
       }
-    }).then(res => {
-      const response = JSON.parse(res.result)
-      if (response !== null && response.flag === true) {
-        that.setData({
-          fundList: response.data
-        })
-      } else {
-        wx.showToast({
-          title: '网络繁忙',
-          icon: 'success',
-          duration: 1000
-        })
-        console.log('服务器连接异常')
+    } else if (type == 1) {
+      for (let i = 0; i < cycle; i++) {
+        let gain = initMoney * rate * 0.01;
+        finalMoney = initMoney + gain;
+        initMoney = finalMoney;
       }
-      return 1
-    }).catch(error => { console.log('error', error) })
+    }
+
+    return finalMoney.toFixed(2);
   },
 
-  // 下拉刷新
-  onPullDownRefresh() {
-    const that = this
-    wx.showNavigationBarLoading()
-
-    setTimeout(() => {
-      that.loadFund()
-      wx.hideNavigationBarLoading()
-      wx.stopPullDownRefresh()
-    }, 500)
-  },
-
-  onShareAppMessage() {
+  // 用户点击右上角 分享给好友
+  onShareAppMessage: function () {
+    let path = `/page/index/index`;
+    let title = '无忧石金';
     return {
-      title: '无忧石金',
-      path: 'page/index/index'
+      title: title,
+      path: path
     }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline: function () {
+
   }
 
 })

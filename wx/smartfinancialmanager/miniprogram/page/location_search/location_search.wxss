@@ -26,21 +26,18 @@
 }
 
 .inputEle {
-  width: 200rpx;
-  margin-left: 5rpx;
-}
-
-.operate{
-  margin: auto;
-  font-size: 25rpx;
-  width: 50rpx;
-  height: 60rpx;
-}
-
-.minus{
-  margin-left: 200rpx;
+  width: 220rpx;
 }
 
 .head{
-  margin-left:30rpx;
+  width: 100rpx;
+}
+
+.mapClass{
+  width: 100%;
+  height: 800rpx;
+}
+
+.minus{
+    margin-left: 50rpx;
 }
