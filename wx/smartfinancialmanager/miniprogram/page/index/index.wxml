@@ -1,6 +1,6 @@
 <!--page/index/index.wxml-->
 <view>
-  <form catchsubmit="formSubmit" catchreset="formReset">
+  <form catchsubmit="formSubmit">
     <view>
       <picker bindchange="bindViewEvent" name="type" value="{{index}}" data-index="{{index}}" range="{{dataArray}}">
         <view class="item-inner">

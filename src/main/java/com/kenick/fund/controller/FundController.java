@@ -84,4 +84,36 @@ public class FundController {
         }
     }
 
+    @RequestMapping("/queryDetail")
+    @ResponseBody
+    public String queryDetail(@RequestParam(value = "data",required = false) String data){
+        logger.debug("FundController.queryDetail in, param:{}",data);
+        try{
+            long startTime = System.currentTimeMillis();
+            JSONObject paramJson = JSON.parseObject(data);
+            JSONObject detail = fundService.queryDetail(paramJson.getString("fundCode"));
+            logger.debug("queryDetail花费时间:{}", System.currentTimeMillis()-startTime);
+            return HttpUtils.showSuccess(detail);
+        }catch (Exception e){
+            logger.error("queryDetail异常",e);
+        }
+        return HttpUtils.showSuccess();
+    }
+
+    @RequestMapping("/generateDayList")
+    @ResponseBody
+    public String generateDayList(@RequestParam(value = "data",required = false) String data){
+        logger.debug("FundController.generateDayList in, param:{}",data);
+        try{
+            long startTime = System.currentTimeMillis();
+            JSONObject paramJson = JSON.parseObject(data);
+            JSONObject detail = fundService.generateDayList(paramJson.getString("fundCode"));
+            logger.debug("generateDayList花费时间:{}", System.currentTimeMillis()-startTime);
+            return HttpUtils.showSuccess(detail);
+        }catch (Exception e){
+            logger.error("generateDayList异常",e);
+        }
+        return HttpUtils.showSuccess();
+    }
+
 }

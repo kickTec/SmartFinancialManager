@@ -13,6 +13,10 @@ Page({
     cycle: 365
   },
 
+  onLoad: function (options) {
+    
+  },
+
   bindViewEvent(data) {
     let indexValue = parseInt(data.detail.value);
     if (indexValue == 1) {

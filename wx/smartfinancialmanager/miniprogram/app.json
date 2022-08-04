@@ -5,7 +5,10 @@
     "page/rank/rank",
     "page/mine/mine",
     "page/login/login",
-    "page/swipe/swipe"
+    "page/swipe/swipe",
+    "page/test/test",
+    "page/date/date",
+    "page/fund-detail/fund-detail"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -24,6 +27,12 @@
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
         "text": "复利计算"
+      },
+      {
+        "pagePath": "page/date/date",
+        "iconPath": "image/icon-information.png",
+        "selectedIconPath": "image/icon-information-h.png",
+        "text": "日期计算"
       },
       {
         "pagePath": "page/location_search/location_search",

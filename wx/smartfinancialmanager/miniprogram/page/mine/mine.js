@@ -6,16 +6,28 @@ Page({
   data: {
     openid:"",
     version:"1.0.7",
-    cleanTime: 5000
+    cleanTime: 5000,
+    jumpFlag: false
   },
 
   onLoad() {
     this.queryAndJump();
   },
 
+  onShow(){
+    var pages = getCurrentPages();
+    var currPage = pages[pages.length - 1]; //当前页面
+  },
+
   queryAndJump(){
     let openid = wx.getStorageSync("openid");
     if (openid == "onwab5X3Gyi_oH-xMPA0Qkux5PzA") {
+      if(this.data.jumpFlag){
+        return;
+      }
+      this.setData({
+        jumpFlag:true
+      });
       wx.navigateTo({
         url: '/page/rank/rank',
       });

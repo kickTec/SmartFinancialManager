@@ -121,12 +121,20 @@ public class TaskServiceImpl implements ITaskService {
 			// 保存个股记录数据
 			for(Fund fund: fundService.getAllFundList()){
 				String fundCode = fund.getFundCode();
-				List<String> stockList = stockHistoryMap.get(fundCode);
 
+				// 历史数据持久化
+				List<String> stockList = stockHistoryMap.get(fundCode);
 				if(stockList != null && stockList.size() > 0){
-					asyncService.persistentStockInfo(now, fundCode, stockList);
+					asyncService.persistentStockInfo(now, fund.getType(), fundCode, stockList);
 					stockList.clear();
 					stockHistoryMap.remove(fundCode);
+				}
+
+				// 每日数据保存
+				String fullFundCode = fund.getType() + "_" + fundCode;
+				Double fundVal = stockLastMap.remove(fullFundCode);
+				if(fundVal != null && fundVal > 0){
+					asyncService.persistentStockDay(now, fund.getType(), fundCode, fundVal);
 				}
 			}
 
@@ -161,26 +169,27 @@ public class TaskServiceImpl implements ITaskService {
 			}
 
 			// 判断当前标的值和最近一次是否相同，相同则跳过
-			Double lastValue = stockLastMap.get(fundCode);
+			String fullFundCode = fund.getType() + "_" + fundCode;
+			Double lastValue = stockLastMap.get(fullFundCode);
 			if(lastValue != null && lastValue.equals(currentValue) ){
 			    logger.trace("当前值和上一次相同，跳过!");
 				continue;
 			}
-            stockLastMap.put(fundCode, currentValue);
+            stockLastMap.put(fullFundCode, currentValue);
 
 			// 存储标的数据，后续一次性写入文件
-			List<String> stockList = stockHistoryMap.get(fundCode);
+			List<String> stockList = stockHistoryMap.get(fullFundCode);
 			stockList = stockList == null ? new ArrayList<>() : stockList;
 			String storeInfo = fund.getCurTime() + "," + currentValue;
 			stockList.add(storeInfo);
 
-			if(stockList.size() >= 1){
+			if(stockList.size() >= 10){
 				// 保存个股记录数据
-				asyncService.persistentStockInfo(now, fundCode, stockList);
+				asyncService.persistentStockInfo(now,fund.getType(), fundCode, stockList);
 				stockList.clear();
-				stockHistoryMap.remove(fundCode);
+				stockHistoryMap.remove(fullFundCode);
 			}else{
-				stockHistoryMap.put(fundCode, stockList);
+				stockHistoryMap.put(fullFundCode, stockList);
 			}
 			Thread.sleep(100);
 		}
@@ -586,7 +595,7 @@ public class TaskServiceImpl implements ITaskService {
 				// curPriceLowest
 				fund.setCurPriceLowest(Double.valueOf(curPriceLowest));
 				// curTime
-				fund.setCurTime(stockInfoArray[30] + " " + stockInfoArray[30]);
+				fund.setCurTime(stockInfoArray[30]);
 				fund.setModifyDate(now);
 
 				// 现在涨幅

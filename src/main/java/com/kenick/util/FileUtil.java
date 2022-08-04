@@ -18,12 +18,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -37,10 +42,199 @@ public class FileUtil {
     private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
-    public static void main(String[] args) {
-        String filePath = "E:\\storage\\smf_storage\\smfConfig.properties";
-        String addFund = getPropertyByPath(filePath, "addbondSz");
-        logger.debug("addFund:{}", addFund);
+    public static void main(String[] args) throws Exception{
+        generateDayHistory("E:\\tmp\\600036");
+    }
+
+    public static void fixFundRepeat(String path) throws Exception{
+        File dir = new File(path);
+        File szDir = new File(path + File.separator + "sz");
+        File shDir = new File(path + File.separator + "sh");
+        if(!szDir.exists()){
+            szDir.mkdirs();
+        }
+        if(!shDir.exists()){
+            shDir.mkdirs();
+        }
+
+        File[] files = dir.listFiles((dir1, name) -> name.contains("000001"));
+        for(File tmp:files){
+            List<String> szList = new ArrayList<>();
+            List<String> shList = new ArrayList<>();
+            List<String> textList = getTextListFromFile(tmp);
+            for(String text:textList){
+                BigDecimal data = new BigDecimal(text.split(",")[1]);
+                if(data.compareTo(new BigDecimal(1000)) > 0){
+                    shList.add(text);
+                }else{
+                    szList.add(text);
+                }
+            }
+
+            String szName = szDir.getAbsolutePath() + File.separator + tmp.getName();
+            String shName = shDir.getAbsolutePath() + File.separator + tmp.getName();
+            System.out.println(szName);
+            if(szList.size() > 0){
+                persistentText(new File(szName), szList);
+            }
+            if(shList.size() > 0){
+                persistentText(new File(shName), shList);
+            }
+        }
+    }
+
+    public static void generateDayHistory(String fundPath) throws Exception{
+        File dir = new File(fundPath);
+        File[] files = dir.listFiles((dir1, name) -> !name.contains("day.txt"));
+        if(files == null){
+            return;
+        }
+
+        List<File> fileList = Arrays.asList(files);
+        fileList.sort((o1, o2) -> {
+            if (o1.isDirectory() && o2.isFile())
+                return -1;
+            if (o1.isFile() && o2.isDirectory())
+                return 1;
+            return o1.getName().compareTo(o2.getName());
+        });
+
+        // 保存文件路径
+        File dayFile = new File(fundPath + File.separator + "day.txt"); // 保存文件
+        if(dayFile.exists()){
+            dayFile.delete();
+        }
+        for(File tmp:fileList){
+            try{
+                JSONObject tmpJson = getNumFromFund(tmp);
+                List<BigDecimal> numList = (List<BigDecimal>)tmpJson.get("numList");
+                BigDecimal lastData = tmpJson.getBigDecimal("lastData");
+                String fileName = tmp.getName();
+                JSONObject retJson = getLowHigh(numList, 10);
+                BigDecimal lowAvg = retJson.getBigDecimal("lowAvg" + 10);
+                BigDecimal highAvg = retJson.getBigDecimal("highAvg" + 10);
+
+                String content = fileName+","+lastData.toString()+","+lowAvg.setScale(2,RoundingMode.HALF_UP).toString()
+                        +","+highAvg.setScale(2,RoundingMode.HALF_UP).toString();
+                FileUtil.persistentTextSingle(dayFile, content);
+            }catch (Exception e){
+                logger.error(tmp.getName()+"异常!", e);
+            }
+        }
+    }
+
+    public static JSONObject getNumFromFund(File file){
+        JSONObject retJson = new JSONObject();
+        List<BigDecimal> numList = new ArrayList<>();
+        List<String> dayList = getTextListFromFile(file);
+        if(dayList == null){
+            return retJson;
+        }
+        for(String tmp:dayList){
+            numList.add(new BigDecimal(tmp.split(",")[1]));
+        }
+        BigDecimal lastData = numList.get(numList.size() - 1);
+        retJson.put("lastData", lastData);
+        numList.sort(BigDecimal::compareTo);
+        retJson.put("numList", numList);
+        return retJson;
+    }
+
+    /**
+     * <一句话功能简述> 获取平均值
+     * <功能详细描述> 
+     * author: zhanggw
+     * 创建时间:  2022/8/2
+     * @param fundPath 每日数据存储位置
+     * @param lastNum 最近几天
+     * @return com.alibaba.fastjson.JSONObject avg lowAvg10 highAvg10
+     */
+    public static JSONObject getAvgByCode(String fundPath, int lastNum){
+        JSONObject retJson = new JSONObject();
+        List<File> lastFileList = getLastFile(fundPath, lastNum);
+        if(lastFileList == null){
+            return retJson;
+        }
+
+        // 平均数
+        BigDecimal avgBd = null;
+        List<BigDecimal> allList = new ArrayList<>();
+        for(int i=0; i<lastFileList.size(); i++){
+            File file = lastFileList.get(i);
+            List<String> dayList = getTextListFromFile(file);
+            if(dayList == null){
+                continue;
+            }
+            for(String tmp:dayList){
+                BigDecimal curNet = new BigDecimal(tmp.split(",")[1]);
+                allList.add(curNet);
+                if(avgBd == null){
+                    avgBd = curNet;
+                }else{
+                    avgBd = avgBd.add(curNet).divide(new BigDecimal(2),2, RoundingMode.HALF_UP);
+                }
+            }
+        }
+
+        JSONObject lowHigh10 = getLowHigh(allList, 10);
+        JSONObject tmp = new JSONObject();
+        tmp.put("avg", avgBd);
+        tmp.putAll(lowHigh10);
+
+        retJson.put("avg"+lastNum, tmp);
+        return retJson;
+    }
+
+    public static JSONObject getLowHigh(List<BigDecimal> dataList, int preNum) {
+        JSONObject retJson = new JSONObject();
+        if(dataList == null || dataList.size() == 0){
+            return null;
+        }
+        dataList.sort(BigDecimal::compareTo);
+        int preNumAmount = new BigDecimal(dataList.size() * preNum/100).intValue();
+        List<BigDecimal> lowList = dataList.subList(0, preNumAmount);
+        List<BigDecimal> highList = dataList.subList(dataList.size()-preNumAmount, dataList.size());
+        retJson.put("lowAvg"+preNum, getAvgFromList(lowList));
+        retJson.put("highAvg"+preNum, getAvgFromList(highList));
+        return retJson;
+    }
+
+    public static BigDecimal getAvgFromList(List<BigDecimal> lowList){
+        BigDecimal avgBd = null;
+        for(BigDecimal tmp:lowList){
+            if(avgBd == null){
+                avgBd = tmp;
+            }else{
+                avgBd = avgBd.add(tmp).divide(new BigDecimal(2),2, RoundingMode.HALF_UP);
+            }
+        }
+        return avgBd;
+    }
+
+    public static List<File> getLastFile(String path, int lastNum){
+        if(StringUtils.isBlank(path)){
+            return null;
+        }
+
+        File dir = new File(path);
+        if(!dir.exists()){
+            return null;
+        }
+
+        File[] files = dir.listFiles();
+        if(files == null){
+            return null;
+        }
+
+        List<File> fileList = Arrays.asList(files);
+        Collections.sort(fileList, (o1, o2) -> {
+            if (o1.isDirectory() && o2.isFile())
+                return -1;
+            if (o1.isFile() && o2.isDirectory())
+                return 1;
+            return o2.getName().compareTo(o1.getName());
+        });
+        return fileList.subList(0, lastNum);
     }
 
     public static void downloadFileConcurrent(final String url,final String localPatch) {
@@ -268,6 +462,25 @@ public class FileUtil {
         return retList;
     }
 
+    public static String getLastTextFromFile(File storeFile){
+        String lastLine = null;
+        try{
+            if(storeFile == null || !storeFile.exists()){
+                return null;
+            }
+
+            String line;
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(storeFile));
+            while((line=bufferedReader.readLine()) != null){
+                lastLine = line; // 最后line为null
+            }
+            bufferedReader.close();
+        }catch (Exception e){
+            logger.debug("读取文本内容异常!", e);
+        }
+        return lastLine;
+    }
+
     /**
      *  删除文件夹
      * @param dir 文件夹路径
@@ -328,6 +541,22 @@ public class FileUtil {
             logger.debug("JVM可用内存不足{}MB，强制垃圾清理后，JVM总内存:{} MB,使用内存:{} MB,空闲内存:{} MB",
                     freeMemMin, memoryJVM, useMem, memoryFree);
         }
+    }
+
+    public static void persistentTextSingle(File storeFile, String content) throws Exception {
+        if(!storeFile.exists()){
+            storeFile.createNewFile();
+        }
+
+        if(StringUtils.isBlank(content)){
+            return;
+        }
+
+        FileWriter fileWriter = new FileWriter(storeFile, true);
+        fileWriter.append(content);
+        fileWriter.append("\r\n");
+        fileWriter.flush();
+        fileWriter.close();
     }
 
 }

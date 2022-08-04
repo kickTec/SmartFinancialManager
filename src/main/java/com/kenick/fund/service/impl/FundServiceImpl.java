@@ -94,7 +94,58 @@ public class FundServiceImpl implements IFundService {
         return retArray;
     }
 
-	@Override
+    @Override
+    public JSONObject queryDetail(String fundCode) {
+        JSONObject retJson = new JSONObject();
+        try{
+            // 历史数据
+            String storageHomePath = fileStorageService.getStorageHomePath();
+            if(StringUtils.isBlank(storageHomePath)){
+                return retJson;
+            }
+            String fundPath = storageHomePath + File.separator + "history" + File.separator + fundCode;
+            JSONObject specialByCode = FileUtil.getAvgByCode(fundPath, 5);
+            retJson.putAll(specialByCode);
+
+            // 基本信息
+            if(fundCacheList != null && fundCacheList.size() > 0){
+                for(Fund fund:fundCacheList){
+                    if(fund.getFundCode().equals(fundCode)){
+                        JSONObject fundJson = JsonUtils.bean2JSON(fund);
+                        retJson.put("basic",fundJson);
+                        break;
+                    }
+                }
+            }
+
+            logger.debug("specialByCode:{}", specialByCode);
+        }catch (Exception e){
+            logger.error("queryDetail异常!", e);
+        }
+	    return retJson;
+    }
+
+    @Override
+    public JSONObject generateDayList(String fundCode) {
+        JSONObject retJson = new JSONObject();
+	    try{
+            String storageHomePath = fileStorageService.getStorageHomePath();
+            if(StringUtils.isBlank(storageHomePath)){
+                return retJson;
+            }
+            String fundPath = storageHomePath + File.separator + "history" + File.separator + fundCode;
+            File dayTxt = new File(fundPath + File.separator + "day.txt");
+            if(dayTxt.exists()){
+                dayTxt.delete();
+            }
+            FileUtil.generateDayHistory(fundPath);
+        }catch (Exception e){
+            logger.error("generateDayList异常", e);
+        }
+        return retJson;
+    }
+
+    @Override
 	public List<Fund> getAllFundList() {
 		if(fundCacheList == null || fundCacheList.size() == 0){
 			fundCacheList = fileStorageService.getFundListFromFile();

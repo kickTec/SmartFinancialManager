@@ -6,21 +6,29 @@ Page({
   },
 
   onLoad() {
-    let fundResponse = wx.getStorageSync("fundResponse");
+    this.cacheQuery();
+    let that = this;
+    setInterval(function(){
+      that.cacheQuery();
+    }, 5000);
+  },
+
+  cacheQuery(){
     let needQuery = false;
-    if (fundResponse){
-      if (Date.now() - fundResponse.queryTimeStamp < 1000*60*10){
+    let fundResponse = wx.getStorageSync("fundResponse");
+    if (fundResponse) {
+      if (Date.now() - fundResponse.queryTimeStamp < 1000 * 20) {
         this.setData({
           fundList: fundResponse.data
         })
-      }else{
+      } else {
         needQuery = true;
       }
-    }else{
+    } else {
       needQuery = true;
     }
 
-    if(needQuery){
+    if (needQuery) {
       this.loadFund();
     }
   },
@@ -38,7 +46,6 @@ Page({
     }).then(res => {
       const response = JSON.parse(res.result);
       response.queryTimeStamp = Date.now();
-      console.log(response);
       wx.setStorage({
         key: 'fundResponse',
         data: response
@@ -70,12 +77,13 @@ Page({
 
   },
 
-  seePerson(e) {
+  // 跳转到详情
+  gotoDetail(e) {
     if (e.currentTarget.id !== '') {
+      console.log(e.currentTarget.id);
       wx.navigateTo({
-        url: '../detailjiemu/detailjiemu?id=' + e.currentTarget.id
+        url: '../fund-detail/fund-detail?id=' + e.currentTarget.id
       })
-      console.log(e)
     } else {
       console.log('无内容')
     }

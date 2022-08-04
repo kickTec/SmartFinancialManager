@@ -9,6 +9,8 @@ public interface IAsyncService {
 
 	JSONObject aliSendSmsCode(String phone, String code);
 
-	void persistentStockInfo(Date now, String fundCode, List<String> stockList);
+	void persistentStockInfo(Date now, Integer type, String fundCode, List<String> stockList);
+
+    void persistentStockDay(Date now, Integer type, String fundCode, Double fundVal);
 
 }

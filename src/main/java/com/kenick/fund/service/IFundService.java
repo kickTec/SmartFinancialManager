@@ -2,6 +2,7 @@ package com.kenick.fund.service;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.bean.Fund;
 import com.kenick.user.bean.UserFund;
 
@@ -63,5 +64,9 @@ public interface IFundService {
 	void zipFundData(Integer dayNum, String zipName);
 
     JSONArray getShowFundJsonArray();
+
+    JSONObject queryDetail(String fundCode);
+
+	JSONObject generateDayList(String fundCode);
 
 }

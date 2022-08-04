@@ -19,12 +19,6 @@
     top: 0;
 }
 
-.ring {
-    width: 2rpx;
-    height: 100%;
-    background-color: rgba(204, 204, 204, 1);
-}
-
 .img {
     margin: 10rpx 0 10rpx 10rpx;
 }
@@ -43,7 +37,7 @@
     width: 100%;
 }
 
-.position {
+.name {
     margin-top: 20rpx;
     width: 60%;
     font-size: 28rpx;
@@ -55,59 +49,16 @@
     margin-top: 20rpx;
 }
 
-.address {
-    font-size: 25rpx;
-    color: #999;
-    margin-top: 20rpx;
-}
-
-.lastGain {
+.grayText {
     font-size: 25rpx;
     margin-top: 20rpx;
+    color: gray;
 }
 
-.buyBtn {
-    position: absolute;
-    font-size: 25rpx;
-    margin-left: 620rpx;
-    margin-top: 55rpx;
-    border: red;
-    color: red;
-}
-
-.buyText {
-    font-size: 28rpx;
-    margin-top: 20rpx;
-    border: red;
-    color: red;
-}
-
-.sellBtn {
-    position: absolute;
-    font-size: 25rpx;
-    margin-left: 590rpx;
-    margin-top: 55rpx;
-    border: green;
-    color: green;
-}
-
-.sellText {
+.blackText {
     font-size: 25rpx;
     margin-top: 20rpx;
-    border: green;
-    color: green;
-}
-
-.curGain {
-    font-size: 25rpx;
-    margin-top: 20rpx;
-}
-
-.rendu {
-    position: absolute;
-    font-size: 25rpx;
-    margin-left: 620rpx;
-    margin-top: 120rpx;
+    color: black;
 }
 
 .line {
@@ -119,12 +70,4 @@
 .hr {
     height: 10px;
     background-color: #eee;
-}
-
-.btn-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
 }
