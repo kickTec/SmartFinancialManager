@@ -85,10 +85,19 @@ function compareVersion(v1, v2) {
   return 0
 }
 
+function showToast(msg, time){
+  wx.showToast({
+    title: msg,
+    icon: 'success',
+    duration: time
+  })
+}
+
 module.exports = {
   formatTime,
   formatLocation,
   fib,
   formatDateTime,
-  compareVersion
+  compareVersion,
+  showToast
 }

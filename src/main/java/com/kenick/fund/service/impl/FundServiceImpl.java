@@ -95,17 +95,31 @@ public class FundServiceImpl implements IFundService {
     }
 
     @Override
-    public JSONObject queryDetail(String fundCode) {
+    public JSONObject queryDetail(Integer fundType, String fundCode) {
         JSONObject retJson = new JSONObject();
         try{
-            // 历史数据
+            // 读取每日数据
             String storageHomePath = fileStorageService.getStorageHomePath();
             if(StringUtils.isBlank(storageHomePath)){
                 return retJson;
             }
-            String fundPath = storageHomePath + File.separator + "history" + File.separator + fundCode;
-            JSONObject specialByCode = FileUtil.getAvgByCode(fundPath, 5);
-            retJson.putAll(specialByCode);
+            String fundHistoryPath = storageHomePath + File.separator + "history" + File.separator + fundCode + File.separator + "day.txt";
+            if(fundType != null && fundType==4 && "000001".equals(fundCode)){
+                fundHistoryPath = storageHomePath + File.separator + "history" + File.separator + "sh" + fundCode + File.separator + "day.txt";
+            }
+            List<String> historyList = FileUtil.getTextListFromFile(new File(fundHistoryPath));
+
+            // 获取最近3个月数据
+            JSONObject lastData90 = FileUtil.getLastDataByNum(90, historyList);
+            retJson.put("lastData90", lastData90);
+
+            // 获取近3天 10天 30天 均价,10%低位均价,10%高位均价
+            JSONObject avg3 = FileUtil.getAvgHighLow(3, historyList);
+            retJson.put("avg3", avg3);
+            JSONObject avg10 = FileUtil.getAvgHighLow(10, historyList);
+            retJson.put("avg10", avg10);
+            JSONObject avg30 = FileUtil.getAvgHighLow(30, historyList);
+            retJson.put("avg30", avg30);
 
             // 基本信息
             if(fundCacheList != null && fundCacheList.size() > 0){
@@ -117,8 +131,6 @@ public class FundServiceImpl implements IFundService {
                     }
                 }
             }
-
-            logger.debug("specialByCode:{}", specialByCode);
         }catch (Exception e){
             logger.error("queryDetail异常!", e);
         }

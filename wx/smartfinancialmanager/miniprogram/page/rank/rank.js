@@ -80,7 +80,6 @@ Page({
   // 跳转到详情
   gotoDetail(e) {
     if (e.currentTarget.id !== '') {
-      console.log(e.currentTarget.id);
       wx.navigateTo({
         url: '../fund-detail/fund-detail?id=' + e.currentTarget.id
       })

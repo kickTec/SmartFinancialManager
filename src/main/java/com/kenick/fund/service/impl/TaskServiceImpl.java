@@ -130,12 +130,12 @@ public class TaskServiceImpl implements ITaskService {
 					stockHistoryMap.remove(fundCode);
 				}
 
-				// 每日数据保存
-				String fullFundCode = fund.getType() + "_" + fundCode;
-				Double fundVal = stockLastMap.remove(fullFundCode);
-				if(fundVal != null && fundVal > 0){
-					asyncService.persistentStockDay(now, fund.getType(), fundCode, fundVal);
+				// 每日股价保存
+				String storePath = fileStorageService.getStorageHomePath() + File.separator + "history" + File.separator + fundCode;
+				if(fund.getType() ==4 && "000001".equals(fundCode)){
+					storePath = fileStorageService.getStorageHomePath() + File.separator + "history" + File.separator + "sh" + fundCode;
 				}
+				FileUtil.generateDayHistory(storePath);
 			}
 
 			// 每周五备份最近5天数据

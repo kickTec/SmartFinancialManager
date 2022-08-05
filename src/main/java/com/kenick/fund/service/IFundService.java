@@ -65,7 +65,7 @@ public interface IFundService {
 
     JSONArray getShowFundJsonArray();
 
-    JSONObject queryDetail(String fundCode);
+    JSONObject queryDetail(Integer fundType, String fundCode);
 
 	JSONObject generateDayList(String fundCode);
 

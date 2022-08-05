@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,11 +38,16 @@ import java.util.concurrent.Executors;
  * 创建时间:  2020/3/10
  */
 public class FileUtil {
+    public static final JSONObject JSON_OBJECT = new JSONObject();
     private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     public static void main(String[] args) throws Exception{
-        generateDayHistory("E:\\tmp\\600036");
+        // generateDayHistory("E:\\tmp\\600036");
+        String name = "600036_2022-07-20.txt";
+        name = name.split("_")[1];
+        name = name.split("\\.")[0];
+        System.out.println(name);
     }
 
     public static void fixFundRepeat(String path) throws Exception{
@@ -557,6 +561,87 @@ public class FileUtil {
         fileWriter.append("\r\n");
         fileWriter.flush();
         fileWriter.close();
+    }
+
+    /**
+     * <一句话功能简述> 获取近dayNum日 均价,10%低位均价,10%高位均价
+     * <功能详细描述> 
+     * author: zhanggw
+     * 创建时间:  2022/8/4
+     * @param dayNum 近几日
+     * @param historyList 历史数据 600036_2022-07-20.txt,35.85,35.78,36.09
+     */
+    public static JSONObject getAvgHighLow(int dayNum, List<String> historyList) {
+        JSONObject retJson = new JSONObject();
+        try{
+            if(historyList == null || historyList.size() == 0){
+                return retJson;
+            }
+
+            Collections.reverse(historyList);
+            BigDecimal avgBd = null;
+            BigDecimal avgLow10 = null;
+            BigDecimal avgHigh10 = null;
+            for(int i=0; i<dayNum && i<historyList.size(); i++){
+                String stockData = historyList.get(i);
+                String[] stockDataArray = stockData.split(",");
+                if(avgBd == null){
+                    avgBd = new BigDecimal(stockDataArray[1]);
+                }else{
+                    avgBd = avgBd.add(new BigDecimal(stockDataArray[1])).divide(new BigDecimal(2));
+                }
+                if(avgLow10 == null){
+                    avgLow10 = new BigDecimal(stockDataArray[2]);
+                }else{
+                    avgLow10 = avgLow10.add(new BigDecimal(stockDataArray[2])).divide(new BigDecimal(2));
+                }
+                if(avgHigh10 == null){
+                    avgHigh10 = new BigDecimal(stockDataArray[3]);
+                }else{
+                    avgHigh10 = avgHigh10.add(new BigDecimal(stockDataArray[3])).divide(new BigDecimal(2));
+                }
+            }
+            Collections.reverse(historyList);
+            logger.debug("getAvgHighLow:{} out,historyList.size:{}", dayNum, historyList.size());
+            retJson.put("avgBd", avgBd.setScale(2, RoundingMode.HALF_UP));
+            retJson.put("avgLow10", avgLow10.setScale(2, RoundingMode.HALF_UP));
+            retJson.put("avgHigh10", avgHigh10.setScale(2, RoundingMode.HALF_UP));
+        }catch (Exception e){
+            logger.error("getAvgHighLow异常!", e);
+        }
+        return retJson;
+    }
+
+
+    public static JSONObject getLastDataByNum(int dayNum, List<String> historyList) {
+        JSONObject retJson = new JSONObject();
+        try{
+            if(historyList == null || historyList.size() == 0){
+                return retJson;
+            }
+
+            Collections.reverse(historyList);
+            List<BigDecimal> stockValueList = new ArrayList<>();
+            List<String> dateList = new ArrayList<>();
+            for(int i=0; i<dayNum && i<historyList.size(); i++){
+                String stockData = historyList.get(i);
+                String[] stockDataArray = stockData.split(",");
+                String name = stockDataArray[0];
+                name = name.split("_")[1];
+                name = name.split("\\.")[0];
+                stockValueList.add(new BigDecimal(stockDataArray[1]));
+                dateList.add(name);
+            }
+            Collections.reverse(dateList);
+            Collections.reverse(stockValueList);
+            Collections.reverse(historyList);
+            retJson.put("dateList", dateList);
+            retJson.put("stockValueList", stockValueList);
+            logger.debug("historyList.size:{}", historyList.size());
+        }catch (Exception e){
+            logger.error("getLastDataByNum异常!", e);
+        }
+        return retJson;
     }
 
 }

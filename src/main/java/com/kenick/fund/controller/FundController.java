@@ -91,7 +91,9 @@ public class FundController {
         try{
             long startTime = System.currentTimeMillis();
             JSONObject paramJson = JSON.parseObject(data);
-            JSONObject detail = fundService.queryDetail(paramJson.getString("fundCode"));
+            String fundCode = paramJson.getString("fundCode");
+            Integer fundType = paramJson.getInteger("fundType");
+            JSONObject detail = fundService.queryDetail(fundType, fundCode);
             logger.debug("queryDetail花费时间:{}", System.currentTimeMillis()-startTime);
             return HttpUtils.showSuccess(detail);
         }catch (Exception e){
