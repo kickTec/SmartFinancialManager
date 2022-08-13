@@ -65,7 +65,7 @@ public class FundController {
             JSONArray showFundJsonArray = fundService.getShowFundJsonArray();
             return HttpUtils.showSuccess(showFundJsonArray);
         }catch (Exception e){
-            return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金信息异常", e);
+            return HttpUtils.showException("fund_queryuserfundlist_exception","查询用户基金queryfundinfolist信息异常", e);
         }
     }
 

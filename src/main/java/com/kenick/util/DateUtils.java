@@ -625,4 +625,25 @@ public class DateUtils
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
+    public static Date parseStockTime(String timeStr) {
+   		Date ret = null;
+   		try{
+   			if(StringUtils.isBlank(timeStr)){
+   				return null;
+			}
+
+   			// 旧的时间格式
+			if(timeStr.contains(":")){
+				ret = tranToDate(timeStr, "yyyy-MM-dd hh:mm:ss");
+				return ret;
+			}
+
+			timeStr = timeStr.split(" ")[0];
+			ret = tranToDate(timeStr, "yyyyMMddhhmmss");
+		}catch (Exception e){
+
+		}
+   		return ret;
+    }
+
 }

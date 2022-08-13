@@ -113,13 +113,13 @@ public class FundServiceImpl implements IFundService {
             JSONObject lastData90 = FileUtil.getLastDataByNum(90, historyList);
             retJson.put("lastData90", lastData90);
 
-            // 获取近3天 10天 30天 均价,10%低位均价,10%高位均价
-            JSONObject avg3 = FileUtil.getAvgHighLow(3, historyList);
+            // 获取近30天 60天 90天 均价,10%低位均价,10%高位均价
+            JSONObject avg1 = FileUtil.getAvgHighLow(30, historyList);
+            retJson.put("avg1", avg1);
+            JSONObject avg2 = FileUtil.getAvgHighLow(60, historyList);
+            retJson.put("avg2", avg2);
+            JSONObject avg3 = FileUtil.getAvgHighLow(90, historyList);
             retJson.put("avg3", avg3);
-            JSONObject avg10 = FileUtil.getAvgHighLow(10, historyList);
-            retJson.put("avg10", avg10);
-            JSONObject avg30 = FileUtil.getAvgHighLow(30, historyList);
-            retJson.put("avg30", avg30);
 
             // 基本信息
             if(fundCacheList != null && fundCacheList.size() > 0){

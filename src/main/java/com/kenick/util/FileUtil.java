@@ -612,7 +612,6 @@ public class FileUtil {
         return retJson;
     }
 
-
     public static JSONObject getLastDataByNum(int dayNum, List<String> historyList) {
         JSONObject retJson = new JSONObject();
         try{

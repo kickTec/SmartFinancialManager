@@ -1,5 +1,7 @@
 package com.kenick.fund.bean;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -177,6 +179,9 @@ public class GridCondition {
     }
 
     public void setGainMoney(BigDecimal gainMoney) {
+        if(gainMoney != null){
+            gainMoney = gainMoney.setScale(2, RoundingMode.HALF_UP);
+        }
         this.gainMoney = gainMoney;
     }
 
@@ -212,19 +217,31 @@ public class GridCondition {
         this.tradeDetail = tradeDetail;
     }
 
-    public String getDisplay() {
+    public String transferDisplay() {
         if(benchmarkPriceInit != null){
             benchmarkPriceInit = benchmarkPriceInit.setScale(2, RoundingMode.HALF_UP);
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(" 最新基准价:").append(benchmarkPriceNew.setScale(2,RoundingMode.HALF_UP))
-                .append(" 最新价:").append(fundPrice)
-                .append(" 持仓数量:").append(holdQuantity)
-                .append(" 买入总次数:").append(buyTotal)
-                .append(" 卖出总次数:").append(sellTotal)
-                .append(" 手续费:").append(serviceFee)
-                .append(" 盈利:").append(gainMoney);
+        stringBuilder.append("最新基准价:").append(benchmarkPriceNew.setScale(2,RoundingMode.HALF_UP))
+                .append(",最新价:").append(fundPrice)
+                .append(",持仓数量:").append(holdQuantity)
+                .append(",买入总次数:").append(buyTotal)
+                .append(",卖出总次数:").append(sellTotal)
+                .append(",手续费:").append(serviceFee)
+                .append(",盈利:").append(gainMoney.setScale(2, RoundingMode.HALF_UP));
         return stringBuilder.toString();
     }
+
+    public JSONObject transferJson(){
+        JSONObject retJson = new JSONObject();
+        retJson.put("benchmarkPriceNew", benchmarkPriceNew.setScale(2,RoundingMode.HALF_UP));
+        retJson.put("holdQuantity", holdQuantity);
+        retJson.put("buyTotal", buyTotal);
+        retJson.put("sellTotal", sellTotal);
+        retJson.put("serviceFee", serviceFee);
+        retJson.put("gainMoney", gainMoney.setScale(2, RoundingMode.HALF_UP));
+        return retJson;
+    }
+
 }

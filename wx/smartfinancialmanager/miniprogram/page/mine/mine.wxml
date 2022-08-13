@@ -1,5 +1,6 @@
 <!-- 我的 -->
-<block>
+<wxs src="../../util/tools.wxs" module="tools" />
+<block wx:if='{{!jumpFlag}}'>
   <view>
     <button class="btn" bindtap="queryOpenId" type="primary">查询我的微信openid</button>
   </view>
@@ -10,3 +11,40 @@
     <text>版本:{{version}}</text>
   </view>
 </block>
+<block wx:else>
+  <block wx:for="{{fundList}}" wx:key="fundCode">
+    <view class="item" bindtap="gotoDetail" id="{{item.fundCode}}">
+        <view class="info-left">
+            <view class="name">
+                {{item.fundName}}
+            </view>
+            <view class="gainTotal" style="color:{{tools.getColorByGain(item.gainTotal)}}">
+                近2日涨幅:  {{item.gainTotal}}%
+            </view>
+            <view class="grayText">
+                昨日股价:  {{item.lastNetValue}}
+            </view>
+            <view class="grayText">
+                今日最低:  {{item.curPriceLowest}}
+            </view>
+        </view>
+
+        <view class="info-right">
+            <view class="name">
+              <text decode="true">&ensp;&ensp;</text>
+            </view>
+            <view class='blackText'>
+                今日预估：  {{item.curGain}}%
+            </view>
+            <view class="blackText" style="color:{{tools.getColorByGain(item.lastGain)}}">
+                今日股价:  {{item.curNetValue}}
+            </view>
+            <view class='grayText'>
+                今日最高：  {{item.curPriceHighest}}
+            </view>
+        </view>
+    </view>
+    <view class="hr" />
+  </block>
+</block>
+

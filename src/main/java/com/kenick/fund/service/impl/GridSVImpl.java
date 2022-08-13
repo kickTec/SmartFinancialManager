@@ -10,6 +10,7 @@ import com.kenick.fund.service.IFundService;
 import com.kenick.fund.service.IGridSV;
 import com.kenick.util.DateUtils;
 import com.kenick.util.FileUtil;
+import com.kenick.util.GridUtil;
 import com.kenick.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -80,7 +81,7 @@ public class GridSVImpl implements IGridSV {
         BigDecimal gridSellPrice; // 网格卖出价
         for(String fundData:fundList){
             String[] fundDataArray = fundData.split(",");
-            fundDate = DateUtils.tranToDate(fundDataArray[0], "yyyy-MM-dd hh:mm:ss");
+            fundDate = DateUtils.parseStockTime(fundDataArray[0]);
             fundCurrentPrice = new BigDecimal(fundDataArray[1]);
             if(fundCurrentPrice.compareTo(BigDecimal.ZERO) == 0){
                 continue;
@@ -187,7 +188,7 @@ public class GridSVImpl implements IGridSV {
         gridCondition.setBuyTotal(gridCondition.getBuyTotal()+1);
         gridCondition.setTradeTotal(gridCondition.getTradeTotal()+1);
         gridCondition.setBuyQuantity(buyQuantityNew);
-        gridCondition.setBuyAvgPrice(buyAvgPrice);
+        gridCondition.setBuyAvgPrice(buyAvgPrice.setScale(2,RoundingMode.HALF_UP));
 
         // 持仓计算
         int holdQuantityOld = gridCondition.getHoldQuantity();
@@ -229,10 +230,11 @@ public class GridSVImpl implements IGridSV {
         // 网格盈利 买、卖相互抵消赚的钱
         BigDecimal gridGainMoney = BigDecimal.ZERO;
         int sellQuantity = gridCondition.getSellQuantity();
-        if(sellQuantity > 0){
+        if(sellQuantity > 0){ // （卖均价-买均价)*卖出数量
             gridGainMoney = gridCondition.getSellAvgPrice().subtract(gridCondition.getBuyAvgPrice()).multiply(new BigDecimal(sellQuantity));
         }
         // 持仓盈利，不能使用持仓价计算，过程中可能会清仓
+        // (最新股价-买入均价)*(买入数量-卖出数量)
         BigDecimal fundPrice = gridCondition.getFundPrice();
         BigDecimal holdGainMoney = BigDecimal.ZERO;
         if(gridCondition.getBuyQuantity() > 0){
@@ -240,31 +242,35 @@ public class GridSVImpl implements IGridSV {
         }
         // 手续费
         BigDecimal serviceFee = gridCondition.getServiceFee() == null ? BigDecimal.ZERO : gridCondition.getServiceFee();
-        BigDecimal currentFee;
+        BigDecimal currentFee = BigDecimal.ZERO;
         // 当前手续费 上海债百万分之5 0.000005，深圳十万分之5 0.00005
         if(StringUtils.isNotBlank(directDesc)){
-            currentFee = new BigDecimal(0.01);
-            BigDecimal dealFee = fundPrice.multiply(new BigDecimal(gridCondition.getTradeQuantity())).multiply(new BigDecimal(0.000005));
-            currentFee = dealFee.compareTo(currentFee) > 0 ? dealFee : currentFee;
-            currentFee = currentFee.setScale(2,RoundingMode.HALF_UP);
+            currentFee = GridUtil.calcFee(gridCondition.getFundCode(), fundPrice, gridCondition.getTradeQuantity());
             serviceFee = serviceFee.add(currentFee);
         }
 
+        holdGainMoney = holdGainMoney.setScale(2, RoundingMode.HALF_UP);
+        // 网格盈利: （卖均价-买均价)*卖出数量 + (最新股价-买入均价)*(买入数量-卖出数量) - 手续费
         gridCondition.setGainMoney(gridGainMoney.add(holdGainMoney).subtract(serviceFee));
         gridCondition.setServiceFee(serviceFee);
 
         if(StringUtils.isNotBlank(directDesc)){
-            logger.trace("{} {}:{},买入均价:{},网格盈利:{},持仓盈利:{},总盈利:{},当前持仓:{}，最大持仓:{}"
+            logger.trace("{} {}:{},均价:{},网格盈利:{},持仓盈利:{},总盈利:{},当前持仓:{}，最大持仓:{}"
                     , DateUtils.getStrDate(gridCondition.getTriggerTime()),directDesc, fundPrice,
                     gridCondition.getBuyAvgPrice(), gridGainMoney,holdGainMoney, gridCondition.getGainMoney(),
                     gridCondition.getHoldQuantity(),gridCondition.getMaxHoldQuantity());
 
             StringBuilder tradeDetailSB = new StringBuilder();
-            tradeDetailSB.append(DateUtils.getStrDate(gridCondition.getTriggerTime())).append(" ")
-                    .append(directDesc).append(":").append(gridCondition.getBenchmarkPriceNew().setScale(2, RoundingMode.HALF_UP)).append(",买入均价:")
-                    .append(gridCondition.getBuyAvgPrice()).append(",网格盈利:").append(gridGainMoney.setScale(2, RoundingMode.HALF_UP))
-                    .append(",持仓盈利:").append(holdGainMoney).append(",总盈利:").append(gridCondition.getGainMoney().setScale(2, RoundingMode.HALF_UP))
+            tradeDetailSB.append(DateUtils.getStrDate(gridCondition.getTriggerTime())).append(",")
+                    .append(directDesc).append(":").append(gridCondition.getBenchmarkPriceNew().setScale(2, RoundingMode.HALF_UP))
+                    .append(",当前手续费:").append(currentFee)
+                    .append(",总手续费:").append(gridCondition.getServiceFee().setScale(2, RoundingMode.HALF_UP))
+                    .append(",买入均价:").append(gridCondition.getBuyAvgPrice())
+                    .append(",最新股价:").append(gridCondition.getFundPrice())
                     .append(",当前持仓:").append(gridCondition.getHoldQuantity())
+                    .append(",持仓盈利:").append(holdGainMoney)
+                    .append(",网格盈利:").append(gridGainMoney.setScale(2, RoundingMode.HALF_UP))
+                    .append(",累计盈利:").append(gridCondition.getGainMoney().setScale(2, RoundingMode.HALF_UP))
                     .append(",最大持仓:").append(gridCondition.getMaxHoldQuantity());
             List<String> tradeList = gridCondition.getTradeDetail() == null ? new ArrayList<>() : gridCondition.getTradeDetail();
             tradeList.add(tradeDetailSB.toString());
@@ -286,15 +292,17 @@ public class GridSVImpl implements IGridSV {
         // 回测每天数据
         File curFile;
         GridCondition gridCondition = null;
-        for(String fundRecordFile:fundRecordFileList){
+        for(int i=0; i<fundRecordFileList.size(); i++){
+            String fundRecordFile = fundRecordFileList.get(i);
             curFile = fileStorageSV.getHistoryFileByName(fundCode, fundRecordFile);
             List<String> fundList = FileUtil.getTextListFromFile(curFile);
             JSONObject ret = gridBackTest(gridCondition, fundCode, initPrice, gridInterval, gridQuantity, fundList, gridMode);
             gridCondition = JsonUtils.copyObjToBean(ret.getJSONObject("gridCondition"), GridCondition.class);
-            retJson.put(fundRecordFile, gridCondition.getDisplay());
+            if(i == fundRecordFileList.size()-1){
+                retJson.put("final", gridCondition.transferJson());
+            }
         }
         retJson.put("tradeDetail", gridCondition.getTradeDetail());
-
         return retJson;
     }
 

@@ -52,6 +52,7 @@ public class GridController {
             }
 
             JSONObject ret = gridSV.backTest(fundCode, dayNum, initPrice, gridInterval, gridQuantity, gridMode);
+
             return ret.toJSONString();
         }catch (Exception e){
             logger.error("grid_backTest_exception 回测异常", e);

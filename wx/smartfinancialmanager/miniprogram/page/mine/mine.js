@@ -7,7 +7,8 @@ Page({
     openid:"",
     version:"1.0.7",
     cleanTime: 5000,
-    jumpFlag: false
+    jumpFlag: false,
+    fundList: []
   },
 
   onLoad() {
@@ -22,15 +23,14 @@ Page({
   queryAndJump(){
     let openid = wx.getStorageSync("openid");
     if (openid == "onwab5X3Gyi_oH-xMPA0Qkux5PzA") {
-      if(this.data.jumpFlag){
-        return;
-      }
       this.setData({
         jumpFlag:true
       });
-      wx.navigateTo({
-        url: '/page/rank/rank',
-      });
+      this.cacheQuery();
+      let that = this;
+      setInterval(function () {
+        that.cacheQuery();
+      }, 5000);
     } else {
       this.queryOpenId();
     }
@@ -94,6 +94,115 @@ Page({
     if (item.pagePath == "page/mine/mine"){
       this.queryAndJump();
     }
+  },
+
+  // 跳转到详情
+  gotoDetail(e) {
+    if (e.currentTarget.id !== '') {
+      wx.navigateTo({
+        url: '../fund-detail/fund-detail?id=' + e.currentTarget.id
+      })
+    } else {
+      console.log('无内容')
+    }
+  },
+
+  loadFund() {
+    const that = this;
+    wx.cloud.callFunction({
+      name: 'httpkenick',
+      data: {
+        url: 'http://www.kenick.top/fund/queryfundinfolist',
+        paramJson: {
+          data: '{"orderBy":"gain_total desc,cur_gain desc"}'
+        }
+      }
+    }).then(res => {
+      const response = JSON.parse(res.result);
+      response.queryTimeStamp = Date.now();
+      wx.setStorage({
+        key: 'fundResponse',
+        data: response
+      });
+      if (response !== null && response.flag === true) {
+        that.setData({
+          fundList: response.data
+        })
+      } else {
+        wx.showToast({
+          title: '服务器连接异常',
+          icon: 'success',
+          duration: 500
+        })
+      }
+      return 1
+    }).catch(error => {
+      wx.showToast({
+        title: '服务器连接异常',
+        icon: 'success',
+        duration: 500
+      });
+      console.log('error', error);
+    })
+  },
+
+  cacheQuery() {
+    let needQuery = false;
+    let fundResponse = wx.getStorageSync("fundResponse");
+    if (fundResponse) {
+      if (Date.now() - fundResponse.queryTimeStamp < 1000 * 20) {
+        this.setData({
+          fundList: fundResponse.data
+        })
+      } else {
+        needQuery = true;
+      }
+    } else {
+      needQuery = true;
+    }
+
+    if (needQuery) {
+      this.loadFund();
+    }
+  },
+
+  loadFund() {
+    const that = this;
+    wx.cloud.callFunction({
+      name: 'httpkenick',
+      data: {
+        url: 'http://www.kenick.top/fund/queryfundinfolist',
+        paramJson: {
+          data: '{"orderBy":"gain_total desc,cur_gain desc"}'
+        }
+      }
+    }).then(res => {
+      const response = JSON.parse(res.result);
+      response.queryTimeStamp = Date.now();
+      wx.setStorage({
+        key: 'fundResponse',
+        data: response
+      });
+      if (response !== null && response.flag === true) {
+        that.setData({
+          fundList: response.data
+        })
+      } else {
+        wx.showToast({
+          title: '服务器连接异常',
+          icon: 'success',
+          duration: 500
+        })
+      }
+      return 1
+    }).catch(error => {
+      wx.showToast({
+        title: '服务器连接异常',
+        icon: 'success',
+        duration: 500
+      });
+      console.log('error', error);
+    })
   }
 
 })
