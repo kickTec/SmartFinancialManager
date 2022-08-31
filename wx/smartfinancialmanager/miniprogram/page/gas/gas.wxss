@@ -1,0 +1,34 @@
+/* page/gas/gas.wxss */
+.item-inner {
+  line-height: 100rpx;
+  height: 100rpx;
+  font-size: 37rpx;
+
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding-left: 210rpx;
+}
+
+.label-left{
+  width: 500rpx;
+  align-items: center;
+}
+
+.label-right{
+  width: 200rpx;
+  align-items: center;
+  margin-right: 100rpx;
+}
+
+.btn{
+  width: 140rpx;
+  height: 80rpx;
+  font-size: 35rpx;
+}
+
+.btn-view{
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+}

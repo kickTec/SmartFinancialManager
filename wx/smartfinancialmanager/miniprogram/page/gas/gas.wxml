@@ -1,0 +1,51 @@
+<!--page/gas/gas.wxml-->
+<view>
+  <form catchsubmit="formSubmit">
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        百公里油耗(升):
+        </view>
+        <view class="label-right">
+          <input name="gas100" value="{{gas100}}"></input>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        油价(元/升):
+        </view>
+        <view class="label-right">
+          <input name="gasPrice" value="{{gasPrice}}"></input>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        距离(公里):
+        </view>
+        <view class="label-right">
+          <input name="distance" value="{{distance}}"></input>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-view">
+      <button class="btn" formType="submit">计算</button>
+    </view>  
+
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        油费(元):
+        </view>
+        <view class="label-right">
+          {{cost}}
+        </view>
+      </view>
+    </view>
+
+  </form>
+</view>

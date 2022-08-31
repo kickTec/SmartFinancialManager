@@ -1,0 +1,15 @@
+
+var getColorByGain = function (gainTotal) {
+  if(gainTotal > 3){
+    return 'red';
+  }else if(gainTotal > -2){
+    return 'gray';
+  }else{
+    return 'green';
+  }
+  return 'gray';
+}
+
+module.exports = {
+  getColorByGain: getColorByGain
+}

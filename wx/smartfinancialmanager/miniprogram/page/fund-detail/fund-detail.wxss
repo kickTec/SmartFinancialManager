@@ -1,0 +1,213 @@
+/* page/fund-detail/fund-detail.wxss */
+
+.nameTop {
+  margin-left: 20rpx;
+  width: 100%;
+  font-size: 37rpx;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+}
+
+.label-bar {
+  padding: 0 20rpx;
+}
+.label-bar .label-tab {
+  padding: 0rpx 0;
+  margin-top: 10rpx;  
+}
+.label-tab .span-active {
+    border: 1px solid #ed4861!important;
+    color: #ed4861!important;
+}
+.label-bar .label-tab text {
+    border: 1px solid #c0bdbd;
+    color: #c0bdbd;
+    font-size: 24rpx;
+    padding: 2px 6px 1px 6px;
+    border-radius: 16rpx;
+    margin-right: 10rpx;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-top: 140rpx;
+}
+ 
+ec-canvas {
+  margin-top: 0rpx;
+  width: 100%;
+  height: 600rpx;
+}
+
+.head_item {
+    width: 374rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #fff;
+}
+
+.head {
+    height:80rpx;
+    background-color: #D53E37;
+    border-top: 1rpx solid #fff;
+    border-bottom: 1rpx solid rgb(185, 78, 78);
+    display: flex;
+    align-items: center;
+    top: 0;
+}
+
+.img {
+    margin: 10rpx 0 10rpx 10rpx;
+}
+
+.info-left {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    width: 100%;
+}
+
+.info-right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  width: 100%;
+}
+
+.copyImg{
+  margin-left: 10rpx;
+  width:40rpx;
+  height:50rpx;
+  position: relative
+}
+
+.avgItems {
+  margin-top: 540rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.name {
+  margin-top: 20rpx;
+  width: 100%;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.gainTotal {
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+
+.grayText {
+  font-size: 25rpx;
+  margin-top: 20rpx;
+  color: gray;
+}
+
+.blackText {
+    font-size: 25rpx;
+    margin-top: 20rpx;
+    color: black;
+}
+
+.line {
+    align-content: center;
+    border: 1px solid #ccc;
+    opacity: 0.2;
+}
+
+.hr {
+    height: 10px;
+    background-color: #eee;
+}
+
+.pjz{
+  margin-top: 50rpx;
+  font-size: 25rpx;
+  color: gray;
+}
+
+.backTestMain{
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
+
+.title{
+  padding: 30rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.item-inner{
+  display: flex;
+  align-items: center;
+}
+
+.inputName{
+  font-size: 30rpx;
+  width: 130rpx;
+  padding: 2rpx;
+  text-align: center;
+}
+
+.inputCls{
+  font-size: 30rpx;
+  padding: 2rpx;
+  background-color:#ffffff;
+  width: 130rpx;
+  text-align: center;
+}
+
+.calcView{
+  text-align: center;
+  align-items: center;
+}
+
+.calcBtn{
+  text-align: center;
+  align-items: center;
+  font-size: 25rpx;
+}
+
+.gridDetailWrapper{
+  margin-top: 30rpx;
+}
+
+.gridShow{
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+
+.gridDetail{
+  margin-top: 20rpx;
+  margin-left: 10rpx;
+}
+
+.backItemView{
+  font-size: 25rpx;
+  padding: 10rpx;
+  color: gray;
+}
+
+.backRet{
+  display: flex;
+  flex-direction: row;
+}
+
+.tip{
+  margin-left: 10rpx;
+  font-size: 25rpx;
+  color:gray
+}

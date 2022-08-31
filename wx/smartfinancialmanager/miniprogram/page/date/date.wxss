@@ -1,0 +1,27 @@
+/* page/index/index.wxss */
+.item-inner {
+  line-height: 100rpx;
+  height: 100rpx;
+  font-size: 37rpx;
+
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding-left: 210rpx;
+}
+
+.label-left{
+  width: 250rpx;
+}
+
+.btn{
+  width: 140rpx;
+  height: 80rpx;
+  font-size: 35rpx;
+}
+
+.btn-view{
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+}

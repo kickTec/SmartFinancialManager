@@ -1,0 +1,42 @@
+<!--page/index/index.wxml-->
+<view>
+  <form catchsubmit="formSubmit">
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        初始日期:
+        </view>
+        <view class="label-right">
+          <input name="initDate" value="{{initDate}}"></input>
+        </view>
+      </view>
+    </view>
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        相差(日):
+        </view>
+        <view class="label-right">
+          <input name="dayDiff" value="{{dayDiff}}"></input>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-view">
+      <button class="btn" formType="submit">计算</button>
+    </view>  
+
+    <view>
+      <view class="item-inner">
+        <view class="label-left">
+        最终日期:
+        </view>
+        <view class="label-right">
+          {{finalDate}}
+        </view>
+      </view>
+    </view>
+
+  </form>
+</view>
+

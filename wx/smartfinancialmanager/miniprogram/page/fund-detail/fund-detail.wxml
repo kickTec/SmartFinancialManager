@@ -1,0 +1,154 @@
+<!--page/fund-detail/fund-detail.wxml-->
+<wxs src="../../util/tools.wxs" module="tools" />
+
+<view class="nameTop">
+    {{item.fundName}}-{{item.fundCode}}
+    <image class="copyImg" src="/image/copy-32.png" mode="aspectFit" bindtap="clickCopy"/>
+</view>
+
+<!-- 走势 -->
+<view class="label-bar white-bg">
+  <view class="label-tab">
+      <text bindtap="chooseLabelSelectType" data-type="15day"
+          class="{{labelSelectType=='15day'?'span-active':''}}">15日走势</text>
+      <text bindtap="chooseLabelSelectType" data-type="30day"
+          class="{{labelSelectType=='30day'?'span-active':''}}">30日走势</text>
+      <text bindtap="chooseLabelSelectType" data-type="45day"
+          class="{{labelSelectType=='45day'?'span-active':''}}">45日走势</text>
+  </view>
+</view>
+
+<view class="container">
+  <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec}}"></ec-canvas>
+</view>
+
+<!-- 平均值 -->
+<view class="avgItems">
+    <view class="info-left">
+        <view class="gainTotal" style="color:{{tools.getColorByGain(item.gainTotal)}}">
+          {{dataHeadArray[0]}}: {{item.gainTotal}}%
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[1]}}: {{item.lastNetValue}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[2]}}: {{item.lastPriceHighest}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[3]}}: {{item.lastPriceLowest}}
+        </view>
+
+        <view class="pjz">
+          {{dataHeadArray[4]}}: {{avg1.avgBd}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[5]}}: {{avg1.avgLow10}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[6]}}: {{avg1.avgHigh10}}
+        </view>
+    </view>
+
+    <view class="info-right">
+        <view class='blackText' style="color:{{tools.getColorByGain(item.curGain)}}">
+          {{dataHeadArray[7]}}:  {{item.curGain}}%
+        </view>
+        <view class="blackText">
+          {{dataHeadArray[8]}}:  {{item.curNetValue}}
+        </view>
+        <view class='grayText'>
+          {{dataHeadArray[9]}}:  {{item.curPriceHighest}}
+        </view>
+        <view class='grayText'>
+          {{dataHeadArray[10]}}:  {{item.curPriceLowest}}
+        </view>
+
+        <view class="pjz">
+          {{dataHeadArray[11]}}:  {{avg2.avgBd}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[12]}}:  {{avg2.avgLow10}}
+        </view>
+        <view class="grayText">
+          {{dataHeadArray[13]}}:  {{avg2.avgHigh10}}
+        </view>
+    </view>
+</view>
+
+<!-- 回测form -->
+<view class="backTestMain">
+  <form catchsubmit="formSubmit">
+    <view class="title">{{dataHeadArray[14]}}</view>
+
+    <view class="item-inner">
+      <view class="inputName">
+      {{dataHeadArray[15]}}:
+      </view>
+      <view class="inputCls">
+        <input name="initPrice" value="自动"></input>
+      </view>
+      <view class="inputName">
+      {{dataHeadArray[16]}}:
+      </view>
+      <view class="inputCls">
+        <input name="gridInterval" value="{{intervalDefault}}"></input>
+      </view>
+    </view>
+    <view class="item-inner">
+      <view class="inputName">
+      {{dataHeadArray[17]}}:
+      </view>
+      <view class="inputCls">
+        <input name="dayNum" value="10"></input>
+      </view>
+      <view class="inputName">
+      {{dataHeadArray[18]}}:
+      </view>
+      <view class="inputCls">
+        <input name="gridQuantity" value="{{gridQuantity}}"></input>
+      </view>
+      <view class="calcView">
+        <button class="calcBtn" formType="submit" style="width:170rpx">计算</button>
+      </view>  
+    </view>
+  </form>
+
+  <!-- 回测结果概览 -->
+  <view wx:if="{{backFinal}}" class="backRet">
+    <view class="info-left">
+      <view class="gainTotal" style="color:{{backFinal.gainMoney>0?'red':'green'}}">
+       {{dataHeadArray[19]}}:{{backFinal.gainMoney}}
+      </view>
+      <view class="grayText">
+       {{dataHeadArray[20]}}:{{backFinal.benchmarkPriceNew}}
+      </view>
+      <view class="grayText">
+       {{dataHeadArray[21]}}:{{backFinal.buyTotal}}
+      </view>
+    </view>
+    <view class="info-right">
+      <view class="blackText">
+       {{dataHeadArray[22]}}:{{backFinal.serviceFee}}
+      </view>
+      <view class="grayText">
+       {{dataHeadArray[23]}}:{{backFinal.holdQuantity}}
+      </view>
+      <view class="grayText">
+       {{dataHeadArray[24]}}:{{backFinal.sellTotal}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 回测结果明细 -->
+  <view class="gridDetailWrapper">
+    <text class="gridShow" wx:if="{{backArray && backArray.length>0}}" bindtap="showDetail" data-showTip="{{showDetailTip}}" size="mini">{{showDetailTip}}</text>
+    <view wx:if="{{showDetailTip!='展开网格交易明细▼'}}" class="gridDetail">
+      <block wx:for="{{backArray}}" wx:key="id">
+        <view class="backItemView">
+          【{{index+1}}】 {{item}}
+        </view>
+      </block>
+    </view>
+  </view>
+
+</view>
