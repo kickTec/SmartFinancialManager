@@ -74,33 +74,25 @@ public class DateUtils
 	{
 		return getNowDateStr(delay, null);
 	}
-	
+
 	/**
 	 * <一句话功能简述> 根据当前时间，获得 差delay天 format格式的日期（delay可以为负数）
 	 * <功能详细描述> 
 	 * author: zhanggj
 	 * 创建时间:  2017年7月9日
-	 * @param delay
-	 * @param format
-	 * @return
-	 * @see [类、类#方法、类#成员]
 	 */
 	public static String getNowDateStr(int delay, String format)
 	{
-	       /* Calendar lastDate = Calendar.getInstance();
-	        lastDate.roll(Calendar.DATE, delay);*/
-		
-	        return getStrDate(getNowDate(delay), format);
+		return getStrDate(getNowDate(delay), format);
 	}
-	
+
 	public static Date getNowDate(int delay)
 	{
-	        Calendar lastDate = Calendar.getInstance();
-	        lastDate.add(Calendar.DATE, delay);
-
-	        return lastDate.getTime();
+		Calendar lastDate = Calendar.getInstance();
+		lastDate.add(Calendar.DATE, delay);
+		return lastDate.getTime();
 	}
-	
+
 	/**
 	 * <一句话功能简述> 获取某一天的0时0分0秒
 	 * <功能详细描述>

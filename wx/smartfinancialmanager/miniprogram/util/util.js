@@ -93,11 +93,22 @@ function showToast(msg, time){
   })
 }
 
+function setScale(num, digit){
+  if(num == undefined || num == null){
+    return 0;
+  }
+  let numFloat = parseFloat(num);
+  let enlarge = digit * 10;
+  numFloat = Math.round(numFloat * enlarge) / enlarge;
+  return numFloat;
+}
+
 module.exports = {
   formatTime,
   formatLocation,
   fib,
   formatDateTime,
   compareVersion,
-  showToast
+  showToast,
+  setScale
 }

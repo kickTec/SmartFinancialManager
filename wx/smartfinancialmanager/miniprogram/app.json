@@ -2,17 +2,15 @@
   "pages": [
     "page/index/index",
     "page/location_search/location_search",
-    "page/rank/rank",
     "page/mine/mine",
     "page/login/login",
-    "page/swipe/swipe",
-    "page/test/test",
     "page/date/date",
-    "page/fund-detail/fund-detail"
+    "page/fund-detail/fund-detail",
+    "page/gas/gas"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "无忧石金",
+    "navigationBarTitleText": "小Y计算",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
@@ -26,13 +24,19 @@
         "pagePath": "page/index/index",
         "iconPath": "image/icon_component.png",
         "selectedIconPath": "image/icon_component_HL.png",
-        "text": "复利计算"
+        "text": "复利"
       },
       {
         "pagePath": "page/date/date",
-        "iconPath": "image/icon-information.png",
-        "selectedIconPath": "image/icon-information-h.png",
-        "text": "日期计算"
+        "iconPath": "image/date-gray-717e84-64.png",
+        "selectedIconPath": "image/date-green-1BAE1A-64.png",
+        "text": "日期"
+      },
+      {
+        "pagePath": "page/gas/gas",
+        "iconPath": "image/gas-717e84-64.png",
+        "selectedIconPath": "image/gas-1BAE1A-64-64.png",
+        "text": "油费"
       },
       {
         "pagePath": "page/location_search/location_search",

@@ -22,6 +22,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -153,6 +154,51 @@ public class FundServiceImpl implements IFundService {
             FileUtil.generateDayHistory(fundPath);
         }catch (Exception e){
             logger.error("generateDayList异常", e);
+        }
+        return retJson;
+    }
+
+    @Override
+    public JSONObject queryDayDetail(Integer fundType, String fundCode, Date date) {
+        JSONObject retJson = new JSONObject();
+        try{
+            // 存储主目录 /home/kenick/smartFinancial-manager/storage
+            String storageHomePath = fileStorageService.getStorageHomePath();
+            if(StringUtils.isBlank(storageHomePath) || date == null){
+                return retJson;
+            }
+            // 当天数据存储路径 /home/kenick/smartFinancial-manager/storage/history/113616/113616_2022-08-31.txt
+            String dayFilePath = storageHomePath + File.separator + "history" + File.separator + fundCode;
+            if(fundType != null && fundType==4 && "000001".equals(fundCode)){
+                dayFilePath = storageHomePath + File.separator + "history" + File.separator + "sh" + fundCode;
+            }
+            dayFilePath = dayFilePath + File.separator + fundCode + "_" + DateUtils.getStrDate(date, "yyyy-MM-dd") + ".txt";
+            logger.debug("dayFilePath:{}", dayFilePath);
+
+            // 数据处理
+            List<String> allList = FileUtil.getTextListFromFile(new File(dayFilePath));
+            if(allList == null){
+                return retJson;
+            }
+
+            List<String> dateList = new ArrayList<>();
+            List<BigDecimal> stockValueList = new ArrayList<>();
+            for(int i=0; i<allList.size(); i++){
+                if(i % 2 == 0){
+                    continue;
+                }
+                String netVal = allList.get(i);
+                String[] netValArray = netVal.split(",");
+                String dateStr = netValArray[0].substring(netValArray[0].length() - 6);
+                BigDecimal subVal = new BigDecimal(netValArray[1]);
+                dateList.add(dateStr);
+                stockValueList.add(subVal);
+            }
+            retJson.put("allList", allList);
+            retJson.put("dateList", dateList);
+            retJson.put("stockValueList", stockValueList);
+        }catch (Exception e){
+	        logger.error("queryDayDetail异常!", e);
         }
         return retJson;
     }

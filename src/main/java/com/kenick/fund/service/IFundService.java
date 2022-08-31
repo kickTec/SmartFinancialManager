@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.bean.Fund;
 import com.kenick.user.bean.UserFund;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IFundService {
@@ -69,4 +70,5 @@ public interface IFundService {
 
 	JSONObject generateDayList(String fundCode);
 
+    JSONObject queryDayDetail(Integer fundType, String fundCode, Date date);
 }

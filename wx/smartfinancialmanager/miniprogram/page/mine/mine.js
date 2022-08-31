@@ -8,7 +8,8 @@ Page({
     version:"1.0.7",
     cleanTime: 5000,
     jumpFlag: false,
-    fundList: []
+    fundList: [],
+    dataHeadArray: ['result1', 'result2', 'result3', 'result4', 'result5', 'result6', 'result7', 'result8', 'result9', 'result10', 'result11', 'result12', 'result13', 'result14', 'Summary', 'condition1', 'condition2', 'condition3', 'condition4', 'result15', 'result16', 'result17', 'result18', 'result19', 'result20']
   },
 
   onLoad() {
@@ -24,7 +25,8 @@ Page({
     let openid = wx.getStorageSync("openid");
     if (openid == "onwab5X3Gyi_oH-xMPA0Qkux5PzA") {
       this.setData({
-        jumpFlag:true
+        jumpFlag:true,
+        dataHeadArray: ['近2日涨幅', '昨日股价', '今日最低', '今日预估', '今日股价','今日最高']
       });
       this.cacheQuery();
       let that = this;
@@ -47,11 +49,6 @@ Page({
           key: 'openid',
           data: openid
         });
-        if (openid == 'onwab5X3Gyi_oH-xMPA0Qkux5PzA'){
-          wx.navigateTo({
-            url: '/page/rank/rank',
-          })
-        }
       }).catch(err => {
         console.error(err)
       })
@@ -149,7 +146,7 @@ Page({
   cacheQuery() {
     let needQuery = false;
     let fundResponse = wx.getStorageSync("fundResponse");
-    if (fundResponse) {
+    if (fundResponse && fundResponse.data && fundResponse.data.length > 0) {
       if (Date.now() - fundResponse.queryTimeStamp < 1000 * 20) {
         this.setData({
           fundList: fundResponse.data

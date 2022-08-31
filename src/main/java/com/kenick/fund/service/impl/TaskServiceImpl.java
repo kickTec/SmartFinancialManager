@@ -183,9 +183,9 @@ public class TaskServiceImpl implements ITaskService {
 			String storeInfo = fund.getCurTime() + "," + currentValue;
 			stockList.add(storeInfo);
 
-			if(stockList.size() >= 10){
+			if(stockList.size() >= 1){
 				// 保存个股记录数据
-				asyncService.persistentStockInfo(now,fund.getType(), fundCode, stockList);
+				asyncService.persistentStockInfo(now, fund.getType(), fundCode, stockList);
 				stockList.clear();
 				stockHistoryMap.remove(fullFundCode);
 			}else{

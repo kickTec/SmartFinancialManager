@@ -136,16 +136,18 @@ public class GridSVImpl implements IGridSV {
         }
 
         // 卖出计算
-        BigDecimal sellAvgPrice = gridCondition.getSellAvgPrice() == null ? gridSellPrice: gridCondition.getSellAvgPrice();
-        int sellQuantity = gridCondition.getSellQuantity();
-        int sellQuantityNew = sellQuantity + tradeQuantity;
-        if(sellQuantity > 0){
-            sellAvgPrice = sellAvgPrice.multiply(new BigDecimal(sellQuantity))
+        BigDecimal sellAvgPrice;
+        BigDecimal oldSellAvgPrice = gridCondition.getSellAvgPrice() == null ? gridSellPrice: gridCondition.getSellAvgPrice();
+        int oldSellQuantity = gridCondition.getSellQuantity();
+        int sellQuantityNew = oldSellQuantity + tradeQuantity;
+        if(oldSellQuantity > 0){
+            sellAvgPrice = oldSellAvgPrice.multiply(new BigDecimal(oldSellQuantity))
                     .add(gridSellPrice.multiply(new BigDecimal(tradeQuantity)))
-                    .divide(new BigDecimal(sellQuantityNew), 3, RoundingMode.HALF_UP);
+                    .divide(new BigDecimal(sellQuantityNew), 2, RoundingMode.HALF_UP);
         }else{
             sellAvgPrice = gridSellPrice;
         }
+        sellAvgPrice = sellAvgPrice.setScale(2, RoundingMode.HALF_UP);
 
         // 持仓计算
         BigDecimal holdPrice = gridCondition.getHoldPrice() == null ? gridSellPrice : gridCondition.getHoldPrice();
@@ -166,7 +168,7 @@ public class GridSVImpl implements IGridSV {
         gridCondition.setTradeTotal(gridCondition.getTradeTotal()+1);
         gridCondition.setBenchmarkPriceNew(gridSellPrice);
 
-        calcGainMoney("卖",gridCondition);
+        calcGainMoney("卖", gridCondition);
     }
 
     // 网格买入
@@ -226,32 +228,38 @@ public class GridSVImpl implements IGridSV {
     }
 
     private static void calcGainMoney(String directDesc,GridCondition gridCondition) {
+        String fundCode = gridCondition.getFundCode();
+
         // 计算盈利
         // 网格盈利 买、卖相互抵消赚的钱
         BigDecimal gridGainMoney = BigDecimal.ZERO;
         int sellQuantity = gridCondition.getSellQuantity();
-        if(sellQuantity > 0){ // （卖均价-买均价)*卖出数量
+        if(sellQuantity > 0){ //（卖均价-买均价)*卖出数量
             gridGainMoney = gridCondition.getSellAvgPrice().subtract(gridCondition.getBuyAvgPrice()).multiply(new BigDecimal(sellQuantity));
+            logger.debug("{}{} sellQuantity > 0,gridGainMoney:{}", fundCode, directDesc, gridGainMoney);
         }
         // 持仓盈利，不能使用持仓价计算，过程中可能会清仓
         // (最新股价-买入均价)*(买入数量-卖出数量)
         BigDecimal fundPrice = gridCondition.getFundPrice();
         BigDecimal holdGainMoney = BigDecimal.ZERO;
-        if(gridCondition.getBuyQuantity() > 0){
+        if(gridCondition.getBuyQuantity() - sellQuantity > 0){
             holdGainMoney = fundPrice.subtract(gridCondition.getBuyAvgPrice()).multiply(new BigDecimal(gridCondition.getBuyQuantity() - sellQuantity));
+            holdGainMoney = holdGainMoney.setScale(2, RoundingMode.HALF_UP);
+            logger.debug("{}{} gridCondition.getBuyQuantity() - sellQuantity,holdGainMoney:{}", fundCode, directDesc, holdGainMoney);
         }
         // 手续费
         BigDecimal serviceFee = gridCondition.getServiceFee() == null ? BigDecimal.ZERO : gridCondition.getServiceFee();
         BigDecimal currentFee = BigDecimal.ZERO;
         // 当前手续费 上海债百万分之5 0.000005，深圳十万分之5 0.00005
         if(StringUtils.isNotBlank(directDesc)){
-            currentFee = GridUtil.calcFee(gridCondition.getFundCode(), fundPrice, gridCondition.getTradeQuantity());
+            currentFee = GridUtil.calcFee(fundCode, fundPrice, gridCondition.getTradeQuantity());
             serviceFee = serviceFee.add(currentFee);
+            logger.debug("{}{} currentFee:{},serviceFee:{}", fundCode, directDesc, currentFee, serviceFee);
         }
-
-        holdGainMoney = holdGainMoney.setScale(2, RoundingMode.HALF_UP);
         // 网格盈利: （卖均价-买均价)*卖出数量 + (最新股价-买入均价)*(买入数量-卖出数量) - 手续费
-        gridCondition.setGainMoney(gridGainMoney.add(holdGainMoney).subtract(serviceFee));
+        BigDecimal gainMoney = gridGainMoney.add(holdGainMoney).subtract(serviceFee);
+        logger.debug("{}{} gainMoney:{},serviceFee:{}", fundCode, directDesc, gainMoney, serviceFee);
+        gridCondition.setGainMoney(gainMoney);
         gridCondition.setServiceFee(serviceFee);
 
         if(StringUtils.isNotBlank(directDesc)){
@@ -266,6 +274,7 @@ public class GridSVImpl implements IGridSV {
                     .append(",当前手续费:").append(currentFee)
                     .append(",总手续费:").append(gridCondition.getServiceFee().setScale(2, RoundingMode.HALF_UP))
                     .append(",买入均价:").append(gridCondition.getBuyAvgPrice())
+                    .append(",卖出均价:").append(gridCondition.getSellAvgPrice())
                     .append(",最新股价:").append(gridCondition.getFundPrice())
                     .append(",当前持仓:").append(gridCondition.getHoldQuantity())
                     .append(",持仓盈利:").append(holdGainMoney)

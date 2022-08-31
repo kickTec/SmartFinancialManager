@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
+
 @Controller
 @RequestMapping("/fund")
 public class FundController {
@@ -114,6 +116,23 @@ public class FundController {
             return HttpUtils.showSuccess(detail);
         }catch (Exception e){
             logger.error("generateDayList异常",e);
+        }
+        return HttpUtils.showSuccess();
+    }
+
+    @RequestMapping("/queryDayDetail")
+    @ResponseBody
+    public String queryDayDetail(@RequestParam(value = "data",required = false) String data){
+        logger.debug("FundController.queryDayDetail in, param:{}",data);
+        try{
+            JSONObject paramJson = JSON.parseObject(data);
+            Integer fundType = paramJson.getInteger("fundType");
+            String fundCode = paramJson.getString("fundCode");
+            Date date = paramJson.getDate("date");
+            JSONObject detail = fundService.queryDayDetail(fundType, fundCode, date);
+            return HttpUtils.showSuccess(detail);
+        }catch (Exception e){
+            logger.error("queryDayDetail异常",e);
         }
         return HttpUtils.showSuccess();
     }
