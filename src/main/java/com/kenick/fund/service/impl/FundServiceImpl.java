@@ -204,6 +204,20 @@ public class FundServiceImpl implements IFundService {
     }
 
     @Override
+    public void saveFundJsonBackup() {
+	    try{
+	        if(fundCacheList == null){
+	            return;
+            }
+
+            String storageHomePath = fileStorageService.getStorageHomePath();
+            FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json."+DateUtils.getNowDateStr("yyyyMMdd"), fundCacheList);
+        }catch (Exception e){
+            logger.error("saveFundJsonBackup error!", e);
+        }
+    }
+
+    @Override
 	public List<Fund> getAllFundList() {
 		if(fundCacheList == null || fundCacheList.size() == 0){
 			fundCacheList = fileStorageService.getFundListFromFile();

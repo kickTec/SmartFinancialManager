@@ -71,4 +71,7 @@ public interface IFundService {
 	JSONObject generateDayList(String fundCode);
 
     JSONObject queryDayDetail(Integer fundType, String fundCode, Date date);
+
+	void saveFundJsonBackup();
+
 }

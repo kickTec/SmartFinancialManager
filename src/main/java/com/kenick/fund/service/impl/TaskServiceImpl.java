@@ -138,6 +138,9 @@ public class TaskServiceImpl implements ITaskService {
 				FileUtil.generateDayHistory(storePath);
 			}
 
+			// 每天备份一次 fund.json
+			fundService.saveFundJsonBackup();
+
 			// 每周五备份最近5天数据
 			if(weekNum == 5){
 				String storageHomePath = fileStorageService.getStorageHomePath();

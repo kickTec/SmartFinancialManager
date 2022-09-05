@@ -21,7 +21,7 @@ Page({
     backFinal: null,
     showDetailTip: '展开网格交易明细▼',
     intervalDefault: 0.7,
-    labelSelectType: '15day',
+    labelSelectType: '30day',
     gridQuantity: 100,
     dataHeadArray: ['result1', 'result2', 'result3', 'result4', 'result5', 'result6', 'result7', 'result8', 'result9', 'result10', 'result11', 'result12', 'result13', 'result14', 'Summary', 'condition1', 'condition2', 'condition3', 'condition4', 'result15', 'result16', 'result17', 'result18', 'result19', 'result20']
   },
@@ -115,7 +115,7 @@ Page({
           intervalDefault: intervalDefault,
           gridQuantity: gridQuantity
         });
-        that.initEcharts("15日走势图", 15);
+        that.initEcharts("30日走势图", 30);
       } else {
         util.showToast('服务器连接异常', 500);
       }
@@ -273,11 +273,11 @@ function setChartOption(chart, title, xArray, yArray, startX) {
         formatter: function (params,index) {
           // 根据展示数据量自定义间隔
           let showNum = xArray.length * (1 - (startX / 100));
-          if (showNum > 40) {
+          if (showNum > 40) { // 展示数量大于40，间隔3个显示下标
             if (index % 3 != 0) {
-              return '';
+              return ''; // 空字符串不会显示
             } 
-          } else if (showNum > 20) {
+          } else if (showNum > 20) {// 展示数量21-40，间隔1个显示下标
             if (index % 2 == 0) {
               return '';
             }
@@ -323,15 +323,13 @@ function setChartOption(chart, title, xArray, yArray, startX) {
         }
       },
       axisLine: {
+        show: false, // 不显示坐标轴线
         lineStyle: {
           opacity: 0,
         }
       },
       axisTick: {
         show: false, // 不显示坐标轴刻度线
-      },
-      axisLine: {
-        show: false, // 不显示坐标轴线
       },
       axisLabel: {
         show: true // 不显示坐标轴上的文字
