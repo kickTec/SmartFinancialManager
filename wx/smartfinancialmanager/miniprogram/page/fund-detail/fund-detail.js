@@ -72,58 +72,7 @@ Page({
   },
 
   queryDetail() {
-    const that = this;
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryDetail',
-        paramJson: {
-          data: '{"fundCode":"' + this.data.fundCode + '"}'
-        }
-      }
-    }).then(res => {
-      const response = JSON.parse(res.result);
-      if (response !== null && response.flag === true) {
-        let xArray = response.data.lastData90.dateList;
-        let yArray = response.data.lastData90.stockValueList;
-        if (xArray == undefined || xArray == null){
-          xArray = [];
-        }
-        if (yArray == undefined || yArray == null) {
-          yArray = [];
-        }
-        let intervalDefault = 0.5
-        if (response.data.basic.curNetValue > 100){
-          intervalDefault = 0.5 + ((response.data.basic.curNetValue - 100) / 10) * 0.1;
-        }else{
-          intervalDefault = 0.2 + (response.data.basic.curNetValue/ 10) * 0.1;
-        }
-
-        intervalDefault = util.setScale(intervalDefault, 2);
-        let gridQuantity = 100;
-        if (response.data.basic.fundName.indexOf("转债") > 0){
-          gridQuantity = 10;
-        }
-        that.setData({
-          xArray: xArray,
-          yArray: yArray,
-          item: response.data.basic,
-          avg1: response.data.avg1,
-          avg2: response.data.avg2,
-          avg3: response.data.avg3,
-          fundName: response.data.basic.fundName,
-          intervalDefault: intervalDefault,
-          gridQuantity: gridQuantity
-        });
-        that.initEcharts("30日走势图", 30);
-      } else {
-        util.showToast('服务器连接异常', 500);
-      }
-      return 1
-    }).catch(error => {
-      util.showToast('服务器连接异常', 500);
-      console.log('error', error);
-    })
+    // http://www.kenick.top/fund/queryDetail
   },
 
   initEcharts: function (name, dayNum) {
@@ -165,33 +114,7 @@ Page({
     const that = this;
     let param = this.data.fundCode + "," + dayNum + "," + initPrice + "," + gridInterval + "," + gridQuantity;
     console.log(param);
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/grid/backTest',
-        paramJson: {
-          data: param
-        }
-      }
-    }).then(res => {
-      const response = JSON.parse(res.result);
-      if (response !== null) {
-        let tradeDetailArray = response.tradeDetail;
-        if (tradeDetailArray == undefined){
-          tradeDetailArray = [];
-        }
-        that.setData({
-          backArray: tradeDetailArray,
-          backFinal: response.final
-        });
-      } else {
-        util.showToast('服务器连接异常', 500);
-      }
-      return 1
-    }).catch(error => {
-      util.showToast('服务器连接异常', 500);
-      console.log('error', error);
-    })
+    // http://www.kenick.top/grid/backTest
   },
 
   showDetail:function(options){

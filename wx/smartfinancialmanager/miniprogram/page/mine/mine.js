@@ -105,42 +105,7 @@ Page({
   },
 
   loadFund() {
-    const that = this;
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryfundinfolist',
-        paramJson: {
-          data: '{"orderBy":"gain_total desc,cur_gain desc"}'
-        }
-      }
-    }).then(res => {
-      const response = JSON.parse(res.result);
-      response.queryTimeStamp = Date.now();
-      wx.setStorage({
-        key: 'fundResponse',
-        data: response
-      });
-      if (response !== null && response.flag === true) {
-        that.setData({
-          fundList: response.data
-        })
-      } else {
-        wx.showToast({
-          title: '服务器连接异常',
-          icon: 'success',
-          duration: 500
-        })
-      }
-      return 1
-    }).catch(error => {
-      wx.showToast({
-        title: '服务器连接异常',
-        icon: 'success',
-        duration: 500
-      });
-      console.log('error', error);
-    })
+    // http://www.kenick.top/fund/queryfundinfolist
   },
 
   cacheQuery() {
@@ -165,41 +130,8 @@ Page({
 
   loadFund() {
     const that = this;
-    wx.cloud.callFunction({
-      name: 'httpkenick',
-      data: {
-        url: 'http://www.kenick.top/fund/queryfundinfolist',
-        paramJson: {
-          data: '{"orderBy":"gain_total desc,cur_gain desc"}'
-        }
-      }
-    }).then(res => {
-      const response = JSON.parse(res.result);
-      response.queryTimeStamp = Date.now();
-      wx.setStorage({
-        key: 'fundResponse',
-        data: response
-      });
-      if (response !== null && response.flag === true) {
-        that.setData({
-          fundList: response.data
-        })
-      } else {
-        wx.showToast({
-          title: '服务器连接异常',
-          icon: 'success',
-          duration: 500
-        })
-      }
-      return 1
-    }).catch(error => {
-      wx.showToast({
-        title: '服务器连接异常',
-        icon: 'success',
-        duration: 500
-      });
-      console.log('error', error);
-    })
+
+    // http://www.kenick.top/fund/queryfundinfolist
   }
 
 })
