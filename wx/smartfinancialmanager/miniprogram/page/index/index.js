@@ -6,27 +6,43 @@ Page({
   data: {
     dataArray: ['日复利', '年复利'],
     cycleArray: ['周期-天', '周期-年'],
-    index: 0,
+    type: 1,
     finalMoney: '',
     initMoney: 10000,
-    rate: 2,
-    cycle: 365
+    rate: 3,
+    cycle: 3
   },
 
-  onLoad: function (options) {
-    
+  onLoad: function (options) { 
+    this.calcCycleMoney();
   },
 
-  bindViewEvent(data) {
-    let indexValue = parseInt(data.detail.value);
-    if (indexValue == 1) {
-      this.setData({
-        cycle: 1
-      });
+  inputBlur(option) {
+    if (option){
+      let blurType = option.currentTarget.dataset.blurtype;
+      if (blurType == "type") {
+        this.setData({
+          "type": parseInt(option.detail.value)
+        });
+      }
+      if (blurType == "initMoney") {
+        this.setData({
+          "initMoney": parseFloat(option.detail.value)
+        });
+      }
+      if (blurType == "rate") {
+        this.setData({
+          "rate": parseFloat(option.detail.value)
+        });
+      }
+      if (blurType == "cycle") {
+        this.setData({
+          "cycle": parseFloat(option.detail.value)
+        });
+      }
+      
+      this.calcCycleMoney();
     }
-    this.setData({
-      index: indexValue
-    });
   },
 
   formSubmit(e) {
@@ -34,35 +50,42 @@ Page({
     let initMoney = parseFloat(e.detail.value.initMoney);
     let rate = parseFloat(e.detail.value.rate);
     let cycle = parseInt(e.detail.value.cycle);
-    let finalMoney = this.calcCycleMoney(type, initMoney, rate, cycle);
     this.setData({
-      "finalMoney": finalMoney
+      "type":type,
+      "initMoney": initMoney,
+      "rate": rate,
+      "cycle": cycle
     });
+
+    this.calcCycleMoney();
   },
 
-  calcCycleMoney(type, initMoney, rate, cycle) {
+  calcCycleMoney() {
+    let initMoney = this.data.initMoney;
     let finalMoney = initMoney;
-    if (type == 0) {
-      for (let i = 0; i < cycle; i++) {
-        let gain = (initMoney * rate * 0.01) / 365;
+    if (this.data.type == 0) {
+      for (let i = 0; i < this.data.cycle; i++) {
+        let gain = (initMoney * this.data.rate * 0.01) / 365;
         finalMoney = initMoney + gain;
         initMoney = finalMoney;
       }
-    } else if (type == 1) {
-      for (let i = 0; i < cycle; i++) {
-        let gain = initMoney * rate * 0.01;
+    } else if (this.data.type == 1) {
+      for (let i = 0; i < this.data.cycle; i++) {
+        let gain = initMoney * this.data.rate * 0.01;
         finalMoney = initMoney + gain;
         initMoney = finalMoney;
       }
     }
 
-    return finalMoney.toFixed(2);
+    this.setData({
+      "finalMoney": finalMoney.toFixed(2)
+    });
   },
 
   // 用户点击右上角 分享给好友
   onShareAppMessage: function () {
     let path = `/page/index/index`;
-    let title = '';
+    let title = '复利计算';
     return {
       title: title,
       path: path
@@ -71,7 +94,9 @@ Page({
 
   // 分享到朋友圈
   onShareTimeline: function () {
-
+    return {
+      title: '复利计算'
+    }
   }
 
 })

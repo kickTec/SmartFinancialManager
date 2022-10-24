@@ -7,7 +7,7 @@
         百公里油耗(升):
         </view>
         <view class="label-right">
-          <input name="gas100" value="{{gas100}}"></input>
+          <input name="gas100" value="{{gas100}}" data-blurtype="gas100" bindblur="calcGasFee"></input>
         </view>
       </view>
     </view>
@@ -17,7 +17,7 @@
         油价(元/升):
         </view>
         <view class="label-right">
-          <input name="gasPrice" value="{{gasPrice}}"></input>
+          <input name="gasPrice" value="{{gasPrice}}" data-blurtype="gasPrice" bindblur="calcGasFee"></input>
         </view>
       </view>
     </view>
@@ -27,7 +27,7 @@
         距离(公里):
         </view>
         <view class="label-right">
-          <input name="distance" value="{{distance}}"></input>
+          <input name="distance" value="{{distance}}" data-blurtype="distance" bindblur="calcGasFee"></input>
         </view>
       </view>
     </view>
