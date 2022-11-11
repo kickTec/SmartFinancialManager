@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -28,10 +27,7 @@ public class JarUtil {
     private static Logger logger = LoggerFactory.getLogger(JarUtil.class);
 
     public static void main(String[] args) throws Exception {
-        // compressFundStorage("D:\\tmp\\smf_storage\\history", 10);
 
-        Date pastDateZero = DateUtils.getPastDateZero(1);
-        System.out.println(pastDateZero);
     }
 
     /**

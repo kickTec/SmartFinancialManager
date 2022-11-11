@@ -36,6 +36,28 @@ public class FundController {
         return "fundIndex";
     }
 
+    @RequestMapping("/pcIndex")
+    public String pcIndex(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.pcIndex in, param:{}",data);
+        try{
+            model.addAttribute("fundList", fundService.getShowFundJsonArray());
+        }catch (Exception e){
+            logger.error("获取展示理财信息异常",e);
+        }
+        return "pcIndex";
+    }
+
+    @RequestMapping("/phoneIndex")
+    public String phoneIndex(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.indexCache in, param:{}",data);
+        try{
+            model.addAttribute("fundList", fundService.getShowFundJsonArray());
+        }catch (Exception e){
+            logger.error("获取展示理财信息异常",e);
+        }
+        return "phoneIndex";
+    }
+
     @RequestMapping("/indexCacheAll")
     public String indexCacheAll(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.indexCacheAll in, param:{}",data);

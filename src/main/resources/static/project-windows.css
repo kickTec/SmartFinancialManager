@@ -6,6 +6,21 @@ body{
     max-width:1000px;
 }
 
+.scroll-bar{
+    font-size: 10px;
+    padding:2px;
+}
+
+.configDiv{
+    font-size: 10px;
+    padding:2px;
+}
+
+.horizontal{
+    text-align:center;
+    display:inline-block;
+}
+
 thead{
     font-size:120%
 }
