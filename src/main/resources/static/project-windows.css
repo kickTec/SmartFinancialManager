@@ -1,19 +1,10 @@
-body{
-    font-size:100%
-}
 
 .container{
     max-width:1000px;
 }
 
 .scroll-bar{
-    font-size: 10px;
-    padding:2px;
-}
-
-.configDiv{
-    font-size: 10px;
-    padding:2px;
+    font-size: 12px;
 }
 
 .horizontal{
@@ -21,8 +12,12 @@ body{
     display:inline-block;
 }
 
-thead{
-    font-size:120%
+.table thead{
+    font-size:14px;
+}
+
+.table tbody{
+    font-size:14px;
 }
 
 .table td, .table th {
@@ -30,4 +25,22 @@ thead{
     vertical-align: center;
     horiz-align: center;
     border-top: 2px solid #dee2e6;
+}
+
+.table .timeTh{
+    width: 130px;
+}
+
+.marginLeft10{
+    margin-left: 10px;
+}
+
+input{
+    width: 20px;
+    height: 15px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #ccc!important;
+    border-color: #4d3900!important;
 }

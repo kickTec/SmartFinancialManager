@@ -5,72 +5,116 @@
 	<link rel="stylesheet" href="/project-windows.css" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Learn-pc</title>
+	<title>Be Yourself</title>
 </head>
 <body>
     <!-- 慢加载脚本 -->
 	<script src="/jquery-3.3.1.slim.min.js"></script>
+    <script src="/jquery-3.3.1.min.js"></script>
 	<script src="/popper.min.js"></script>
 	<script src="/bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
 	<script src="/project-windows.js"></script>
 
 	<div class="container">
-		<div class="row clearfix">
+		<div class="row">
 			<div class="col-md-12 column">
-                <div id="scroll-bar" class="scroll-bar"></div>
-				<div class="configDiv horizontal">
-					<p class="horizontal">刷新间隔:</p>
-					<input th:type="text" value="20" class="horizontal"/>
+                <div id="scroll-bar" class="scroll-bar horizontal">
+                    <p class="horizontal">耀星V1.2.1</p>
+                    <p id="curTimeId" class="horizontal marginLeft10"></p>
+                    <p id="weekNumId" class="horizontal marginLeft10"></p>
+                    <p class="horizontal marginLeft10">刷新间隔</p>
+                    <input id="refreshId" th:type="text" value="10" class="horizontal"/>
+                    <p class="horizontal marginLeft10">刷新次数:</p>
+                    <p id="refreshNumId" class="horizontal">1</p>
 				</div>
-				<table id="tab" class="table table-hover table-striped table-condensed">
-					<thead align="center">
-						<tr>
-							<th>
-								两日
-							</th>
-							<th>
-								名称
-							</th>
-							<th>
-								编码
-							</th>
-							<th>
-								今日
-							</th>
-							<th>
-								昨日
-							</th>
-							<th>
-								今波动
-							</th>
-							<th>
-								昨波动
-							</th>
-						</tr>
-					</thead>
-					<tbody align="center">
-						<tr th:each="entries,stat:${fundList}" >
-							<td th:utext="${entries['gainTotal']}" />
-							<td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
-							<td th:utext="${entries['fundCode']}" />
-							<td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
-							<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
-							<td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
-							<td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
-						</tr>
-					</tbody>
-				</table>
+                <div th:fragment="table_refresh" id="table_refresh">
+                    <table id="tab" class="table table-hover table-striped table-condensed">
+                        <thead align="center">
+                        <tr>
+                            <th>
+                                两日
+                            </th>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                编码
+                            </th>
+                            <th>
+                                今日
+                            </th>
+                            <th>
+                                昨日
+                            </th>
+                            <th>
+                                今波动
+                            </th>
+                            <th>
+                                昨波动
+                            </th>
+                            <th class="timeTh">
+                                时间
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody align="center">
+                        <tr th:each="entries,stat:${fundList}" >
+                            <td th:utext="${entries['gainTotal']}" />
+                            <td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
+                            <td th:utext="${entries['fundCode']}" />
+                            <td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
+                            <td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
+                            <td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
+                            <td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
+                            <td th:utext="${entries['curTime']}"/>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
-    document.getElementById("scroll-bar").innerHTML = "V1.1.1 欢迎您!";
 
-	window.onload = function () {
-    	setTimeout(function(){
-    		window.location.reload();
-    	}, 60*1000*60); //指定时间间隔刷新
-	}
+    function getWeekDate() {
+        var weeks = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
+        var date = new Date();
+        return weeks[date.getDay()];
+    }
+
+    function getNowStr() {
+        var date = new Date();
+        this.year = date.getFullYear();
+        this.month = date.getMonth() + 1;
+        this.date = date.getDate();
+        this.hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        this.minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        this.second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+        return this.year + "年" + this.month + "月" + this.date + "日 " + this.hour + ":" + this.minute + ":" + this.second;
+    }
+
+    $("#curTimeId").text(getNowStr());
+    $("#weekNumId").text(getWeekDate());
+
+    setInterval(function () {
+	    var refreshSecond = $("#refreshId").val();
+	    var curSecond = new Date().getSeconds();
+	    $("#curTimeId").text(getNowStr());
+
+	    if(curSecond % refreshSecond === 0) {
+            $('#table_refresh').load("/fund/fundTable", {Action: "post", metas: ""},
+                function (response,status,xhr) {
+                    if(status === "success"){
+                        var refreshNumNode = $("#refreshNumId");
+                        var newRefreshNum = parseInt(refreshNumNode.text()) + 1;
+                        refreshNumNode.text(newRefreshNum);
+                    }
+                }
+            );
+        }
+    }, 1000)
+
 </script>
 </html>

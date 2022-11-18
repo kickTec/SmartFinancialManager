@@ -77,11 +77,12 @@ public class FundServiceImpl implements IFundService {
             if(fundCacheList != null && fundCacheList.size() > 0){
                 for(Fund fund:fundCacheList){
                     if(fund.getFundState() == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
+                        fund.setCurTime(perfectFundTime(fund.getCurTime()));
                         JSONObject fundJson = JsonUtils.bean2JSON(fund);
-                        if(fund.getGainTotal().compareTo(new BigDecimal(2.0)) >= 0 && fund.getCurGain() >= 1.0){
+                        if(fund.getGainTotal().compareTo(new BigDecimal(3.0)) >= 0 && fund.getCurGain() >= 1.0){
                             fundJson.put("bgColor", "#E83132");
                         }
-                        if(fund.getGainTotal().compareTo(new BigDecimal(-2.0)) <= 0 && fund.getCurGain() <= -1.0){
+                        if(fund.getGainTotal().compareTo(new BigDecimal(-3.0)) <= 0 && fund.getCurGain() <= -1.0){
                             fundJson.put("bgColor", "#009A04");
                         }
                         retArray.add(fundJson);
@@ -93,6 +94,18 @@ public class FundServiceImpl implements IFundService {
         }
 
         return retArray;
+    }
+
+    private String perfectFundTime(String curTime) {
+	    try{
+	        if(!curTime.contains(":")){
+	            Date time = DateUtils.tranToDate(curTime, "yyyyMMddHHmmss");
+	            if(time != null){
+	                return DateUtils.getStrDate(time, "yyyy-MM-dd HH:mm:ss");
+                }
+            }
+        }catch (Exception e){}
+        return curTime;
     }
 
     @Override
