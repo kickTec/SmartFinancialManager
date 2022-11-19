@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<table id="tab" class="table table-hover table-striped table-condensed">
+    <thead align="center">
+    <tr>
+        <th>
+            两日
+        </th>
+        <th>
+            名称
+        </th>
+        <th>
+            今日
+        </th>
+        <th>
+            昨日
+        </th>
+        <th>
+            今波动
+        </th>
+        <th>
+            昨波动
+        </th>
+    </tr>
+    </thead>
+    <tbody align="center">
+    <tr th:each="entries,stat:${fundList}" >
+        <td th:utext="${entries['gainTotal']}" />
+        <td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
+        <td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
+        <td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
+        <td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
+        <td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
+    </tr>
+    </tbody>
+</table>
+</html>

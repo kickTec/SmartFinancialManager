@@ -78,6 +78,7 @@ public class FundServiceImpl implements IFundService {
                 for(Fund fund:fundCacheList){
                     if(fund.getFundState() == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
                         fund.setCurTime(perfectFundTime(fund.getCurTime()));
+
                         JSONObject fundJson = JsonUtils.bean2JSON(fund);
                         if(fund.getGainTotal().compareTo(new BigDecimal(3.0)) >= 0 && fund.getCurGain() >= 1.0){
                             fundJson.put("bgColor", "#E83132");

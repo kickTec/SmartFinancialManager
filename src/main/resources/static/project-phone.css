@@ -1,17 +1,55 @@
+
 body{
-    font-size:60%;
+    text-align: center;
 }
 
 .container{
     max-width:800px;
 }
 
-thead{
-    font-size:100%;
+.scroll-bar{
+    font-size: 10px;
+    height: 14px;
+}
+
+.horizontal{
+    text-align:center;
+    display:inline-block;
+}
+
+.table_refresh{
+    margin-top: 2px;
+    line-height: 2;
+}
+
+.table thead{
+    font-size:10px;
+}
+
+.table tbody{
+    font-size:10px;
 }
 
 .table td, .table th {
-    padding: .3rem;
+    padding: .1rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
+}
+
+.table .timeTh{
+    width: 130px;
+}
+
+.marginLeft10{
+    margin-left: 5px;
+}
+
+input{
+    width: 20px;
+    height: 12px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #ccc!important;
+    border-color: #4d3900!important;
 }

@@ -58,6 +58,17 @@ public class FundController {
         return "fundTable";
     }
 
+    @RequestMapping("/fundTablePhone")
+    public String fundTablePhone(@RequestParam(value = "data",required = false) String data, Model model){
+        logger.debug("FundController.fundTablePhone in, param:{}",data);
+        try{
+            model.addAttribute("fundList", fundService.getShowFundJsonArray());
+        }catch (Exception e){
+            logger.error("获取展示理财信息异常",e);
+        }
+        return "fundTablePhone";
+    }
+
     @RequestMapping("/phoneIndex")
     public String phoneIndex(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.indexCache in, param:{}",data);
