@@ -11,6 +11,4 @@ public interface IAsyncService {
 
 	void persistentStockInfo(Date now, Integer type, String fundCode, List<String> stockList);
 
-    void persistentStockDay(Date now, Integer type, String fundCode, Double fundVal);
-
 }

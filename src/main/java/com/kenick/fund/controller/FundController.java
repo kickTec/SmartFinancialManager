@@ -135,17 +135,30 @@ public class FundController {
     public String queryDetail(@RequestParam(value = "data",required = false) String data){
         logger.debug("FundController.queryDetail in, param:{}",data);
         try{
-            long startTime = System.currentTimeMillis();
             JSONObject paramJson = JSON.parseObject(data);
             String fundCode = paramJson.getString("fundCode");
             Integer fundType = paramJson.getInteger("fundType");
             JSONObject detail = fundService.queryDetail(fundType, fundCode);
-            logger.debug("queryDetail花费时间:{}", System.currentTimeMillis()-startTime);
             return HttpUtils.showSuccess(detail);
         }catch (Exception e){
             logger.error("queryDetail异常",e);
         }
         return HttpUtils.showSuccess();
+    }
+
+    @RequestMapping("/forwardDetail")
+    public String forwardDetail(@RequestParam(value = "type",required = false) String type,
+                                @RequestParam(value = "fundCode",required = false) String fundCode,
+                                Model model){
+        logger.debug("FundController.forwardDetail in, type:{},fundCode:{}", type, fundCode);
+        try{
+            int fundType = Integer.parseInt(type);
+            JSONObject detail = fundService.queryDetail(fundType, fundCode);
+            model.addAttribute("detail", detail);
+        }catch (Exception e){
+            logger.error("forwardDetail异常",e);
+        }
+        return "fundDetail";
     }
 
     @RequestMapping("/generateDayList")

@@ -113,7 +113,7 @@ public class FundServiceImpl implements IFundService {
     public JSONObject queryDetail(Integer fundType, String fundCode) {
         JSONObject retJson = new JSONObject();
         try{
-            // 读取每日数据
+            // 从day.txt中读取每日数据
             String storageHomePath = fileStorageService.getStorageHomePath();
             if(StringUtils.isBlank(storageHomePath)){
                 return retJson;
@@ -123,6 +123,29 @@ public class FundServiceImpl implements IFundService {
                 fundHistoryPath = storageHomePath + File.separator + "history" + File.separator + "sh" + fundCode + File.separator + "day.txt";
             }
             List<String> historyList = FileUtil.getTextListFromFile(new File(fundHistoryPath));
+
+            // 追加最后一天数据，当天有数据且未记录
+            if(historyList != null){
+                String lastDay = historyList.get(historyList.size()-1).split(",")[0].split("\\.")[0].split("_")[1];
+
+                // 当天有数据，补充当天数据
+                JSONArray currentDataArray = getShowFundJsonArray();
+                for(int i=0; i<currentDataArray.size(); i++){
+                    JSONObject fundJson = currentDataArray.getJSONObject(i);
+                    if(fundCode.equals(fundJson.getString("fundCode"))){
+                        String curTime = fundJson.getString("curTime");
+                        if(!curTime.contains(lastDay.trim())){
+                            // 600036_2022-11-24.txt,32.22,32.14,32.85
+                            Double curNetVal = fundJson.getDouble("curNetValue");
+                            Double curLowVal = fundJson.getDouble("curPriceLowest");
+                            Double curHighVal = fundJson.getDouble("curPriceHighest");
+                            String addInfo = fundCode + "_" + curTime.split(" ")[0] + ".txt,"+curNetVal +","+curLowVal+","+curHighVal;
+                            historyList.add(addInfo);
+                        }
+                        break;
+                    }
+                }
+            }
 
             // 获取最近3个月数据
             JSONObject lastData90 = FileUtil.getLastDataByNum(90, historyList);

@@ -80,31 +80,4 @@ public class AsyncServiceImpl implements IAsyncService {
 		}
 	}
 
-	@Async
-	@Override
-	public void persistentStockDay(Date now, Integer type, String fundCode, Double fundVal) {
-		try{
-			// 保存文件路径
-			String storePath = fileStorageService.getStorageHomePath() + File.separator + "day"; // 保存目录
-			File storePathFile = new File(storePath);
-			if(!storePathFile.exists()){
-				storePathFile.mkdirs();
-			}
-
-			if(type == 4 && "000001".equals(fundCode)){
-				storePath = storePath +  File.separator + "sh" + fundCode + ".txt";
-			}else{
-				storePath = storePath +  File.separator + fundCode + ".txt";
-			}
-			File storeFile = new File(storePath);
-
-			// 追加内容
-			String content = DateUtils.getStrDate(now, "yyyy-MM-dd")+","+fundVal;
-			FileUtil.persistentTextSingle(storeFile, content);
-			logger.debug("持久化{}的当天数据{}结束!", fundCode, fundVal);
-		}catch (Exception e){
-			logger.error("持久化当天数据异常!", e);
-		}
-	}
-
 }

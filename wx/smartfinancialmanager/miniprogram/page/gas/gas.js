@@ -16,6 +16,37 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options && options.shareFlag){ // 分享进入
+      if (options.gas100){
+        this.setData({
+          "gas100": parseFloat(options.gas100)
+        });
+      }
+      if (options.gasPrice){
+        this.setData({
+          "gasPrice": parseFloat(options.gasPrice)
+        });
+      }
+      if (options.distance) {
+        this.setData({
+          "distance": parseFloat(options.distance)
+        });
+      }
+    }else{ // 非分享进入
+      let gas100 = wx.getStorageSync("gas100");
+      if (gas100) {
+        this.setData({
+          "gas100": parseFloat(gas100)
+        });
+      }
+      let gasPrice = wx.getStorageSync("gasPrice");
+      if (gasPrice) {
+        this.setData({
+          "gasPrice": parseFloat(gasPrice)
+        });
+      }
+    }
+    
     this.calcGasFee();
   },
 
@@ -29,17 +60,18 @@ Page({
   },
 
   calcGasFee(option){
-    console.log(option);
     if (option){
       if(option.currentTarget.dataset.blurtype=="gas100"){
         this.setData({
           "gas100": parseFloat(option.detail.value)
         });
+        wx.setStorageSync("gas100", parseFloat(option.detail.value));
       }
       if (option.currentTarget.dataset.blurtype == "gasPrice") {
         this.setData({
           "gasPrice": parseFloat(option.detail.value)
         });
+        wx.setStorageSync("gasPrice", parseFloat(option.detail.value));
       }
       if (option.currentTarget.dataset.blurtype == "distance") {
         this.setData({
@@ -59,7 +91,8 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    let path = `/page/gas/gas`;
+    let path = "/page/gas/gas?shareFlag=true&gas100=" + this.data.gas100 + "&gasPrice=" + this.data.gasPrice 
+      +"&distance="+this.data.distance;
     let title = '自驾油费计算';
     return {
       title: title,

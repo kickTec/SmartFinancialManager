@@ -60,7 +60,7 @@
                         <tbody align="center">
                         <tr th:each="entries,stat:${fundList}" >
                             <td th:utext="${entries['gainTotal']}" />
-                            <td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
+                            <td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" th:data="|${entries['type']},${entries['fundCode']}|" th:onclick="'showFundDetail(this)'" />
                             <td th:utext="${entries['fundCode']}" />
                             <td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
                             <td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
@@ -114,7 +114,14 @@
                 }
             );
         }
-    }, 1000)
+    }, 1000);
+
+    function showFundDetail(option){
+        var dataStr = $(option).attr("data");
+        var type = dataStr.split(',')[0];
+        var fundCode = dataStr.split(',')[1];
+        window.location.href="/fund/forwardDetail?type="+type+"&fundCode="+fundCode;
+    }
 
 </script>
 </html>
