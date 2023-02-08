@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 @Controller
 public class IndexController {
@@ -43,7 +42,7 @@ public class IndexController {
 	}
 
 
-	private boolean isPc(String userAgent){
+	public static boolean isPc(String userAgent){
 		if(StringUtils.isBlank(userAgent)){
 			return false;
 		}

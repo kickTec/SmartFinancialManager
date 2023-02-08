@@ -113,13 +113,17 @@ public class FundServiceImpl implements IFundService {
     public JSONObject queryDetail(Integer fundType, String fundCode) {
         JSONObject retJson = new JSONObject();
         try{
+            if(fundType == null){
+                fundType = TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ;
+            }
+
             // 从day.txt中读取每日数据
             String storageHomePath = fileStorageService.getStorageHomePath();
             if(StringUtils.isBlank(storageHomePath)){
                 return retJson;
             }
             String fundHistoryPath = storageHomePath + File.separator + "history" + File.separator + fundCode + File.separator + "day.txt";
-            if(fundType != null && fundType==4 && "000001".equals(fundCode)){
+            if(fundType==TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH && "000001".equals(fundCode)){ // 沪000001为大盘指数
                 fundHistoryPath = storageHomePath + File.separator + "history" + File.separator + "sh" + fundCode + File.separator + "day.txt";
             }
             List<String> historyList = FileUtil.getTextListFromFile(new File(fundHistoryPath));
@@ -132,7 +136,7 @@ public class FundServiceImpl implements IFundService {
                 JSONArray currentDataArray = getShowFundJsonArray();
                 for(int i=0; i<currentDataArray.size(); i++){
                     JSONObject fundJson = currentDataArray.getJSONObject(i);
-                    if(fundCode.equals(fundJson.getString("fundCode"))){
+                    if(fundCode.equals(fundJson.getString("fundCode")) && fundJson.getIntValue("type") == fundType){
                         String curTime = fundJson.getString("curTime");
                         if(!curTime.contains(lastDay.trim())){
                             // 600036_2022-11-24.txt,32.22,32.14,32.85
@@ -162,7 +166,7 @@ public class FundServiceImpl implements IFundService {
             // 基本信息
             if(fundCacheList != null && fundCacheList.size() > 0){
                 for(Fund fund:fundCacheList){
-                    if(fund.getFundCode().equals(fundCode)){
+                    if(fund.getFundCode().equals(fundCode) && fund.getType().intValue() == fundType){
                         JSONObject fundJson = JsonUtils.bean2JSON(fund);
                         retJson.put("basic",fundJson);
                         break;

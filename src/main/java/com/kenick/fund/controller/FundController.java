@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Controller
@@ -21,6 +22,9 @@ import java.util.Date;
 public class FundController {
 
     private final static Logger logger = LoggerFactory.getLogger(FundController.class);
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 	
 	@Autowired
 	private IFundService fundService;
@@ -47,7 +51,7 @@ public class FundController {
         return "pcIndex";
     }
 
-    @RequestMapping("/fundTable")
+    @RequestMapping("/pcFundTable")
     public String fundTable(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.fundTable in, param:{}",data);
         try{
@@ -55,10 +59,10 @@ public class FundController {
         }catch (Exception e){
             logger.error("获取展示理财信息异常",e);
         }
-        return "fundTable";
+        return "pcFundTable";
     }
 
-    @RequestMapping("/fundTablePhone")
+    @RequestMapping("/phoneFundTable")
     public String fundTablePhone(@RequestParam(value = "data",required = false) String data, Model model){
         logger.debug("FundController.fundTablePhone in, param:{}",data);
         try{
@@ -66,7 +70,7 @@ public class FundController {
         }catch (Exception e){
             logger.error("获取展示理财信息异常",e);
         }
-        return "fundTablePhone";
+        return "phoneFundTable";
     }
 
     @RequestMapping("/phoneIndex")
@@ -155,10 +159,19 @@ public class FundController {
             int fundType = Integer.parseInt(type);
             JSONObject detail = fundService.queryDetail(fundType, fundCode);
             model.addAttribute("detail", detail);
+
+            if(httpServletRequest != null){
+                String userAgent = httpServletRequest.getHeader("user-agent");
+                if(IndexController.isPc(userAgent)){
+                    return "pcFundDetail";
+                }else{
+                    return "phoneFundDetail";
+                }
+            }
         }catch (Exception e){
             logger.error("forwardDetail异常",e);
         }
-        return "fundDetail";
+        return "pcFundDetail";
     }
 
     @RequestMapping("/generateDayList")
