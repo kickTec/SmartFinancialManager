@@ -21,6 +21,17 @@
             text-align:left;
             display:inline;
         }
+        .span-active {
+            border: 0 solid #ed4861!important;
+            color: #ed4861!important;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .span-normal{
+            border: 0 solid #000000!important;
+            font-size: 12px;
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -31,34 +42,18 @@
         <input type="hidden" th:value="${detail.basic.type}" id="typeId" />
     </div>
     <div id="centerDiv" class="centerClass horizontal">
+        <div>
+            <span id="label15" class="span-active" onclick="chooseLabelSelectType(15)">15日走势</span>
+            <span id="label30" class="span-normal" onclick="chooseLabelSelectType(30)">30日走势</span>
+            <span id="label45" class="span-normal" onclick="chooseLabelSelectType(45)">45日走势</span>
+        </div>
         <div id="main" style="width: 600px;height:400px;"></div>
     </div>
 </div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-            data: ['销量']
-        },
-        xAxis: {
-            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-            {
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }
-        ]
-    };
+    var xArrayTop = [];
+    var yArrayTop = [];
 
     // 设置chart选项
     function setChartOption(chart, title, xArray, yArray, startX) {
@@ -68,7 +63,7 @@
                 textStyle: {
                     align: 'center',
                     color: 'black',
-                    fontSize: 13,
+                    fontSize: 13
                 },
                 left: 'center'
             },
@@ -104,7 +99,7 @@
                     show: false // 不显示坐标轴刻度线
                 },
                 axisLine: {
-                    show: false, // 不显示坐标轴线
+                    show: false // 不显示坐标轴线
                 },
                 axisLabel: {
                     show: true, // 不显示坐标轴上的文字
@@ -117,11 +112,11 @@
                         // 根据展示数据量自定义间隔
                         var showNum = xArray.length * (1 - (startX / 100));
                         if (showNum > 40) {
-                            if (index % 3 != 0) {
+                            if (index % 3 !== 0) {
                                 return '';
                             }
                         } else if (showNum > 20) {
-                            if (index % 2 == 0) {
+                            if (index % 2 === 0) {
                                 return '';
                             }
                         }
@@ -162,19 +157,19 @@
                 show: true,
                 splitLine: {
                     lineStyle: {
-                        type: 'dotted',//分割线变成虚线
+                        type: 'dotted' //分割线变成虚线
                     }
                 },
                 axisLine: {
                     lineStyle: {
-                        opacity: 0,
+                        opacity: 0
                     }
                 },
                 axisTick: {
-                    show: false, // 不显示坐标轴刻度线
+                    show: false // 不显示坐标轴刻度线
                 },
                 axisLine: {
-                    show: false, // 不显示坐标轴线
+                    show: false // 不显示坐标轴线
                 },
                 axisLabel: {
                     show: true // 不显示坐标轴上的文字
@@ -185,66 +180,64 @@
                 max: function(value) {
                     return Math.ceil(value.max)
                 }
-        },
+            },
 
-        dataZoom: [
-            {
-                show: true,
-                type: 'inside',
-                start: startX,
-                end: 100
-            }
-        ],
+            dataZoom: [
+                {
+                    show: true,
+                    type: 'inside',
+                    start: startX,
+                    end: 100
+                }
+            ],
             series: [{
-            name: '股价',
-            type: 'line',
-            // 设置折线是否平滑
-            smooth: false,
-            showAllSymbol: true,
-            symbolSize: 1,
-            lineStyle: {
-                normal: {
-                    color: "#2B68D4", // 线条颜色
+                name: '股价',
+                type: 'line',
+                // 设置折线是否平滑
+                smooth: false,
+                showAllSymbol: true,
+                symbolSize: 1,
+                lineStyle: {
+                    normal: {
+                        color: "#2B68D4" // 线条颜色
+                    }
                 },
-            },
-            //对应x轴的y轴数据
-            data: yArray,
-            markPoint: {
-                data: [
-                    { type: 'max', name: '最大值' },
-                    { type: 'min', name: '最小值' }
-                ]
-            },
-            markLine: {
-                label: {
-                    position: "middle", //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+                //对应x轴的y轴数据
+                data: yArray,
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' },
+                        { type: 'min', name: '最小值' }
+                    ]
                 },
-                data: [
-                    { type: 'average', name: '平均值' }
-                ]
-            }
-        }]
-    };
+                markLine: {
+                    label: {
+                        position: "middle" //将警示值放在哪个位置，三个值“start”,"middle","end"  开始  中点 结束
+                    },
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            }]
+        };
         chart.clear();
         chart.setOption(option);
     }
 
-    function initEcharts(chart, name, dayNum, xArrayTop, yArrayTop) {
+    function initEcharts(name, dayNum, xArrayTop, yArrayTop) {
         var start = 0;
         if (dayNum < xArrayTop.length){
             start = (1 - (dayNum / xArrayTop.length)) * 100;
-            console.log("xArrayTop.length:"+xArrayTop.length+",start:"+start);
             start = fixStart(xArrayTop.length, dayNum, start);
-            console.log("修复后start:"+start);
         }
-        setChartOption(chart, name, xArrayTop, yArrayTop, start);
+        var myChart = echarts.init(document.getElementById('main'));
+        setChartOption(myChart, name, xArrayTop, yArrayTop, start);
     }
 
     function fixStart(total, dayNum, start) {
         for(var i=0; i<50; i++){
             var startPer = start/100;
             startPer = Math.round(startPer*1000)/1000;
-            console.log("start:"+start+",startPer:"+startPer);
             if(total*startPer < total-dayNum){
                 start = startPer*100 + 0.1;
             }else{
@@ -276,10 +269,10 @@
                 if (response !== null && response.flag === true) {
                     var xArray = response.data.lastData90.dateList;
                     var yArray = response.data.lastData90.stockValueList;
-                    if (xArray == undefined || xArray == null){
+                    if (xArray === undefined || xArray === null){
                         xArray = [];
                     }
-                    if (yArray == undefined || yArray == null) {
+                    if (yArray === undefined || yArray === null) {
                         yArray = [];
                     }
                     var intervalDefault = 0.5
@@ -294,7 +287,7 @@
                     if (response.data.basic.fundName.indexOf("转债") > 0){
                         gridQuantity = 10;
                     }
-                    initEcharts(myChart, "15日走势图", 15, xArray, yArray);
+                    initEcharts("15日走势图", 15, xArrayTop=xArray, yArrayTop=yArray);
                 } else {
                     alert('服务器连接异常!');
                 }
@@ -302,13 +295,29 @@
         });
     }
 
-    queryDetail();
+    function chooseLabelSelectType(dayNum){
+        if (dayNum === 15) {
+            $("#label15").attr("class","span-active");
+            $("#label30").attr("class","span-normal");
+            $("#label45").attr("class","span-normal");
+            initEcharts("15日走势图", 15, xArrayTop, yArrayTop);
+        }
+        if (dayNum === 30){
+            $("#label15").attr("class","span-normal");
+            $("#label30").attr("class","span-active");
+            $("#label45").attr("class","span-normal");
+            initEcharts("30日走势图", 30, xArrayTop, yArrayTop);
+        }
+        if (dayNum === 45) {
+            $("#label15").attr("class","span-normal");
+            $("#label30").attr("class","span-normal");
+            $("#label45").attr("class","span-active");
+            initEcharts("45日走势图", 45, xArrayTop, yArrayTop);
+        }
+    }
 
-    // 测试
-    /*
-    var xArray = ['1', '2', '3', '4', '5', '6'];
-    var xArray = [5, 20, 36, 10, 10, 20];
-    setChartOption(myChart, '测试', xArray, xArray, 0);*/
+    // 查询详情信息
+    queryDetail();
 
 </script>
 </body>

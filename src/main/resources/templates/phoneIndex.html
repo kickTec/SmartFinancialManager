@@ -29,36 +29,36 @@
 				<div th:fragment="table_refresh" id="table_refresh" class="table_refresh">
 					<table id="tab" class="table table-hover table-striped table-condensed">
 						<thead align="center">
-						<tr>
-							<th>
-								两日
-							</th>
-							<th>
-								名称
-							</th>
-							<th>
-								今日
-							</th>
-							<th>
-								昨日
-							</th>
-							<th>
-								今波动
-							</th>
-							<th>
-								昨波动
-							</th>
-						</tr>
+							<tr>
+								<th>
+									两日
+								</th>
+								<th>
+									名称
+								</th>
+								<th>
+									今日
+								</th>
+								<th>
+									昨日
+								</th>
+								<th>
+									今波动
+								</th>
+								<th>
+									昨波动
+								</th>
+							</tr>
 						</thead>
 						<tbody align="center">
-						<tr th:each="entries,stat:${fundList}" >
-							<td th:utext="${entries['gainTotal']}" />
-							<td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" />
-							<td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
-							<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
-							<td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
-							<td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
-						</tr>
+							<tr th:each="entries,stat:${fundList}" >
+								<td th:utext="${entries['gainTotal']}" />
+								<td th:utext="${entries['fundName']}" th:style="'color: ' + ${entries['bgColor']} + ';'" th:data="|${entries['type']},${entries['fundCode']}|" th:onclick="'showFundDetail(this)'" />
+								<td th:utext="${entries['curGain']} +  '&lt;br/&gt;' + ${entries['curNetValue']} "/>
+								<td th:utext="${entries['lastGain']} +  '&lt;br/&gt;' + ${entries['lastNetValue']} "/>
+								<td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' +${entries['curPriceLowest']}"/>
+								<td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' +${entries['lastPriceLowest']}"/>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -67,13 +67,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-
-	function getWeekDate() {
-		var weeks = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
-		var date = new Date();
-		return weeks[date.getDay()];
-	}
-
 	function getNowStr() {
 		var date = new Date();
 		this.year = date.getFullYear();
@@ -87,7 +80,6 @@
 	}
 
 	$("#curTimeId").text(getNowStr());
-	// $("#weekNumId").text(getWeekDate());
 
 	setInterval(function () {
 		var refreshSecond = $("#refreshId").val();
@@ -95,7 +87,7 @@
 		$("#curTimeId").text(getNowStr());
 
 		if(curSecond % refreshSecond === 0) {
-			$('#table_refresh').load("/fund/fundTablePhone", {Action: "post", metas: ""},
+			$('#table_refresh').load("/fund/phoneFundTable", {Action: "post", metas: ""},
 				function (response,status,xhr) {
 					if(status === "success"){
 						var refreshNumNode = $("#refreshNumId");
@@ -105,7 +97,14 @@
 				}
 			);
 		}
-	}, 1000)
+	}, 1000);
+
+	function showFundDetail(option){
+		var dataStr = $(option).attr("data");
+		var type = dataStr.split(',')[0];
+		var fundCode = dataStr.split(',')[1];
+		window.location.href="/fund/forwardDetail?type="+type+"&fundCode="+fundCode;
+	}
 
 </script>
 </html>
