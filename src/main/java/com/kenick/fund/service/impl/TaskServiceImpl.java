@@ -48,6 +48,7 @@ public class TaskServiceImpl implements ITaskService {
 	private String stockSzUrl = "http://hq.sinajs.cn/list=sz";
 	private String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
+	// 腾讯接口
 	private String tencentSzUrl = "https://qt.gtimg.cn/q=sz";
 	private String tenxentShUrl = "https://qt.gtimg.cn/q=sh";
 

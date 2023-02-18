@@ -54,16 +54,28 @@ public class JarUtil {
 
     public static void compressFundStorage(String targetDir, int timeoutDay, String zipName){
         try{
+            // 压缩文件名称
             File sourceFile = new File(targetDir);
             if(StringUtils.isBlank(zipName)){
                 zipName = sourceFile.getName() + "_" + DateUtils.getNowDateStr("yyyy-MM-dd") + ".zip";
             }
 
-            String backupPath = sourceFile.getParentFile().getAbsolutePath() + File.separator + zipName;
+            // 新保存压缩文件路径
+            String backupPath = sourceFile.getParentFile().getAbsolutePath() + File.separator + "historyBackup";
+            File backupDir = new File(backupPath);
+            if(!backupDir.exists()){
+                backupDir.mkdirs();
+            }
+            backupPath = backupPath + File.separator + zipName;
+            logger.debug("开始备份history,路径:{}", backupPath);
+
+            // 已存在跳过
             File backupZipFile = new File(backupPath);
             if(backupZipFile.exists()){
                 return;
             }
+
+            // 压缩输出
             ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(backupPath));
             compressFund(sourceFile, sourceFile.getName(), zipOutputStream, timeoutDay);
             zipOutputStream.close();

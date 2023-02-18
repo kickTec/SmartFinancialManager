@@ -252,7 +252,14 @@ public class FundServiceImpl implements IFundService {
             }
 
             String storageHomePath = fileStorageService.getStorageHomePath();
-            FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json."+DateUtils.getNowDateStr("yyyyMMdd"), fundCacheList);
+            String fundJsonBak = storageHomePath + File.separator + "configBackup";
+            File file = new File(fundJsonBak);
+            if(!file.exists()){
+                file.mkdirs();
+            }
+            String fundJsonBakPath = storageHomePath + File.separator + "configBackup" + File.separator + "fund.json." + DateUtils.getNowDateStr("yyyyMMdd");
+            logger.debug("开始备份fund.json，路径:{}", fundJsonBakPath);
+            FileUtil.writeFund2File(fundJsonBakPath, fundCacheList);
         }catch (Exception e){
             logger.error("saveFundJsonBackup error!", e);
         }
