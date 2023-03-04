@@ -1,5 +1,6 @@
 package com.kenick.util;
 
+import com.kenick.constant.TableStaticConstData;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
@@ -637,5 +638,24 @@ public class DateUtils
 		}
    		return ret;
     }
+
+    public static int parseFundType(String fundType){
+   		if(fundType.length() < 3){
+			return TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ;
+		}
+		String prefix2 = fundType.substring(0, 2);
+		String prefix3 = fundType.substring(0, 3);
+		// sz 00 200 300 184
+   		if("00".equals(prefix2) || "200".equals(prefix3) || "300".equals(prefix3) || "184".equals(prefix3)){
+			return TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ;
+		}
+
+		// sh 60 900 500
+		if("60".equals(prefix2) || "900".equals(prefix3) || "500".equals(prefix3)){
+			return TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH;
+		}
+
+   		return TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ;
+	}
 
 }

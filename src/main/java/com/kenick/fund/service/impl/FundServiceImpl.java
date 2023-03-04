@@ -280,19 +280,45 @@ public class FundServiceImpl implements IFundService {
             if(StringUtils.isBlank(storageHomePath)){
                 return;
             }
-
-            // 热加载新增
             String filePath = storageHomePath + File.separator + "smfConfig.properties";
-            String addBondSz = FileUtil.getPropertyByPath(filePath, "addBondSz");
-            String addBondSh = FileUtil.getPropertyByPath(filePath, "addBondSh");
-            fundListAddElementInner(addBondSz, addBondSh);
+            if(!new File(filePath).exists()){
+                return;
+            }
 
-            // 热加载删除
+            // 热加载新增标的
+            String addElement = FileUtil.getPropertyByPath(filePath, "addElement");
+            fundListAddElementInner(addElement);
+
+            // 热加载删除标的
             String delElement = FileUtil.getPropertyByPath(filePath, "delElement");
             fundListDelElementInner(delElement);
 
         }catch (Exception e){
-            logger.error("热加载理财标的变动异常!", e);
+            logger.error("热加载标的异常!", e);
+        }
+    }
+
+    private void fundListAddElementInner(String addElement) {
+	    if(StringUtils.isBlank(addElement)){
+	        return;
+        }
+
+        // 检测是否已存在
+        String[] eleArray = addElement.split(",");
+        for(String code:eleArray){
+            boolean existFlag = false;
+            for(Fund fund:this.fundCacheList){
+                if(fund.getFundCode().equals(code)){
+                    existFlag = true;
+                    break;
+                }
+            }
+            if(existFlag){
+                continue;
+            }
+
+            Fund fund = initFundInner(code, null);
+            this.fundCacheList.add(fund);
         }
     }
 
@@ -315,53 +341,19 @@ public class FundServiceImpl implements IFundService {
 	        return;
         }
 
-        Iterator<Fund> iterator = this.fundCacheList.iterator();
-	    while(iterator.hasNext()){
-            Fund fund = iterator.next();
-
-            if(StringUtils.isNotBlank(delElement) && delElement.contains(fund.getFundCode())){
-                iterator.remove();
-            }
-        }
+        this.fundCacheList.removeIf(fund -> StringUtils.isNotBlank(delElement) && delElement.contains(fund.getFundCode()));
     }
 
-    private void fundListAddElementInner(String addbondSz, String addbondSh) {
-
-        // 检测是否已存在
-        for(Fund fund:this.fundCacheList){
-            if(StringUtils.isNotBlank(addbondSz) && addbondSz.contains(fund.getFundCode())){
-                addbondSz = addbondSz.replace(fund.getFundCode(), "");
-            }
-            if(StringUtils.isNotBlank(addbondSh) && addbondSh.contains(fund.getFundCode())){
-                addbondSh = addbondSh.replace(fund.getFundCode(), "");
-            }
+    private Fund initFundInner(String bondCode, Integer type) {
+	    if(type == null){
+            type = DateUtils.parseFundType(bondCode);
         }
 
-        // 添加深债
-        if(StringUtils.isNotBlank(addbondSz)){
-            String[] bondSzArray = addbondSz.split(",");
-            for(String bondCode:bondSzArray){
-                Fund fund = initFundInner(bondCode, TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ);
-                this.fundCacheList.add(fund);
-            }
-        }
-
-        // 添加沪债
-        if(StringUtils.isNotBlank(addbondSh)){
-            String[] bondShArray = addbondSh.split(",");
-            for(String bondCode:bondShArray){
-                Fund fund = initFundInner(bondCode, TableStaticConstData.TABLE_FUND_TYPE_STOCK_SH);
-                this.fundCacheList.add(fund);
-            }
-        }
-    }
-
-    private Fund initFundInner(String bondCode, int type) {
         Fund fund = new Fund();
         fund.setFundCode(bondCode);
         fund.setFundName(bondCode);
         fund.setType(type);
-        fund.setFundState(TableStaticConstData.TABLE_FUND_TYPE_STATE_HIDDEN);
+        fund.setFundState(TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID);
         fund.setGainTotal(BigDecimal.ZERO);
         fund.setCurGain(0.0);
         fund.setCurNetValue(0.0);
