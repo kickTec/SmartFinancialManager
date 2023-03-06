@@ -1,6 +1,7 @@
 package com.kenick.fund.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.config.DynamicConfiguration;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IAsyncService;
@@ -80,14 +81,11 @@ public class TaskServiceImpl implements ITaskService {
     @Scheduled(cron = "${cron.perfectFundInfo}")
     public void perfectFundInfo(){
     	try{
-			Date now = new Date();
-
 			// 通过缓存查询更新
-			updateThroughCache(now);
-			logger.debug("【{}】遍历理财一轮花费时间:{}", smfVersion, System.currentTimeMillis() - now.getTime());
-
-            // 热加载标的变动(新增或删除)
-            fundService.loadFundChangeHot();
+			Date startDate = new Date();
+			updateThroughCache(startDate);
+			long spendTime = System.currentTimeMillis() - startDate.getTime();
+			logger.trace("【{}】遍历理财一轮花费时间:{}", smfVersion, spendTime);
 
             // 打印应用统计数据
             printAppStatic();
@@ -96,6 +94,17 @@ public class TaskServiceImpl implements ITaskService {
     		logger.error("白天更新股票基金信息异常!", e);
 		}
     }
+
+	@Scheduled(cron = "${cron.loadConfig}")
+	public void loadConfig(){
+		try{
+			logger.trace("loadConfig.in");
+			// 热加载标的变动(新增或删除)
+			fundService.loadSmfConfig();
+		}catch (Exception e) {
+			logger.error("热加载配置异常!", e);
+		}
+	}
 
     private void printAppStatic() throws Exception {
 
@@ -161,6 +170,18 @@ public class TaskServiceImpl implements ITaskService {
 			return;
 		}
 
+		// 是否周末更新
+		if(DynamicConfiguration.weekendFlag.equals("0") && DateUtils.isWeekend(now)){
+			logger.trace("根据配置，周末不更新!");
+			return;
+		}
+
+		// 是否证券时间更新 9:25-15:01
+		if(DynamicConfiguration.fundTimeFlag.equals("1") && !DateUtils.isFundTime(now)){
+			logger.trace("根据配置，非证券时间不更新!");
+			return;
+		}
+
 		for(Fund fund:allFundList){
 			String fundCode = fund.getFundCode();
 
@@ -206,7 +227,6 @@ public class TaskServiceImpl implements ITaskService {
             fileStorageService.saveFundJson(allFundList);
             logger.debug("信息保存到本地完成!");
         }
-
 	}
 
 	// 完善基金信息
@@ -568,9 +588,6 @@ public class TaskServiceImpl implements ITaskService {
 
 			// 获取最新净值和涨幅
 			String retStr = HttpRequestUtils.httpGetString(url, StandardCharsets.UTF_8.name());
-			if(fundState != null && fundState == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
-				logger.debug("腾讯api {}最新数据为:{}", fund.getFundCode(), retStr);
-			}
 			if(StringUtils.isNotBlank(retStr)){
 				String[] retArray = retStr.split("=");
 				if(retArray.length < 2 || StringUtils.isBlank(retArray[1])){
@@ -588,6 +605,14 @@ public class TaskServiceImpl implements ITaskService {
 				String curNetValue = stockInfoArray[3]; // 当前价
 				String curPriceHighest = stockInfoArray[33]; // 当前最高价
 				String curPriceLowest = stockInfoArray[34]; // 当前最低价
+				String cap = stockInfoArray[45]; // 总市值
+				String per = stockInfoArray[39]; // 市盈率
+
+				// 设置总市值和市盈率
+				JSONObject extJson = new JSONObject();
+				extJson.put("PER", per);
+				extJson.put("CAP", cap);
+				fund.setExtJson(extJson.toJSONString());
 
 				Double curNetValueNum = Double.valueOf(curNetValue);
 				// fundName
@@ -891,7 +916,15 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     public static void main(String[] args) {
-
-    }
+		// https://blog.csdn.net/zchill/article/details/121303871
+		String dataStr = "1~招商银行~600036~38.25~38.25~38.50~357114~156754~200360~38.25~1244~38.24~216~38.23~146~38.22~176~38.21~241~38.26~7~38.27~21~38.28~36~38.29~137~38.30~665~~20230303155929~0.00~0.00~38.77~37.90~38.25/357114/1365470222~357114~136547~0.17~6.99~~38.77~37.90~2.27~7890.57~9646.59~1.17~42.08~34.43~0.78~1157~38.24~6.99~6.99~~~1.35~136547.0222~0.0000~0~ ~GP-A~2.66~2.11~3.98~14.49~1.39~47.87~26.30~4.20~-2.67~9.29~20628944429~25219845601~40.05~0.64~20628944429~~~-20.66~-0.21~~CNY";
+		String[] dataArray = dataStr.split("~");
+		System.out.println("实时成交量:"+dataArray[6]);
+		System.out.println("成交量:"+dataArray[36]);
+		System.out.println("成交额（万）"+dataArray[37]);
+		System.out.println("总市值（亿）"+dataArray[45]);
+		System.out.println("市盈率"+dataArray[39]);
+		System.out.println("市净率"+dataArray[46]);
+	}
 
 }

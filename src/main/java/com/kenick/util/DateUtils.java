@@ -13,27 +13,6 @@ public class DateUtils
 {
 	private static String dateFormat = "yyyy-MM-dd HH:mm:ss";
 	
-	/**
-	 *  获取 天的凌晨或最后  1 
-	 */
-	public static final int HEAD_TAIL_DAY = 1;
-	/**
-	 *  获取 周的凌晨或最后  2
-	 */
-	public static final int HEAD_TAIL_WEEK = 2;
-	/**
-	 *  获取 月的凌晨或最后 3
-	 */
-	public static final int HEAD_TAIL_MONTH = 3;
-	/**
-	 *  获取 季的凌晨或最后 4
-	 */
-	public static final int HEAD_TAIL_QUARTER = 4;
-	/**
-	 *  获取 年的凌晨或最后   5
-	 */
-	public static final int HEAD_TAIL_YEAR = 5;
-	
 	public static Date tranToDate(String str, String format)
 	{
 		if (StringUtils.isBlank(str))
@@ -98,27 +77,22 @@ public class DateUtils
 	 * <一句话功能简述> 获取某一天的0时0分0秒
 	 * <功能详细描述>
 	 * @param delay 正数为获取以后的时间，负数为获取以前的时间
-	 * @return
-	 * @see [类、类#方法、类#成员]
-	 * @author  liuml
 	 * 修改时间:2018年7月5日 下午8:09:42
 	 */
 	public static Date getZeroClockDate(int delay)
 	{
-	        Calendar lastDate = Calendar.getInstance();
-	        lastDate.add(Calendar.DATE, delay);
-	        lastDate.set(Calendar.HOUR_OF_DAY, 0);
-	        lastDate.set(Calendar.MINUTE, 0);
-	        lastDate.set(Calendar.SECOND, 0);
-	        return lastDate.getTime();
+		Calendar lastDate = Calendar.getInstance();
+		lastDate.add(Calendar.DATE, delay);
+		lastDate.set(Calendar.HOUR_OF_DAY, 0);
+		lastDate.set(Calendar.MINUTE, 0);
+		lastDate.set(Calendar.SECOND, 0);
+		return lastDate.getTime();
 	}
 	
 	/**
 	 * <一句话功能简述> 获取多少个小时前/后的时间
 	 * <功能详细描述>
 	 * @param hours 正数为获取以后的时间，负数为获取以前的时间
-	 * @return
-	 * @see [类、类#方法、类#成员]
 	 * @author  liuml
 	 * 修改时间:2018年7月5日 下午8:09:42
 	 */
@@ -134,23 +108,17 @@ public class DateUtils
 	 * <功能详细描述>
 	 * author: zhanggj
 	 * 创建时间:  2017年7月9日
-	 * @param date
-	 * @return
-	 * @see [类、类#方法、类#成员]
 	 */
 	public static String getStrDate(Date date)
 	{
 		return getStrDate(date, null);
 	}
+
 	/**
 	 * <一句话功能简述> 根据时间 以及格式，获取时间字符串格式
 	 * <功能详细描述>
 	 * author: zhanggj
 	 * 创建时间:  2017年7月9日
-	 * @param date
-	 * @param format
-	 * @return
-	 * @see [类、类#方法、类#成员]
 	 */
 	public static String getStrDate(Date date, String format)
 	{
@@ -220,6 +188,7 @@ public class DateUtils
 		
 		return time;
 	}
+
 	public static Date timeCalendar(Integer hour, Integer minite, Integer second)
 	{
 		return timeCalendar(new Date(), hour, minite, second);
@@ -227,7 +196,6 @@ public class DateUtils
 	
 	//判断当前时间或某个时间是否在时间区间之内
 	public static boolean judgeDate(Date startDate, Date endDate, Date date){
-		
 		if( date == null){
 			date = new Date();
 		}
@@ -259,7 +227,6 @@ public class DateUtils
 	}
 
 	public static int dayDeffernce(Date upDate, Date lowDate) {
-		
 		long days = (upDate.getTime()-lowDate.getTime())/(1000*60*60*24);
 		return (int) days;
 	}
@@ -287,11 +254,10 @@ public class DateUtils
         monthInterval %= 12;
         return yearInterval * 12 + monthInterval;
 	}
+
     /*** 
      * 日期转换cron表达式
-     * convert Date to cron ,eg.  "0 07 10 15 1 ? 2016" 
-     * @param date  : 时间点 
-     * @return 
+     * convert Date to cron ,eg.  "0 07 10 15 1 ? 2016"
      */  
     public static String getCron(Date  date){  
         String dateFormat="ss mm HH dd MM ? yyyy";  
@@ -308,11 +274,6 @@ public class DateUtils
      * <功能详细描述>
      * author: user
      * 创建时间:  2018年3月27日
-     * @param startDate
-     * @param analysSize 1、天凌晨 2、周首凌晨 3、月首凌晨 4、季首凌晨 5、年首凌晨
-     * @return
-     * @throws ParseException
-     * @see [类、类#方法、类#成员]
      */
     public static Date getHeadDate(Date startDate, int analysSize)
 	{
@@ -326,42 +287,30 @@ public class DateUtils
 		
 		switch (analysSize) 
 		{
-		case 1:
-			// 天
+		case 1: // 天
 			return calDayStart.getTime();
-
-			// 周
-		case 2:
+		case 2: // 周
 			if(calDayStart.isSet(Calendar.SUNDAY)){
 				calDayStart.add(Calendar.DAY_OF_WEEK, -1);
 			}
 			// 开始时间所在周 周一
 			calDayStart.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			return calDayStart.getTime();
-			
-			
-			// 月
-		case 3:
-		// 开始时间所在月第一天
+		case 3: // 月
 			calDayStart.set(Calendar.DAY_OF_MONTH, 1);
 			return calDayStart.getTime();
-
-		// 季
-		case 4:
+		case 4:// 季
 			int firstMonth = calDayStart.get(Calendar.MONTH) / 3 * 3;
 			// 设置季度第一月，第一天
 			calDayStart.set(calDayStart.get(Calendar.YEAR), firstMonth, 1);
 			return calDayStart.getTime();
-		
-		// 年
-		case 5:
+		case 5: // 年
 			// 开始时间所在年第一天
 			calDayStart.set(Calendar.DAY_OF_YEAR, 1);
 			return calDayStart.getTime();
 		default : return null;
 		}
 	}
-    
 
     public static Date getTailDate(int analysSize)
     {
@@ -371,16 +320,10 @@ public class DateUtils
     /**
      * <一句话功能简述> 根据传入日期，获取当时所在的 天最后一毫秒 、周最后一毫秒、月最后一毫秒、季度最后一毫秒、年首最后一毫秒
      * <功能详细描述>
-     * author: user
      * 创建时间:  2018年3月27日
-     * @param endDate
-     * @param analysSize 1、天尾  2、周尾  3、月尾  4、季尾  5、年尾
-     * @return
-     * @see [类、类#方法、类#成员]
      */
     public static Date getTailDate(Date endDate, int analysSize)
 	{
-
 		//结束时间的当天 最后一毫秒
 		Calendar calDayEnd = Calendar.getInstance();
 		calDayEnd.setTime(endDate);
@@ -390,12 +333,9 @@ public class DateUtils
 		calDayEnd.set(Calendar.MILLISECOND, 999);
 		
 		switch (analysSize) {
-		// 天
-		case 1:
+		case 1: // 天
 			return calDayEnd.getTime();
-			
-			// 周
-		case 2:
+		case 2: // 周
 			if(!calDayEnd.isSet(Calendar.SUNDAY)){
 				//// 开始时间所在周日（中国习惯）
 				calDayEnd.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -403,18 +343,14 @@ public class DateUtils
 				calDayEnd.set(Calendar.DATE, calDayEnd.get(Calendar.DATE) + 6);
 			}
 			return calDayEnd.getTime();
-
-			// 月
-		case 3:
+		case 3: // 月
 			calDayEnd.set(Calendar.DAY_OF_MONTH, 1);
 			// 结束时间下一月
 			calDayEnd.add(Calendar.MONTH, 1);
 			// 结束时间所在月最后天
 			calDayEnd.add(Calendar.DATE, -1);
 			return calDayEnd.getTime();
-
-			// 季
-		case 4:
+		case 4: // 季
 			// 结束时间所在季度第最后一月
 			int endMonth = calDayEnd.get(Calendar.MONTH) / 3 * 3 + 2;
 			// 结束时间所在季度最后一月
@@ -427,9 +363,7 @@ public class DateUtils
 			// 结束时间所在季度最后一天
 			calDayEnd.add(Calendar.DATE, -1);
 			return calDayEnd.getTime();
-
-			// 年
-		case 5:
+		case 5: // 年
 			// 结束时间所在年第一天
 			calDayEnd.set(Calendar.DAY_OF_YEAR, 1);
 			// 结束时间下一年
@@ -446,10 +380,7 @@ public class DateUtils
     /**
      * <一句话功能简述>  获取现在的 年月   yyyyMM
      * <功能详细描述>
-     * author: user
      * 创建时间:  2019年4月17日
-     * @return
-     * @see [类、类#方法、类#成员]
      */
     public static int getYearAndMonthNow()
     {
@@ -481,13 +412,11 @@ public class DateUtils
     	String HMS= String.valueOf(hour) + String.format("%02d", minite) + String.format("%02d", second);
     	return Integer.parseInt(HMS);
     }
+
     /**
     * <一句话功能简述>  获取现在的 年月日   yyyyMMdd
     * <功能详细描述>
-    * author: user
     * 创建时间:  2019年4月17日
-    * @return
-    * @see [类、类#方法、类#成员]
     */
    public static int getYearMonthDayNow()
    {
@@ -509,24 +438,22 @@ public class DateUtils
    public static int getYearMonthDayHourNow() {
 	   return getYearMonthDayHour(new Date());
    }
+
    public static int getYearMonthDayHour(Date date)
    {
-   	Calendar now = Calendar.getInstance();
-   	now.setTime(date);
-   	int year = now.get(Calendar.YEAR);
-   	int month = now.get(Calendar.MONTH) + 1;
-   	int day = now.get(Calendar.DAY_OF_MONTH);
-   	int hour = now.get(Calendar.HOUR_OF_DAY);
-   	String yearMonthDay = String.valueOf(year) + String.format("%02d", month)
-   	                   + String.format("%02d", day) + String.format("%02d", hour);
-   	return Integer.parseInt(yearMonthDay);
+		Calendar now = Calendar.getInstance();
+		now.setTime(date);
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH) + 1;
+		int day = now.get(Calendar.DAY_OF_MONTH);
+		int hour = now.get(Calendar.HOUR_OF_DAY);
+		String yearMonthDay = String.valueOf(year) + String.format("%02d", month)
+						   + String.format("%02d", day) + String.format("%02d", hour);
+		return Integer.parseInt(yearMonthDay);
    }
    
    /** 
     * 获取过去第几天的日期 含详细时刻
-    * 
-    * @param past 
-    * @return 
     */  
    public static Date getPastDate(int past) {  
        Calendar calendar = Calendar.getInstance();  
@@ -536,9 +463,6 @@ public class DateUtils
    
    /** 
     * 获取过去第几天的零点时刻
-    * 
-    * @param past 
-    * @return 
     */  
    public static Date getPastDateZero(int past) {  
        Calendar calendar = Calendar.getInstance();  
@@ -548,10 +472,6 @@ public class DateUtils
        calendar.set(Calendar.SECOND, 0);
        calendar.set(Calendar.MILLISECOND, 0);
        return calendar.getTime();  
-   }  
-   
-   public static void main(String[] args) {
-		System.out.println(DateUtils.getMonthNum(new Date()));
    }
 
 	// 每隔intervalSecond秒循环一次，判断是否正是第minute倍数分钟
@@ -656,6 +576,38 @@ public class DateUtils
 		}
 
    		return TableStaticConstData.TABLE_FUND_TYPE_STOCK_SZ;
+	}
+
+	public static boolean isWeekend(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
+	}
+
+	// 9:25 - 15:01
+	public static boolean isFundTime(Date now) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(now);
+
+		int hourNum = calendar.get(Calendar.HOUR_OF_DAY);
+		int minuteNum = calendar.get(Calendar.MINUTE);
+		System.out.println(hourNum);
+		System.out.println(minuteNum);
+		if(hourNum >=10 && hourNum < 15){
+			return true;
+		}
+		if(hourNum ==9 && minuteNum >= 25){
+			return true;
+		}
+		if(hourNum ==15 && minuteNum < 1){
+			return true;
+		}
+		return false;
+	}
+
+	public static void main(String[] args) {
+		isFundTime(new Date());
 	}
 
 }

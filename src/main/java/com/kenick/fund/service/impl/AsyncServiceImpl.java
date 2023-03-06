@@ -74,7 +74,7 @@ public class AsyncServiceImpl implements IAsyncService {
 			File storeFile = new File(storePath + File.separator + fundCode + "_" + day + ".txt");
 			FileUtil.persistentText(storeFile, stockList);
 
-			logger.debug("异步保存{}数据花费时间:{}!", fundCode, System.currentTimeMillis()-startTime);
+			logger.trace("异步保存{}数据花费时间:{}!", fundCode, System.currentTimeMillis()-startTime);
 		}catch (Exception e){
 			logger.error("持久化历史数据异常!", e);
 		}

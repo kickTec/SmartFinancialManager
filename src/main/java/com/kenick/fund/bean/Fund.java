@@ -1,48 +1,9 @@
 package com.kenick.fund.bean;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 
-public class Fund {/* feild added*/
-
-	public static final String S_fundCode = "fund_code";
-	public static final String S_fundName = "fund_name";
-	public static final String S_type = "type";
-	public static final String S_curTime = "cur_time";
-	public static final String S_curNetValue = "cur_net_value";
-	public static final String S_curGain = "cur_gain";
-	public static final String S_curPriceHighest = "cur_price_highest";
-	public static final String S_curPriceLowest = "cur_price_lowest";
-	public static final String S_lastNetValue = "last_net_value";
-	public static final String S_lastGain = "last_gain";
-	public static final String S_lastPriceHighest = "last_price_highest";
-	public static final String S_lastPriceLowest = "last_price_lowest";
-	public static final String S_gainTotal = "gain_total";
-	public static final String S_fundState = "fund_state"; // -3 删除 0 失效 3 隐藏 6 生效
-	public static final String S_modifyDate = "modify_date";
-	public static final String S_createDate = "create_date";
-
-	public static final ArrayList<String> fieldList = new ArrayList<String>() {
-		{
-			add("fund_code");
-			add("fund_name");
-			add("type");
-			add("cur_time");
-			add("cur_net_value");
-			add("cur_gain");
-			add("cur_price_highest");
-			add("cur_price_lowest");
-			add("last_net_value");
-			add("last_gain");
-			add("last_price_highest");
-			add("last_price_lowest");
-			add("gain_total");
-			add("fund_state");
-			add("modify_date");
-			add("create_date");
-		}	};
-
+public class Fund {
 
     /**
      * 基金编码
@@ -85,22 +46,22 @@ public class Fund {/* feild added*/
     private Double curPriceLowest;
 
     /**
-     * 上一日价格
+     * 昨日价格
      */
     private Double lastNetValue;
 
     /**
-     * 上一日涨幅
+     * 昨日涨幅
      */
     private Double lastGain;
 
     /**
-     * 上一日最高价
+     * 昨日最高价
      */
     private Double lastPriceHighest;
 
     /**
-     * 上一日最低价
+     * 昨日最低价
      */
     private Double lastPriceLowest;
 
@@ -113,6 +74,11 @@ public class Fund {/* feild added*/
      * 基金状态
      */
     private Integer fundState;
+
+    /**
+     * 扩展json(CAP-总市值 PER-市盈率)
+     */
+    private String extJson;
 
     /**
      * 修改时间
@@ -380,6 +346,14 @@ public class Fund {/* feild added*/
         this.createDate = createDate;
     }
 
+    public String getExtJson() {
+        return extJson;
+    }
+
+    public void setExtJson(String extJson) {
+        this.extJson = extJson;
+    }
+
     @Override
     public String toString() {
         return "Fund{" +
@@ -397,8 +371,10 @@ public class Fund {/* feild added*/
                 ", lastPriceLowest=" + lastPriceLowest +
                 ", gainTotal=" + gainTotal +
                 ", fundState=" + fundState +
+                ", extJson='" + extJson + '\'' +
                 ", modifyDate=" + modifyDate +
                 ", createDate=" + createDate +
                 '}';
     }
+
 }

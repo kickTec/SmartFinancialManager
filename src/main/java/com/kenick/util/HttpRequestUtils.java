@@ -25,16 +25,13 @@ public class HttpRequestUtils {
             //发送get请求
             HttpGet request = new HttpGet(url);
             
-            //request.setHeader("x-forwarded-for", getRandomIp());
-            
             HttpResponse response = client.execute(request);
  
             /**请求发送成功，并得到响应**/
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 /**读取服务器返回过来的json字符串数据**/
                 String strResult = EntityUtils.toString(response.getEntity(), charSet);
-                
-                
+
                // url = URLDecoder.decode(url, "UTF-8");
                 return strResult;
             } else {

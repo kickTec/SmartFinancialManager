@@ -1,7 +1,9 @@
 package com.kenick.fund.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.kenick.config.DynamicConfiguration;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFileStorageSV;
@@ -19,7 +21,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -77,15 +81,11 @@ public class FundServiceImpl implements IFundService {
             if(fundCacheList != null && fundCacheList.size() > 0){
                 for(Fund fund:fundCacheList){
                     if(fund.getFundState() == TableStaticConstData.TABLE_FUND_TYPE_STATE_VALID){
+                        // 修复当前时间
                         fund.setCurTime(perfectFundTime(fund.getCurTime()));
 
-                        JSONObject fundJson = JsonUtils.bean2JSON(fund);
-                        if(fund.getGainTotal().compareTo(new BigDecimal(3.0)) >= 0 && fund.getCurGain() >= 1.0){
-                            fundJson.put("bgColor", "#E83132");
-                        }
-                        if(fund.getGainTotal().compareTo(new BigDecimal(-3.0)) <= 0 && fund.getCurGain() <= -1.0){
-                            fundJson.put("bgColor", "#009A04");
-                        }
+                        // 扩展信息填充
+                        JSONObject fundJson = fillExtendedInformation(fund);
                         retArray.add(fundJson);
                     }
                 }
@@ -95,6 +95,68 @@ public class FundServiceImpl implements IFundService {
         }
 
         return retArray;
+    }
+
+    // 扩展信息填充
+    private JSONObject fillExtendedInformation(Fund fund) {
+        JSONObject fundJson = JsonUtils.bean2JSON(fund);
+        try{
+            JSONObject extJson = JSON.parseObject(fundJson.getString("extJson"));
+            if(extJson != null){
+                fundJson.put("totalDesc", "");
+                // 市盈率填充
+                if(DynamicConfiguration.perFlag.equals("1") && StringUtils.isNotBlank(extJson.getString("PER"))){ // nameDesc totalDesc
+                    fundJson.put("nameDesc", extJson.getString("PER"));
+                }else{
+                    fundJson.put("nameDesc", "");
+                }
+                // 总市值填充
+                if(DynamicConfiguration.capFlag.equals("1") &&  StringUtils.isNotBlank(extJson.getString("CAP"))){
+                    fundJson.put("codeDesc", extJson.getString("CAP"));
+                }else{
+                    fundJson.put("codeDesc", "");
+                }
+            }
+            // 涨跌幅颜色
+            if(fund.getGainTotal().compareTo(new BigDecimal(3.0)) >= 0 && fund.getCurGain() >= 1.0){
+                fundJson.put("bgColor", "#E83132");
+            }
+            if(fund.getGainTotal().compareTo(new BigDecimal(-3.0)) <= 0 && fund.getCurGain() <= -1.0){
+                fundJson.put("bgColor", "#009A04");
+            }
+            // 今日波动大小
+            Double curPriceHighest = fundJson.getDouble("curPriceHighest");
+            Double curPriceLowest = fundJson.getDouble("curPriceLowest");
+            if(curPriceHighest != null && curPriceLowest != null){
+                fundJson.put("curUpDown", new BigDecimal(curPriceHighest-curPriceLowest).setScale(2, RoundingMode.HALF_UP));
+                if(curPriceLowest == 0){
+                    fundJson.put("curUpDownPer", "");
+                }else{
+                    BigDecimal curUpDownPer = new BigDecimal(curPriceHighest-curPriceLowest).divide(new BigDecimal(curPriceLowest),2,RoundingMode.HALF_UP);
+                    fundJson.put("curUpDownPer", curUpDownPer);
+                }
+            }else{
+                fundJson.put("curUpDown", "");
+                fundJson.put("curUpDownPer", "");
+            }
+            // 昨日波动大小
+            Double lastPriceHighest = fundJson.getDouble("lastPriceHighest");
+            Double lastPriceLowest = fundJson.getDouble("lastPriceLowest");
+            if(lastPriceHighest != null && lastPriceLowest != null){
+                fundJson.put("lastUpDown", new BigDecimal(lastPriceHighest-lastPriceLowest).setScale(2, RoundingMode.HALF_UP));
+                if(lastPriceLowest == 0){
+                    fundJson.put("lastUpDownPer", "");
+                }else{
+                    BigDecimal lastUpDownPer = new BigDecimal(lastPriceHighest-lastPriceLowest).divide(new BigDecimal(lastPriceLowest),2,RoundingMode.HALF_UP);
+                    fundJson.put("lastUpDownPer", lastUpDownPer);
+                }
+            }else{
+                fundJson.put("lastUpDownPer", "");
+            }
+        }catch (Exception e){
+            logger.error("fund扩展信息填充异常!", e);
+        }
+        return fundJson;
     }
 
     private String perfectFundTime(String curTime) {
@@ -266,16 +328,9 @@ public class FundServiceImpl implements IFundService {
     }
 
     @Override
-	public List<Fund> getAllFundList() {
-		if(fundCacheList == null || fundCacheList.size() == 0){
-			fundCacheList = fileStorageService.getFundListFromFile();
-		}
-		return fundCacheList;
-	}
-
-    @Override
-    public void loadFundChangeHot() {
-	    try{
+    public void loadSmfConfig() {
+        try{
+            // 配置文件路径
             String storageHomePath = fileStorageService.getStorageHomePath();
             if(StringUtils.isBlank(storageHomePath)){
                 return;
@@ -293,10 +348,71 @@ public class FundServiceImpl implements IFundService {
             String delElement = FileUtil.getPropertyByPath(filePath, "delElement");
             fundListDelElementInner(delElement);
 
+            // 热加载市盈率、总市值配置
+            String perFlag = FileUtil.getPropertyByPath(filePath, "perFlag");
+            String capFlag = FileUtil.getPropertyByPath(filePath, "capFlag");
+            DynamicConfiguration.perFlag = StringUtils.isBlank(perFlag) ? "0" :perFlag;
+            DynamicConfiguration.capFlag = StringUtils.isBlank(capFlag) ? "0" :capFlag;
+
+            // 热加载周末是否打印配置
+            String weekendFlag = FileUtil.getPropertyByPath(filePath, "weekendFlag");
+            DynamicConfiguration.weekendFlag = StringUtils.isBlank(weekendFlag) ? "0" :weekendFlag;
+
+            // 排序
+            String sortContent = FileUtil.getPropertyByPath(filePath, "sortContent");
+            reSortFundCache(fundCacheList, sortContent);
+
+            // 是否为证券工作时间 9-15
+            String fundTimeFlag = FileUtil.getPropertyByPath(filePath, "fundTimeFlag");
+            DynamicConfiguration.fundTimeFlag = StringUtils.isBlank(fundTimeFlag) ? "0" :fundTimeFlag;
+
         }catch (Exception e){
-            logger.error("热加载标的异常!", e);
+            logger.error("热加载异常!", e);
         }
     }
+
+    private void reSortFundCache(List<Fund> fundCacheList, String sortContent) {
+	    try{
+	        if(StringUtils.isBlank(sortContent) || fundCacheList == null || fundCacheList.size()==0){
+	            return;
+            }
+            String[] sortArray = sortContent.split(",");
+	        if(sortArray.length < 2){
+                return;
+            }
+	        String srcCode = sortArray[0];
+            String dstCode = sortArray[1];
+
+            int srcIndex=-1,dstIndex = -1;
+            Fund dstFund = null;
+            for(int i=0; i<fundCacheList.size(); i++){
+                Fund tmp = fundCacheList.get(i);
+                if(tmp.getFundCode().equals("000001") && tmp.getType() ==4){ // 上证指数
+                    continue;
+                }
+                if(tmp.getFundCode().equals(srcCode)){
+                    srcIndex = i;
+                }
+                if(tmp.getFundCode().equals(dstCode)){
+                    dstFund = tmp;
+                    dstIndex = i;
+                }
+            }
+            fundCacheList.set(dstIndex,fundCacheList.get(srcIndex));
+            fundCacheList.set(srcIndex,dstFund);
+
+        }catch (Exception e){
+	        logger.error("排序异常!", e);
+        }
+    }
+
+    @Override
+	public List<Fund> getAllFundList() {
+		if(fundCacheList == null || fundCacheList.size() == 0){
+			fundCacheList = fileStorageService.getFundListFromFile();
+		}
+		return fundCacheList;
+	}
 
     private void fundListAddElementInner(String addElement) {
 	    if(StringUtils.isBlank(addElement)){
@@ -364,6 +480,20 @@ public class FundServiceImpl implements IFundService {
         fund.setLastPriceHighest(0.0);
         fund.setLastPriceLowest(0.0);
         return fund;
+    }
+
+    public static void main(String[] args) {
+        List<String> arrayList = new ArrayList<>();
+        arrayList.add("a");
+        arrayList.add("d");
+        arrayList.add("c");
+        arrayList.add("e");
+
+        String moveSrc = arrayList.get(2);
+        String moveDst = arrayList.get(1);
+        arrayList.set(1,moveSrc);
+        arrayList.set(2,moveDst);
+        System.out.println(arrayList);
     }
 
 }

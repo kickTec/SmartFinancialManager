@@ -47,14 +47,6 @@ public interface IFundService {
 	List<Fund> getAllFundList();
 
 	/**
-	 * <一句话功能简述> 热加载理财变动情况
-	 * <功能详细描述> 
-	 * author: zhanggw
-	 * 创建时间:  2022/1/4
-	 */
-	void loadFundChangeHot();
-	
-	/**
 	 * <一句话功能简述> 开始压缩理财数据
 	 * <功能详细描述> 
 	 * author: zhanggw
@@ -73,5 +65,8 @@ public interface IFundService {
     JSONObject queryDayDetail(Integer fundType, String fundCode, Date date);
 
 	void saveFundJsonBackup();
+
+	// 加载smfConfig文件
+    void loadSmfConfig();
 
 }

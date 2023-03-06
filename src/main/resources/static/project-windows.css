@@ -26,11 +26,11 @@ body{
 }
 
 .table tbody{
-    font-size:14px;
+    font-size:12px;
 }
 
 .table td, .table th {
-    padding: .3rem;
+    padding: .5rem;
     vertical-align: center;
     horiz-align: center;
     border-top: 2px solid #dee2e6;
