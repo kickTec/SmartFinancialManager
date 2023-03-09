@@ -429,7 +429,7 @@ public class FundServiceImpl implements IFundService {
                     break;
                 }
             }
-            if(existFlag){
+            if(existFlag || StringUtils.isBlank(code)){
                 continue;
             }
 
@@ -457,6 +457,7 @@ public class FundServiceImpl implements IFundService {
 	        return;
         }
 
+	    logger.debug("开始移除元素:{}", delElement);
         this.fundCacheList.removeIf(fund -> StringUtils.isNotBlank(delElement) && delElement.contains(fund.getFundCode()));
     }
 

@@ -9,28 +9,16 @@
             名称
         </th>
         <th>
+            今日
+        </th>
+        <th>
+            昨日
+        </th>
+        <th>
             今波动
         </th>
         <th>
-            今幅度
-        </th>
-        <th>
             昨波动
-        </th>
-        <th>
-            昨幅度
-        </th>
-        <th class="timeTh">
-            更新时间
-        </th>
-        <th>
-            编码
-        </th>
-        <th>
-            市盈率
-        </th>
-        <th>
-            市值
         </th>
     </tr>
     </thead>
@@ -42,10 +30,6 @@
         <td th:utext="${entries['curUpDown']} + '&lt;br/&gt;' + ${entries['curUpDownPer']}" />
         <td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' + ${entries['lastPriceLowest']}"/>
         <td th:utext="${entries['lastUpDown']} + '&lt;br/&gt;' + ${entries['lastUpDownPer']}"/>
-        <td th:utext="${entries['curTime']}"/>
-        <td th:utext="${entries['fundCode']}" />
-        <td th:utext="${entries['nameDesc']}" />
-        <td th:utext="${entries['codeDesc']}" />
     </tr>
     </tbody>
 </table>
