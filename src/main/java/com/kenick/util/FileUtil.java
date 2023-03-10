@@ -38,7 +38,6 @@ import java.util.concurrent.Executors;
  * 创建时间:  2020/3/10
  */
 public class FileUtil {
-    public static final JSONObject JSON_OBJECT = new JSONObject();
     private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
     private static ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
@@ -392,7 +391,7 @@ public class FileUtil {
                 return null;
             }
 
-            List<Fund> fundList = new ArrayList<>();
+            List<Fund> fundList = Collections.synchronizedList(new ArrayList<>(16));
             for(int i=0; i < fundArray.size(); i++){
                 JSONObject jsonObject = fundArray.getJSONObject(i);
                 fundList.add(JsonUtils.copyObjToBean(jsonObject, Fund.class));
@@ -534,8 +533,8 @@ public class FileUtil {
         long memoryJVM = runtime.totalMemory()/1024/1024; // jvm占用内存
         long memoryFree = runtime.freeMemory()/1024/1024; // jvm空闲内存
         long useMem = memoryJVM - memoryFree; // jvm使用内存
-        logger.debug("本地可用内存:{} MB,JVM总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memoryMax, memoryJVM, useMem, memoryFree);
         if(memoryFree < freeMemMin && useMem > freeMemMin){ // 空闲内存小于最低内存要求，使用内存大于最低内存
+            logger.debug("本地可用内存:{} MB,JVM总内存:{} MB,使用内存:{} MB,空闲内存:{} MB", memoryMax, memoryJVM, useMem, memoryFree);
             System.gc();
             Thread.sleep(100);
 

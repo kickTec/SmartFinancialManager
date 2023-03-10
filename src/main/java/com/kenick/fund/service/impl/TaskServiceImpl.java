@@ -72,20 +72,42 @@ public class TaskServiceImpl implements ITaskService {
 	@Value("${smf.version}")
 	private String smfVersion;
 
+	@Scheduled(cron = "${cron.cronTaskSecond}")
+	public void cronTaskSecond(){
+		// 更新间隔
+		int hour = DateUtils.getHour(null);
+		int minute = DateUtils.getMinute(null);
+		int second = DateUtils.getSecond(null);
+
+		// 加载配置文件
+		if(second % DynamicConfiguration.loadConfigInterval == 0){
+			loadConfig();
+		}
+
+		// 更新基金信息
+		if(second % DynamicConfiguration.updateFundInterval == 0){
+			perfectFundInfo();
+		}
+
+		// 凌晨更新昨日，5点5分5秒
+		if(hour == 5 && minute == 5 && second==5){
+			updateStockLastDate();
+		}
+	}
+
 	/**
 	 * <一句话功能简述> 白天更新基金股票信息
 	 * <功能详细描述> 
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
 	 */
-    @Scheduled(cron = "${cron.perfectFundInfo}")
     public void perfectFundInfo(){
     	try{
 			// 通过缓存查询更新
 			Date startDate = new Date();
 			updateThroughCache(startDate);
 			long spendTime = System.currentTimeMillis() - startDate.getTime();
-			logger.trace("【{}】遍历理财一轮花费时间:{}", smfVersion, spendTime);
+			logger.debug("【{}】遍历理财一轮花费时间:{}毫秒", smfVersion, spendTime);
 
             // 打印应用统计数据
             printAppStatic();
@@ -95,10 +117,9 @@ public class TaskServiceImpl implements ITaskService {
 		}
     }
 
-	@Scheduled(cron = "${cron.loadConfig}")
 	public void loadConfig(){
 		try{
-			logger.trace("loadConfig.in");
+			logger.debug("loadConfig.in");
 			// 热加载标的变动(新增或删除)
 			fundService.loadSmfConfig();
 		}catch (Exception e) {
@@ -107,9 +128,7 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     private void printAppStatic() throws Exception {
-
 		FileUtil.printJVMInfo(logger);
-
 		logger.trace("=======================================================================");
         logger.trace("当前理财标的fundCacheList内容数量:{},大小:{}kb", fundService.getAllFundList().size(), fundService.getAllFundList().toString().getBytes().length/1024);
         logger.trace("历史数据存储stockHistoryMap内容数量:{},大小:{}kb", stockHistoryMap.size(), stockHistoryMap.toString().getBytes().length/1024);
@@ -177,7 +196,7 @@ public class TaskServiceImpl implements ITaskService {
 		}
 
 		// 是否证券时间更新 9:25-15:01
-		if(DynamicConfiguration.fundTimeFlag.equals("1") && !DateUtils.isFundTime(now)){
+		if(DynamicConfiguration.fundTimeFlag.equals("1") && !DateUtils.isFundTime(now)) {
 			logger.trace("根据配置，非证券时间不更新!");
 			return;
 		}
@@ -282,14 +301,13 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     /**
-	 * <一句话功能简述> 晚上更新昨日数据
+	 * <一句话功能简述> 凌晨更新昨日数据
 	 * <功能详细描述> 
 	 * author: zhanggw
 	 * 创建时间:  2021/4/27
 	 */
-    @Scheduled(cron = "${cron.updateStockInfoNight}")
-    public void updateStockInfoNight(){
-        logger.debug("TaskServiceImpl.updateStockInfo in");
+    public void updateStockLastDate(){
+        logger.debug("TaskServiceImpl.updateStockLastDate in");
         try{
 			int weekNum = DateUtils.getWeekNum(new Date());
 			if(weekNum == 6 || weekNum == 7){ // 周末跳过
@@ -305,7 +323,7 @@ public class TaskServiceImpl implements ITaskService {
 			fileStorageService.writeFundList2File(fundList);
 			fundService.getAllFundList().clear();
 		}catch (Exception e) {
-            logger.error("晚上更新股票信息异常!", e);
+            logger.error("凌晨更新昨日数据异常!", e);
         }
     }
 

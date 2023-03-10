@@ -507,22 +507,34 @@ public class DateUtils
 		return false;
 	}
 
-	public static int getHour(Date now){
-   		if(now == null){
-   			now = new Date();
+	public static int getHour(Date date){
+   		if(date == null){
+			date = new Date();
 		}
 
 		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
 		return calendar.get(Calendar.HOUR_OF_DAY);
 	}
 
-	public static int getMinute(Date now){
-		if(now == null){
-			now = new Date();
+	public static int getMinute(Date date){
+		if(date == null){
+			date = new Date();
 		}
 
 		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
 		return calendar.get(Calendar.MINUTE);
+	}
+
+	public static int getSecond(Date date){
+		if(date == null){
+			date = new Date();
+		}
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		return calendar.get(Calendar.SECOND);
 	}
 
 	public static int getWeekNum(Date date){
@@ -606,8 +618,11 @@ public class DateUtils
 		return false;
 	}
 
-	public static void main(String[] args) {
-		isFundTime(new Date());
+	public static void main(String[] args) throws Exception{
+   		for(int i=0; i<60;i++){
+			System.out.println(DateUtils.getSecond(null));
+			Thread.sleep(1000);
+		}
 	}
 
 }

@@ -21,13 +21,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 @Service("fundService")
@@ -35,7 +32,7 @@ public class FundServiceImpl implements IFundService {
 
 	private final static Logger logger = LoggerFactory.getLogger(FundServiceImpl.class);
 
-	private List<Fund> fundCacheList = Collections.synchronizedList(new ArrayList<>()); // 使用本地缓存
+	private List<Fund> fundCacheList = null; // 使用本地缓存
 
 	@Autowired
 	private IFileStorageSV fileStorageService;
@@ -366,6 +363,10 @@ public class FundServiceImpl implements IFundService {
             String fundTimeFlag = FileUtil.getPropertyByPath(filePath, "fundTimeFlag");
             DynamicConfiguration.fundTimeFlag = StringUtils.isBlank(fundTimeFlag) ? "0" :fundTimeFlag;
 
+            // 加载更新间隔
+            String updateFundInterval = FileUtil.getPropertyByPath(filePath, "updateFundInterval");
+            DynamicConfiguration.updateFundInterval = StringUtils.isBlank(updateFundInterval) ? 10 : Integer.parseInt(updateFundInterval);
+
         }catch (Exception e){
             logger.error("热加载异常!", e);
         }
@@ -419,6 +420,10 @@ public class FundServiceImpl implements IFundService {
 	        return;
         }
 
+	    if(this.fundCacheList == null){
+            return;
+        }
+
         // 检测是否已存在
         String[] eleArray = addElement.split(",");
         for(String code:eleArray){
@@ -454,6 +459,10 @@ public class FundServiceImpl implements IFundService {
 
     private void fundListDelElementInner(String delElement) {
 	    if(StringUtils.isBlank(delElement)){
+	        return;
+        }
+
+	    if(fundCacheList == null){
 	        return;
         }
 
