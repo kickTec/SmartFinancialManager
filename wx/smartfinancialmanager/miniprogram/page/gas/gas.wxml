@@ -39,10 +39,18 @@
     <view>
       <view class="item-inner">
         <view class="label-left">
-        油费(元):
+        总油费(元):
         </view>
         <view class="label-right">
           {{cost}}
+        </view>
+      </view>
+      <view class="item-inner">
+        <view class="label-left">
+        每公里油费:
+        </view>
+        <view class="label-right">
+          {{costUnit}}
         </view>
       </view>
     </view>

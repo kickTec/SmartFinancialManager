@@ -9,7 +9,9 @@ Page({
     gas100:4.7,
     gasPrice:7.39,
     distance:14,
-    blurtype:""
+    blurtype:"",
+    cost: 0,
+    costUnit: 0
   },
 
   /**
@@ -81,9 +83,12 @@ Page({
     }
 
     let cost = (this.data.gas100 / 100) * this.data.distance * this.data.gasPrice;
+    let costUnit = cost / this.data.distance;
     cost = util.setScale(cost, 2);
+    costUnit = util.setScale(costUnit, 2);
     this.setData({
-      "cost": cost
+      "cost": cost,
+      "costUnit": costUnit
     });
   },
 
