@@ -68,7 +68,7 @@
                                 <td th:utext="${entries['gainTotal']}" />
                                 <td th:utext="${entries['fundName']} + '&lt;br/&gt;' + ${entries['curNetValue']}" th:style="'color: ' + ${entries['bgColor']} + ';'" th:data="|${entries['type']},${entries['fundCode']}|" th:onclick="'showFundDetail(this)'"/>
                                 <td th:utext="${entries['curPriceHighest']} + '&lt;br/&gt;' + ${entries['curPriceLowest']}"/>
-                                <td th:utext="${entries['curUpDown']} + '&lt;br/&gt;' + ${entries['curUpDownPer']}" />
+                                <td th:utext="${entries['curGain']} + '&lt;br/&gt;' + ${entries['curUpDownPer']}" />
                                 <td th:utext="${entries['lastPriceHighest']} + '&lt;br/&gt;' + ${entries['lastPriceLowest']}"/>
                                 <td th:utext="${entries['lastUpDown']} + '&lt;br/&gt;' + ${entries['lastUpDownPer']}"/>
                                 <td th:utext="${entries['curTime']}"/>

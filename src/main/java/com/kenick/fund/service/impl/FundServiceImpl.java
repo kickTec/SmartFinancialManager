@@ -64,7 +64,6 @@ public class FundServiceImpl implements IFundService {
 		}catch (Exception e){
 			logger.error("获取展示基金异常!", e);
 		}
-
 		return retList;
 	}
 
@@ -90,7 +89,6 @@ public class FundServiceImpl implements IFundService {
         }catch (Exception e){
             logger.error("获取展示基金异常!", e);
         }
-
         return retArray;
     }
 
