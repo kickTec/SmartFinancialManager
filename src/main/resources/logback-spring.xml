@@ -27,19 +27,16 @@
         </encoder>
     </appender>
 
-    <!--应用local环境日志-->
-    <springProfile name="local">
-        <logger name="com.kenick" level="${LOG_LEVEL}">
-            <appender-ref ref="consoleAppender" />
-            <appender-ref ref="fileAppender" />
-        </logger>
-    </springProfile>
+    <!--所有错误日志都打印-->
+    <root level="ERROR">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
 
-    <!--应用cloud环境日志-->
-    <springProfile name="dev,test,prod,cloud">
-        <logger name="com.kenick" level="${LOG_LEVEL}">
-            <appender-ref ref="fileAppender" />
-        </logger>
-    </springProfile>
+    <!--项目mis包下日志-->
+    <logger name="com.kenick" level="${LOG_LEVEL}" additivity="false">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="fileAppender"/>
+    </logger>
 
 </configuration>

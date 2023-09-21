@@ -491,17 +491,6 @@ public class FundServiceImpl implements IFundService {
     }
 
     public static void main(String[] args) {
-        List<String> arrayList = new ArrayList<>();
-        arrayList.add("a");
-        arrayList.add("d");
-        arrayList.add("c");
-        arrayList.add("e");
-
-        String moveSrc = arrayList.get(2);
-        String moveDst = arrayList.get(1);
-        arrayList.set(1,moveSrc);
-        arrayList.set(2,moveDst);
-        System.out.println(arrayList);
     }
 
 }

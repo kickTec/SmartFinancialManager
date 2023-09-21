@@ -496,7 +496,6 @@ public class DateUtils
 		calendar.setTime(date);
 		int hourNow = calendar.get(Calendar.HOUR_OF_DAY);
 		int minuteNow = calendar.get(Calendar.MINUTE);
-		System.out.println("hourNow:"+hourNow);
 
 		if(hour != null){ // 每隔minute分钟
 			if(hourNow % hour == 0 && minuteNow < intervalMinute){
@@ -604,8 +603,6 @@ public class DateUtils
 
 		int hourNum = calendar.get(Calendar.HOUR_OF_DAY);
 		int minuteNum = calendar.get(Calendar.MINUTE);
-		System.out.println(hourNum);
-		System.out.println(minuteNum);
 		if(hourNum >=10 && hourNum < 15){
 			return true;
 		}

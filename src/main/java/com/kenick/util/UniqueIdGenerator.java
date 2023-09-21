@@ -88,7 +88,6 @@ public class UniqueIdGenerator
 	public static void main(String[] args) {
 		try {
 			String id = new UniqueIdGenerator().generateId("001");
-			System.out.println(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -934,15 +934,7 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
     public static void main(String[] args) {
-		// https://blog.csdn.net/zchill/article/details/121303871
-		String dataStr = "1~招商银行~600036~38.25~38.25~38.50~357114~156754~200360~38.25~1244~38.24~216~38.23~146~38.22~176~38.21~241~38.26~7~38.27~21~38.28~36~38.29~137~38.30~665~~20230303155929~0.00~0.00~38.77~37.90~38.25/357114/1365470222~357114~136547~0.17~6.99~~38.77~37.90~2.27~7890.57~9646.59~1.17~42.08~34.43~0.78~1157~38.24~6.99~6.99~~~1.35~136547.0222~0.0000~0~ ~GP-A~2.66~2.11~3.98~14.49~1.39~47.87~26.30~4.20~-2.67~9.29~20628944429~25219845601~40.05~0.64~20628944429~~~-20.66~-0.21~~CNY";
-		String[] dataArray = dataStr.split("~");
-		System.out.println("实时成交量:"+dataArray[6]);
-		System.out.println("成交量:"+dataArray[36]);
-		System.out.println("成交额（万）"+dataArray[37]);
-		System.out.println("总市值（亿）"+dataArray[45]);
-		System.out.println("市盈率"+dataArray[39]);
-		System.out.println("市净率"+dataArray[46]);
+
 	}
 
 }

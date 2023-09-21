@@ -100,8 +100,6 @@ public class AliSmsUtil {
 	}
 
 	public static void main(String[] args) {
-		JSONObject ret = aliSendSmsCode("15910761260", "123456");
-		System.out.println(ret);
 	}
 
 }

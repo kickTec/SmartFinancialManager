@@ -137,28 +137,6 @@ public class HttpUtils
 	}
 	
 	public static void main(String[] args) {
-		/*System.out.println(showSuccess());
-		
-		UserInfo user = new UserInfo();
-		user.setUserId("123456");
-		Gson json = new Gson();
-		
-		System.out.println(json.toJson(user));
-		UserInfo user2 = new UserInfo();
-		user2.setUserId("5323");
-		System.out.println(json.toJson(user2));*/
-		
-		/*System.out.println(showFail(new HashMap<String,String>()));*/
 
-		/*String data = "{\"ddd\":\"ddd\"}";
-		System.out.println(data);
-		System.out.println(gson.toJson(data).toString());*/
-		
-		String body = showFail("gateway_userlogin_verify_busi","Failed to get login information","Failed to get login information");
-		System.out.println(body);
-		JSONObject data = JSON.parseObject(body);
-		
-		System.out.println(data.getJSONObject("data"));
-		
 	}
 }
