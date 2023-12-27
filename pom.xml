@@ -1,114 +1,114 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 	http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>com.kenick</groupId>
-  <artifactId>SmartFinancialManager</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
-  
-  <packaging>jar</packaging>
-  <name>SmartFinancialManager</name>
-  <description>SmartFinancialManager</description>
-   
-  <parent>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-parent</artifactId>
-      <version>2.3.3.RELEASE</version>
-      <relativePath/>
-  </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-  <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <docker.image.prefix>kenick</docker.image.prefix>
-      <java.version>1.8</java.version>
-      <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-  </properties>
+    <groupId>com.kenick</groupId>
+    <artifactId>SmartFinancialManager</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
 
-  <dependencies>
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-web</artifactId>
-           <exclusions>
-               <exclusion>
-                   <artifactId>log4j-to-slf4j</artifactId>
-                   <groupId>org.apache.logging.log4j</groupId>
-               </exclusion>
-           </exclusions>
-       </dependency>
+    <packaging>jar</packaging>
+    <name>SmartFinancialManager</name>
+    <description>SmartFinancialManager</description>
 
-       <!-- 修复log4j安全漏洞 -->
-       <dependency>
-           <groupId>org.apache.logging.log4j</groupId>
-           <artifactId>log4j-to-slf4j</artifactId>
-           <version>2.16.0</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.logging.log4j</groupId>
-           <artifactId>log4j-api</artifactId>
-           <version>2.16.0</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.logging.log4j</groupId>
-           <artifactId>log4j-core</artifactId>
-           <version>2.16.0</version>
-       </dependency>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.3.RELEASE</version>
+        <relativePath/>
+    </parent>
 
-       <dependency>
-       	   <groupId>org.springframework.boot</groupId>
-               <artifactId>spring-boot-starter-thymeleaf</artifactId>
-       </dependency>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <docker.image.prefix>kenick</docker.image.prefix>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+    </properties>
 
-       <!-- 爬虫 -->
-       <dependency>
-           <groupId>org.jsoup</groupId>
-           <artifactId>jsoup</artifactId>
-           <version>1.7.3</version>
-       </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
-		<dependency>
-		    <groupId>commons-httpclient</groupId>
-		    <artifactId>commons-httpclient</artifactId>
-		    <version>3.1</version>
-		</dependency>
+        <!-- 修复log4j安全漏洞 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.16.0</version>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
-		<dependency>
-		    <groupId>org.apache.httpcomponents</groupId>
-		    <artifactId>httpclient</artifactId>
-		</dependency>
-        
+        <!--页面-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- 爬虫 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
         <!-- 阿里云短信 -->
- 		<dependency>
-		    <groupId>aliyun</groupId>
-		    <artifactId>code</artifactId>
-		    <version>3.2.3</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/aliyun-java-sdk-core-3.2.3.jar</systemPath>
-		</dependency>
+        <dependency>
+            <groupId>aliyun</groupId>
+            <artifactId>code</artifactId>
+            <version>3.2.3</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/aliyun-java-sdk-core-3.2.3.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>aliyun</groupId>
+            <artifactId>dysmsapi</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0-SANPSHOT.jar</systemPath>
+        </dependency>
 
-		<dependency>
-		    <groupId>aliyun</groupId>
-		    <artifactId>dysmsapi</artifactId>
-		    <version>1.0.0</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0-SANPSHOT.jar</systemPath>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		    <version>1.2.8</version>
-		</dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.8</version>
+        </dependency>
 
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.5</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
 
         <!-- 配置文件加密 -->
         <dependency>
@@ -123,6 +123,7 @@
             <version>2.7</version>
         </dependency>
 
+        <!--阿里云oss-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
@@ -135,51 +136,57 @@
             </exclusions>
         </dependency>
 
-  </dependencies>
+        <!--公众号工具类-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+    </dependencies>
 
-  <build>
-    <finalName>smartfinancialmanager</finalName>
-    <plugins>
-      <plugin>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
+    <build>
+        <finalName>smartfinancialmanager</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
 
-	  <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-              <encoding>UTF-8</encoding>
-              <compilerArguments>
-                  <extdirs>${project.basedir}/lib</extdirs>
-              </compilerArguments>
-          </configuration>
-        </plugin>
-    </plugins>
-    
-    <resources>
-        <resource>
-            <directory>lib</directory>
-            <targetPath>BOOT-INF/lib/</targetPath>
-            <includes>
-                <include>**/*.jar</include>
-            </includes>
-        </resource>
-        <resource>
-               <directory>${basedir}/src/main/resources</directory>
-               <filtering>true</filtering>
-               <includes>
-                   <include>**/application*.yml</include>
-                   <include>**/application*.properties</include>
-               </includes>
-           </resource>
-           <resource>
-               <directory>${basedir}/src/main/resources</directory>
-               <excludes>
-                   <exclude>**/application*.yml</exclude>
-                   <exclude>**/application*.properties</exclude>
-               </excludes>
-           </resource>
-    </resources>
-  </build>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <extdirs>${project.basedir}/lib</extdirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <excludes>
+                    <exclude>**/application*.yml</exclude>
+                    <exclude>**/application*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
 
 </project>
