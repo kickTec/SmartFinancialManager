@@ -36,7 +36,9 @@ public class TaskServiceImpl implements ITaskService {
     private String fundQueryUrl = "http://fundgz.1234567.com.cn/js/";
 
     // 新浪暂停接口
+    @Deprecated
     private String stockSzUrl = "http://hq.sinajs.cn/list=sz";
+    @Deprecated
     private String stockShUrl = "http://hq.sinajs.cn/list=sh";
 
     // 腾讯接口

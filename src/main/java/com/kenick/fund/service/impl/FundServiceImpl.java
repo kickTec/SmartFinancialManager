@@ -22,6 +22,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -335,8 +336,8 @@ public class FundServiceImpl implements IFundService {
             }
 
             // 热加载新增标的
-            String addElement = FileUtil.getPropertyByPath(filePath, "addElement");
-            fundListAddElementInner(addElement);
+            fundListAddElementInner(FileUtil.getPropertyByPath(filePath, "addSz"), 3);
+            fundListAddElementInner(FileUtil.getPropertyByPath(filePath, "addSh"), 4);
 
             // 热加载删除标的
             String delElement = FileUtil.getPropertyByPath(filePath, "delElement");
@@ -367,6 +368,44 @@ public class FundServiceImpl implements IFundService {
         } catch (Exception e) {
             logger.error("热加载异常!", e);
         }
+    }
+
+    @Override
+    public String getHighRank(int rank) {
+        try {
+            List<Fund> fundList = getShowFundList();
+            fundList.sort((o1, o2) -> o2.getGainTotal().compareTo(o1.getGainTotal()));
+            StringBuilder contentSb = new StringBuilder();
+            for (int i = 0; i < rank && i < fundList.size(); i++) {
+                Fund fund = fundList.get(i);
+                contentSb.append(fund.getFundName()).append("  ").append(fund.getGainTotal())
+                        .append("  ").append(fund.getCurNetValue()).append("\n");
+            }
+            contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            return contentSb.toString();
+        } catch (Exception e) {
+            logger.error("getHighRank异常", e);
+        }
+        return "";
+    }
+
+    @Override
+    public String getLowRank(int rank) {
+        try {
+            List<Fund> fundList = getShowFundList();
+            fundList.sort(Comparator.comparing(Fund::getGainTotal));
+            StringBuilder contentSb = new StringBuilder();
+            for (int i = 0; i < rank && i < fundList.size(); i++) {
+                Fund fund = fundList.get(i);
+                contentSb.append(fund.getFundName()).append("  ").append(fund.getGainTotal())
+                        .append("  ").append(fund.getCurNetValue()).append("\n");
+            }
+            contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            return contentSb.toString();
+        } catch (Exception e) {
+            logger.error("getLowRank异常", e);
+        }
+        return "";
     }
 
     private void reSortFundCache(List<Fund> fundCacheList, String sortContent) {
@@ -412,7 +451,7 @@ public class FundServiceImpl implements IFundService {
         return fundCacheList;
     }
 
-    private void fundListAddElementInner(String addElement) {
+    private void fundListAddElementInner(String addElement, int type) {
         if (StringUtils.isBlank(addElement)) {
             return;
         }
@@ -435,7 +474,7 @@ public class FundServiceImpl implements IFundService {
                 continue;
             }
 
-            Fund fund = initFundInner(code, null);
+            Fund fund = initFundInner(code, type);
             this.fundCacheList.add(fund);
         }
     }

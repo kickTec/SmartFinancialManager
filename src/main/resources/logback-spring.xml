@@ -19,8 +19,8 @@
             <!-- daily rollover -->
             <FileNamePattern>${LOG_HOME}/smartFinancialManager.%d{yyyy-MM-dd}_%i.log</FileNamePattern>
             <maxFileSize>100MB</maxFileSize>
-            <!-- keep 30 days' worth of history -->
-            <maxHistory>30</maxHistory>
+            <!-- 保留天数 -->
+            <maxHistory>14</maxHistory>
         </rollingPolicy>
         <encoder>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] (%file:%line\): %-5level %c - %msg %n</Pattern>

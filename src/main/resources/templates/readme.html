@@ -3,37 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>readme</title>
+    <style>
+        body {
+            font: 12px/1.5 Tahoma, Helvetica, Arial, "宋体", sans-serif;
+        }
+        .title {
+            margin-top: 30px;
+            font-weight: 700;
+        }
+        .desc {
+            font-weight: 500;
+        }
+    </style>
 </head>
-<style type="text/css">
-    p {
-        font: 12px/1.5 Tahoma,Helvetica,Arial,"宋体",sans-serif;
-    }
-</style>
 <body>
-
 <p>
-    type 1:基金 2：股票 3：深债 4：沪债<br/>
-    http://hq.sinajs.cn/list=sz<br/>
-    http://hq.sinajs.cn/list=sh<br/>
+    <div class="title">
+    帮助文档: smf-1.0.1<br/>
+    更新时间: 2024-01-12<br/>
+    </div>
 
-    <br/>
-    http://www.kenick.top/grid/findOutGood<br/>
-    204 : 最近4周排名靠前的<br/>
+    <div class="title">
+        小Y计算公众号<br/>
+        <div class="desc">
+            输入数字说明:<br/>
+            1:查询累计2天收益排名靠前<br/>
+            2:查询累计2天收益排名靠后<br/>
+            3:查询所有<br/>
+            注意:关注公众号后需联系管理员赋予权限,否则原样返回<br/>
+            管理员:zhanggw91@163.com<br/>
+        </div>
+    </div>
 
-    <br/>
-    http://www.kenick.top/grid/findOutBad<br/>
-    204 : 最近4周排名靠后的<br/>
+    <div class="title">
+        网格回测找出排名靠前<br/>
+        http://www.kenick.top/grid/findOutGood?data=202<br/>
+        <div class="desc">
+            说明:内部按照固定的网格间隔1.0,每次交易数量10,进行回测计算,根据收益降序排列<br/>
+            参数data:<br/>
+            202:最近2周排名靠前的<br/>
+            203:最近3周排名靠前的<br/>
+            204:最近4周排名靠前的<br/>
+            返回<br/>
+            {"goodFundCountMap":{"嘉美转债127042":{"time":2,"gainMoney":34.10},"韦尔转债113616":{"time":1,"gainMoney":11.17},"中国银河601881":{"time":1,"gainMoney":9.99},"比音勒芬002832":{"time":1,"gainMoney":9.96},"新奥股份600803":{"time":1,"gainMoney":6.10}},"tradeQuantity":10,"gridInterval":1}
+            <br/>
+        </div>
+    </div>
 
-    <br/>
-    http://www.kenick.top/grid/backTest<br/>
-    123111,5,0,0.2,20<br/>
-    123111:fundCode<br/>
-    5:dayNum<br/>
-    0:initPrice<br/>
-    0.2:gridInterval<br/>
-    20:gridQuantity<br/>
+    <div class="title">
+        网格回测找出排名靠后<br/>
+        http://www.kenick.top/grid/findOutBad?data=202<br/>
+        <div class="desc">
+            说明:内部按照固定的网格间隔1.0,每次交易数量10,进行回测计算,根据收益升序排列<br/>
+            参数data:<br/>
+            202:最近2周排名靠后<br/>
+            203:最近3周排名靠后<br/>
+            204:最近4周排名靠后<br/>
+        </div>
+    </div>
 
+    <div class="title">
+        网格回测<br/>
+        http://www.kenick.top/grid/backTest?data=123111,5,0,0.2,20<br/>
+        <div class="desc">
+            说明:内部按照固定的网格间隔1.0,每次交易数量10,进行回测计算,根据收益升序排列<br/>
+            参数data:<br/>
+            123111,5,0,0.2,20<br/>
+            第一位:fundCode代码,123111<br/>
+            第二位:dayNum天数,5<br/>
+            第三位:initPrice初始价格,0表示为当天开始价格<br/>
+            第四位:gridInterval网格间隔,0.2<br/>
+            第五位:gridQuantity单次交易数量20<br/>
+        </div>
+    </div>
+
+    <div class="title">
+        附加说明<br/>
+        <div class="desc">
+            类型数字: 3:深圳 4:上海<br/>
+            来源测试网址<br/>
+            https://qt.gtimg.cn/q=sz<br/>
+            https://qt.gtimg.cn/q=sh<br/>
+        </div>
+    </div>
 </p>
-
 </body>
 </html>

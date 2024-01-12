@@ -166,7 +166,7 @@ public class FundController {
 
             if (httpServletRequest != null) {
                 String userAgent = httpServletRequest.getHeader("user-agent");
-                if (IndexController.isPc(userAgent)) {
+                if (HttpUtils.isPc(userAgent)) {
                     return "pcFundDetail";
                 } else {
                     return "phoneFundDetail";
