@@ -381,7 +381,7 @@ public class FundServiceImpl implements IFundService {
                 contentSb.append(fund.getFundName()).append("  ").append(fund.getGainTotal())
                         .append("  ").append(fund.getCurNetValue()).append("\n");
             }
-            contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss")).append("\n");
             return contentSb.toString();
         } catch (Exception e) {
             logger.error("getHighRank异常", e);

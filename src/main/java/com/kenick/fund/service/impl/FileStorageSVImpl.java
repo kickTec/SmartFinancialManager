@@ -28,18 +28,18 @@ public class FileStorageSVImpl implements IFileStorageSV {
     @Override
     public List<Fund> getFundListFromFile() {
         String storageHomePath = getStorageHomePath();
-        return FileUtil.getFundFromFile(storageHomePath + File.separator+"fund.json");
+        return FileUtil.getFundFromFile(storageHomePath + File.separator + "fund.json");
     }
 
     @Override
     public void writeFundList2File(List<Fund> fundList) {
         String storageHomePath = getStorageHomePath();
-        FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json", fundList);
+        FileUtil.writeFund2File(storageHomePath + File.separator + "fund.json", fundList);
     }
 
     @Override
     public String getStorageHomePath() {
-        if(StringUtils.isBlank(storageHomePath)){
+        if (StringUtils.isBlank(storageHomePath)) {
             storageHomePath = "/home/kenick/smartFinancial-manager/storage";
         }
         return storageHomePath;
@@ -55,7 +55,7 @@ public class FileStorageSVImpl implements IFileStorageSV {
     public File getHistoryFileByName(String fundCode, String fundRecordFile) {
         String fullPath = getFullPathByName(fundCode, fundRecordFile);
         File file = new File(fullPath);
-        if(!file.exists()){
+        if (!file.exists()) {
             return null;
         }
 
@@ -70,7 +70,7 @@ public class FileStorageSVImpl implements IFileStorageSV {
     @Override
     public void saveFundJson(List<Fund> fundCacheList) {
         String storageHomePath = getStorageHomePath();
-        FileUtil.writeFund2File(storageHomePath + File.separator+"fund.json", fundCacheList);
+        FileUtil.writeFund2File(storageHomePath + File.separator + "fund.json", fundCacheList);
     }
 
 }

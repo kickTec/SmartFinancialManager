@@ -1,7 +1,5 @@
 package com.kenick.mp.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.kenick.fund.service.IFundService;
 import com.kenick.mp.config.WxMpUtil;
 import com.kenick.util.JsonUtils;
@@ -145,15 +143,15 @@ public class WxMpController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/test")
-    public JSONObject test(@RequestBody String jsonStr) {
+    @GetMapping(value = "/getHighRank")
+    public String getHighRank(@RequestParam(value = "rankNum") Integer rankNum) {
         try {
-            logger.debug("test.in,jsonStr:{}", jsonStr);
-            return JSON.parseObject(jsonStr, JSONObject.class);
+            logger.debug("getHighRank.in,rankNum:{}", rankNum);
+            return fundService.getHighRank(rankNum);
         } catch (Exception e) {
-            logger.error("test异常", e);
+            logger.error("getHighRank异常", e);
         }
         return null;
     }
-
+    
 }
