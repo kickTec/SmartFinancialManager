@@ -374,12 +374,18 @@ public class FundServiceImpl implements IFundService {
     public String getHighRank(int rank) {
         try {
             List<Fund> fundList = getShowFundList();
-            fundList.sort((o1, o2) -> o2.getGainTotal().compareTo(o1.getGainTotal()));
+            fundList.sort(Comparator.comparing(Fund::getExtSort));
+
             StringBuilder contentSb = new StringBuilder();
+            String blank = "  ";
             for (int i = 0; i < rank && i < fundList.size(); i++) {
                 Fund fund = fundList.get(i);
-                contentSb.append(fund.getFundName()).append("  ").append(fund.getGainTotal())
-                        .append("  ").append(fund.getCurNetValue()).append("\n");
+                contentSb.append(fund.getFundName()).append(blank)//名称
+                        .append(fund.getGainTotal()).append(blank)//2日累加
+                        .append(fund.getCurNetValue()).append(blank)//当前值
+                        .append(fund.getCurPriceHighest()).append(blank)//最高值
+                        .append(fund.getCurPriceLowest()).append(blank)//最低值
+                        .append("\n");
             }
             contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss")).append("\n");
             return contentSb.toString();

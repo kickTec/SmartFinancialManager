@@ -1,9 +1,16 @@
 package com.kenick.fund.bean;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class Fund {
+
+    private final static Logger logger = LoggerFactory.getLogger(Fund.class);
 
     /**
      * 基金编码
@@ -92,6 +99,7 @@ public class Fund {
 
     /**
      * 基金编码
+     *
      * @return fund_code 基金编码
      */
     public String getFundCode() {
@@ -100,6 +108,7 @@ public class Fund {
 
     /**
      * 基金编码
+     *
      * @param fundCode 基金编码
      */
     public void setFundCode(String fundCode) {
@@ -108,6 +117,7 @@ public class Fund {
 
     /**
      * 基金名称
+     *
      * @return fund_name 基金名称
      */
     public String getFundName() {
@@ -116,6 +126,7 @@ public class Fund {
 
     /**
      * 基金名称
+     *
      * @param fundName 基金名称
      */
     public void setFundName(String fundName) {
@@ -124,6 +135,7 @@ public class Fund {
 
     /**
      * 类型（1：基金 2：股票）
+     *
      * @return type 类型（1：基金 2：股票）
      */
     public Integer getType() {
@@ -132,6 +144,7 @@ public class Fund {
 
     /**
      * 类型（1：基金 2：股票）
+     *
      * @param type 类型（1：基金 2：股票）
      */
     public void setType(Integer type) {
@@ -140,6 +153,7 @@ public class Fund {
 
     /**
      * 当前时间
+     *
      * @return cur_time 当前时间
      */
     public String getCurTime() {
@@ -148,6 +162,7 @@ public class Fund {
 
     /**
      * 当前时间
+     *
      * @param curTime 当前时间
      */
     public void setCurTime(String curTime) {
@@ -156,6 +171,7 @@ public class Fund {
 
     /**
      * 当前价
+     *
      * @return cur_net_value 当前价
      */
     public Double getCurNetValue() {
@@ -164,6 +180,7 @@ public class Fund {
 
     /**
      * 当前价
+     *
      * @param curNetValue 当前价
      */
     public void setCurNetValue(Double curNetValue) {
@@ -172,6 +189,7 @@ public class Fund {
 
     /**
      * 当前涨幅
+     *
      * @return cur_gain 当前涨幅
      */
     public Double getCurGain() {
@@ -180,6 +198,7 @@ public class Fund {
 
     /**
      * 当前涨幅
+     *
      * @param curGain 当前涨幅
      */
     public void setCurGain(Double curGain) {
@@ -188,6 +207,7 @@ public class Fund {
 
     /**
      * 当前最高价
+     *
      * @return cur_price_highest 当前最高价
      */
     public Double getCurPriceHighest() {
@@ -196,6 +216,7 @@ public class Fund {
 
     /**
      * 当前最高价
+     *
      * @param curPriceHighest 当前最高价
      */
     public void setCurPriceHighest(Double curPriceHighest) {
@@ -204,6 +225,7 @@ public class Fund {
 
     /**
      * 当前最低价
+     *
      * @return cur_price_lowest 当前最低价
      */
     public Double getCurPriceLowest() {
@@ -212,6 +234,7 @@ public class Fund {
 
     /**
      * 当前最低价
+     *
      * @param curPriceLowest 当前最低价
      */
     public void setCurPriceLowest(Double curPriceLowest) {
@@ -220,6 +243,7 @@ public class Fund {
 
     /**
      * 上一日价格
+     *
      * @return last_net_value 上一日价格
      */
     public Double getLastNetValue() {
@@ -228,6 +252,7 @@ public class Fund {
 
     /**
      * 上一日价格
+     *
      * @param lastNetValue 上一日价格
      */
     public void setLastNetValue(Double lastNetValue) {
@@ -236,6 +261,7 @@ public class Fund {
 
     /**
      * 上一日涨幅
+     *
      * @return last_gain 上一日涨幅
      */
     public Double getLastGain() {
@@ -244,6 +270,7 @@ public class Fund {
 
     /**
      * 上一日涨幅
+     *
      * @param lastGain 上一日涨幅
      */
     public void setLastGain(Double lastGain) {
@@ -252,6 +279,7 @@ public class Fund {
 
     /**
      * 上一日最高价
+     *
      * @return last_price_highest 上一日最高价
      */
     public Double getLastPriceHighest() {
@@ -260,6 +288,7 @@ public class Fund {
 
     /**
      * 上一日最高价
+     *
      * @param lastPriceHighest 上一日最高价
      */
     public void setLastPriceHighest(Double lastPriceHighest) {
@@ -268,6 +297,7 @@ public class Fund {
 
     /**
      * 上一日最低价
+     *
      * @return last_price_lowest 上一日最低价
      */
     public Double getLastPriceLowest() {
@@ -276,6 +306,7 @@ public class Fund {
 
     /**
      * 上一日最低价
+     *
      * @param lastPriceLowest 上一日最低价
      */
     public void setLastPriceLowest(Double lastPriceLowest) {
@@ -284,6 +315,7 @@ public class Fund {
 
     /**
      * 累计涨幅（连续2天）
+     *
      * @return gain_total 累计涨幅（连续2天）
      */
     public BigDecimal getGainTotal() {
@@ -292,6 +324,7 @@ public class Fund {
 
     /**
      * 累计涨幅（连续2天）
+     *
      * @param gainTotal 累计涨幅（连续2天）
      */
     public void setGainTotal(BigDecimal gainTotal) {
@@ -300,6 +333,7 @@ public class Fund {
 
     /**
      * 基金状态
+     *
      * @return fund_state 基金状态
      */
     public Integer getFundState() {
@@ -308,6 +342,7 @@ public class Fund {
 
     /**
      * 基金状态
+     *
      * @param fundState 基金状态
      */
     public void setFundState(Integer fundState) {
@@ -316,6 +351,7 @@ public class Fund {
 
     /**
      * 修改时间
+     *
      * @return modify_date 修改时间
      */
     public Date getModifyDate() {
@@ -324,6 +360,7 @@ public class Fund {
 
     /**
      * 修改时间
+     *
      * @param modifyDate 修改时间
      */
     public void setModifyDate(Date modifyDate) {
@@ -332,6 +369,7 @@ public class Fund {
 
     /**
      * 创建时间
+     *
      * @return create_date 创建时间
      */
     public Date getCreateDate() {
@@ -340,6 +378,7 @@ public class Fund {
 
     /**
      * 创建时间
+     *
      * @param createDate 创建时间
      */
     public void setCreateDate(Date createDate) {
@@ -352,6 +391,19 @@ public class Fund {
 
     public void setExtJson(String extJson) {
         this.extJson = extJson;
+    }
+
+    public Integer getExtSort() {
+        try {
+            JSONObject extJsonObj = JSON.parseObject(this.extJson);
+            Integer sort = extJsonObj.getInteger("sort");
+            if (sort != null) {
+                return sort;
+            }
+        } catch (Exception e) {
+            logger.error("getExtSort异常", e);
+        }
+        return 999;
     }
 
     @Override

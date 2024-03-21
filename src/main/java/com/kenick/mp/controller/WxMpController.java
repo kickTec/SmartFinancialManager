@@ -153,5 +153,17 @@ public class WxMpController {
         }
         return null;
     }
-    
+
+    @ResponseBody
+    @GetMapping(value = "/getHighRankMore")
+    public String getHighRankMore(@RequestParam(value = "rankNum") Integer rankNum) {
+        try {
+            logger.debug("getHighRankMore.in,rankNum:{}", rankNum);
+            return fundService.getHighRank(rankNum);
+        } catch (Exception e) {
+            logger.error("getHighRankMore异常", e);
+        }
+        return null;
+    }
+
 }

@@ -589,7 +589,6 @@ public class TaskServiceImpl implements ITaskService {
 
             String fundCode = fund.getFundCode();
             Integer fundType = fund.getType();
-            Integer fundState = fund.getFundState();
 
             // 股票类型
             String url = tenxentShUrl + fundCode;
@@ -616,14 +615,8 @@ public class TaskServiceImpl implements ITaskService {
                 String curNetValue = stockInfoArray[3]; // 当前价
                 String curPriceHighest = stockInfoArray[33]; // 当前最高价
                 String curPriceLowest = stockInfoArray[34]; // 当前最低价
-                String cap = stockInfoArray[45]; // 总市值
-                String per = stockInfoArray[39]; // 市盈率
-
-                // 设置总市值和市盈率
-                JSONObject extJson = new JSONObject();
-                extJson.put("PER", per);
-                extJson.put("CAP", cap);
-                fund.setExtJson(extJson.toJSONString());
+                //String cap = stockInfoArray[45]; // 总市值
+                //String per = stockInfoArray[39]; // 市盈率
 
                 Double curNetValueNum = Double.valueOf(curNetValue);
                 // fundName
