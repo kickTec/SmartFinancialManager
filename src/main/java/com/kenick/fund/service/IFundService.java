@@ -64,4 +64,7 @@ public interface IFundService {
      */
     String getLowRank(int rank);
 
+    //修改排序
+    String changeSort(String fundCode, Integer sort);
+
 }

@@ -9,7 +9,6 @@ import com.kenick.util.HttpUtils;
 import com.kenick.util.JarUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,15 +24,17 @@ import java.util.Date;
 public class FundController {
 
     private final static Logger logger = LoggerFactory.getLogger(FundController.class);
+    private final IFundService fundService;
+    private final IFileStorageSV fileStorageService;
+    private final HttpServletRequest httpServletRequest;
 
-    @Autowired
-    private HttpServletRequest httpServletRequest;
-
-    @Autowired
-    private IFundService fundService;
-
-    @Autowired
-    private IFileStorageSV fileStorageService;
+    public FundController(IFundService fundService,
+                          IFileStorageSV fileStorageService,
+                          HttpServletRequest httpServletRequest) {
+        this.fundService = fundService;
+        this.httpServletRequest = httpServletRequest;
+        this.fileStorageService = fileStorageService;
+    }
 
     @RequestMapping("/indexCache")
     public String indexCache(@RequestParam(value = "data", required = false) String data, Model model) {

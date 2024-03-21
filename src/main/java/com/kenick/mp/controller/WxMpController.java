@@ -1,5 +1,6 @@
 package com.kenick.mp.controller;
 
+import com.kenick.constant.ResultConstant;
 import com.kenick.fund.service.IFundService;
 import com.kenick.mp.config.WxMpUtil;
 import com.kenick.util.JsonUtils;
@@ -12,24 +13,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @description 微信公众号
- * @date 2023/12/27
+ * description 微信公众号
+ * date 2023/12/27
  */
 @Controller
 @RequestMapping("/mp")
 public class WxMpController {
 
     private final static Logger logger = LoggerFactory.getLogger(WxMpController.class);
+    private final WxMpUtil wxMpUtil;
+    private final IFundService fundService;
 
-    @Resource
-    private WxMpUtil wxMpUtil;
-
-    @Resource
-    private IFundService fundService;
+    public WxMpController(WxMpUtil wxMpUtil, IFundService fundService) {
+        this.wxMpUtil = wxMpUtil;
+        this.fundService = fundService;
+    }
 
     /**
      * 与微信服务器保持心跳,同时进行内容校验
@@ -164,6 +165,19 @@ public class WxMpController {
             logger.error("getHighRankMore异常", e);
         }
         return null;
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/changeSort")
+    public String changeSort(@RequestParam(value = "fundCode") String fundCode,
+                             @RequestParam(value = "sort") Integer sort) {
+        try {
+            logger.debug("changeSort.in,fundCode:{},sort:{}", fundCode, sort);
+            return fundService.changeSort(fundCode, sort);
+        } catch (Exception e) {
+            logger.error("changeSort异常", e);
+        }
+        return ResultConstant.Fail;
     }
 
 }

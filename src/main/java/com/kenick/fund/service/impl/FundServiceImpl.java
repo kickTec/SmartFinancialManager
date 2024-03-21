@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kenick.config.DynamicConfiguration;
+import com.kenick.constant.ResultConstant;
 import com.kenick.constant.TableStaticConstData;
 import com.kenick.fund.bean.Fund;
 import com.kenick.fund.service.IFileStorageSV;
@@ -385,6 +386,7 @@ public class FundServiceImpl implements IFundService {
                         .append(fund.getCurNetValue()).append(blank)//当前值
                         .append(fund.getCurPriceHighest()).append(blank)//最高值
                         .append(fund.getCurPriceLowest()).append(blank)//最低值
+                        .append(fund.getFundCode()).append(blank)//code
                         .append("\n");
             }
             contentSb.append(DateUtils.getStrDate(new Date(), "yyyy-MM-dd HH:mm:ss")).append("\n");
@@ -412,6 +414,25 @@ public class FundServiceImpl implements IFundService {
             logger.error("getLowRank异常", e);
         }
         return "";
+    }
+
+    @Override
+    public String changeSort(String fundCode, Integer sort) {
+        try {
+            if (StringUtils.isBlank(fundCode) || fundCacheList == null || fundCacheList.size() == 0) {
+                return ResultConstant.Success;
+            }
+            for (Fund fund : fundCacheList) {
+                if (fundCode.equals(fund.getFundCode())) {
+                    fund.setExtSort(sort);
+                }
+            }
+            logger.debug("fundCacheList:{}",fundCacheList);
+        } catch (Exception e) {
+            logger.error("修改排序异常", e);
+            return ResultConstant.Fail;
+        }
+        return ResultConstant.Success;
     }
 
     private void reSortFundCache(List<Fund> fundCacheList, String sortContent) {

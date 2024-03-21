@@ -396,14 +396,33 @@ public class Fund {
     public Integer getExtSort() {
         try {
             JSONObject extJsonObj = JSON.parseObject(this.extJson);
-            Integer sort = extJsonObj.getInteger("sort");
-            if (sort != null) {
-                return sort;
+            if (extJsonObj == null) {
+                extJsonObj = new JSONObject();
             }
+            Integer sort = extJsonObj.getInteger("sort");
+            if (sort == null) {
+                sort = 999;
+                extJsonObj.put("sort", sort);
+            }
+            this.extJson = extJsonObj.toJSONString();
+            return sort;
         } catch (Exception e) {
             logger.error("getExtSort异常", e);
+            return 999;
         }
-        return 999;
+    }
+
+    public void setExtSort(int sort) {
+        try {
+            JSONObject extJsonObj = JSON.parseObject(this.extJson);
+            if (extJsonObj == null) {
+                extJsonObj = new JSONObject();
+            }
+            extJsonObj.put("sort", sort);
+            this.extJson = extJsonObj.toJSONString();
+        } catch (Exception e) {
+            logger.error("setExtSort异常", e);
+        }
     }
 
     @Override
