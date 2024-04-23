@@ -382,10 +382,11 @@ public class FundServiceImpl implements IFundService {
             for (int i = 0; i < rank && i < fundList.size(); i++) {
                 Fund fund = fundList.get(i);
                 contentSb.append(fund.getFundName()).append(blank)//名称
-                        .append(fund.getGainTotal()).append(blank)//2日累加
+                        .append(fund.getCurGain()).append(blank)//今日涨幅
                         .append(fund.getCurNetValue()).append(blank)//当前值
                         .append(fund.getCurPriceHighest()).append(blank)//最高值
                         .append(fund.getCurPriceLowest()).append(blank)//最低值
+                        .append(fund.getGainTotal()).append(blank)//2日涨幅
                         .append(fund.getFundCode()).append(blank)//code
                         .append("\n");
             }
@@ -427,7 +428,7 @@ public class FundServiceImpl implements IFundService {
                     fund.setExtSort(sort);
                 }
             }
-            logger.debug("fundCacheList:{}",fundCacheList);
+            logger.debug("fundCacheList:{}", fundCacheList);
         } catch (Exception e) {
             logger.error("修改排序异常", e);
             return ResultConstant.Fail;
